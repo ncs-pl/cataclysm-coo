@@ -99,5 +99,12 @@ public class Ihm {
         return(this.scanner.nextLine());
     }
 
-    // TODO(nico): public int demanderInt(String question) {} ?
+    /**
+     * Affiche un contenu directement sur la sortie système d'information, sans ajouter de décoration.
+     * Utile pour afficher le contenu ou l'état du jeu depuis le contrôleur tout en restant mettre de l'affichage.
+     * @param message - le message brut.
+     */
+    public void afficherMessageBrut(String message) {
+        this.output.println(message);
+    }
 }
