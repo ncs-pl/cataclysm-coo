@@ -1,10 +1,12 @@
 package controleur;
 
-import modele.ElementCarte;
-import modele.EtatJeu;
-import modele.Jeu;
+import modele.*;
 import vue.Ihm;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
@@ -41,6 +43,11 @@ public class Controleur {
         // TODO(nico): demander à l'utilisateur pour choisir entre créer une carte ou en charger une existante.
 
         this.jeu = new Jeu();
+        try{
+            chargerCarte("src/main/resources/carte.txt");
+        }catch (IOException e) {
+            ihm.afficherErreur(e);
+        }
         this.etatJeu = EtatJeu.EN_COURS;
     }
 
@@ -53,6 +60,43 @@ public class Controleur {
         // TODO(nico): après les actions du tour, vérifier si la partie est finie ou non, et potentiellement
         //             modifier this.etatJeu sur EtatJeu.TERMINE.
     }
+
+
+
+    private void chargerCarte(String cheminFichier) throws IOException {
+        List<List<ElementCarte>> carte = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader(cheminFichier));
+        String ligne;
+        int posY = 0;
+        while ((ligne = br.readLine()) != null) {
+            List<ElementCarte> ligneElements = new ArrayList<>();
+            for (int posX = 0 ; posX < ligne.length() ; posX++) {
+                char symbole = ligne.charAt(posX);
+                ligneElements.add(convertirSymboleEnElement(symbole,posX,posY));
+            }
+            carte.add(ligneElements);
+            posY++;
+        }
+        jeu.setCarte(carte);
+    }
+
+
+    public ElementCarte convertirSymboleEnElement(char symbole,int posX,int posY){
+        switch (symbole){
+            case '@' : return Personnage.getInstance(posX,posY);
+            case 'E' : return new Ecureuil(posX,posY);
+            case 'S' : return new Singe(posX,posY);
+            case 'G' : return new Gland(posX,posY);
+            case 'B' : return new Banane(posX,posY);
+            case 'C' : return new Champignon(posX,posY);
+            case 'A' : return new Arbre(posX,posY);
+            case 'b' : return new Buisson(posX,posY);
+            default: return null;
+        }
+    }
+
+
+
 
     /** Affiche l'état du jeu en cours (la carte etc...). */
     public void afficherJeu() {
