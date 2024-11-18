@@ -1,8 +1,11 @@
 package controleur;
 
+import modele.ElementCarte;
 import modele.EtatJeu;
 import modele.Jeu;
 import vue.Ihm;
+
+import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
@@ -56,8 +59,25 @@ public class Controleur {
         assert(this.etatJeu != EtatJeu.AUCUNE);
         assert(this.jeu != null);
 
-        // TODO(nico): obtenir l'état du modèle du jeu pour en construire une carte à afficher.
+        String affichage = "";
+        List<List<ElementCarte>> carte = jeu.getCarte();
+        for (List<ElementCarte> ligne : carte) {
+            for (ElementCarte element : ligne) {
+                if(element instanceof ElementCarte){
+                    affichage += element.getSymbole();
+                }else {
+                    affichage += '.';
+                }
+            }
+            affichage += '\n';
+        }
+        ihm.afficherMessageBrut(affichage);
+        etatJeu = EtatJeu.TERMINE;    //Pour arrêter la boucle infinie
+
+        // TODO : Compléter l'affichage avec les autres éléments du GameState
+
     }
+
 
     /** Affiche les résultats de la partie terminée et dé-initialise le tout. */
     public void terminerJeu() {

@@ -1,13 +1,11 @@
 package modele;
 
-public class Champignon extends Objet{
-
-    public Champignon(int x,int y){
+public class Buisson extends Objet{
+    public Buisson(int x,int y){
         super(x,y);
     }
-
     @Override
     public char getSymbole(){
-        return 'C';
+        return 'b';
     }
 }

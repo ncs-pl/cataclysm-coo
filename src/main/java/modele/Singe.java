@@ -2,11 +2,10 @@ package modele;
 
 public class Singe extends Animal{
     public Singe(int x,int y){
-        this.posX = x;
-        this.posY = y;
-        this.nbToursRestants = 3;
-        this.estAmi = false;
-        this.etatActuel = EtatAnimal.RASSASIE;
+        super(x,y);
+        this.setNbToursRestants(3);
+        this.setEstAmi(false);
+        this.setEtatActuel(EtatAnimal.RASSASIE);
     }
 
     @Override

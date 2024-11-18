@@ -3,11 +3,10 @@ package modele;
 public class Ecureuil extends Animal{
 
     public Ecureuil(int x,int y){
-        this.posX = x;
-        this.posY = y;
-        this.nbToursRestants = 5;
-        this.estAmi = false;
-        this.etatActuel = EtatAnimal.RASSASIE;
+        super(x,y);
+        this.setNbToursRestants(5);
+        this.setEstAmi(false);
+        this.setEtatActuel(EtatAnimal.RASSASIE);
     }
     @Override
     public char getSymbole(){

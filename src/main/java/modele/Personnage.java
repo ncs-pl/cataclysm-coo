@@ -21,7 +21,7 @@ public class Personnage implements ElementCarte{
     }
 
 
-    public Personnage getInstance(int x , int y){
+    public static Personnage getInstance(int x , int y){
         if (instance == null){
             instance = new Personnage(x,y);
         }
