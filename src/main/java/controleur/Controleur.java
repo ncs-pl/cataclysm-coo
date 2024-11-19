@@ -7,6 +7,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
@@ -42,20 +43,20 @@ public class Controleur {
         /// Préparation de la carte ///
 
         // TODO(nico): système de carte fonctionnel avec une vraie classe de manipulation.
-        String carte = null;
+        List<List<Acteur>> carte;
+        JeuTheme theme;
         while (true) {
             String chemin = this.ihm.demanderString("Entrez le nom du fichier de la carte à utiliser, ou rien pour en créer une nouvelle.");
             if (chemin.isEmpty()) {
                 /// Demande du thème pour la carte à générer ///
 
-                String theme = "";
                 while (true) {
                     String choix = this.ihm.demanderString("Thème du jeu ? ('foret' ou 'jungle')");
                     if (choix.equals("foret")) {
-                        theme = "foret";
+                        theme = JeuTheme.FORET;
                         break;
                     } else if (choix.equals("jungle")) {
-                        theme = "jungle";
+                        theme = JeuTheme.JUNGLE;
                         break;
                     }
 
@@ -64,6 +65,7 @@ public class Controleur {
 
                 /// Génération de la carte ///
                 // TODO(nico): génération d'une nouvelle carte.
+                carte = new ArrayList<>();
                 break;
             }
 
@@ -79,7 +81,10 @@ public class Controleur {
                 }
 
                 File fichierCarte = Paths.get(carteUrl.toURI()).toFile();
-                carte = fichierCarte.getName(); // TODO(nico): faire une réelle transformation en carte selon le système que nous auront.
+                // TODO(nico): obtenir le thème selon le format du fichier À DÉFINIR !!!!!!!!!!
+                theme = JeuTheme.FORET;
+                // TODO(nico): faire une réelle transformation en carte selon le système que nous auront.
+                carte = new ArrayList<>();
                 break;
             } catch (URISyntaxException e) {
                 ihm.afficherInformation("La carte fournie n'existe pas.");
@@ -115,8 +120,9 @@ public class Controleur {
         /// Initialisation du jeu ///
         // TODO(nico): initialiser le jeu en lui donnant la carte chargée (pour qu'il puisse, à partir de la carte,
         //             créer la base de son game state.
-        ihm.afficherInformation(carte);
+        ihm.afficherInformation(carte.toString());
 
+        this.jeu = new Jeu(theme, carte);
         this.etatJeu = EtatJeu.EN_COURS;
     }
 
@@ -128,45 +134,91 @@ public class Controleur {
         // TODO(nico): demander les actions à effectuer au joueur et les appliquer au jeu.
         // TODO(nico): après les actions du tour, vérifier si la partie est finie ou non, et potentiellement
         //             modifier this.etatJeu sur EtatJeu.TERMINE.
+        this.etatJeu = EtatJeu.TERMINE; // NOTE(nico): temporaire
     }
-
-
-
-
-
-    public ElementCarte convertirSymboleEnElement(char symbole,int posX,int posY){
-        /*switch (symbole){
-            case '@' : return Personnage.getInstance(posX,posY);
-            case 'E' : return new Ecureuil(posX,posY);
-            case 'S' : return new Singe(posX,posY);
-            case 'G' : return new Gland(posX,posY);
-            case 'B' : return new Banane(posX,posY);
-            case 'C' : return new Champignon(posX,posY);
-            case 'A' : return new Arbre(posX,posY);
-            case 'b' : return new Buisson(posX,posY);
-            default: return null;
-        }*/
-    }
-
-
-
 
     /** Affiche l'état du jeu en cours (la carte etc...). */
     public void afficherJeu() {
         assert(this.etatJeu != EtatJeu.AUCUNE);
         assert(this.jeu != null);
 
+        JeuTheme theme = this.jeu.getTheme();
         // TODO(nico): couleurs
-        String affichage = "";
+        StringBuilder affichage = new StringBuilder();
         List<List<Acteur>> carte = jeu.getCarte();
         for (List<Acteur> ligne : carte) {
             for (Acteur acteur : ligne) {
-               // TODO(nico)
+                switch (theme) {
+                    case FORET: {
+                        switch (acteur.getId()) {
+                            // TODO(nico): enum?
+                            case "personnage": {
+                                affichage
+                                        .append(Ihm.COLOR_BACKGROUND_WHITE)
+                                        .append(Ihm.COLOR_PURPLE)
+                                        .append("@")
+                                        .append(Ihm.COLOR_RESET);
+                            } break;
+                            case "ecureuil": {
+                                // TODO(nico): affichage de l'écureuil selon ses états.
+                            } break;
+                            case "arbre": {
+                                affichage
+                                        .append(Ihm.COLOR_BACKGROUND_BLACK)
+                                        .append(Ihm.COLOR_GREEN)
+                                        .append("A")
+                                        .append(Ihm.COLOR_RESET);
+                            } break;
+                            case "buisson": {
+                                affichage
+                                        .append(Ihm.COLOR_BACKGROUND_BLACK)
+                                        .append(Ihm.COLOR_GREEN)
+                                        .append("B")
+                                        .append(Ihm.COLOR_RESET);
+                            } break;
+                            case "gland": {
+                                affichage
+                                        .append(Ihm.COLOR_BACKGROUND_RED)
+                                        .append(Ihm.COLOR_YELLOW)
+                                        .append("G")
+                                        .append(Ihm.COLOR_RESET);
+                            } break;
+                            case "champignon": {
+                                affichage
+                                        .append(Ihm.COLOR_BACKGROUND_WHITE)
+                                        .append(Ihm.COLOR_RED)
+                                        .append("C")
+                                        .append(Ihm.COLOR_RESET);
+                            } break;
+                            case " ": {
+                                affichage
+                                        .append(Ihm.COLOR_BACKGROUND_GREEN)
+                                        .append(".")
+                                        .append(Ihm.COLOR_RESET);
+                            } break;
+                            default: {
+                                /* acteur interdit dans la carte */
+                                assert(false);
+                            } break;
+                        }
+                    }
+                    break;
+                    case JUNGLE: {
+                        /* unimplemented */
+                        assert(false);
+                    }
+                    break;
+                    default: {
+                        /* unreachable */
+                        assert(false);
+                    } break;
+                }
             }
-            affichage += '\n';
+
+            affichage.append('\n');
         }
-        ihm.afficherMessageBrut(affichage);
-        etatJeu = EtatJeu.TERMINE;    //Pour arrêter la boucle infinie
+
+        this.ihm.afficherMessageBrut(affichage.toString());
     }
 
 
