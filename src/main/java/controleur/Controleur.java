@@ -40,7 +40,22 @@ public class Controleur {
         assert(this.etatJeu == EtatJeu.AUCUNE);
 
         // TODO(nico): demander à l'utilisateur le thème pour la partie à jouer.
-        // TODO(nico): demander à l'utilisateur pour choisir entre créer une carte ou en charger une existante.
+
+        // TODO(nico): système de carte autrement?
+            List<List<ElementCarte>> carte = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader(cheminFichier));
+            String ligne;
+            int posY = 0;
+            while ((ligne = br.readLine()) != null) {
+                List<ElementCarte> ligneElements = new ArrayList<>();
+                for (int posX = 0 ; posX < ligne.length() ; posX++) {
+                    char symbole = ligne.charAt(posX);
+                    ligneElements.add(convertirSymboleEnElement(symbole,posX,posY));
+                }
+                carte.add(ligneElements);
+                posY++;
+            }
+            jeu.setCarte(carte);
 
         this.jeu = new Jeu();
         try{
@@ -63,22 +78,6 @@ public class Controleur {
 
 
 
-    private void chargerCarte(String cheminFichier) throws IOException {
-        List<List<ElementCarte>> carte = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(cheminFichier));
-        String ligne;
-        int posY = 0;
-        while ((ligne = br.readLine()) != null) {
-            List<ElementCarte> ligneElements = new ArrayList<>();
-            for (int posX = 0 ; posX < ligne.length() ; posX++) {
-                char symbole = ligne.charAt(posX);
-                ligneElements.add(convertirSymboleEnElement(symbole,posX,posY));
-            }
-            carte.add(ligneElements);
-            posY++;
-        }
-        jeu.setCarte(carte);
-    }
 
 
     public ElementCarte convertirSymboleEnElement(char symbole,int posX,int posY){
@@ -103,23 +102,17 @@ public class Controleur {
         assert(this.etatJeu != EtatJeu.AUCUNE);
         assert(this.jeu != null);
 
+        // TODO(nico): couleurs
         String affichage = "";
-        List<List<ElementCarte>> carte = jeu.getCarte();
-        for (List<ElementCarte> ligne : carte) {
-            for (ElementCarte element : ligne) {
-                if(element instanceof ElementCarte){
-                    affichage += element.getSymbole();
-                }else {
-                    affichage += '.';
-                }
+        List<List<Acteur>> carte = jeu.getCarte();
+        for (List<Acteur> ligne : carte) {
+            for (Acteur element : ligne) {
+               // TODO(nico)
             }
             affichage += '\n';
         }
         ihm.afficherMessageBrut(affichage);
         etatJeu = EtatJeu.TERMINE;    //Pour arrêter la boucle infinie
-
-        // TODO : Compléter l'affichage avec les autres éléments du GameState
-
     }
 
 

@@ -3,46 +3,18 @@ package modele;
 import java.util.List;
 
 public class Jeu {
-    private List<List<ElementCarte>> carte;
+    private List<List<Acteur>> carte;
     private Personnage personnage;
     private List<Objet> objets;
     private List<Animal> animaux;
     private int tourCourant;
 
-    public List<List<ElementCarte>> getCarte() {
+    public List<List<Acteur>> getCarte() {
         return carte;
     }
 
-    public void setCarte(List<List<ElementCarte>> carte) {
+    public void setCarte(List<List<Acteur>> carte) {
         this.carte = carte;
-    }
-
-    public Personnage getPersonnage() {
-        return personnage;
-    }
-
-    public List<Objet> getObjets() {
-        return objets;
-    }
-
-    public void setObjets(List<Objet> objets) {
-        this.objets = objets;
-    }
-
-    public List<Animal> getAnimaux() {
-        return animaux;
-    }
-
-    public void setAnimaux(List<Animal> animaux) {
-        this.animaux = animaux;
-    }
-
-    public int getTourCourant() {
-        return tourCourant;
-    }
-
-    public void setTourCourant(int tourCourant) {
-        this.tourCourant = tourCourant;
     }
 
     public Jeu() {
