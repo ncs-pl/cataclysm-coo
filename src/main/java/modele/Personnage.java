@@ -1,46 +1,16 @@
 package modele;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
-public class Personnage implements ElementCarte{
-    private static Personnage instance;
-    private int posX;
-    private int posY;
-    private int sante;
-    Map<Objet,Integer> inventaire;
-    Animal animalApprivoise;
+public class Personnage extends Objet {
+    private int sante = 100;
+    // TODO(nico): interface/classe spécial pour limiter les types allant dans l'inventaire ?
+    private final Map<Objet, Integer> inventaire = new HashMap<>();
+    private Animal animal;
 
-
-    private Personnage(int x,int y){
-        this.posX = x;
-        this.posY = y;
-        this.inventaire = new HashMap<>();
-        this.sante = 100;
-    }
-
-
-    public static Personnage getInstance(int x , int y){
-        if (instance == null){
-            instance = new Personnage(x,y);
-        }
-        return instance;
-    }
-    public int getPosX() {
-        return posX;
-    }
-
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    public int getPosY() {
-        return posY;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
+    public Personnage (int x, int y) {
+        super("personnage", x, y);
     }
 
     public int getSante() {
@@ -48,27 +18,18 @@ public class Personnage implements ElementCarte{
     }
 
     public void setSante(int sante) {
+        assert(sante >= 0);
+        assert(sante <= 100);
         this.sante = sante;
     }
 
-    public Map<Objet, Integer> getInventaire() {
-        return inventaire;
-    }
-
-    public void setInventaire(Map<Objet, Integer> inventaire) {
-        this.inventaire = inventaire;
-    }
-
     public Animal getAnimalApprivoise() {
-        return animalApprivoise;
+        return animal;
     }
 
-    public void setAnimalApprivoise(Animal animalApprivoise) {
-        this.animalApprivoise = animalApprivoise;
+    public void setAnimalApprivoise(Animal animal) {
+        this.animal = animal;
     }
 
-    @Override
-    public char getSymbole(){
-        return '@';
-    }
+    // TODO(nico): fonctions pour modifier les éléments d'un inventaire, et pas l'inventaire entier !
 }

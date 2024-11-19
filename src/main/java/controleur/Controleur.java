@@ -82,7 +82,7 @@ public class Controleur {
 
 
     public ElementCarte convertirSymboleEnElement(char symbole,int posX,int posY){
-        switch (symbole){
+        /*switch (symbole){
             case '@' : return Personnage.getInstance(posX,posY);
             case 'E' : return new Ecureuil(posX,posY);
             case 'S' : return new Singe(posX,posY);
@@ -92,7 +92,7 @@ public class Controleur {
             case 'A' : return new Arbre(posX,posY);
             case 'b' : return new Buisson(posX,posY);
             default: return null;
-        }
+        }*/
     }
 
 

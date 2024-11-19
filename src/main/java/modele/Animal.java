@@ -1,64 +1,48 @@
 package modele;
 
-public abstract class Animal implements ElementCarte{
-    private int posX;
-    private int posY;
-    private boolean estAffame;
-    private boolean estAmi;
-    private int nbToursRestants;
-    private EtatAnimal etatActuel;
+public abstract class Animal extends Acteur {
+    private EtatAnimalFaim faim = EtatAnimalFaim.RASSASIE;
+    private boolean ami;
+    /** Stock de nourriture avant d'avoir faim */
+    private int saturation;
+    private EtatAnimal etat;
 
-
-    protected Animal(int x,int y){
-        this.posX = x;
-        this.posY = y;
+    public Animal(String nom, int x, int y) {
+        super(nom, x, y);
     }
 
-    public int getPosX() {
-        return posX;
+    public EtatAnimalFaim getFaim() {
+        return this.faim;
     }
 
-    public void setPosX(int posX) {
-        this.posX = posX;
+    public void setFaim(EtatAnimalFaim faim) {
+        this.faim = faim;
     }
 
-    public int getPosY() {
-        return posY;
+    public boolean getAmi() {
+        return this.ami;
     }
 
-    public void setPosY(int posY) {
-        this.posY = posY;
+    public void setAmi(boolean ami) {
+        this.ami = ami;
     }
 
-    public boolean isEstAffame() {
-        return estAffame;
+    public int getSaturation() {
+        return saturation;
     }
 
-    public void setEstAffame(boolean estAffame) {
-        this.estAffame = estAffame;
+    public void setSaturation(int saturation) {
+        // TODO(nico): vérifier l'intervalle de saturation
+        // Décorateur ???????????
+        assert(saturation >= 0);
+        this.saturation = saturation;
     }
 
-    public boolean isEstAmi() {
-        return estAmi;
+    public EtatAnimal getEtat() {
+        return this.etat;
     }
 
-    public void setEstAmi(boolean estAmi) {
-        this.estAmi = estAmi;
-    }
-
-    public int getNbToursRestants() {
-        return nbToursRestants;
-    }
-
-    public void setNbToursRestants(int nbToursRestants) {
-        this.nbToursRestants = nbToursRestants;
-    }
-
-    public EtatAnimal getEtatActuel() {
-        return etatActuel;
-    }
-
-    public void setEtatActuel(EtatAnimal etatActuel) {
-        this.etatActuel = etatActuel;
+    public void setEtat(EtatAnimal etat) {
+        this.etat = etat;
     }
 }

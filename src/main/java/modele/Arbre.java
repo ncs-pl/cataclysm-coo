@@ -1,11 +1,7 @@
 package modele;
 
-public class Arbre extends Objet{
-    public Arbre(int x,int y){
-        super(x,y);
-    }
-    @Override
-    public char getSymbole(){
-        return 'A';
+public class Arbre extends Acteur {
+    public Arbre(int x, int y) {
+        super("arbre", x, y);
     }
 }

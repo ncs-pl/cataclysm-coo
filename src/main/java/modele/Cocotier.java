@@ -1,11 +1,7 @@
 package modele;
 
-public class Cocotier extends Objet{
-    public Cocotier(int x,int y){
-        super(x,y);
-    }
-    @Override
-    public char getSymbole(){
-        return 'C';
+public class Cocotier extends Acteur {
+    public Cocotier(int x, int y) {
+        super("cocotier", x, y);
     }
 }
