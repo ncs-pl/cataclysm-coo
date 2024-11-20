@@ -7,8 +7,8 @@ public abstract class Animal extends Acteur {
     private int saturation;
     private EtatAnimal etat;
 
-    public Animal(String nom, int x, int y) {
-        super(nom, x, y);
+    public Animal(ActeurId id, int x, int y) {
+        super(id, x, y);
     }
 
     public EtatAnimalFaim getFaim() {

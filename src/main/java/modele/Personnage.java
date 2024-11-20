@@ -10,7 +10,7 @@ public class Personnage extends Objet {
     private Animal animal;
 
     public Personnage (int x, int y) {
-        super("personnage", x, y);
+        super(ActeurId.PERSONNAGE, x, y);
     }
 
     public int getSante() {
