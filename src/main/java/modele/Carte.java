@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Carte {
+    /**
+     * La classe Carte est responsable de l'importation et de la gestion de la carte du jeu.
+     * Elle permet de lire un fichier représentant la carte et de le convertir en une structure de données
+     * exploitable par le modèle du jeu (sous forme de listes d'acteurs).
+     * Elle permet aussi de convertir chaque caractère de la carte en un objet représentant un acteur du jeu.
+     */
 
     public List<List<Acteur>> chargerCarte(File fichier) throws IOException {
         List<List<Acteur>> carte = new ArrayList<>();
@@ -26,6 +32,7 @@ public class Carte {
         return carte;
     }
 
+    //TODO(younes) : Gérer la conversion en fonction du thème
     public Acteur charToActeur(char symbole,int posX,int posY){
         switch (symbole){
             case '@' : return new Personnage(posX,posY);

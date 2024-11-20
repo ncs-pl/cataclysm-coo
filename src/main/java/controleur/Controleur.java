@@ -71,7 +71,7 @@ public class Controleur {
             }
 
             try {
-                /// Obtentien du fichier carte fournie ///
+                /// Obtention du fichier carte fournie ///
 
                 // Pour obtenir des fichiers qui sont dans le dossier "resources" en Java, on récupère leur URL depuis
                 // le système de gestion des classes et ressources de Java, puis on essaye d'ouvrir le fichier.
@@ -99,37 +99,9 @@ public class Controleur {
             }
         }
 
-        /*
-            // TODO(nico): système de carte autrement?
-            List<List<ElementCarte>> carte = new ArrayList<>();
-            BufferedReader br = new BufferedReader(new FileReader(cheminFichier));
-            String ligne;
-            int posY = 0;
-            while ((ligne = br.readLine()) != null) {
-                List<ElementCarte> ligneElements = new ArrayList<>();
-                for (int posX = 0 ; posX < ligne.length() ; posX++) {
-                    char symbole = ligne.charAt(posX);
-                    ligneElements.add(convertirSymboleEnElement(symbole,posX,posY));
-                }
-                carte.add(ligneElements);
-                posY++;
-            }
-            jeu.setCarte(carte);
-
-        this.jeu = new Jeu();
-        try{
-            chargerCarte("src/main/resources/carte.txt");
-        }catch (IOException e) {
-            ihm.afficherErreur(e);
-        } */
-
         /// Initialisation du jeu ///
-        // TODO(nico): initialiser le jeu en lui donnant la carte chargée (pour qu'il puisse, à partir de la carte,
-        //             créer la base de son game state.
-        ihm.afficherInformation(carte.toString());
-
+        ihm.afficherInformation(carte.toString()); // Méthode utilisée uniquement pour le débogage
         this.jeu = new Jeu(theme, carte);
-        jeu.initialiserJeu();
         this.etatJeu = EtatJeu.EN_COURS;
     }
 
@@ -222,8 +194,8 @@ public class Controleur {
 
             affichage.append('\n');
         }
-        this.ihm.afficherMessageBrut(jeu.toString()); // Méthode utilisée uniquement pour le débogage
         this.ihm.afficherMessageBrut(affichage.toString());
+        this.ihm.afficherMessageBrut(jeu.toString()); // Méthode utilisée uniquement pour le débogage
     }
 
 

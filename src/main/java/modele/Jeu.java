@@ -20,7 +20,7 @@ public class Jeu {
         this.animaux = new ArrayList<>();
         this.decors = new ArrayList<>();
         this.tourCourant = 1;
-        // TODO: faire le jeu
+        this.initialiserJeu();
     }
 
     public JeuTheme getTheme() {
