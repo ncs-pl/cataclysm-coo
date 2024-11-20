@@ -10,5 +10,6 @@ public enum ActeurId {
     GLAND,
     PETIT_ROCHER,
     SINGE,
-    PERSONNAGE
+    PERSONNAGE,
+    ZONE_VIDE
 }

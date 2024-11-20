@@ -150,47 +150,47 @@ public class Controleur {
             for (Acteur acteur : ligne) {
                 switch (theme) {
                     case FORET: {
-                        switch (acteur.getId()) {
+                        switch (acteur.id) {
                             // TODO(nico): enum?
-                            case "personnage": {
+                            case PERSONNAGE: {
                                 affichage
                                         .append(Ihm.COLOR_BACKGROUND_WHITE)
                                         .append(Ihm.COLOR_PURPLE)
                                         .append("@")
                                         .append(Ihm.COLOR_RESET);
                             } break;
-                            case "ecureuil": {
+                            case ECUREUIL: {
                                 // TODO(nico): affichage de l'écureuil selon ses états.
                             } break;
-                            case "arbre": {
+                            case ARBRE: {
                                 affichage
                                         .append(Ihm.COLOR_BACKGROUND_BLACK)
                                         .append(Ihm.COLOR_GREEN)
                                         .append("A")
                                         .append(Ihm.COLOR_RESET);
                             } break;
-                            case "buisson": {
+                            case BUISSON: {
                                 affichage
                                         .append(Ihm.COLOR_BACKGROUND_BLACK)
                                         .append(Ihm.COLOR_GREEN)
                                         .append("B")
                                         .append(Ihm.COLOR_RESET);
                             } break;
-                            case "gland": {
+                            case GLAND: {
                                 affichage
                                         .append(Ihm.COLOR_BACKGROUND_RED)
                                         .append(Ihm.COLOR_YELLOW)
                                         .append("G")
                                         .append(Ihm.COLOR_RESET);
                             } break;
-                            case "champignon": {
+                            case CHAMPIGNON: {
                                 affichage
                                         .append(Ihm.COLOR_BACKGROUND_WHITE)
                                         .append(Ihm.COLOR_RED)
                                         .append("C")
                                         .append(Ihm.COLOR_RESET);
                             } break;
-                            case " ": {
+                            case ZONE_VIDE: {
                                 affichage
                                         .append(Ihm.COLOR_BACKGROUND_GREEN)
                                         .append(".")
