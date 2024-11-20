@@ -4,6 +4,7 @@ import modele.*;
 import vue.Ihm;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -74,7 +75,8 @@ public class Controleur {
 
                 // Pour obtenir des fichiers qui sont dans le dossier "resources" en Java, on récupère leur URL depuis
                 // le système de gestion des classes et ressources de Java, puis on essaye d'ouvrir le fichier.
-                URL carteUrl = Controleur.class.getResource("/" + chemin + ".carte");
+                //URL carteUrl = Controleur.class.getResource("/" + chemin + ".carte");
+                URL carteUrl = Controleur.class.getResource("/" + chemin); // Méthode utilisée uniquement pour le débogage
                 if (carteUrl == null) {
                     ihm.afficherInformation("La carte " + chemin + " n'existe pas");
                     continue;
@@ -85,11 +87,15 @@ public class Controleur {
                 theme = JeuTheme.FORET;
                 // TODO(nico): faire une réelle transformation en carte selon le système que nous auront.
                 carte = new ArrayList<>();
+                Carte c = new Carte();
+                carte = c.chargerCarte(fichierCarte);
                 break;
             } catch (URISyntaxException e) {
                 ihm.afficherInformation("La carte fournie n'existe pas.");
             } catch (UnsupportedOperationException e) {
                 ihm.afficherInformation("La carte n'existe pas");
+            } catch (IOException e){
+                ihm.afficherInformation("Fichier introuvable");
             }
         }
 
@@ -123,6 +129,7 @@ public class Controleur {
         ihm.afficherInformation(carte.toString());
 
         this.jeu = new Jeu(theme, carte);
+        jeu.initialiserJeu();
         this.etatJeu = EtatJeu.EN_COURS;
     }
 
@@ -215,7 +222,7 @@ public class Controleur {
 
             affichage.append('\n');
         }
-
+        this.ihm.afficherMessageBrut(jeu.toString()); // Méthode utilisée uniquement pour le débogage
         this.ihm.afficherMessageBrut(affichage.toString());
     }
 
