@@ -143,7 +143,6 @@ public class Controleur {
         assert(this.jeu != null);
 
         JeuTheme theme = this.jeu.getTheme();
-        // TODO(nico): couleurs
         StringBuilder affichage = new StringBuilder();
         List<List<Acteur>> carte = jeu.getCarte();
         for (List<Acteur> ligne : carte) {
@@ -151,7 +150,6 @@ public class Controleur {
                 switch (theme) {
                     case FORET: {
                         switch (acteur.id) {
-                            // TODO(nico): enum?
                             case PERSONNAGE: {
                                 affichage
                                         .append(Ihm.COLOR_BACKGROUND_WHITE)
