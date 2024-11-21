@@ -119,10 +119,28 @@ public class Jeu {
         return affichage;
     }
 
-    public void deplacementJoueur(){
-        System.out.println("BIG TEST");
+    public void deplacerJoueur(int x, int y) throws DeplacementImpossibleException{
+        if ( estDansLaCarte(this.personnage.getX() + x, this.personnage.getY() + y) ){
+            throw new DeplacementImpossibleException("Bordure de carte");
+        }
+        if ( decors.contains(carte.get(this.personnage.getY()+y).get(this.personnage.getX()+x))){
+            throw new DeplacementImpossibleException("Le passage est bloqué.");
+        }
+        changerPositionActeur(this.personnage.getX()+x, this.personnage.getY()+y, this.personnage);
     }
 
+    private boolean estDansLaCarte(int x, int y) {
+        return x < 0 || y < 0 || y >= carte.size() || x >= carte.get(y).size();
+    }
+
+    private void changerPositionActeur(int x, int y, Acteur acteur){
+        int tempX = this.personnage.getX();
+        int tempY = this.personnage.getY();
+        this.personnage.setX(x);
+        this.personnage.setY(y);
+        carte.set(y,carte.get(y)).set(x, acteur);
+        carte.set(tempY, carte.get(tempY)).set(tempX, new CaseVide(tempX,tempY));
+    }
     @Override
     public String toString() {
         return "Game State : \n" +

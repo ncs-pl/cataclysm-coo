@@ -120,10 +120,33 @@ public class Controleur {
             String instruction = this.ihm.demanderString("Choisissez un type d'action : (Déplacement | Exit)");
             try {
                 switch (instruction) {
-                    case "Déplacement", "D", "d":
-                        jeu.deplacementJoueur();
+                    case "DEPLACEMENT", "Déplacement", "D", "d":
+                        deplacement:
+                        while (true){
+                            String choixDeplacement = this.ihm.demanderString("Où voulez-vous aller : (Haut | Bas | Gauche | Droite)");
+                            try {
+                                switch (choixDeplacement){
+                                    case "HAUT", "Haut", "H", "h":
+                                        this.jeu.deplacerJoueur(0,-1);
+                                        break deplacement;
+                                    case "BAS", "Bas", "B", "b":
+                                        this.jeu.deplacerJoueur(0,1);
+                                        break deplacement;
+                                    case "GAUCHE", "Gauche", "G", "g":
+                                        this.jeu.deplacerJoueur(-1,0);
+                                        break deplacement;
+                                    case "DROITE", "Droite", "D", "d":
+                                        this.jeu.deplacerJoueur(1,0);
+                                        break deplacement;
+                                    default:
+                                        throw new IllegalArgumentException("Veuillez choisir un direction valide : (Haut | Bas | Gauche | Droite)");
+                                }
+                            } catch (DeplacementImpossibleException | IllegalArgumentException e){
+                                ihm.afficherErreur(e);
+                            }
+                        }
                         break turn;
-                    case "Exit", "E", "e":
+                    case "EXIT", "Exit", "E", "e":
                         this.etatJeu = EtatJeu.TERMINE;
                         break turn;
                     default :
