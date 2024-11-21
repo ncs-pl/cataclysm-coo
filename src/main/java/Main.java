@@ -11,8 +11,8 @@ public class Main {
         controleur.initialiserJeu();
 
         while (controleur.getEtatJeu() != EtatJeu.TERMINE) {
-            controleur.jouerTour();
             controleur.afficherJeu();
+            controleur.jouerTour();
         }
 
         controleur.terminerJeu();

@@ -119,6 +119,10 @@ public class Jeu {
         return affichage;
     }
 
+    public void deplacementJoueur(){
+        System.out.println("BIG TEST");
+    }
+
     @Override
     public String toString() {
         return "Game State : \n" +

@@ -113,7 +113,27 @@ public class Controleur {
         // TODO(nico): demander les actions à effectuer au joueur et les appliquer au jeu.
         // TODO(nico): après les actions du tour, vérifier si la partie est finie ou non, et potentiellement
         //             modifier this.etatJeu sur EtatJeu.TERMINE.
-        this.etatJeu = EtatJeu.TERMINE; // NOTE(nico): temporaire
+
+        //Question Lucas : Ajouter les menus et action possible dans la classe du personnage joueur ?
+        turn:
+        while(true) {
+            String instruction = this.ihm.demanderString("Choisissez un type d'action : (Déplacement | Exit)");
+            try {
+                switch (instruction) {
+                    case "Déplacement", "D", "d":
+                        jeu.deplacementJoueur();
+                        break turn;
+                    case "Exit", "E", "e":
+                        this.etatJeu = EtatJeu.TERMINE;
+                        break turn;
+                    default :
+                        throw new IllegalArgumentException("Veuillez choisir une action valide. (Déplacement | Exit)");
+                }
+            } catch (IllegalArgumentException e) {
+                this.ihm.afficherErreur(e);
+            }
+        }
+        //this.etatJeu = EtatJeu.TERMINE; // NOTE(nico): temporaire
     }
 
     /** Affiche l'état du jeu en cours (la carte etc...). */
