@@ -117,13 +117,14 @@ public class Controleur {
         //Question Lucas : Ajouter les menus et action possible dans la classe du personnage joueur ?
         turn:
         while(true) {
-            String instruction = this.ihm.demanderString("Choisissez un type d'action : (Déplacement | Exit)");
+            String instruction = this.ihm.demanderString("Choisissez un type d'action : (Déplacement | Ramasser | Exit)");
             try {
                 switch (instruction) {
                     case "DEPLACEMENT", "Déplacement", "D", "d":
                         deplacement:
                         while (true){
                             String choixDeplacement = this.ihm.demanderString("Où voulez-vous aller : (Haut | Bas | Gauche | Droite)");
+                            //TODO(Younes) : Rajouter la possibilité de taper la commande ramasser lorsqu'on est bloqué par un objet
                             try {
                                 switch (choixDeplacement){
                                     case "HAUT", "Haut", "H", "h":
@@ -146,11 +147,21 @@ public class Controleur {
                             }
                         }
                         break turn;
-                    case "EXIT", "Exit", "E", "e":
+                    case "EXIT", "Exit", "E", "e":{
                         this.etatJeu = EtatJeu.TERMINE;
                         break turn;
+                    }
+                    case "Ramasser","RAMASSER","R","r" : {
+                        try{
+                            this.jeu.ramasserObjet();
+                        }catch (AucunObjetException e){
+                            //TODO(Younes) : Gérer le problème d'affichage du message d'erreur "Aucun objet autour de vous" (Il s'affiche au dessus de la carte)
+                            ihm.afficherErreur(e);
+                        }
+                        break turn;
+                    }
                     default :
-                        throw new IllegalArgumentException("Veuillez choisir une action valide. (Déplacement | Exit)");
+                        throw new IllegalArgumentException("Veuillez choisir une action valide. (Déplacement | Ramasser | Exit)");
                 }
             } catch (IllegalArgumentException e) {
                 this.ihm.afficherErreur(e);
@@ -181,6 +192,12 @@ public class Controleur {
                             } break;
                             case ECUREUIL: {
                                 // TODO(nico): affichage de l'écureuil selon ses états.
+                                Animal animal = (Animal)acteur;
+                                affichage
+                                        .append(Ihm.COLOR_BACKGROUND_YELLOW)
+                                        .append(animal.getCouleur())
+                                        .append("E")
+                                        .append(Ihm.COLOR_RESET);
                             } break;
                             case ARBRE: {
                                 affichage
