@@ -10,6 +10,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
@@ -140,7 +141,7 @@ public class Controleur {
                                         this.jeu.deplacerJoueur(1,0);
                                         break deplacement;
                                     default:
-                                        throw new IllegalArgumentException("Veuillez choisir un direction valide : (Haut | Bas | Gauche | Droite)");
+                                        throw new IllegalArgumentException("Veuillez choisir une direction valide : (Haut | Bas | Gauche | Droite)");
                                 }
                             } catch (DeplacementImpossibleException | IllegalArgumentException e){
                                 ihm.afficherErreur(e);
@@ -152,16 +153,38 @@ public class Controleur {
                         break turn;
                     }
                     case "Ramasser","RAMASSER","R","r" : {
-                        try{
-                            this.jeu.ramasserObjet();
-                        }catch (AucunObjetException e){
-                            //TODO(Younes) : Gérer le problème d'affichage du message d'erreur "Aucun objet autour de vous" (Il s'affiche au dessus de la carte)
-                            ihm.afficherErreur(e);
+                        if(this.jeu.objetAutourJoueur()){
+                            ramassage:
+                            while (true){
+                                String choixRamassage = this.ihm.demanderString("Où voulez-vous ramasser : (Haut | Bas | Gauche | Droite)");
+                                try {
+                                    switch (choixRamassage){
+                                        case "HAUT", "Haut", "H", "h":
+                                            this.jeu.ramasserObjet(0,-1);
+                                            break ramassage;
+                                        case "BAS", "Bas", "B", "b":
+                                            this.jeu.ramasserObjet(0,1);
+                                            break ramassage;
+                                        case "GAUCHE", "Gauche", "G", "g":
+                                            this.jeu.ramasserObjet(-1,0);
+                                            break ramassage;
+                                        case "DROITE", "Droite", "D", "d":
+                                            this.jeu.ramasserObjet(1,0);
+                                            break ramassage;
+                                        default:
+                                            throw new IllegalArgumentException("Veuillez choisir une instruction valide");
+                                    }
+                                } catch (AucunObjetException | IllegalArgumentException e){
+                                    ihm.afficherErreur(e);
+                                }
+                            }
+                            break turn;
+                        } else {
+                            throw new IllegalArgumentException("Aucun objet autour de vous");
                         }
-                        break turn;
                     }
                     default :
-                        throw new IllegalArgumentException("Veuillez choisir une action valide. (Déplacement | Ramasser | Exit)");
+                        throw new IllegalArgumentException("Veuillez choisir une action valide.");
                 }
             } catch (IllegalArgumentException e) {
                 this.ihm.afficherErreur(e);

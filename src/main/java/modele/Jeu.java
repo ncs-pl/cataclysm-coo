@@ -169,38 +169,49 @@ public class Jeu {
         carte.set(tempY, carte.get(tempY)).set(tempX, new CaseVide(tempX,tempY));
     }
 
+    public boolean objetAutourJoueur(){
+        int pX = this.personnage.getX();
+        int pY = this.personnage.getY();
+        if(!notDansLaCarte(pX-1,pY)){
+            if(objets.contains(carte.get(pY).get(pX-1))){
+                return true;
+            }
+        }if(!notDansLaCarte(pX+1,pY)){
+            if(objets.contains(carte.get(pY).get(pX+1))){
+                return true;
+            }
+        }if(!notDansLaCarte(pX,pY-1)){
+            if(objets.contains(carte.get(pY-1).get(pX))){
+                return true;
+            }
+        }if(!notDansLaCarte(pX,pY+1)){
+            if(objets.contains(carte.get(pY+1).get(pX))){
+                return true;
+            }
+        }
+        return false;
+    }
 
-
-    public void ramasserObjet() throws AucunObjetException{
+    public void ramasserObjet(int x, int y) throws AucunObjetException{
         //TODO(Younes) : Pour ramasserObjet , il faut gérer l'exception où le personnage est en bordure de carte
         //TODO(Younes) : Ajouter la possibilité de choisir l'objet à ramasser
 
-        int xPerso = this.personnage.getX();
-        int yPerso = this.personnage.getY();
-        int[][] directions = {
-                {xPerso-1, yPerso}, //Gauche
-                {xPerso+1, yPerso}, //Droite
-                {xPerso, yPerso-1}, //Haut
-                {xPerso, yPerso+1}, //Bas
-        };
+        int xObjet = this.personnage.getX() + x;
+        int yObjet = this.personnage.getY() + y;
+        Acteur contenu = carte.get(yObjet).get(xObjet);
 
-        boolean objetPresent = false;
-
-        for(int[]  direction : directions){
-            int x = direction[0];
-            int y = direction[1];
-            Acteur contenu = carte.get(y).get(x);
-
-            if(objets.contains(contenu)){
-                objetPresent = true;
+        if (!notDansLaCarte(xObjet,yObjet)){
+            if (objets.contains(carte.get(yObjet).get(xObjet))){
                 this.personnage.getInventaire().add((Objet)contenu);
-                this.objets.remove(contenu); //A voir si c'est utile
-                carte.get(y).set(x,new CaseVide(x,y));
+                this.objets.remove(contenu);
+                carte.get(yObjet).set(xObjet,new CaseVide(xObjet,yObjet));
+            } else {
+                throw new AucunObjetException("Aucun objet ici");
             }
+        } else {
+            throw new AucunObjetException("Aucun objet ici");
         }
-        if(!objetPresent){
-            throw new AucunObjetException("Aucun objet autour de vous.");
-        }
+
     }
 
     //TODO(Younes) : Poser un objet
