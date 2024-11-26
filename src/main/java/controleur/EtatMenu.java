@@ -1,7 +1,7 @@
 package controleur;
 
 public abstract class EtatMenu {
-    Controleur controleur;
+    protected Controleur controleur;
 
     public EtatMenu(Controleur controleur){
         this.controleur = controleur;

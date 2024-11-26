@@ -22,7 +22,7 @@ public class Controleur {
     /** État de la partie de jeu en cours. */
     private EtatJeu etatJeu;
 
-    private EtatMenu menu = new MenuPrincipal(this);
+    private EtatMenu menu = MenuPrincipal.getInstance(this);
 
     public void setMenu(EtatMenu nouveauMenu){
         this.menu = nouveauMenu;
@@ -119,12 +119,25 @@ public class Controleur {
         this.etatJeu = EtatJeu.EN_COURS;
     }
 
-    public Ihm getIhm() {
-        return ihm;
+
+    public void deplacerJoueur(int x, int y) throws DeplacementImpossibleException{
+        this.jeu.deplacerJoueur(x,y);
     }
 
-    public Jeu getJeu() {
-        return jeu;
+    public void ramasserObjet(int x, int y) throws AucunObjetException{
+        this.jeu.ramasserObjet(x,y);
+    }
+
+    public void afficherErreur(Exception e){
+        this.ihm.afficherErreur(e);
+    }
+
+    public String demanderString(String msg){
+        return this.ihm.demanderString(msg);
+    }
+
+    public boolean objetAutourJoueur(){
+        return this.jeu.objetAutourJoueur();
     }
 
     public void jouer(){
@@ -134,8 +147,9 @@ public class Controleur {
     }
 
 
+
     /** Récupère les entrées utilisateurs pour jouer un tour de la partie en cours. */
-/*
+
     public void jouerTour() {
         assert(this.etatJeu == EtatJeu.EN_COURS);
         assert(this.jeu != null);
@@ -223,7 +237,7 @@ public class Controleur {
 
 
     }
-    */
+
 
     /** Affiche l'état du jeu en cours (la carte etc...). */
     public void afficherJeu() {
