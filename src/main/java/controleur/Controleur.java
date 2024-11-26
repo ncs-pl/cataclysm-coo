@@ -191,6 +191,8 @@ public class Controleur {
             }
         }
         //this.etatJeu = EtatJeu.TERMINE; // NOTE(nico): temporaire
+
+
     }
 
     /** Affiche l'état du jeu en cours (la carte etc...). */

@@ -172,21 +172,18 @@ public class Jeu {
     public boolean objetAutourJoueur(){
         int pX = this.personnage.getX();
         int pY = this.personnage.getY();
-        if(!notDansLaCarte(pX-1,pY)){
-            if(objets.contains(carte.get(pY).get(pX-1))){
-                return true;
-            }
-        }if(!notDansLaCarte(pX+1,pY)){
-            if(objets.contains(carte.get(pY).get(pX+1))){
-                return true;
-            }
-        }if(!notDansLaCarte(pX,pY-1)){
-            if(objets.contains(carte.get(pY-1).get(pX))){
-                return true;
-            }
-        }if(!notDansLaCarte(pX,pY+1)){
-            if(objets.contains(carte.get(pY+1).get(pX))){
-                return true;
+
+        int[][] directions = {
+                {pX-1,pY},
+                {pX+1,pY},
+                {pX,pY-1},
+                {pX,pY+1},
+        };
+        for (int[] couple : directions){
+            if(!notDansLaCarte(couple[0],couple[1])) {
+                if (objets.contains(carte.get(couple[1]).get(couple[0]))) {
+                    return true;
+                }
             }
         }
         return false;
