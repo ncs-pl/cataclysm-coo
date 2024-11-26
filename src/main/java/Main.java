@@ -12,7 +12,7 @@ public class Main {
 
         while (controleur.getEtatJeu() != EtatJeu.TERMINE) {
             controleur.afficherJeu();
-            controleur.jouerTour();
+            controleur.jouer();
         }
 
         controleur.terminerJeu();

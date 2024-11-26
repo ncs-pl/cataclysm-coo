@@ -22,6 +22,19 @@ public class Controleur {
     /** État de la partie de jeu en cours. */
     private EtatJeu etatJeu;
 
+    private EtatMenu menu = new MenuPrincipal(this);
+
+    public void setMenu(EtatMenu nouveauMenu){
+        this.menu = nouveauMenu;
+    }
+
+    public EtatMenu getMenu(){
+        return this.menu;
+    }
+
+    public void setEtatJeu(EtatJeu etat){
+        this.etatJeu=etat;
+    }
     public Controleur(Ihm ihm) {
         assert(ihm != null);
         this.ihm = ihm;
@@ -106,7 +119,23 @@ public class Controleur {
         this.etatJeu = EtatJeu.EN_COURS;
     }
 
+    public Ihm getIhm() {
+        return ihm;
+    }
+
+    public Jeu getJeu() {
+        return jeu;
+    }
+
+    public void jouer(){
+        assert(this.etatJeu == EtatJeu.EN_COURS);
+        assert(this.jeu != null);
+        menu.jouer();
+    }
+
+
     /** Récupère les entrées utilisateurs pour jouer un tour de la partie en cours. */
+/*
     public void jouerTour() {
         assert(this.etatJeu == EtatJeu.EN_COURS);
         assert(this.jeu != null);
@@ -194,6 +223,7 @@ public class Controleur {
 
 
     }
+    */
 
     /** Affiche l'état du jeu en cours (la carte etc...). */
     public void afficherJeu() {
