@@ -1,24 +1,24 @@
 package modele;
 
 public abstract class Animal extends Acteur {
-    private EtatAnimalFaim faim = EtatAnimalFaim.RASSASIE;
+    //private EtatAnimalFaim faim = EtatAnimalFaim.RASSASIE;
     private boolean ami;
     /** Stock de nourriture avant d'avoir faim */
     private int saturation;
-    private EtatAnimal etat;
+    private Etat etat = new EtatRassasie(this);
 
     public Animal(ActeurId id, int x, int y) {
         super(id, x, y);
     }
 
-    public EtatAnimalFaim getFaim() {
+    /*public EtatAnimalFaim getFaim() {
         return this.faim;
     }
 
     public void setFaim(EtatAnimalFaim faim) {
         this.faim = faim;
     }
-
+    */
     public boolean getAmi() {
         return this.ami;
     }
@@ -38,6 +38,15 @@ public abstract class Animal extends Acteur {
         this.saturation = saturation;
     }
 
+    public void setEtat(Etat etat) {
+        this.etat = etat;
+    }
+
+    public String getCouleur(){
+       return etat.getCouleur();
+    }
+
+    /*
     public EtatAnimal getEtat() {
         return this.etat;
     }
@@ -45,4 +54,6 @@ public abstract class Animal extends Acteur {
     public void setEtat(EtatAnimal etat) {
         this.etat = etat;
     }
+
+     */
 }

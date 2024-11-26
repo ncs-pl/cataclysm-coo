@@ -10,6 +10,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
@@ -113,7 +114,83 @@ public class Controleur {
         // TODO(nico): demander les actions à effectuer au joueur et les appliquer au jeu.
         // TODO(nico): après les actions du tour, vérifier si la partie est finie ou non, et potentiellement
         //             modifier this.etatJeu sur EtatJeu.TERMINE.
-        this.etatJeu = EtatJeu.TERMINE; // NOTE(nico): temporaire
+
+        //Question Lucas : Ajouter les menus et action possible dans la classe du personnage joueur ?
+        turn:
+        while(true) {
+            String instruction = this.ihm.demanderString("Choisissez un type d'action : (Déplacement | Ramasser | Exit)");
+            try {
+                switch (instruction) {
+                    case "DEPLACEMENT", "Déplacement", "D", "d":
+                        deplacement:
+                        while (true){
+                            String choixDeplacement = this.ihm.demanderString("Où voulez-vous aller : (Haut | Bas | Gauche | Droite)");
+                            //TODO(Younes) : Rajouter la possibilité de taper la commande ramasser lorsqu'on est bloqué par un objet
+                            try {
+                                switch (choixDeplacement){
+                                    case "HAUT", "Haut", "H", "h":
+                                        this.jeu.deplacerJoueur(0,-1);
+                                        break deplacement;
+                                    case "BAS", "Bas", "B", "b":
+                                        this.jeu.deplacerJoueur(0,1);
+                                        break deplacement;
+                                    case "GAUCHE", "Gauche", "G", "g":
+                                        this.jeu.deplacerJoueur(-1,0);
+                                        break deplacement;
+                                    case "DROITE", "Droite", "D", "d":
+                                        this.jeu.deplacerJoueur(1,0);
+                                        break deplacement;
+                                    default:
+                                        throw new IllegalArgumentException("Veuillez choisir une direction valide : (Haut | Bas | Gauche | Droite)");
+                                }
+                            } catch (DeplacementImpossibleException | IllegalArgumentException e){
+                                ihm.afficherErreur(e);
+                            }
+                        }
+                        break turn;
+                    case "EXIT", "Exit", "E", "e":{
+                        this.etatJeu = EtatJeu.TERMINE;
+                        break turn;
+                    }
+                    case "Ramasser","RAMASSER","R","r" : {
+                        if(this.jeu.objetAutourJoueur()){
+                            ramassage:
+                            while (true){
+                                String choixRamassage = this.ihm.demanderString("Où voulez-vous ramasser : (Haut | Bas | Gauche | Droite)");
+                                try {
+                                    switch (choixRamassage){
+                                        case "HAUT", "Haut", "H", "h":
+                                            this.jeu.ramasserObjet(0,-1);
+                                            break ramassage;
+                                        case "BAS", "Bas", "B", "b":
+                                            this.jeu.ramasserObjet(0,1);
+                                            break ramassage;
+                                        case "GAUCHE", "Gauche", "G", "g":
+                                            this.jeu.ramasserObjet(-1,0);
+                                            break ramassage;
+                                        case "DROITE", "Droite", "D", "d":
+                                            this.jeu.ramasserObjet(1,0);
+                                            break ramassage;
+                                        default:
+                                            throw new IllegalArgumentException("Veuillez choisir une instruction valide");
+                                    }
+                                } catch (AucunObjetException | IllegalArgumentException e){
+                                    ihm.afficherErreur(e);
+                                }
+                            }
+                            break turn;
+                        } else {
+                            throw new IllegalArgumentException("Aucun objet autour de vous");
+                        }
+                    }
+                    default :
+                        throw new IllegalArgumentException("Veuillez choisir une action valide.");
+                }
+            } catch (IllegalArgumentException e) {
+                this.ihm.afficherErreur(e);
+            }
+        }
+        //this.etatJeu = EtatJeu.TERMINE; // NOTE(nico): temporaire
     }
 
     /** Affiche l'état du jeu en cours (la carte etc...). */
@@ -138,6 +215,12 @@ public class Controleur {
                             } break;
                             case ECUREUIL: {
                                 // TODO(nico): affichage de l'écureuil selon ses états.
+                                Animal animal = (Animal)acteur;
+                                affichage
+                                        .append(Ihm.COLOR_BACKGROUND_YELLOW)
+                                        .append(animal.getCouleur())
+                                        .append("E")
+                                        .append(Ihm.COLOR_RESET);
                             } break;
                             case ARBRE: {
                                 affichage
