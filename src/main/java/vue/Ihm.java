@@ -73,16 +73,16 @@ public class Ihm {
         assert(message != null);
         assert(!message.isEmpty());
 
-        this.output.println(Ihm.COLOR_CYAN + "[INF] " + message + Ihm.COLOR_RESET);
+        this.output.println(Ihm.COLOR_CYAN + "[INFO] " + message + Ihm.COLOR_RESET);
     }
 
     /**
      * Affiche une erreur sur la sortie système d'erreurs.
-     * @param exception - l'erreur à afficher.
+     * @param erreur - l'erreur à afficher.
      */
-    public void afficherErreur(Exception exception) {
-        assert(exception != null);
-        this.error.println(Ihm.COLOR_RED + "[ERR] " + exception.getMessage() + Ihm.COLOR_RESET);
+    public void afficherErreur(String erreur) {
+        assert(erreur != null);
+        this.error.println(Ihm.COLOR_RED + "[ERREUR] " + erreur + Ihm.COLOR_RESET);
     }
 
     /**
@@ -93,6 +93,13 @@ public class Ihm {
     public String demanderString(String question) {
         assert(question != null);
         assert(!question.isEmpty());
+
+        // NOTE(nico): Pour éviter un overwrite de stdout
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         this.output.println(Ihm.COLOR_YELLOW + question + Ihm.COLOR_RESET);
         this.output.print(Ihm.COLOR_YELLOW + "> " + Ihm.COLOR_RESET);
