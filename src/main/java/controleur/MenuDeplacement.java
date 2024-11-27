@@ -47,7 +47,10 @@ public class MenuDeplacement extends EtatMenu{
                 }
             }catch (DeplacementImpossibleException e){
                 this.controleur.afficherErreur(e);
-                this.controleur.setMenu(MenuPrincipal.getInstance(this.controleur));
+                if (e.getRetour()) {
+                    this.controleur.setMenu(MenuPrincipal.getInstance(this.controleur));
+                    this.controleur.jouer();
+                }
             }catch (IllegalArgumentException e){
                 this.controleur.afficherErreur(e);
             }

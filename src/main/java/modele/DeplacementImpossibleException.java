@@ -1,7 +1,13 @@
 package modele;
 
 public class DeplacementImpossibleException extends Exception {
-    public DeplacementImpossibleException(String message) {
+    private boolean retourMenu;
+    public DeplacementImpossibleException(String message, boolean retour) {
         super(message);
+        this.retourMenu = retour;
+    }
+
+    public boolean getRetour(){
+        return this.retourMenu;
     }
 }

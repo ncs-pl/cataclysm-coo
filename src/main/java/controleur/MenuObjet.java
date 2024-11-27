@@ -19,39 +19,43 @@ public class MenuObjet extends EtatMenu{
     }
 
     public void jouer(){
-        obj :
-        while (true){
-            if(this.controleur.objetAutourJoueur()){
+
+        if(this.controleur.objetAutourJoueur()) {
+
+            obj:
+            while (true) {
                 String direction = this.controleur.demanderString("Quel objet souhaitez vous ramasser ?");
-                try{
-                    switch (direction){
-                        case "HAUT", "Haut", "H", "h":{
-                            this.controleur.ramasserObjet(0,-1);
+                try {
+                    switch (direction) {
+                        case "HAUT", "Haut", "H", "h": {
+                            this.controleur.ramasserObjet(0, -1);
                             this.controleur.setMenu(MenuPrincipal.getInstance(this.controleur));
                             break obj;
                         }
-                        case "BAS", "Bas", "B", "b":{
-                            this.controleur.ramasserObjet(0,1);
+                        case "BAS", "Bas", "B", "b": {
+                            this.controleur.ramasserObjet(0, 1);
                             this.controleur.setMenu(MenuPrincipal.getInstance(this.controleur));
                             break obj;
                         }
-                        case "GAUCHE", "Gauche", "G", "g":{
-                            this.controleur.ramasserObjet(-1,0);
+                        case "GAUCHE", "Gauche", "G", "g": {
+                            this.controleur.ramasserObjet(-1, 0);
                             this.controleur.setMenu(MenuPrincipal.getInstance(this.controleur));
                             break obj;
                         }
-                        case "DROITE", "Droite", "D", "d":{
-                            this.controleur.ramasserObjet(1,0);
+                        case "DROITE", "Droite", "D", "d": {
+                            this.controleur.ramasserObjet(1, 0);
                             this.controleur.setMenu(MenuPrincipal.getInstance(this.controleur));
                             break obj;
                         }
                         default:
                             throw new IllegalArgumentException("Veuillez choisir une direction valide : (Haut | Bas | Gauche | Droite)");
                     }
-                }catch (AucunObjetException | IllegalArgumentException e){
+                } catch (AucunObjetException | IllegalArgumentException e) {
                     this.controleur.afficherErreur(e);
                 }
             }
+        }else{
+            throw new IllegalArgumentException("Aucun objet autour de vous.");
         }
 
     }

@@ -24,10 +24,12 @@ public class MenuPrincipal extends EtatMenu{
                 switch (instruction){
                     case "DEPLACEMENT", "Déplacement", "D", "d":{
                         this.controleur.setMenu(MenuDeplacement.getInstance(this.controleur));
+                        this.controleur.jouer();
                         break princ;
                     }
                     case "RAMASSER","Ramasser","R","r":{
                         this.controleur.setMenu(MenuObjet.getInstance(this.controleur));
+                        this.controleur.jouer();
                         break princ;
                     }
                     case "EXIT", "Exit", "E", "e":{

@@ -142,16 +142,16 @@ public class Jeu {
 
     public void deplacerJoueur(int x, int y) throws DeplacementImpossibleException{
         if ( notDansLaCarte(this.personnage.getX() + x, this.personnage.getY() + y) ){
-            throw new DeplacementImpossibleException("Bordure de carte");
+            throw new DeplacementImpossibleException("Bordure de carte",false);
         }
         if ( decors.contains(carte.get(this.personnage.getY()+y).get(this.personnage.getX()+x))){
-            throw new DeplacementImpossibleException("Le passage est bloqué.");
+            throw new DeplacementImpossibleException("Le passage est bloqué.",false);
         }
         if (animaux.contains(carte.get(this.personnage.getY()+y).get(this.personnage.getX()+x))){
-            throw new DeplacementImpossibleException("Un animal est sur votre chemin ,détournez-le.");
+            throw new DeplacementImpossibleException("Un animal est sur votre chemin ,détournez-le.",false);
         }
         if (objets.contains(carte.get(this.personnage.getY()+y).get(this.personnage.getX()+x))){
-            throw new DeplacementImpossibleException("Un objet bloque le passage , ramassez-le ou changez de direction.");
+            throw new DeplacementImpossibleException("Un objet bloque le passage , ramassez-le ou changez de direction.",true);
         }
         changerPositionActeur(this.personnage.getX()+x, this.personnage.getY()+y, this.personnage);
     }
