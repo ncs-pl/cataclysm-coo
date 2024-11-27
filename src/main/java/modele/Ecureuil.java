@@ -25,5 +25,6 @@ public class Ecureuil extends Animal {
         } else {
             this.etat = AFFAME;
         }
+        System.out.println(this.ami);
     }
 }

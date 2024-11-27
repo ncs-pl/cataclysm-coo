@@ -50,6 +50,9 @@ public class EtatEcureuilAffame extends EtatAnimalFaim{
 
             List<Position> keys = new ArrayList<>(positions.keySet());
             jeu.changerPositionActeur(keys.get(rand.nextInt(keys.size())), this.animal);
+            if (this.animal.saturation == 5){
+                amiAdjacent(jeu);
+            }
         }
     }
 
@@ -57,5 +60,19 @@ public class EtatEcureuilAffame extends EtatAnimalFaim{
     public String getCouleur() {
         //TODO Importer couleur static de l'ihm ?
         return "\u001B[30m";
+    }
+
+    private void amiAdjacent(Jeu jeu) { //TODO potentiellement généraliser ça dans jeu ?
+        List<Acteur> adjacent = new ArrayList<>();
+        adjacent.add(jeu.getActeur(this.animal.getX(),this.animal.getY()-1));
+        adjacent.add(jeu.getActeur(this.animal.getX(),this.animal.getY()+1));
+        adjacent.add(jeu.getActeur(this.animal.getX()-1,this.animal.getY()));
+        adjacent.add(jeu.getActeur(this.animal.getX()+1,this.animal.getY()));
+
+        for(Acteur a : adjacent){
+            if (a.id == ActeurId.PERSONNAGE) {
+                this.animal.ami = true;
+            }
+        }
     }
 }
