@@ -1,5 +1,5 @@
 package modele;
 
 public interface Observateur {
-    public void mettreAJour();
+    public void actionFinTour(Jeu jeu);
 }

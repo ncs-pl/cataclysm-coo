@@ -278,7 +278,7 @@ public class Controleur {
             // TODO(nico): notifier le jeu qu'on débute un tour
             this.afficherCarte();
             this.executerInstruction();
-            jeu.notifierObservateurs();
+            jeu.notifierFinTour();
         }
 
         // TODO(nico): fin du jeu

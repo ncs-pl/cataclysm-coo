@@ -140,24 +140,8 @@ public class Jeu implements Observable {
     // FIN METHODES DE TEST (A supprimer) //
 
     public void deplacerJoueur(Position position) throws DeplacementImpossibleException{
-        int x = 0;
-        int y = 0;
-
-        switch (position) {
-            case HAUT:
-                y -= 1;
-                break;
-            case BAS:
-                y += 1;
-                break;
-            case DROITE:
-                x += 1;
-                break;
-            case GAUCHE:
-                x -= 1;
-                break;
-        }
-
+        int x = xFromPos(position);
+        int y = yFromPos(position);
         if ( notDansLaCarte(this.personnage.getX() + x, this.personnage.getY() + y) ){
             throw new DeplacementImpossibleException("Bordure de carte");
         }
@@ -170,63 +154,54 @@ public class Jeu implements Observable {
         if (objets.contains(carte.get(this.personnage.getY()+y).get(this.personnage.getX()+x))){
             throw new DeplacementImpossibleException("Un objet bloque le passage , ramassez-le ou changez de direction.");
         }
-        changerPositionActeur(this.personnage.getX()+x, this.personnage.getY()+y, this.personnage);
+        changerPositionActeur(position, this.personnage);
     }
 
     private boolean notDansLaCarte(int x, int y) {
         return x < 0 || y < 0 || y >= carte.size() || x >= carte.get(y).size();
     }
 
-    private void changerPositionActeur(int x, int y, Acteur acteur){
-        int tempX = this.personnage.getX();
-        int tempY = this.personnage.getY();
-        this.personnage.setX(x);
-        this.personnage.setY(y);
+    public void changerPositionActeur(Position position, Acteur acteur){
+        int tempX = acteur.getX();
+        int tempY = acteur.getY();
+        int x = acteur.getX() + xFromPos(position);
+        int y = acteur.getY() + yFromPos(position);
+
+        acteur.setX(x);
+        acteur.setY(y);
         carte.set(y,carte.get(y)).set(x, acteur);
         carte.set(tempY, carte.get(tempY)).set(tempX, new CaseVide(tempX,tempY));
     }
 
-    public boolean objetAutourJoueur(){
-        int pX = this.personnage.getX();
-        int pY = this.personnage.getY();
-
-        int[][] directions = {
-                {pX-1,pY},
-                {pX+1,pY},
-                {pX,pY-1},
-                {pX,pY+1},
-        };
-        for (int[] couple : directions){
-            if(!notDansLaCarte(couple[0],couple[1])) {
-                if (objets.contains(carte.get(couple[1]).get(couple[0]))) {
-                    return true;
-                }
-            }
+    public Acteur getActeur(int x, int y){
+        if (notDansLaCarte(x, y)) {
+            return null;
+        } else {
+            return carte.get(y).get(x);
         }
-        return false;
+    }
+
+    private int xFromPos(Position position){
+        return switch (position) {
+            case DROITE -> 1;
+            case GAUCHE -> -1;
+            default -> 0;
+        };
+    }
+
+    private int yFromPos(Position position){
+        return switch (position){
+            case HAUT -> -1;
+            case BAS -> 1;
+            default -> 0;
+        };
     }
 
     public void ramasserObjet(Position position) throws AucunObjetException{
         //TODO(Younes) : Pour ramasserObjet , il faut gérer l'exception où le personnage est en bordure de carte
         //TODO(Younes) : Ajouter la possibilité de choisir l'objet à ramasser
-        int x = 0;
-        int y = 0;
-
-        switch (position) {
-            case HAUT:
-                y -= 1;
-                break;
-            case BAS:
-                y += 1;
-                break;
-            case DROITE:
-                x += 1;
-                break;
-            case GAUCHE:
-                x -= 1;
-                break;
-        }
-
+        int x = xFromPos(position);
+        int y = yFromPos(position);
 
         int xObjet = this.personnage.getX() + x;
         int yObjet = this.personnage.getY() + y;
@@ -257,9 +232,9 @@ public class Jeu implements Observable {
     }
 
     @Override
-    public void notifierObservateurs() {
+    public void notifierFinTour() {
         for (Observateur o : observateurs) {
-            o.mettreAJour();
+            o.actionFinTour(this);
         }
     }
 

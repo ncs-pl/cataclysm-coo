@@ -6,12 +6,7 @@ public class Singe extends Animal{
     }
 
     @Override
-    public void mettreAJour() {
-
-    }
-
-    @Override
-    protected void iaTour() {
+    public void actionFinTour(Jeu jeu) {
 
     }
 }

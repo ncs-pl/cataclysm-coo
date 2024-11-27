@@ -7,5 +7,5 @@ public abstract class EtatAnimalFaim implements Etat{
         this.animal = animal;
     }
 
-    public abstract void iaTurn();
+    public abstract void iaTurn(Jeu jeu);
 }

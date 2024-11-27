@@ -1,5 +1,8 @@
 package modele;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Ecureuil extends Animal {
 
     private final EtatAnimalFaim AFFAME = new EtatEcureuilAffame(this);
@@ -10,18 +13,17 @@ public class Ecureuil extends Animal {
         this.etat = RASSASIE;
         this.saturation = 5;
         this.ami = false;
+        this.casePraticable = new ArrayList<>(Arrays.asList(ActeurId.ZONE_VIDE));
+        this.caseAffame = new ArrayList<>(Arrays.asList(ActeurId.GLAND, ActeurId.CHAMPIGNON));
     }
 
     @Override
-    public void mettreAJour() {
-        this.saturation--;
-        if (this.saturation <= 0) {
+    public void actionFinTour(Jeu jeu) {
+        this.etat.iaTurn(jeu);
+        if (saturation > 0){
+            this.etat = RASSASIE;
+        } else {
             this.etat = AFFAME;
         }
-    }
-
-    @Override
-    protected void iaTour() {
-        this.etat.iaTurn();
     }
 }
