@@ -230,7 +230,7 @@ public class Controleur {
                 break;
 
             // Ramasser
-            case "ramasser haut", "ra":
+            case "ramasser haut", "rh":
                 try {
                     this.jeu.ramasserObjet(Position.HAUT);
                     choixInstruction = false;

@@ -227,9 +227,9 @@ public class Jeu {
 
         int xObjet = this.personnage.getX() + x;
         int yObjet = this.personnage.getY() + y;
-        Acteur contenu = carte.get(yObjet).get(xObjet);
 
         if (!notDansLaCarte(xObjet,yObjet)){
+            Acteur contenu = carte.get(yObjet).get(xObjet);
             if (objets.contains(carte.get(yObjet).get(xObjet))){
                 this.personnage.getInventaire().add((Objet)contenu);
                 this.objets.remove(contenu);
