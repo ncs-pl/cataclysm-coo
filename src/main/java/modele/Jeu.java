@@ -3,7 +3,7 @@ package modele;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Jeu {
+public class Jeu implements Observable {
     private final JeuTheme theme;
     private final List<List<Acteur>> carte;
 
@@ -12,6 +12,7 @@ public class Jeu {
     private List<Animal> animaux;
     private List<Acteur> decors;
     private int tourCourant;
+    private List<Observateur> observateurs;
 
     public Jeu(JeuTheme theme, List<List<Acteur>> carte) {
         this.theme = theme;
@@ -19,6 +20,7 @@ public class Jeu {
         this.objets = new ArrayList<>();
         this.animaux = new ArrayList<>();
         this.decors = new ArrayList<>();
+        this.observateurs = new ArrayList<>();
         this.tourCourant = 1;
         this.initialiserJeu();
     }
@@ -59,6 +61,7 @@ public class Jeu {
                             }
                             case ECUREUIL:{
                                 this.animaux.add((Ecureuil) acteur);
+                                attacher((Animal) acteur);
                                 break;
                             }
                             default : {
@@ -241,6 +244,23 @@ public class Jeu {
             throw new AucunObjetException("Aucun objet ici");
         }
 
+    }
+
+    @Override
+    public void attacher(Observateur o) {
+        this.observateurs.add(o);
+    }
+
+    @Override
+    public void detacher(Observateur o) {
+        this.observateurs.remove(o);
+    }
+
+    @Override
+    public void notifierObservateurs() {
+        for (Observateur o : observateurs) {
+            o.mettreAJour();
+        }
     }
 
     //TODO(Younes) : Poser un objet

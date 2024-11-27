@@ -1,24 +1,28 @@
 package modele;
 
-public abstract class Animal extends Acteur {
-    //private EtatAnimalFaim faim = EtatAnimalFaim.RASSASIE;
-    private boolean ami;
+public abstract class Animal extends Acteur implements Observateur{
+
+    protected boolean ami;
     /** Stock de nourriture avant d'avoir faim */
-    private int saturation;
-    private Etat etat = new EtatRassasie(this);
+    protected int saturation;
+    protected EtatAnimalFaim etat;
 
     public Animal(ActeurId id, int x, int y) {
         super(id, x, y);
     }
 
-    /*public EtatAnimalFaim getFaim() {
-        return this.faim;
+    public String getCouleur(){
+        return etat.getCouleur();
     }
 
-    public void setFaim(EtatAnimalFaim faim) {
-        this.faim = faim;
+    /*
+    public void setSaturation(int saturation) {
+        // TODO(nico): vérifier l'intervalle de saturation
+        // Décorateur ???????????
+        assert(saturation >= 0);
+        this.saturation = saturation;
     }
-    */
+
     public boolean getAmi() {
         return this.ami;
     }
@@ -31,29 +35,22 @@ public abstract class Animal extends Acteur {
         return saturation;
     }
 
-    public void setSaturation(int saturation) {
-        // TODO(nico): vérifier l'intervalle de saturation
-        // Décorateur ???????????
-        assert(saturation >= 0);
-        this.saturation = saturation;
+    public EtatAnimal getEtat() {
+        return this.etat;
     }
 
     public void setEtat(Etat etat) {
         this.etat = etat;
     }
 
-    public String getCouleur(){
-       return etat.getCouleur();
+    public EtatAnimalFaim getFaim() {
+        return this.faim;
     }
 
-    /*
-    public EtatAnimal getEtat() {
-        return this.etat;
-    }
+    public void setFaim(EtatAnimalFaim faim) {
+        this.faim = faim;
+    }*/
 
-    public void setEtat(EtatAnimal etat) {
-        this.etat = etat;
-    }
+    protected abstract void iaTour();
 
-     */
 }

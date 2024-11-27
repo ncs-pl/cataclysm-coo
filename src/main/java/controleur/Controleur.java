@@ -10,11 +10,13 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
     /** Interface homme-machine pour la communication du jeu. */
     private final Ihm ihm;
+
     /** Une partie de jeu. */
     private Jeu jeu;
 
@@ -276,7 +278,7 @@ public class Controleur {
             // TODO(nico): notifier le jeu qu'on débute un tour
             this.afficherCarte();
             this.executerInstruction();
-            // TODO(nico): notifier le jeu qu'on fini un tour
+            jeu.notifierObservateurs();
         }
 
         // TODO(nico): fin du jeu
