@@ -92,88 +92,71 @@ public class Controleur {
 
     private void afficherCarte() {
         JeuTheme theme = this.jeu.getTheme();
-        StringBuilder affichage = new StringBuilder();
+        String affichage = "";
+
         List<List<Acteur>> carte = jeu.getCarte();
         for (List<Acteur> ligne : carte) {
             for (Acteur acteur : ligne) {
                 switch (theme) {
-                    case FORET: {
-                        switch (acteur.id) {
-                            case PERSONNAGE: {
-                                affichage
-                                        .append(Ihm.COLOR_BACKGROUND_WHITE)
-                                        .append(Ihm.COLOR_PURPLE)
-                                        .append("@")
-                                        .append(Ihm.COLOR_RESET);
-                            } break;
-                            case ECUREUIL: {
-                                // TODO(nico): affichage de l'écureuil selon ses états.
-                                Animal animal = (Animal)acteur;
-                                affichage
-                                        .append(Ihm.COLOR_BACKGROUND_YELLOW)
-                                        .append(animal.getCouleur())
-                                        .append("E")
-                                        .append(Ihm.COLOR_RESET);
-                            } break;
-                            case ARBRE: {
-                                affichage
-                                        .append(Ihm.COLOR_BACKGROUND_BLACK)
-                                        .append(Ihm.COLOR_GREEN)
-                                        .append("A")
-                                        .append(Ihm.COLOR_RESET);
-                            } break;
-                            case BUISSON: {
-                                affichage
-                                        .append(Ihm.COLOR_BACKGROUND_BLACK)
-                                        .append(Ihm.COLOR_GREEN)
-                                        .append("B")
-                                        .append(Ihm.COLOR_RESET);
-                            } break;
-                            case GLAND: {
-                                affichage
-                                        .append(Ihm.COLOR_BACKGROUND_RED)
-                                        .append(Ihm.COLOR_YELLOW)
-                                        .append("G")
-                                        .append(Ihm.COLOR_RESET);
-                            } break;
-                            case CHAMPIGNON: {
-                                affichage
-                                        .append(Ihm.COLOR_BACKGROUND_WHITE)
-                                        .append(Ihm.COLOR_RED)
-                                        .append("C")
-                                        .append(Ihm.COLOR_RESET);
-                            } break;
-                            case ZONE_VIDE: {
-                                affichage
-                                        .append(Ihm.COLOR_BACKGROUND_GREEN)
-                                        .append(".")
-                                        .append(Ihm.COLOR_RESET);
-                            } break;
-                            default: {
-                                /* acteur interdit dans la carte */
-                                assert(false);
-                            } break;
-                        }
+                case FORET: {
+                    switch (acteur.id) {
+                    case PERSONNAGE:
+                        //noinspection StringConcatenationInLoop
+                        affichage += Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_PURPLE + "@" + Ihm.COLOR_RESET;
+                        break;
+                    case ECUREUIL:
+                        Ecureuil ecureuil = (Ecureuil)acteur;
+                        //noinspection StringConcatenationInLoop
+                        affichage += Ihm.COLOR_BACKGROUND_YELLOW + ecureuil.getCouleur() + "E" + Ihm.COLOR_RESET;
+                        break;
+                    case ARBRE:
+                        //noinspection StringConcatenationInLoop
+                        affichage += Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "A" + Ihm.COLOR_RESET;
+                        break;
+                    case BUISSON:
+                        //noinspection StringConcatenationInLoop
+                        affichage += Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "B" + Ihm.COLOR_RESET;
+                        break;
+                    case GLAND:
+                        //noinspection StringConcatenationInLoop
+                        affichage += Ihm.COLOR_BACKGROUND_RED + Ihm.COLOR_YELLOW + "G" + Ihm.COLOR_RESET;
+                        break;
+                    case CHAMPIGNON:
+                        //noinspection StringConcatenationInLoop
+                        affichage += Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_RED + "C" + Ihm.COLOR_RESET;
+                        break;
+                    case ZONE_VIDE:
+                        //noinspection StringConcatenationInLoop
+                        affichage += Ihm.COLOR_BACKGROUND_GREEN + "." + Ihm.COLOR_RESET;
+                        break;
+                    default:
+                        // Acteur inconnu et non-prévu, le remplacer par un ? visible
+                        ihm.afficherErreur("Acteur inconnu dans la carte détecté...");
+                        //noinspection StringConcatenationInLoop
+                        affichage += Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_RED + "?" + Ihm.COLOR_RESET;
+                        break;
                     }
-                    break;
-                    case JUNGLE: {
-                        /* unimplemented */
-                        assert(false);
-                    }
-                    break;
-                    default: {
-                        /* unreachable */
-                        assert(false);
-                    } break;
+                }
+                break;
+                case JUNGLE: {
+                    assert(false); // TODO(nico): à implémenter
+                }
+                break;
+                default: {
+                    ihm.afficherErreur("Jeu dans un thème imprévu, fin...");
+                    System.exit(1);
+                } break;
                 }
             }
 
-            affichage.append('\n');
+            //noinspection StringConcatenationInLoop
+            affichage += '\n';
         }
-        this.ihm.afficherMessageBrut(affichage.toString());
+        this.ihm.afficherMessageBrut(affichage);
         this.ihm.afficherMessageBrut(jeu.toString()); // Méthode utilisée uniquement pour le débogage
     }
 
+    @SuppressWarnings("ExtractMethodRecommender")
     private void executerInstruction() {
         boolean choixInstruction = true;
         while (choixInstruction) {
