@@ -31,8 +31,6 @@ public class Jeu {
         return carte;
     }
 
-
-
     public void initialiserJeu(){
         for(List<Acteur> ligne : this.carte){
             for(Acteur acteur : ligne){
@@ -83,8 +81,6 @@ public class Jeu {
 
         }
     }
-
-
 
 /**
  * Affiche des informations détaillées sur l'état actuel du programme
@@ -140,7 +136,25 @@ public class Jeu {
 
     // FIN METHODES DE TEST (A supprimer) //
 
-    public void deplacerJoueur(int x, int y) throws DeplacementImpossibleException{
+    public void deplacerJoueur(Position position) throws DeplacementImpossibleException{
+        int x = 0;
+        int y = 0;
+
+        switch (position) {
+            case HAUT:
+                y -= 1;
+                break;
+            case BAS:
+                y += 1;
+                break;
+            case DROITE:
+                x += 1;
+                break;
+            case GAUCHE:
+                x -= 1;
+                break;
+        }
+
         if ( notDansLaCarte(this.personnage.getX() + x, this.personnage.getY() + y) ){
             throw new DeplacementImpossibleException("Bordure de carte");
         }
@@ -189,9 +203,27 @@ public class Jeu {
         return false;
     }
 
-    public void ramasserObjet(int x, int y) throws AucunObjetException{
+    public void ramasserObjet(Position position) throws AucunObjetException{
         //TODO(Younes) : Pour ramasserObjet , il faut gérer l'exception où le personnage est en bordure de carte
         //TODO(Younes) : Ajouter la possibilité de choisir l'objet à ramasser
+        int x = 0;
+        int y = 0;
+
+        switch (position) {
+            case HAUT:
+                y -= 1;
+                break;
+            case BAS:
+                y += 1;
+                break;
+            case DROITE:
+                x += 1;
+                break;
+            case GAUCHE:
+                x -= 1;
+                break;
+        }
+
 
         int xObjet = this.personnage.getX() + x;
         int yObjet = this.personnage.getY() + y;

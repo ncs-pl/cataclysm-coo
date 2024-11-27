@@ -10,7 +10,6 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
@@ -106,97 +105,8 @@ public class Controleur {
         this.etatJeu = EtatJeu.EN_COURS;
     }
 
-    /** Récupère les entrées utilisateurs pour jouer un tour de la partie en cours. */
-    public void jouerTour() {
-        assert(this.etatJeu == EtatJeu.EN_COURS);
-        assert(this.jeu != null);
-
-        // TODO(nico): demander les actions à effectuer au joueur et les appliquer au jeu.
-        // TODO(nico): après les actions du tour, vérifier si la partie est finie ou non, et potentiellement
-        //             modifier this.etatJeu sur EtatJeu.TERMINE.
-
-        //Question Lucas : Ajouter les menus et action possible dans la classe du personnage joueur ?
-        turn:
-        while(true) {
-            String instruction = this.ihm.demanderString("Choisissez un type d'action : (Déplacement | Ramasser | Exit)");
-            try {
-                switch (instruction) {
-                    case "DEPLACEMENT", "Déplacement", "D", "d":
-                        deplacement:
-                        while (true){
-                            String choixDeplacement = this.ihm.demanderString("Où voulez-vous aller : (Haut | Bas | Gauche | Droite)");
-                            //TODO(Younes) : Rajouter la possibilité de taper la commande ramasser lorsqu'on est bloqué par un objet
-                            try {
-                                switch (choixDeplacement){
-                                    case "HAUT", "Haut", "H", "h":
-                                        this.jeu.deplacerJoueur(0,-1);
-                                        break deplacement;
-                                    case "BAS", "Bas", "B", "b":
-                                        this.jeu.deplacerJoueur(0,1);
-                                        break deplacement;
-                                    case "GAUCHE", "Gauche", "G", "g":
-                                        this.jeu.deplacerJoueur(-1,0);
-                                        break deplacement;
-                                    case "DROITE", "Droite", "D", "d":
-                                        this.jeu.deplacerJoueur(1,0);
-                                        break deplacement;
-                                    default:
-                                        throw new IllegalArgumentException("Veuillez choisir une direction valide : (Haut | Bas | Gauche | Droite)");
-                                }
-                            } catch (DeplacementImpossibleException | IllegalArgumentException e){
-                                ihm.afficherErreur(e);
-                            }
-                        }
-                        break turn;
-                    case "EXIT", "Exit", "E", "e":{
-                        this.etatJeu = EtatJeu.TERMINE;
-                        break turn;
-                    }
-                    case "Ramasser","RAMASSER","R","r" : {
-                        if(this.jeu.objetAutourJoueur()){
-                            ramassage:
-                            while (true){
-                                String choixRamassage = this.ihm.demanderString("Où voulez-vous ramasser : (Haut | Bas | Gauche | Droite)");
-                                try {
-                                    switch (choixRamassage){
-                                        case "HAUT", "Haut", "H", "h":
-                                            this.jeu.ramasserObjet(0,-1);
-                                            break ramassage;
-                                        case "BAS", "Bas", "B", "b":
-                                            this.jeu.ramasserObjet(0,1);
-                                            break ramassage;
-                                        case "GAUCHE", "Gauche", "G", "g":
-                                            this.jeu.ramasserObjet(-1,0);
-                                            break ramassage;
-                                        case "DROITE", "Droite", "D", "d":
-                                            this.jeu.ramasserObjet(1,0);
-                                            break ramassage;
-                                        default:
-                                            throw new IllegalArgumentException("Veuillez choisir une instruction valide");
-                                    }
-                                } catch (AucunObjetException | IllegalArgumentException e){
-                                    ihm.afficherErreur(e);
-                                }
-                            }
-                            break turn;
-                        } else {
-                            throw new IllegalArgumentException("Aucun objet autour de vous");
-                        }
-                    }
-                    default :
-                        throw new IllegalArgumentException("Veuillez choisir une action valide.");
-                }
-            } catch (IllegalArgumentException e) {
-                this.ihm.afficherErreur(e);
-            }
-        }
-        //this.etatJeu = EtatJeu.TERMINE; // NOTE(nico): temporaire
-
-
-    }
-
     /** Affiche l'état du jeu en cours (la carte etc...). */
-    public void afficherJeu() {
+    private void afficherCarte() {
         assert(this.etatJeu != EtatJeu.AUCUNE);
         assert(this.jeu != null);
 
@@ -283,12 +193,131 @@ public class Controleur {
         this.ihm.afficherMessageBrut(jeu.toString()); // Méthode utilisée uniquement pour le débogage
     }
 
-
     /** Affiche les résultats de la partie terminée et dé-initialise le tout. */
-    public void terminerJeu() {
+    private void terminerJeu() {
         assert(this.etatJeu == EtatJeu.TERMINE);
         assert(this.jeu != null);
 
         // TODO(nico): afficher les résultats de la partie terminée.
+    }
+
+    /** Récupère les entrées utilisateurs pour jouer un tour de la partie en cours. */
+    public void jouerTour() {
+        assert (this.etatJeu == EtatJeu.EN_COURS);
+        assert (this.jeu != null);
+
+        // TODO(nico): demander les actions à effectuer au joueur et les appliquer au jeu.
+        // TODO(nico): après les actions du tour, vérifier si la partie est finie ou non, et potentiellement
+        //             modifier this.etatJeu sur EtatJeu.TERMINE.
+
+        //Question Lucas : Ajouter les menus et action possible dans la classe du personnage joueur ?
+        boolean choixInstruction = true;
+        while (choixInstruction) {
+            String instruction = this.ihm.demanderString("Entrez une instruction.");
+            switch (instruction.toLowerCase()) {
+                case "aide", "a", "?":
+                    String aide = "Manuel d'utilisation de Cataclysm COO :\n";
+                    aide += "\n";
+                    aide += "* aide (a, ?):\n";
+                    aide += "\tAffiche ce manuel\n";
+                    aide += "\n";
+                    aide += "* quitter (q):\n";
+                    aide += "\tTermine la partie.\n";
+                    aide += "\n";
+                    aide += "* carte (c):\n";
+                    aide += "\tAffiche la carte du jeu.\n";
+                    aide += "\n";
+                    aide += "* haut, bas, gauche, droite (h, b, g, d):\n";
+                    aide += "\tDéplace le joueur vers le haut, le bas, la gauche ou la droite respectivement.\n";
+                    aide += "\n";
+                    aide += "* ramasser haut, bas, gauche, droite (rh, rb, rg, rd):\n";
+                    aide += "\tRamasse l'objet de la case du haut, du bas, de gauche ou de droite respectivement.\n";
+                    aide += "\n";
+
+                    this.ihm.demanderString(aide);
+
+                    choixInstruction = false;
+                    break;
+                case "quitter", "q":
+                    this.terminerJeu();
+                    choixInstruction = false;
+                    break;
+                case "carte", "c":
+                    this.afficherCarte();
+                    choixInstruction = false;
+                    break;
+
+                // Déplacements
+                case "haut", "h":
+                    try {
+                        this.jeu.deplacerJoueur(Position.HAUT);
+                        choixInstruction = false;
+                    } catch (DeplacementImpossibleException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "bas", "b":
+                    try {
+                        this.jeu.deplacerJoueur(Position.BAS);
+                        choixInstruction = false;
+                    } catch (DeplacementImpossibleException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "gauche", "g":
+                    try {
+                        this.jeu.deplacerJoueur(Position.GAUCHE);
+                        choixInstruction = false;
+                    } catch (DeplacementImpossibleException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "droite", "d":
+                    try {
+                        this.jeu.deplacerJoueur(Position.DROITE);
+                        choixInstruction = false;
+                    } catch (DeplacementImpossibleException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+
+                // Ramasser
+                case "ramasser haut", "ra":
+                    try {
+                        this.jeu.ramasserObjet(Position.HAUT);
+                        choixInstruction = false;
+                    } catch (AucunObjetException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "ramasser bas", "rb":
+                    try {
+                        this.jeu.ramasserObjet(Position.BAS);
+                        choixInstruction = false;
+                    } catch (AucunObjetException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "ramasser gauche", "rg":
+                    try {
+                        this.jeu.ramasserObjet(Position.GAUCHE);
+                        choixInstruction = false;
+                    } catch (AucunObjetException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "ramasser droite", "rd":
+                    try {
+                        this.jeu.ramasserObjet(Position.DROITE);
+                        choixInstruction = false;
+                    } catch (AucunObjetException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                default:
+                    ihm.afficherErreur("Instruction invalide, tapez 'aide' pour consulter le manuel.");
+                    break;
+            }
+        }
     }
 }
