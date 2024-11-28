@@ -57,8 +57,12 @@ public class Carte {
             throw new CarteInvalideException("La fichier de carte ne contient pas de thème.");
 
         switch (ligneTheme.toLowerCase()) {
-        case "f": this.theme = JeuTheme.FORET; break;
-        case "j": this.theme = JeuTheme.JUNGLE; break;
+        case "f":
+            this.theme = JeuTheme.FORET;
+            break;
+        case "j":
+            this.theme = JeuTheme.JUNGLE;
+            break;
         default:
             throw new CarteInvalideException("Thème '" + ligneTheme + "' invalide.");
         }
@@ -67,21 +71,21 @@ public class Carte {
         if (ligneLignes == null)
             throw new CarteInvalideException("La fichier de carte ne contient pas de nombre de lignes.");
 
-        int lignes = -1;
+        int lignes;
         try {
             lignes = Integer.parseInt(ligneLignes);
         } catch (NumberFormatException e) {
-            throw new CarteInvalideException("Le nombre de ligne n'est pas un entier.");
+            throw new CarteInvalideException("Le nombre de lignes n'est pas un entier.");
         }
 
-        if (lignes <= 0) throw new CarteInvalideException("Nombre de ligne nul ou négatif interdit.");
-        if (lignes > 1024) throw new CarteInvalideException("Nombre de ligne dépassant 1024 interdit.");
+        if (lignes <= 0) throw new CarteInvalideException("Nombre de lignes nul ou négatif interdit.");
+        if (lignes > 1024) throw new CarteInvalideException("Nombre de lignes dépassant 1024 interdit.");
         this.lignes = lignes;
 
         String ligneColonnes = reader.readLine();
         if (ligneColonnes == null)
             throw new CarteInvalideException("La fichier de carte ne contient pas de nombre de colonnes.");
-        int colonnes = -1;
+        int colonnes;
         try {
             colonnes = Integer.parseInt(ligneLignes);
         } catch (NumberFormatException e) {
@@ -169,6 +173,12 @@ public class Carte {
 
     public void sauvegarderFichier() {
         // TODO(nico): possibilité de sauvegarder la carte dans un fichier
+        System.out.println(this.nom);
+        throw new RuntimeException("Unimplemented");
+    }
+
+    public void genererContenuAleatoire() {
+        // TODO(nico): Génerer un contenu aléatoire selon le thème et les dimensions fournies dans le constructeur.
         System.out.println(this.nom);
         throw new RuntimeException("Unimplemented");
     }

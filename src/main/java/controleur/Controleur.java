@@ -4,6 +4,7 @@ import modele.*;
 import vue.Ihm;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
@@ -26,16 +27,92 @@ public class Controleur {
         while (choixCarte) {
             String chemin = this.ihm.demanderString("Entrez le nom du fichier de la carte à utiliser, ou rien pour en créer une nouvelle.");
             if (chemin.isEmpty()) {
-                // TODO(nico): algorithme de génération d'une classe
-                choixCarte = false;
-                throw new RuntimeException("Unimplemented");
-            }
+                JeuTheme theme = null;
+                boolean choixTheme = true;
+                while (choixTheme) {
+                    String choix = ihm.demanderString("Choisissez le thème de la partie (foret, jungle).");
+                    switch (choix.toLowerCase()) {
+                    case "foret":
+                        theme = JeuTheme.FORET;
+                        choixTheme = false;
+                        break;
+                    case "jungle":
+                        theme = JeuTheme.JUNGLE;
+                        choixTheme = false;
+                        break;
+                    default:
+                        ihm.afficherErreur("Thème inconnu.");
+                        break;
+                    }
+                }
 
-            try {
-                carte = new Carte(chemin);
+                int lignes = -1;
+                boolean choixLigne = true;
+                while (choixLigne) {
+                    String choix = ihm.demanderString("Choisissez le nombre de lignes de la carte (0 < i <= 1024).");
+                    int choixInt;
+                    try {
+                        choixInt = Integer.parseInt(choix);
+                    } catch (NumberFormatException e) {
+                        ihm.afficherErreur("Le nombre n'est pas un entier.");
+                        continue;
+                    }
+
+                    if (choixInt <= 0) {
+                        ihm.afficherErreur("Nombre de lignes nul ou négatif interdit.");
+                        continue;
+                    }
+
+                    if (choixInt > 1024) {
+                        ihm.afficherErreur("Nombre de lignes dépassant 1024 interdit.");
+                        continue;
+                    }
+
+                    choixLigne = false;
+                    lignes = choixInt;
+                }
+
+                int colonnes = -1;
+                boolean choixColonne = true;
+                while (choixColonne) {
+                    String choix = ihm.demanderString("Choisissez le nombre de colonnes de la carte (0 < i <= 1024).");
+                    int choixInt;
+                    try {
+                        choixInt = Integer.parseInt(choix);
+                    } catch (NumberFormatException e) {
+                        ihm.afficherErreur("Le nombre n'est pas un entier.");
+                        continue;
+                    }
+
+                    if (choixInt <= 0) {
+                        ihm.afficherErreur("Nombre de colonnes nul ou négatif interdit.");
+                        continue;
+                    }
+
+                    if (choixInt > 1024) {
+                        ihm.afficherErreur("Nombre de colonnes dépassant 1024 interdit.");
+                        continue;
+                    }
+
+                    choixColonne = false;
+                    colonnes = choixInt;
+                }
+
+                List<List<Acteur>> contenu = new ArrayList<>(lignes);
+                for (int i = 0; i < lignes; i++) {
+                    List<Acteur> ligne = new ArrayList<>(colonnes);
+                    contenu.set(i, ligne);
+                }
+                carte = new Carte("ALEATOIRE", theme, lignes, colonnes, contenu);
+                carte.genererContenuAleatoire();
                 choixCarte = false;
-            } catch (IOException | CarteInvalideException e){
-                ihm.afficherInformation(e.getMessage());
+            } else {
+                try {
+                    carte = new Carte(chemin);
+                    choixCarte = false;
+                } catch (IOException | CarteInvalideException e) {
+                    ihm.afficherInformation(e.getMessage());
+                }
             }
         }
 
