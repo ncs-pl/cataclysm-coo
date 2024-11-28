@@ -3,12 +3,7 @@ package controleur;
 import modele.*;
 import vue.Ihm;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
@@ -26,67 +21,25 @@ public class Controleur {
     }
 
     private void initialiserJeu() {
-        /// Préparation de la carte ///
-
-        // TODO(nico): système de carte fonctionnel avec une vraie classe de manipulation.
-        List<List<Acteur>> carte;
-        JeuTheme theme;
-        while (true) {
+        Carte carte = null;
+        boolean choixCarte = true;
+        while (choixCarte) {
             String chemin = this.ihm.demanderString("Entrez le nom du fichier de la carte à utiliser, ou rien pour en créer une nouvelle.");
             if (chemin.isEmpty()) {
-                /// Demande du thème pour la carte à générer ///
-
-                while (true) {
-                    String choix = this.ihm.demanderString("Thème du jeu ? ('foret' ou 'jungle')");
-                    if (choix.equals("foret")) {
-                        theme = JeuTheme.FORET;
-                        break;
-                    } else if (choix.equals("jungle")) {
-                        theme = JeuTheme.JUNGLE;
-                        break;
-                    }
-
-                    ihm.afficherInformation("Thème invalide");
-                }
-
-                /// Génération de la carte ///
-                // TODO(nico): génération d'une nouvelle carte.
-                carte = new ArrayList<>();
-                break;
+                // TODO(nico): algorithme de génération d'une classe
+                choixCarte = false;
+                throw new RuntimeException("Unimplemented");
             }
 
             try {
-                /// Obtention du fichier carte fournie ///
-
-                // Pour obtenir des fichiers qui sont dans le dossier "resources" en Java, on récupère leur URL depuis
-                // le système de gestion des classes et ressources de Java, puis on essaye d'ouvrir le fichier.
-                //URL carteUrl = Controleur.class.getResource("/" + chemin + ".carte");
-                URL carteUrl = Controleur.class.getResource("/" + chemin); // Méthode utilisée uniquement pour le débogage
-                if (carteUrl == null) {
-                    ihm.afficherInformation("La carte " + chemin + " n'existe pas");
-                    continue;
-                }
-
-                File fichierCarte = Paths.get(carteUrl.toURI()).toFile();
-                // TODO(nico): obtenir le thème selon le format du fichier À DÉFINIR !!!!!!!!!!
-                theme = JeuTheme.FORET;
-                // TODO(nico): faire une réelle transformation en carte selon le système que nous auront.
-                carte = new ArrayList<>();
-                Carte c = new Carte();
-                carte = c.chargerCarte(fichierCarte);
-                break;
-            } catch (URISyntaxException e) {
-                ihm.afficherInformation("La carte fournie n'existe pas.");
-            } catch (UnsupportedOperationException e) {
-                ihm.afficherInformation("La carte n'existe pas");
-            } catch (IOException e){
-                ihm.afficherInformation("Fichier introuvable");
+                carte = new Carte(chemin);
+                choixCarte = false;
+            } catch (IOException | CarteInvalideException e){
+                ihm.afficherInformation(e.getMessage());
             }
         }
 
-        /// Initialisation du jeu ///
-        this.ihm.afficherInformation(carte.toString()); // Méthode utilisée uniquement pour le débogage
-        this.jeu = new Jeu(theme, carte);
+        this.jeu = new Jeu(carte);
         this.enCours = true;
     }
 
@@ -174,6 +127,9 @@ public class Controleur {
                 aide += "* carte (c):\n";
                 aide += "\tAffiche la carte du jeu.\n";
                 aide += "\n";
+                aide += "* sauvegarder (s):\n";
+                aide += "\tSauvegarde la carte actuel dans un fichier pour jouer plus tard.\n";
+                aide += "\n";
                 aide += "* haut, bas, gauche, droite (h, b, g, d):\n";
                 aide += "\tDéplace le joueur vers le haut, le bas, la gauche ou la droite respectivement.\n";
                 aide += "\n";
@@ -193,6 +149,24 @@ public class Controleur {
             case "carte", "c":
                 this.afficherCarte();
                 choixInstruction = false;
+                break;
+
+            case "sauvegarder", "s":
+                String nom = "";
+                boolean choixNom = true;
+                while (choixNom) {
+                    nom = ihm.demanderString("Entrez un nom pour la sauvegarde.");
+                    if (!nom.isEmpty()) choixNom = false;
+                }
+
+                List<List<Acteur>> contenu = this.jeu.getCarte();
+                Carte carte = new Carte(nom,
+                                        this.jeu.getTheme(),
+                                        contenu.get(0).size(),
+                                        contenu.size(),
+                                        contenu);
+                carte.sauvegarderFichier();
+                ihm.afficherInformation("Carte sauvegardé avec le nom \"" + nom + "\".");
                 break;
 
             // Déplacements
