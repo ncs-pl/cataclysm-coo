@@ -12,9 +12,9 @@ public class Jeu {
     private final List<Animal> animaux = new ArrayList<Animal>();
     private final List<Acteur> decors = new ArrayList<Acteur>();
 
-    public Jeu(JeuTheme theme, List<List<Acteur>> carte) {
-        this.theme = theme;
-        this.carte = carte;
+    public Jeu(Carte carte) {
+        this.theme = carte.getTheme();
+        this.carte = carte.getContenu();
 
         // Initialisation du jeu
         for (List<Acteur> ligne : this.carte) {
