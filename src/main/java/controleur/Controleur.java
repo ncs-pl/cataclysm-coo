@@ -111,7 +111,7 @@ public class Controleur {
                     carte = new Carte(chemin);
                     choixCarte = false;
                 } catch (IOException | CarteInvalideException e) {
-                    ihm.afficherInformation(e.getMessage());
+                    ihm.afficherErreur(e.getMessage());
                 }
             }
         }
@@ -183,7 +183,7 @@ public class Controleur {
             affichage += '\n';
         }
         this.ihm.afficherMessageBrut(affichage);
-        this.ihm.afficherMessageBrut(jeu.toString()); // Méthode utilisée uniquement pour le débogage
+        // this.ihm.afficherMessageBrut(jeu.toString()); // Méthode utilisée uniquement pour le débogage
     }
 
     @SuppressWarnings("ExtractMethodRecommender")
@@ -323,9 +323,9 @@ public class Controleur {
 
     public void jouer() {
         this.initialiserJeu();
+        this.afficherCarte();
         while (this.enCours) {
             // TODO(nico): notifier le jeu qu'on débute un tour
-            this.afficherCarte();
             this.executerInstruction();
             // TODO(nico): notifier le jeu qu'on fini un tour
         }

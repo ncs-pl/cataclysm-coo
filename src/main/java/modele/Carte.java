@@ -145,9 +145,9 @@ public class Carte {
                 }
 
                 if (acteur == null) throw new CarteInvalideException("Contenu ayant des caractères illégaux.");
-                acteurs.set(j, acteur);
+                acteurs.add(j, acteur);
             }
-            this.contenu.set(i, acteurs);
+            this.contenu.add(i, acteurs);
         }
     }
 
