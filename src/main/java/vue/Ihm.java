@@ -106,6 +106,37 @@ public class Ihm {
         return(this.scanner.nextLine());
     }
 
+
+    public int demanderInt(String question) {
+        assert (question != null);
+        assert(!question.isEmpty());
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        this.output.println(Ihm.COLOR_YELLOW + question + Ihm.COLOR_RESET);
+        this.output.print(Ihm.COLOR_YELLOW + "> " + Ihm.COLOR_RESET);
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            if (scanner.hasNextInt()) {
+                return scanner.nextInt();
+            }
+
+            afficherErreur("Valeur entrée non-numérique");
+            scanner.nextLine();
+
+        }
+    }
+
+
+
+
+
     /**
      * Affiche un contenu directement sur la sortie système d'information, sans ajouter de décoration.
      * Utile pour afficher le contenu ou l'état du jeu depuis le contrôleur tout en restant mettre de l'affichage.

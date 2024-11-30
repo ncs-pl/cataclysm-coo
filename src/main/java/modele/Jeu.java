@@ -118,6 +118,8 @@ public class Jeu {
     public String afficherInventaire(){
         String affichage = "Inventaire : \n";
         for(Objet o : this.personnage.getInventaire()){
+            int indice = this.personnage.getInventaire().indexOf(o);
+            affichage += indice + "-";
             affichage += o.id + " | " ;
         }
         affichage += "\n";
@@ -243,7 +245,68 @@ public class Jeu {
 
     }
 
-    //TODO(Younes) : Poser un objet
 
 
+    /*
+    * Vérifier que la case souhaitée est dans la carte
+    * Vérifier que la case souhaitée est vide
+    * Vérifier que l'inventaire n'est pas vide
+    * Ajouter l'objet à la matrice carte
+    * Supprimer l'objet de l'inventaire du joueur
+    * */
+
+
+    private Acteur getCase(int x,int y){
+        return this.carte.get(y).get(x);
+    }
+
+    private boolean depotPossible(int x,int y) throws DepotImpossible{
+        if(notDansLaCarte(x,y)){
+            throw new DepotImpossible("Bordure de carte.");
+        }
+        if(getCase(x,y).id != ActeurId.ZONE_VIDE){
+            throw new DepotImpossible("L'espace est déjà occupé.");
+        }
+        return true;
+    }
+
+
+    public void deposerObjet(Position position,int indice) throws DepotImpossible{
+        //TODO(Younes) : Ajouter la demande d'indice.
+        //TODO(Younes) : Gérer l'exception indexOutOfBound.
+        if(this.personnage.getInventaire().isEmpty()){
+            throw new DepotImpossible("L'inventaire est vide.");
+        }
+        int x = 0;
+        int y = 0;
+        switch (position) {
+            case HAUT:
+                y -= 1;
+                break;
+            case BAS:
+                y += 1;
+                break;
+            case DROITE:
+                x += 1;
+                break;
+            case GAUCHE:
+                x -= 1;
+                break;
+        }
+        if(this.personnage.getInventaire().size() < indice){
+            throw new IndexOutOfBoundsException("Aucun objet à cet emplacement !");
+        }
+        int xDepot = this.personnage.getX() + x;
+        int yDepot = this.personnage.getY() + y;
+        if (depotPossible(xDepot, yDepot)) {
+            Objet obj = this.personnage.getInventaire().get(indice);
+            this.personnage.getInventaire().remove(indice);
+            obj.setX(xDepot);
+            obj.setY(yDepot);
+            this.carte.get(yDepot).set(xDepot, obj);
+            this.objets.add(obj);
+        }
+        //TODO(Younes) : Poser un objet
+
+    }
 }

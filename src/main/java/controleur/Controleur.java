@@ -162,113 +162,153 @@ public class Controleur {
         while (choixInstruction) {
             String instruction = this.ihm.demanderString("Entrez une instruction.");
             switch (instruction.toLowerCase()) {
-            case "aide", "a", "?":
-                String aide = "\nManuel d'utilisation de Cataclysm COO :\n";
-                aide += "\n";
-                aide += "* aide (a, ?):\n";
-                aide += "\tAffiche ce manuel\n";
-                aide += "\n";
-                aide += "* quitter (q):\n";
-                aide += "\tTermine la partie.\n";
-                aide += "\n";
-                aide += "* carte (c):\n";
-                aide += "\tAffiche la carte du jeu.\n";
-                aide += "\n";
-                aide += "* haut, bas, gauche, droite (h, b, g, d):\n";
-                aide += "\tDéplace le joueur vers le haut, le bas, la gauche ou la droite respectivement.\n";
-                aide += "\n";
-                aide += "* ramasser haut, bas, gauche, droite (rh, rb, rg, rd):\n";
-                aide += "\tRamasse l'objet de la case du haut, du bas, de gauche ou de droite respectivement.\n";
-                aide += "\n";
-                this.ihm.afficherInformation(aide);
+                case "aide", "a", "?":
+                    String aide = "\nManuel d'utilisation de Cataclysm COO :\n";
+                    aide += "\n";
+                    aide += "* aide (a, ?):\n";
+                    aide += "\tAffiche ce manuel\n";
+                    aide += "\n";
+                    aide += "* quitter (q):\n";
+                    aide += "\tTermine la partie.\n";
+                    aide += "\n";
+                    aide += "* carte (c):\n";
+                    aide += "\tAffiche la carte du jeu.\n";
+                    aide += "\n";
+                    aide += "* haut, bas, gauche, droite (h, b, g, d):\n";
+                    aide += "\tDéplace le joueur vers le haut, le bas, la gauche ou la droite respectivement.\n";
+                    aide += "\n";
+                    aide += "* ramasser haut, bas, gauche, droite (rh, rb, rg, rd):\n";
+                    aide += "\tRamasse l'objet de la case du haut, du bas, de gauche ou de droite respectivement.\n";
+                    aide += "\n";
+                    this.ihm.afficherInformation(aide);
 
-                choixInstruction = false;
-                break;
+                    choixInstruction = false;
+                    break;
 
-            case "quitter", "q":
-                this.enCours = false;
-                choixInstruction = false;
-                break;
+                case "quitter", "q":
+                    this.enCours = false;
+                    choixInstruction = false;
+                    break;
 
-            case "carte", "c":
-                this.afficherCarte();
-                choixInstruction = false;
-                break;
+                case "carte", "c":
+                    this.afficherCarte();
+                    choixInstruction = false;
+                    break;
 
-            // Déplacements
-            case "haut", "h":
-                try {
-                    this.jeu.deplacerJoueur(Position.HAUT);
-                    choixInstruction = false;
-                } catch (DeplacementImpossibleException e) {
-                    this.ihm.afficherErreur(e.getMessage());
-                }
-                break;
-            case "bas", "b":
-                try {
-                    this.jeu.deplacerJoueur(Position.BAS);
-                    choixInstruction = false;
-                } catch (DeplacementImpossibleException e) {
-                    this.ihm.afficherErreur(e.getMessage());
-                }
-                break;
-            case "gauche", "g":
-                try {
-                    this.jeu.deplacerJoueur(Position.GAUCHE);
-                    choixInstruction = false;
-                } catch (DeplacementImpossibleException e) {
-                    this.ihm.afficherErreur(e.getMessage());
-                }
-                break;
-            case "droite", "d":
-                try {
-                    this.jeu.deplacerJoueur(Position.DROITE);
-                    choixInstruction = false;
-                } catch (DeplacementImpossibleException e) {
-                    this.ihm.afficherErreur(e.getMessage());
-                }
-                break;
+                // Déplacements
+                case "haut", "h":
+                    try {
+                        this.jeu.deplacerJoueur(Position.HAUT);
+                        choixInstruction = false;
+                    } catch (DeplacementImpossibleException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "bas", "b":
+                    try {
+                        this.jeu.deplacerJoueur(Position.BAS);
+                        choixInstruction = false;
+                    } catch (DeplacementImpossibleException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "gauche", "g":
+                    try {
+                        this.jeu.deplacerJoueur(Position.GAUCHE);
+                        choixInstruction = false;
+                    } catch (DeplacementImpossibleException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "droite", "d":
+                    try {
+                        this.jeu.deplacerJoueur(Position.DROITE);
+                        choixInstruction = false;
+                    } catch (DeplacementImpossibleException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
 
-            // Ramasser
-            case "ramasser haut", "rh":
-                try {
-                    this.jeu.ramasserObjet(Position.HAUT);
-                    choixInstruction = false;
-                } catch (AucunObjetException e) {
-                    this.ihm.afficherErreur(e.getMessage());
+                // Ramasser
+                case "ramasser haut", "rh":
+                    try {
+                        this.jeu.ramasserObjet(Position.HAUT);
+                        choixInstruction = false;
+                    } catch (AucunObjetException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "ramasser bas", "rb":
+                    try {
+                        this.jeu.ramasserObjet(Position.BAS);
+                        choixInstruction = false;
+                    } catch (AucunObjetException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "ramasser gauche", "rg":
+                    try {
+                        this.jeu.ramasserObjet(Position.GAUCHE);
+                        choixInstruction = false;
+                    } catch (AucunObjetException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "ramasser droite", "rd":
+                    try {
+                        this.jeu.ramasserObjet(Position.DROITE);
+                        choixInstruction = false;
+                    } catch (AucunObjetException e) {
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
+                case "deposer haut","dh":{
+                    try {
+                        int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer");
+                        this.jeu.deposerObjet(Position.HAUT,indice);
+                        choixInstruction = false;
+                    } catch (DepotImpossible | IndexOutOfBoundsException e){
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
                 }
-                break;
-            case "ramasser bas", "rb":
-                try {
-                    this.jeu.ramasserObjet(Position.BAS);
-                    choixInstruction = false;
-                } catch (AucunObjetException e) {
-                    this.ihm.afficherErreur(e.getMessage());
+                case "deposer bas","db":{
+                    try {
+                        int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer");
+                        this.jeu.deposerObjet(Position.BAS,indice);
+                        choixInstruction = false;
+                    } catch (DepotImpossible | IndexOutOfBoundsException e){
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
                 }
-                break;
-            case "ramasser gauche", "rg":
-                try {
-                    this.jeu.ramasserObjet(Position.GAUCHE);
-                    choixInstruction = false;
-                } catch (AucunObjetException e) {
-                    this.ihm.afficherErreur(e.getMessage());
+                case "deposer droite","dd":{
+                    try {
+                        int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer");
+                        this.jeu.deposerObjet(Position.DROITE,indice);
+                        choixInstruction = false;
+                    } catch (DepotImpossible | IndexOutOfBoundsException e){
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
                 }
-                break;
-            case "ramasser droite", "rd":
-                try {
-                    this.jeu.ramasserObjet(Position.DROITE);
-                    choixInstruction = false;
-                } catch (AucunObjetException e) {
-                    this.ihm.afficherErreur(e.getMessage());
+                case "deposer gauche","dg":{
+                    try {
+                        int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.");
+                        this.jeu.deposerObjet(Position.GAUCHE,indice);
+                        choixInstruction = false;
+                    } catch (DepotImpossible | IndexOutOfBoundsException e){
+                        this.ihm.afficherErreur(e.getMessage());
+                    }
+                    break;
                 }
-                break;
-
             default:
                 ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");
                 break;
             }
         }
     }
+
 
     public void jouer() {
         this.initialiserJeu();
