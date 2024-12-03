@@ -87,7 +87,7 @@ public class Carte {
             throw new CarteInvalideException("La fichier de carte ne contient pas de nombre de colonnes.");
         int colonnes;
         try {
-            colonnes = Integer.parseInt(ligneLignes);
+            colonnes = Integer.parseInt(ligneColonnes);
         } catch (NumberFormatException e) {
             throw new CarteInvalideException("Le nombre de colonnes n'est pas un entier.");
         }
@@ -137,7 +137,7 @@ public class Carte {
                 case 'B':
                     if (this.theme == JeuTheme.FORET) acteur = new Buisson(j, i);
                     break;
-                case ' ':
+                case '.':
                     if (this.theme == JeuTheme.FORET) acteur = new CaseVide(j, i);
                     break;
                 default:

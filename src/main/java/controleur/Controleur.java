@@ -193,7 +193,7 @@ public class Controleur {
             String instruction = this.ihm.demanderString("Entrez une instruction.");
             switch (instruction.toLowerCase()) {
                 case "aide", "a", "?":
-                    String aide = "\nManuel d'utilisation de Cataclysm COO :\n";
+                    String aide = "Manuel d'utilisation de Cataclysm COO :\n";
                     aide += "\n";
                     aide += "* aide (a, ?):\n";
                     aide += "\tAffiche ce manuel\n";
