@@ -19,40 +19,52 @@ public class Jeu {
         // Initialisation du jeu
         for (List<Acteur> ligne : this.carte) {
             for (Acteur acteur : ligne) {
-                switch (theme){
-                case FORET:
-                    switch (acteur.id) {
-                    case PERSONNAGE:
-                        this.personnage = (Personnage) acteur;
-                        break;
-                    case ARBRE:
-                        this.decors.add((Arbre)acteur);
-                        break;
-                    case BUISSON:
-                        this.decors.add((Buisson)acteur);
-                        break;
-                    case GLAND:
-                        this.objets.add((Gland)acteur);
-                        break;
-                    case CHAMPIGNON:
-                        this.objets.add((Champignon)acteur);
-                        break;
-                    case ECUREUIL:
-                        this.animaux.add((Ecureuil)acteur);
-                        break;
-                    default:
-                        break;
-                    }
+                switch (acteur.id) {
+                case ZONE_VIDE:
+                    // TODO(nico): quelque chose à faire?
                     break;
-
-                case JUNGLE:
-                    assert(false); // TODO(nico): faire le thème Jungle
+                case CHAMPIGNON:
+                    this.objets.add((Champignon)acteur);
                     break;
-
+                case PERSONNAGE:
+                    if (this.personnage != null) throw new CarteInvalideException("Plus d'un personnage dans la carte");
+                    this.personnage = (Personnage)acteur;
+                    break;
+                case ARBRE:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Arbre en dehors de la forêt");
+                    this.decors.add((Arbre)acteur);
+                    break;
+                case BUISSON:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Buisson en dehors de la forêt");
+                    this.decors.add((Buisson)acteur);
+                    break;
+                case ECUREUIL:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Ecureuil en dehors de la forêt");
+                    this.animaux.add((Ecureuil)acteur);
+                    break;
+                case GLAND:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Gland en dehors de la forêt");
+                    this.objets.add((Gland)acteur);
+                    break;
+                case SINGE:
+                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Singe en dehors de la jungle");
+                    this.animaux.add((Singe)acteur);
+                    break;
+                case BANANE:
+                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Banane en dehors de la jungle");
+                    this.objets.add((Banane)acteur);
+                    break;
+                case COCOTIER:
+                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Cocotier en dehors de la jungle");
+                    this.decors.add((Cocotier)acteur);
+                    break;
+                case PETIT_ROCHER:
+                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Petit rocher en dehors de la Jungle");
+                    this.decors.add((PetitRocher)acteur);
+                    break;
                 default:
-                    // TODO(nico): Ajouter une meilleure de gestion d'erreur
-                    //             dans le parsing de carte?
-                    assert(false); // Thème invalide
+                    assert(false); // impossible???
+                    break;
                 }
             }
         }
@@ -65,10 +77,6 @@ public class Jeu {
     public List<List<Acteur>> getCarte() {
         return carte;
     }
-
-    // TODO(nico): vérification autrement des coordonnées ?
-    // TODO(nico): indexer les cellules à partir de 1 et cacher en interne le
-    //             fait de faire -1?
 
     private boolean verifierCoordonneesCellule(int x, int y) {
         return (x >= 0 && x < carte.get(0).size()) || (y >= 0 && y < carte.size());
@@ -83,12 +91,14 @@ public class Jeu {
         String affichage = "Inventaire : \n";
         for (Objet o : this.personnage.getInventaire()) {
             int indice = this.personnage.getInventaire().indexOf(o);
+            //noinspection StringConcatenationInLoop
             affichage += indice + "-";
             affichage += o.id + " | ";
         }
         affichage += "\n";
         return affichage;
     }
+
     private void setCellule(int x, int y, Acteur acteur) {
         assert(this.verifierCoordonneesCellule(x, y));
         this.carte.get(y).set(x, acteur);
@@ -97,7 +107,6 @@ public class Jeu {
     public void deplacerJoueur(Position position) throws DeplacementImpossibleException {
         int x = 0;
         int y = 0;
-
         switch (position) {
         case HAUT:
             y -= 1;
@@ -120,15 +129,8 @@ public class Jeu {
             throw new DeplacementImpossibleException("Bordure de carte.");
 
         Acteur celluleVisee = this.getCellule(nouveauX, nouveauY);
-        // TODO(nico): faire la vérification selon l'ID de l'Acteur obtenu
-        //             plutôt que de faire des opérations longues de
-        //             recherche en boucle...
-        if (decors.contains(celluleVisee))
+        if (celluleVisee.id != ActeurId.ZONE_VIDE)
             throw new DeplacementImpossibleException("Le passage est bloqué.");
-        if (animaux.contains(celluleVisee))
-            throw new DeplacementImpossibleException("Un animal est sur votre chemin.");
-        if (objets.contains(celluleVisee))
-            throw new DeplacementImpossibleException("Un objet bloque le passage.");
 
         // Déplacer le personnage.
         int ancienX = this.personnage.getX();
