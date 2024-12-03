@@ -111,9 +111,6 @@ public class Jeu {
         case GAUCHE:
             x -= 1;
             break;
-        default:
-            assert(false); // Variant d'énumération invalide
-            break;
         }
 
         int nouveauX = this.personnage.getX() + x;
@@ -139,7 +136,7 @@ public class Jeu {
 
         this.personnage.setX(nouveauX);
         this.personnage.setY(nouveauY);
-        this.setCellule(x, y, this.personnage);
+        this.setCellule(nouveauX, nouveauY, this.personnage);
 
         this.setCellule(ancienX, ancienY, new CaseVide(ancienX, ancienY));
     }
@@ -162,9 +159,6 @@ public class Jeu {
             break;
         case GAUCHE:
             x -= 1;
-            break;
-        default:
-            assert(false); // Variant d'énumération invalide
             break;
         }
 
@@ -213,18 +207,18 @@ public class Jeu {
         int x = 0;
         int y = 0;
         switch (position) {
-            case HAUT:
-                y -= 1;
-                break;
-            case BAS:
-                y += 1;
-                break;
-            case DROITE:
-                x += 1;
-                break;
-            case GAUCHE:
-                x -= 1;
-                break;
+        case HAUT:
+            y -= 1;
+            break;
+        case BAS:
+            y += 1;
+            break;
+        case DROITE:
+            x += 1;
+            break;
+        case GAUCHE:
+            x -= 1;
+            break;
         }
         if (this.personnage.getInventaire().size() < indice) {
             throw new IndexOutOfBoundsException("Aucun objet à cet emplacement !");
@@ -241,7 +235,6 @@ public class Jeu {
             this.objets.add(obj);
         }
     }
-        //TODO(Younes) : Poser un objet
 
     @Override public String toString() {
         String affichage = "";
