@@ -20,9 +20,7 @@ public class Jeu {
         for (List<Acteur> ligne : this.carte) {
             for (Acteur acteur : ligne) {
                 switch (acteur.id) {
-                case ZONE_VIDE:
-                    // TODO(nico): quelque chose à faire?
-                    break;
+                case ZONE_VIDE: break; // TODO(nico): quelque chose à faire?
                 case CHAMPIGNON:
                     this.objets.add((Champignon)acteur);
                     break;
@@ -63,8 +61,7 @@ public class Jeu {
                     this.decors.add((PetitRocher)acteur);
                     break;
                 default:
-                    assert(false); // impossible???
-                    break;
+                    throw new CarteInvalideException("Acteur inconnu dans la carte");
                 }
             }
         }
