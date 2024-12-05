@@ -36,7 +36,7 @@ public class Controleur {
     private void deposerObjet(Position position) {
         try {
             int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.");
-            this.jeu.deposerObjet(position, indice);
+            this.jeu.deposerObjet(position, indice-1);
         } catch (DepotImpossibleException e){
             this.ihm.afficherErreur(e.getMessage());
         }
@@ -270,7 +270,32 @@ public class Controleur {
             break;
 
             case "inventaire", "i": {
-                // TODO(nico)
+                String affichage = "Inventaire :\n\n";
+
+                List<Objet> inventaire = this.jeu.getInventaire();
+                for (int i = 0; i < inventaire.size(); ++i) {
+                    String nom = "??";
+                    ActeurId id = inventaire.get(i).id;
+                    switch (id) {
+                    case BANANE:
+                        nom = "Banane";
+                        break;
+                    case CHAMPIGNON:
+                        nom = "Champignon";
+                        break;
+                    case GLAND:
+                        nom = "Gland";
+                        break;
+                    default:
+                        this.ihm.afficherErreur("Objet \"" + id + "\"inconnu dans l'inventaire");
+                        break;
+                    }
+
+                    //noinspection StringConcatenationInLoop
+                    affichage += (i+1) + ". " + nom + "\n";
+                }
+
+                this.ihm.afficherInformation(affichage);
             } break;
 
             case "sauvegarder", "s": {
