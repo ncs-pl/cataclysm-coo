@@ -17,11 +17,11 @@ import java.util.List;
  * utilisé par le jeu pour construire son game state initial
  */
 public class Carte {
-    private final String nom;
-    private final JeuTheme theme;
-    private final int lignes;
-    private final int colonnes;
-    private final List<List<Acteur>> contenu;
+    private final String nom;                 // Nom de la carte
+    private final JeuTheme theme;             // Thème de la carte
+    private final int lignes;                 // Nombre de lignes
+    private final int colonnes;               // Nombre de colonnes
+    private final List<List<Acteur>> contenu; // Contenu même de la carte.
 
     @SuppressWarnings("ExtractMethodRecommender")
     public Carte(String nom) throws IOException, CarteInvalideException {
