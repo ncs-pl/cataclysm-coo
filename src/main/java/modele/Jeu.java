@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Jeu {
-    private final JeuTheme theme;
-    private final int colonnes;
-    private final int lignes;
+    private final JeuTheme theme; // Thème de la partie.
+    private final int colonnes;   // Nombre de colonnes de la carte.
+    private final int lignes;     // Nombre de lignes de la carte.
 
-    private Personnage personnage;
-    private final List<Animal> animaux = new ArrayList<>();
-    private final List<Acteur> decors = new ArrayList<>();
-    private final List<Objet> objets = new ArrayList<>();
+    private Personnage personnage;                            // Le joueur.
+    private final List<Objet> inventaire = new ArrayList<>(); // Inventaire du joueur.
+    private final List<Animal> animaux = new ArrayList<>();   // Animaux sur la carte.
+    private final List<Acteur> decors = new ArrayList<>();    // Décors bloquant sur la carte.
+    private final List<Objet> objets = new ArrayList<>();     // Objets sur la carte.
 
     public Jeu(Carte carte) {
         this.theme = carte.getTheme();
@@ -80,19 +81,6 @@ public class Jeu {
 
     public JeuTheme getTheme() {
         return this.theme;
-    }
-
-    // TODO(nico): déplacer l'affichage dans le contrôleur pour l'IHM.
-    public String afficherInventaire() {
-        String affichage = "Inventaire : \n";
-        for (Objet o : this.personnage.getInventaire()) {
-            int indice = this.personnage.getInventaire().indexOf(o);
-            //noinspection StringConcatenationInLoop
-            affichage += indice + "-";
-            affichage += o.id + " | ";
-        }
-        affichage += "\n";
-        return affichage;
     }
 
     public void deplacerJoueur(Position position) throws DeplacementImpossibleException {
@@ -173,18 +161,16 @@ public class Jeu {
 
         objet.setX(-1);
         objet.setY(-1);
-        this.personnage.getInventaire().add(objet); // TODO(nico): meilleure API
+        this.inventaire.add(objet);
         this.objets.remove(objet);
     }
 
     public void deposerObjet(Position position, int indice) throws DepotImpossibleException {
         assert(this.personnage != null);
 
-        // TODO(nico): meilleure API
-        List<Objet> inventaire = this.personnage.getInventaire();
-        if (inventaire.isEmpty()) throw new DepotImpossibleException("L'inventaire est vide.");
+        if (this.inventaire.isEmpty()) throw new DepotImpossibleException("L'inventaire est vide.");
         if (indice < 0) throw new DepotImpossibleException("Indice d'objet trop petit.");
-        if (inventaire.size() < indice) throw new DepotImpossibleException("Indice d'objet trop grand.");
+        if (this.inventaire.size() < indice) throw new DepotImpossibleException("Indice d'objet trop grand.");
 
         int x = this.personnage.getX();
         int y = this.personnage.getY();
@@ -223,11 +209,11 @@ public class Jeu {
                 throw new DepotImpossibleException("Objet sur la case demandée..");
         }
 
-        Objet objet = inventaire.get(indice);
+        Objet objet = this.inventaire.get(indice);
         objet.setX(x);
         objet.setY(y);
 
-        inventaire.remove(objet);
+        this.inventaire.remove(objet);
         this.objets.add(objet);
     }
 }
