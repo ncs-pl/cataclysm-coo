@@ -92,6 +92,14 @@ public class Jeu {
         return this.theme;
     }
 
+    public int getLignes() {
+        return this.lignes;
+    }
+
+    public int getColonnes() {
+        return this.colonnes;
+    }
+
     public Personnage getPersonnage() {
         return this.personnage;
     }

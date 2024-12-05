@@ -42,7 +42,7 @@ public class Controleur {
         }
     }
 
-    @SuppressWarnings("ExtractMethodRecommender")
+    @SuppressWarnings("ExtractMethodRecommender, StringConcatenationInLoop")
     public void jouer() {
         Carte carte = null;
         boolean choixCarte = true;
@@ -180,68 +180,91 @@ public class Controleur {
                 break;
 
             case "carte", "c":
-                JeuTheme theme = this.jeu.getTheme();
                 String affichage = "Carte :\n\n";
 
-                // TODO(nico): nouveau système de construction de la carte.
-                List<List<Acteur>> carte = jeu.getCarte();
-                for (List<Acteur> ligne : carte) {
-                    for (Acteur acteur : ligne) {
-                        switch (theme) {
-                        case FORET: {
-                            switch (acteur.id) {
-                            case PERSONNAGE:
-                                //noinspection StringConcatenationInLoop
-                                affichage += Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_PURPLE + "@" + Ihm.COLOR_RESET;
-                                break;
-                            case ECUREUIL:
-                                Ecureuil ecureuil = (Ecureuil)acteur;
-                                //noinspection StringConcatenationInLoop
-                                affichage += Ihm.COLOR_BACKGROUND_YELLOW + ecureuil.getCouleur() + "E" + Ihm.COLOR_RESET;
-                                break;
-                            case ARBRE:
-                                //noinspection StringConcatenationInLoop
-                                affichage += Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "A" + Ihm.COLOR_RESET;
-                                break;
-                            case BUISSON:
-                                //noinspection StringConcatenationInLoop
-                                affichage += Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "B" + Ihm.COLOR_RESET;
-                                break;
-                            case GLAND:
-                                //noinspection StringConcatenationInLoop
-                                affichage += Ihm.COLOR_BACKGROUND_RED + Ihm.COLOR_YELLOW + "G" + Ihm.COLOR_RESET;
-                                break;
-                            case CHAMPIGNON:
-                                //noinspection StringConcatenationInLoop
-                                affichage += Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_RED + "C" + Ihm.COLOR_RESET;
-                                break;
-                            case ZONE_VIDE:
-                                //noinspection StringConcatenationInLoop
-                                affichage += Ihm.COLOR_BACKGROUND_GREEN + "." + Ihm.COLOR_RESET;
-                                break;
-                            default:
-                                // Acteur inconnu et non-prévu, le remplacer par un ? visible
-                                ihm.afficherErreur("Acteur inconnu dans la carte détecté...");
-                                //noinspection StringConcatenationInLoop
-                                affichage += Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_RED + "?" + Ihm.COLOR_RESET;
-                                break;
-                            }
-                        }
-                        break;
-                        case JUNGLE: {
-                            assert(false); // TODO(nico): à implémenter
-                        }
-                        break;
-                        default: {
-                            ihm.afficherErreur("Jeu dans un thème imprévu, fin...");
-                            System.exit(1);
-                        } break;
-                        }
-                    }
+                // On construit la carte en faisant une forme remplie de zones vides dont les dimensions
+                // sont de celles indiquées par le jeu.
+                // Ensuite, on remplace les bonnes positions par les symboles correspondants aux acteurs
+                // spécifiques selon le thème.
 
-                    //noinspection StringConcatenationInLoop
-                    affichage += '\n';
+                int lignes = this.jeu.getLignes();
+                int colonnes = this.jeu.getColonnes();
+                JeuTheme theme = this.jeu.getTheme();
+                // TODO(nico): Thème jungle, ce qui changera peut-être les couleurs du personnage, des zones vides...
+
+                List<List<String>> carteContenu = new ArrayList<>();
+                for (int i = 0; i < lignes; ++i) {
+                    List<String> ligne = new ArrayList<>();
+                    for (int j = 0; j < colonnes; ++j) {
+
+                        ligne.add(Ihm.COLOR_BACKGROUND_GREEN + "." + Ihm.COLOR_RESET);
+                    }
+                    carteContenu.add(ligne);
                 }
+
+                Personnage personnage = this.jeu.getPersonnage();
+                carteContenu.get(personnage.getX()).set(personnage.getY(), Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_PURPLE + "@" + Ihm.COLOR_RESET);
+
+                for (Animal animal : this.jeu.getAnimaux()) {
+                    String s = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "?" + Ihm.COLOR_RESET;
+                    switch (animal.id) {
+                    case ECUREUIL:
+                        s = Ihm.COLOR_BACKGROUND_YELLOW + animal.getCouleur() + "E" + Ihm.COLOR_RESET;
+                        break;
+                    case SINGE:
+                        // TODO(nico): Thème de la jungle.
+                        break;
+                    default:
+                        this.ihm.afficherErreur("Animal inconnu : " + animal);
+                        break;
+                    }
+                    carteContenu.get(animal.getX()).set(animal.getY(), s);
+                }
+
+                for (Acteur decor : this.jeu.getDecors()) {
+                    String s = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "?" + Ihm.COLOR_RESET;
+                    switch (decor.id) {
+                    case ARBRE:
+                        s = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "A" + Ihm.COLOR_RESET;
+                        break;
+                    case BUISSON:
+                        s = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "B" + Ihm.COLOR_RESET;
+                        break;
+                    case COCOTIER:
+                        // TODO(nico): Thème de la jungle.
+                        break;
+                    case PETIT_ROCHER:
+                        // TODO(nico): Thème de la jungle.
+                        break;
+                    default:
+                        this.ihm.afficherErreur("Décor inconnu : " + decor);
+                        break;
+                    }
+                    carteContenu.get(decor.getX()).set(decor.getY(), s);
+                }
+
+                for (Objet objet : this.jeu.getObjets()) {
+                    String s = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "?" + Ihm.COLOR_RESET;
+                    switch (objet.id) {
+                    case BANANE:
+                        // TODO(nico): Thème de la jungle.
+                        break;
+                    case CHAMPIGNON:
+                        s = Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_RED + "C" + Ihm.COLOR_RESET;
+                        break;
+                    case GLAND:
+                        s = Ihm.COLOR_BACKGROUND_RED + Ihm.COLOR_YELLOW + "G" + Ihm.COLOR_RESET;
+                        break;
+                    default:
+                        this.ihm.afficherErreur("Objet inconnu : " + objet);
+                        break;
+                    }
+                    carteContenu.get(objet.getX()).set(objet.getY(), s);
+                }
+
+                affichage += carteContenu;
+
+                // TODO(nico): Ajouter une légende pour le symboles.
                 this.ihm.afficherInformation(affichage);
                 break;
 
@@ -257,9 +280,10 @@ public class Controleur {
                     if (!nom.isEmpty()) choixNom = false;
                 }
 
+                // TODO(nico)
                 List<List<Acteur>> contenu = this.jeu.getCarte();
-                Carte carte = new Carte(nom, this.jeu.getTheme(), contenu.get(0).size(), contenu.size(), contenu);
-                carte.sauvegarderFichier();
+                Carte nouvelleCarte = new Carte(nom, this.jeu.getTheme(), contenu.get(0).size(), contenu.size(), contenu);
+                nouvelleCarte.sauvegarderFichier();
                 this.ihm.afficherInformation("Carte sauvegardé avec le nom \"" + nom + "\".");
                 break;
 
@@ -294,7 +318,7 @@ public class Controleur {
                 deposerObjet(Position.DROITE); break;
 
             default:
-                ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");
+                this.ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");
                 break;
             }
         }
