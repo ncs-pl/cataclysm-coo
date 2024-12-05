@@ -167,6 +167,14 @@ public class Carte {
         return this.theme;
     }
 
+    public int getLignes() {
+        return this.lignes;
+    }
+
+    public int getColonnes() {
+        return this.colonnes;
+    }
+
     public List<List<Acteur>> getContenu() {
         return this.contenu;
     }

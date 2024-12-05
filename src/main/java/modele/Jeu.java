@@ -5,29 +5,55 @@ import java.util.List;
 
 public class Jeu {
     private final JeuTheme theme;
-    private final List<List<Acteur>> carte;
+    private final int colonnes;
+    private final int lignes;
 
     private Personnage personnage;
-    private final List<Objet> objets = new ArrayList<Objet>();
-    private final List<Animal> animaux = new ArrayList<Animal>();
-    private final List<Acteur> decors = new ArrayList<Acteur>();
+    private final List<Animal> animaux = new ArrayList<>();
+    private final List<Acteur> decors = new ArrayList<>();
+    private final List<Objet> objets = new ArrayList<>();
 
     public Jeu(Carte carte) {
         this.theme = carte.getTheme();
-        this.carte = carte.getContenu();
+        this.lignes = carte.getLignes();
+        this.colonnes = carte.getColonnes();
 
         // Initialisation du jeu
-        for (List<Acteur> ligne : this.carte) {
+        for (List<Acteur> ligne : carte.getContenu()) {
             for (Acteur acteur : ligne) {
                 switch (acteur.id) {
-                case ZONE_VIDE: break; // TODO(nico): quelque chose à faire?
-                case CHAMPIGNON:
-                    this.objets.add((Champignon)acteur);
+                case ZONE_VIDE:
                     break;
+
                 case PERSONNAGE:
                     if (this.personnage != null) throw new CarteInvalideException("Plus d'un personnage dans la carte");
                     this.personnage = (Personnage)acteur;
                     break;
+
+                // Objets
+                case BANANE:
+                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Banane en dehors de la jungle");
+                    this.objets.add((Banane)acteur);
+                    break;
+                case CHAMPIGNON:
+                    this.objets.add((Champignon)acteur);
+                    break;
+                case GLAND:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Gland en dehors de la forêt");
+                    this.objets.add((Gland)acteur);
+                    break;
+
+                // Animaux
+                case ECUREUIL:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Ecureuil en dehors de la forêt");
+                    this.animaux.add((Ecureuil)acteur);
+                    break;
+                case SINGE:
+                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Singe en dehors de la jungle");
+                    this.animaux.add((Singe)acteur);
+                    break;
+
+                // Décors
                 case ARBRE:
                     if (theme != JeuTheme.FORET) throw new CarteInvalideException("Arbre en dehors de la forêt");
                     this.decors.add((Arbre)acteur);
@@ -35,22 +61,6 @@ public class Jeu {
                 case BUISSON:
                     if (theme != JeuTheme.FORET) throw new CarteInvalideException("Buisson en dehors de la forêt");
                     this.decors.add((Buisson)acteur);
-                    break;
-                case ECUREUIL:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Ecureuil en dehors de la forêt");
-                    this.animaux.add((Ecureuil)acteur);
-                    break;
-                case GLAND:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Gland en dehors de la forêt");
-                    this.objets.add((Gland)acteur);
-                    break;
-                case SINGE:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Singe en dehors de la jungle");
-                    this.animaux.add((Singe)acteur);
-                    break;
-                case BANANE:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Banane en dehors de la jungle");
-                    this.objets.add((Banane)acteur);
                     break;
                 case COCOTIER:
                     if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Cocotier en dehors de la jungle");
@@ -60,6 +70,7 @@ public class Jeu {
                     if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Petit rocher en dehors de la Jungle");
                     this.decors.add((PetitRocher)acteur);
                     break;
+
                 default:
                     throw new CarteInvalideException("Acteur inconnu dans la carte");
                 }
@@ -68,22 +79,10 @@ public class Jeu {
     }
 
     public JeuTheme getTheme() {
-        return theme;
+        return this.theme;
     }
 
-    public List<List<Acteur>> getCarte() {
-        return carte;
-    }
-
-    private boolean verifierCoordonneesCellule(int x, int y) {
-        return (x >= 0 && x < carte.get(0).size()) || (y >= 0 && y < carte.size());
-    }
-
-    private Acteur getCellule(int x, int y) {
-        assert(this.verifierCoordonneesCellule(x, y));
-        return this.carte.get(y).get(x);
-    }
-
+    // TODO(nico): déplacer l'affichage dans le contrôleur pour l'IHM.
     public String afficherInventaire() {
         String affichage = "Inventaire : \n";
         for (Objet o : this.personnage.getInventaire()) {
@@ -96,14 +95,11 @@ public class Jeu {
         return affichage;
     }
 
-    private void setCellule(int x, int y, Acteur acteur) {
-        assert(this.verifierCoordonneesCellule(x, y));
-        this.carte.get(y).set(x, acteur);
-    }
-
     public void deplacerJoueur(Position position) throws DeplacementImpossibleException {
-        int x = 0;
-        int y = 0;
+        assert(this.personnage != null);
+
+        int x = this.personnage.getX();
+        int y = this.personnage.getY();
         switch (position) {
         case HAUT:
             y -= 1;
@@ -119,33 +115,35 @@ public class Jeu {
             break;
         }
 
-        int nouveauX = this.personnage.getX() + x;
-        int nouveauY = this.personnage.getY() + y;
+        if (x < 0) throw new DeplacementImpossibleException("Bordure gauche de la carte.");
+        if (x >= this.lignes) throw new DeplacementImpossibleException("Bordure droite de la carte.");
+        if (y < 0) throw new DeplacementImpossibleException("Bordure supérieure de la carte.");
+        if (y >= this.colonnes) throw new DeplacementImpossibleException("Bordure inférieure de la carte.");
 
-        if (!this.verifierCoordonneesCellule(nouveauX, nouveauY))
-            throw new DeplacementImpossibleException("Bordure de carte.");
+        for (Animal animal : this.animaux) {
+            if (x == animal.getX() && y == animal.getY())
+                throw new DeplacementImpossibleException("Animal sur la case.");
+        }
 
-        Acteur celluleVisee = this.getCellule(nouveauX, nouveauY);
-        if (celluleVisee.id != ActeurId.ZONE_VIDE)
-            throw new DeplacementImpossibleException("Le passage est bloqué.");
+        for (Acteur decor : this.decors) {
+            if (x == decor.getX() && y == decor.getY())
+                throw new DeplacementImpossibleException("Case bloquée par le décor.");
+        }
 
-        // Déplacer le personnage.
-        int ancienX = this.personnage.getX();
-        int ancienY = this.personnage.getY();
+        for (Objet objet : this.objets) {
+            if (x == objet.getX() && y == objet.getY())
+                throw new DeplacementImpossibleException("Objet sur la case.");
+        }
 
-        this.personnage.setX(nouveauX);
-        this.personnage.setY(nouveauY);
-        this.setCellule(nouveauX, nouveauY, this.personnage);
-
-        this.setCellule(ancienX, ancienY, new CaseVide(ancienX, ancienY));
+        this.personnage.setX(x);
+        this.personnage.setY(y);
     }
 
     public void ramasserObjet(Position position) throws AucunObjetException {
-        //TODO(Younes) : Pour ramasserObjet , il faut gérer l'exception où le personnage est en bordure de carte
-        //TODO(Younes) : Ajouter la possibilité de choisir l'objet à ramasser
-        int x = 0;
-        int y = 0;
+        assert(this.personnage != null);
 
+        int x = this.personnage.getX();
+        int y = this.personnage.getY();
         switch (position) {
         case HAUT:
             y -= 1;
@@ -161,50 +159,35 @@ public class Jeu {
             break;
         }
 
-        int xObjet = this.personnage.getX() + x;
-        int yObjet = this.personnage.getY() + y;
+        if (x < 0) throw new AucunObjetException("Bordure gauche de la carte.");
+        if (x >= this.lignes) throw new AucunObjetException("Bordure droite de la carte.");
+        if (y < 0) throw new AucunObjetException("Bordure supérieure de la carte.");
+        if (y >= this.colonnes) throw new AucunObjetException("Bordure inférieure de la carte.");
 
-        if (!this.verifierCoordonneesCellule(xObjet, yObjet))
-            throw new AucunObjetException("Aucun objet ici.");
+        Objet objet = null;
+        for (Objet o : this.objets) {
+            if (x == o.getX() && y == o.getY()) objet = o;
+        }
 
-        Acteur contenu = this.getCellule(xObjet, yObjet);
-        // TODO(nico): comparer selon l'ID du contenu
-        if (!objets.contains(contenu))
-            throw new AucunObjetException("Aucun objet ici.");
+        if (objet == null) throw new AucunObjetException("Aucun objet à ramasser à la position demandée.");
 
-        this.personnage.getInventaire().add((Objet)contenu);
-        this.objets.remove(contenu);
-        this.setCellule(xObjet, yObjet, new CaseVide(xObjet, yObjet));
+        objet.setX(-1);
+        objet.setY(-1);
+        this.personnage.getInventaire().add(objet); // TODO(nico): meilleure API
+        this.objets.remove(objet);
     }
 
-    /*
-    * Vérifier que la case souhaitée est dans la carte
-    * Vérifier que la case souhaitée est vide
-    * Vérifier que l'inventaire n'est pas vide
-    * Ajouter l'objet à la matrice carte
-    * Supprimer l'objet de l'inventaire du joueur
-    * */
+    public void deposerObjet(Position position, int indice) throws DepotImpossible {
+        assert(this.personnage != null);
 
+        // TODO(nico): meilleure API
+        List<Objet> inventaire = this.personnage.getInventaire();
+        if (inventaire.isEmpty()) throw new DepotImpossible("L'inventaire est vide.");
+        if (indice < 0) throw new DepotImpossible("Indice d'objet trop petit.");
+        if (inventaire.size() < indice) throw new DepotImpossible("Indice d'objet trop grand.");
 
-    private boolean depotPossible(int x,int y) throws DepotImpossible{
-        if(verifierCoordonneesCellule(x,y)){
-            throw new DepotImpossible("Bordure de carte.");
-        }
-        if(getCellule(x,y).id != ActeurId.ZONE_VIDE){
-            throw new DepotImpossible("L'espace est déjà occupé.");
-        }
-        return true;
-    }
-
-
-    public void deposerObjet(Position position,int indice) throws DepotImpossible {
-        //TODO(Younes) : Ajouter la demande d'indice.
-        //TODO(Younes) : Gérer l'exception indexOutOfBound.
-        if (this.personnage.getInventaire().isEmpty()) {
-            throw new DepotImpossible("L'inventaire est vide.");
-        }
-        int x = 0;
-        int y = 0;
+        int x = this.personnage.getX();
+        int y = this.personnage.getY();
         switch (position) {
         case HAUT:
             y -= 1;
@@ -219,54 +202,34 @@ public class Jeu {
             x -= 1;
             break;
         }
-        if (this.personnage.getInventaire().size() < indice) {
-            throw new IndexOutOfBoundsException("Aucun objet à cet emplacement !");
-        }
-        int xDepot = this.personnage.getX() + x;
-        int yDepot = this.personnage.getY() + y;
-        List<Objet> inv = this.personnage.getInventaire();
-        if (depotPossible(xDepot, yDepot)) {
-            Objet obj = inv.get(indice);
-            inv.remove(indice);
-            obj.setX(xDepot);
-            obj.setY(yDepot);
-            this.carte.get(yDepot).set(xDepot, obj);
-            this.objets.add(obj);
-        }
-    }
 
-    @Override public String toString() {
-        String affichage = "";
-        affichage += "Game State {\n";
-        affichage += "\tobjets:";
-        for (Objet objet : this.objets) {
-            //noinspection StringConcatenationInLoop
-            affichage += "\t\t" + objet.id + " (" + objet.getX() + ", " + objet.getY() + "),\n";
-        }
-        affichage += "\t]\n";
-        affichage += "\tanimaux:";
+        // TODO(nico): Ajouter suffixe Exception à l'erreur...
+        if (x < 0) throw new DepotImpossible("Bordure gauche de la carte.");
+        if (x >= this.lignes) throw new DepotImpossible("Bordure droite de la carte.");
+        if (y < 0) throw new DepotImpossible("Bordure supérieure de la carte.");
+        if (y >= this.colonnes) throw new DepotImpossible("Bordure inférieure de la carte.");
+
         for (Animal animal : this.animaux) {
-            //noinspection StringConcatenationInLoop
-            affichage += "\t\t" + animal.id + " (" + animal.getX() + ", " + animal.getY() + "),\n";
+            if (x == animal.getX() && y == animal.getY())
+                throw new DepotImpossible("Animal sur la position demandée.");
         }
-        affichage += "\t]\n";
-        affichage += "\tdecors:";
+
         for (Acteur decor : this.decors) {
-            //noinspection StringConcatenationInLoop
-            affichage += "\t\t" + decor.id + " (" + decor.getX() + ", " + decor.getY() + "),\n";
+            if (x == decor.getX() && y == decor.getY())
+                throw new DepotImpossible("Case bloquée par le décor.");
         }
-        affichage += "\t]\n";
 
-        affichage += "\tpersonnage: (" + this.personnage.getX() + ", " + this.personnage.getY() + "),\n";
-
-        affichage += "\tinventaire:";
-        for (Objet objet : this.personnage.getInventaire()) {
-            //noinspection StringConcatenationInLoop
-            affichage += "\t\t" + objet.id + ",\n";
+        for (Objet objet : this.objets) {
+            if (x == objet.getX() && y == objet.getY())
+                throw new DepotImpossible("Objet sur la case demandée..");
         }
-        affichage += "\t]\n";
-        affichage += "}\n";
-        return affichage;
+
+        Objet objet = inventaire.get(indice);
+        objet.setX(x);
+        objet.setY(y);
+
+        inventaire.remove(objet);
+        this.objets.add(objet);
     }
 }
 
