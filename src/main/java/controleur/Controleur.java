@@ -9,19 +9,41 @@ import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
-    /** Interface homme-machine pour la communication du jeu. */
-    private final Ihm ihm;
-    /** Une partie de jeu. */
-    private Jeu jeu;
-
-    private boolean enCours = false;
+    private final Ihm ihm; // Interface de jeu
+    private Jeu jeu;       // Partie en cours
 
     public Controleur(Ihm ihm) {
         assert(ihm != null);
         this.ihm = ihm;
     }
 
-    private void initialiserJeu() {
+    private void deplacerJoueur(Position position) {
+        try {
+            this.jeu.deplacerJoueur(position);
+        } catch (DeplacementImpossibleException e) {
+            this.ihm.afficherErreur(e.getMessage());
+        }
+    }
+
+    private void ramasserObjet(Position position) {
+        try {
+            this.jeu.ramasserObjet(position);
+        } catch (AucunObjetException e) {
+            this.ihm.afficherErreur(e.getMessage());
+        }
+    }
+
+    private void deposerObjet(Position position) {
+        try {
+            int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.");
+            this.jeu.deposerObjet(position, indice);
+        } catch (DepotImpossibleException e){
+            this.ihm.afficherErreur(e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("ExtractMethodRecommender")
+    public void jouer() {
         Carte carte = null;
         boolean choixCarte = true;
         while (choixCarte) {
@@ -117,258 +139,164 @@ public class Controleur {
         }
 
         this.jeu = new Jeu(carte);
-        this.enCours = true;
-    }
 
-    private void afficherCarte() {
-        JeuTheme theme = this.jeu.getTheme();
-        String affichage = "";
-
-        List<List<Acteur>> carte = jeu.getCarte();
-        for (List<Acteur> ligne : carte) {
-            for (Acteur acteur : ligne) {
-                switch (theme) {
-                case FORET: {
-                    switch (acteur.id) {
-                    case PERSONNAGE:
-                        //noinspection StringConcatenationInLoop
-                        affichage += Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_PURPLE + "@" + Ihm.COLOR_RESET;
-                        break;
-                    case ECUREUIL:
-                        Ecureuil ecureuil = (Ecureuil)acteur;
-                        //noinspection StringConcatenationInLoop
-                        affichage += Ihm.COLOR_BACKGROUND_YELLOW + ecureuil.getCouleur() + "E" + Ihm.COLOR_RESET;
-                        break;
-                    case ARBRE:
-                        //noinspection StringConcatenationInLoop
-                        affichage += Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "A" + Ihm.COLOR_RESET;
-                        break;
-                    case BUISSON:
-                        //noinspection StringConcatenationInLoop
-                        affichage += Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "B" + Ihm.COLOR_RESET;
-                        break;
-                    case GLAND:
-                        //noinspection StringConcatenationInLoop
-                        affichage += Ihm.COLOR_BACKGROUND_RED + Ihm.COLOR_YELLOW + "G" + Ihm.COLOR_RESET;
-                        break;
-                    case CHAMPIGNON:
-                        //noinspection StringConcatenationInLoop
-                        affichage += Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_RED + "C" + Ihm.COLOR_RESET;
-                        break;
-                    case ZONE_VIDE:
-                        //noinspection StringConcatenationInLoop
-                        affichage += Ihm.COLOR_BACKGROUND_GREEN + "." + Ihm.COLOR_RESET;
-                        break;
-                    default:
-                        // Acteur inconnu et non-prévu, le remplacer par un ? visible
-                        ihm.afficherErreur("Acteur inconnu dans la carte détecté...");
-                        //noinspection StringConcatenationInLoop
-                        affichage += Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_RED + "?" + Ihm.COLOR_RESET;
-                        break;
-                    }
-                }
-                break;
-                case JUNGLE: {
-                    assert(false); // TODO(nico): à implémenter
-                }
-                break;
-                default: {
-                    ihm.afficherErreur("Jeu dans un thème imprévu, fin...");
-                    System.exit(1);
-                } break;
-                }
-            }
-
-            //noinspection StringConcatenationInLoop
-            affichage += '\n';
-        }
-        this.ihm.afficherMessageBrut(affichage);
-        // this.ihm.afficherMessageBrut(jeu.toString()); // Méthode utilisée uniquement pour le débogage
-    }
-
-    @SuppressWarnings("ExtractMethodRecommender")
-    private void executerInstruction() {
-        boolean choixInstruction = true;
-        while (choixInstruction) {
+        boolean enCours = true;
+        while (enCours) {
             String instruction = this.ihm.demanderString("Entrez une instruction.");
             switch (instruction.toLowerCase()) {
-                case "aide", "a", "?":
-                    String aide = "Manuel d'utilisation de Cataclysm COO :\n";
-                    aide += "\n";
-                    aide += "* aide (a, ?):\n";
-                    aide += "\tAffiche ce manuel\n";
-                    aide += "\n";
-                    aide += "* quitter (q):\n";
-                    aide += "\tTermine la partie.\n";
-                    aide += "\n";
-                    aide += "* carte (c):\n";
-                    aide += "\tAffiche la carte du jeu.\n";
-                    aide += "\n";
-                    aide += "* sauvegarder (s):\n";
-                    aide += "\tSauvegarde la carte actuel dans un fichier pour jouer plus tard.\n";
-                    aide += "\n";
-                    aide += "* haut, bas, gauche, droite (h, b, g, d):\n";
-                    aide += "\tDéplace le joueur vers le haut, le bas, la gauche ou la droite respectivement.\n";
-                    aide += "\n";
-                    aide += "* ramasser haut, bas, gauche, droite (rh, rb, rg, rd):\n";
-                    aide += "\tRamasse l'objet de la case du haut, du bas, de gauche ou de droite respectivement.\n";
-                    aide += "\n";
-                    this.ihm.afficherInformation(aide);
-                    choixInstruction = false;
-                    break;
+            case "aide", "a", "?":
+                String aide = "Manuel d'utilisation de Cataclysm COO :\n";
+                aide += "\n";
+                aide += "* aide (a, ?):\n";
+                aide += "\tAffiche ce manuel\n";
+                aide += "\n";
+                aide += "* quitter (q):\n";
+                aide += "\tTermine la partie.\n";
+                aide += "\n";
+                aide += "* carte (c):\n";
+                aide += "\tAffiche la carte du jeu.\n";
+                aide += "\n";
+                aide += "* inventaire (i):\n";
+                aide += "\tAffiche votre inventaire.\n";
+                aide += "\n";
+                aide += "* sauvegarder (s):\n";
+                aide += "\tSauvegarde la carte actuel dans un fichier pour jouer plus tard.  Cela ne\n";
+                aide += "\tretient pas les états des animaux ainsi que votre inventaire.";
+                aide += "\n";
+                aide += "* haut, bas, gauche, droite (h, b, g, d):\n";
+                aide += "\tDéplace le joueur vers le haut, le bas, la gauche ou la droite respectivement.\n";
+                aide += "\n";
+                aide += "* ramasser haut, bas, gauche, droite (rh, rb, rg, rd):\n";
+                aide += "\tRamasse dans votre inventaire l'objet de la case du haut, du bas, de gauche ou de droite respectivement.\n";
+                aide += "\n";
+                aide += "\n";
+                aide += "* deposer haut, bas, gauche, droite (dh, db, dg, dd):\n";
+                aide += "\tDépose un objet de votre inventaire dans la case du haut, du bas, de gauche ou de droite respectivement.\n";
+                this.ihm.afficherInformation(aide);
+                break;
 
-                case "quitter", "q":
-                    this.enCours = false;
-                    choixInstruction = false;
-                    break;
+            case "quitter", "q":
+                enCours = false;
+                break;
 
-                case "carte", "c":
-                    this.afficherCarte();
-                    choixInstruction = false;
-                    break;
+            case "carte", "c":
+                JeuTheme theme = this.jeu.getTheme();
+                String affichage = "Carte :\n\n";
 
-                case "sauvegarder", "s":
-                    String nom = "";
-                    boolean choixNom = true;
-                    while (choixNom) {
-                        nom = ihm.demanderString("Entrez un nom pour la sauvegarde.");
-                        if (!nom.isEmpty()) choixNom = false;
+                // TODO(nico): nouveau système de construction de la carte.
+                List<List<Acteur>> carte = jeu.getCarte();
+                for (List<Acteur> ligne : carte) {
+                    for (Acteur acteur : ligne) {
+                        switch (theme) {
+                        case FORET: {
+                            switch (acteur.id) {
+                            case PERSONNAGE:
+                                //noinspection StringConcatenationInLoop
+                                affichage += Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_PURPLE + "@" + Ihm.COLOR_RESET;
+                                break;
+                            case ECUREUIL:
+                                Ecureuil ecureuil = (Ecureuil)acteur;
+                                //noinspection StringConcatenationInLoop
+                                affichage += Ihm.COLOR_BACKGROUND_YELLOW + ecureuil.getCouleur() + "E" + Ihm.COLOR_RESET;
+                                break;
+                            case ARBRE:
+                                //noinspection StringConcatenationInLoop
+                                affichage += Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "A" + Ihm.COLOR_RESET;
+                                break;
+                            case BUISSON:
+                                //noinspection StringConcatenationInLoop
+                                affichage += Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "B" + Ihm.COLOR_RESET;
+                                break;
+                            case GLAND:
+                                //noinspection StringConcatenationInLoop
+                                affichage += Ihm.COLOR_BACKGROUND_RED + Ihm.COLOR_YELLOW + "G" + Ihm.COLOR_RESET;
+                                break;
+                            case CHAMPIGNON:
+                                //noinspection StringConcatenationInLoop
+                                affichage += Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_RED + "C" + Ihm.COLOR_RESET;
+                                break;
+                            case ZONE_VIDE:
+                                //noinspection StringConcatenationInLoop
+                                affichage += Ihm.COLOR_BACKGROUND_GREEN + "." + Ihm.COLOR_RESET;
+                                break;
+                            default:
+                                // Acteur inconnu et non-prévu, le remplacer par un ? visible
+                                ihm.afficherErreur("Acteur inconnu dans la carte détecté...");
+                                //noinspection StringConcatenationInLoop
+                                affichage += Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_RED + "?" + Ihm.COLOR_RESET;
+                                break;
+                            }
+                        }
+                        break;
+                        case JUNGLE: {
+                            assert(false); // TODO(nico): à implémenter
+                        }
+                        break;
+                        default: {
+                            ihm.afficherErreur("Jeu dans un thème imprévu, fin...");
+                            System.exit(1);
+                        } break;
+                        }
                     }
 
-                    List<List<Acteur>> contenu = this.jeu.getCarte();
-                    Carte carte = new Carte(nom,
-                            this.jeu.getTheme(),
-                            contenu.get(0).size(),
-                            contenu.size(),
-                            contenu);
-                    carte.sauvegarderFichier();
-                    ihm.afficherInformation("Carte sauvegardé avec le nom \"" + nom + "\".");
-                    break;
-
-                // Déplacements
-                case "haut", "h":
-                    try {
-                        this.jeu.deplacerJoueur(Position.HAUT);
-                        choixInstruction = false;
-                    } catch (DeplacementImpossibleException e) {
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
-                case "bas", "b":
-                    try {
-                        this.jeu.deplacerJoueur(Position.BAS);
-                        choixInstruction = false;
-                    } catch (DeplacementImpossibleException e) {
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
-                case "gauche", "g":
-                    try {
-                        this.jeu.deplacerJoueur(Position.GAUCHE);
-                        choixInstruction = false;
-                    } catch (DeplacementImpossibleException e) {
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
-                case "droite", "d":
-                    try {
-                        this.jeu.deplacerJoueur(Position.DROITE);
-                        choixInstruction = false;
-                    } catch (DeplacementImpossibleException e) {
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
-
-                // Ramasser
-                case "ramasser haut", "rh":
-                    try {
-                        this.jeu.ramasserObjet(Position.HAUT);
-                        choixInstruction = false;
-                    } catch (AucunObjetException e) {
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
-                case "ramasser bas", "rb":
-                    try {
-                        this.jeu.ramasserObjet(Position.BAS);
-                        choixInstruction = false;
-                    } catch (AucunObjetException e) {
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
-                case "ramasser gauche", "rg":
-                    try {
-                        this.jeu.ramasserObjet(Position.GAUCHE);
-                        choixInstruction = false;
-                    } catch (AucunObjetException e) {
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
-                case "ramasser droite", "rd":
-                    try {
-                        this.jeu.ramasserObjet(Position.DROITE);
-                        choixInstruction = false;
-                    } catch (AucunObjetException e) {
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
-                case "deposer haut","dh":{
-                    try {
-                        int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer");
-                        this.jeu.deposerObjet(Position.HAUT,indice);
-                        choixInstruction = false;
-                    } catch (DepotImpossibleException | IndexOutOfBoundsException e){
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
+                    //noinspection StringConcatenationInLoop
+                    affichage += '\n';
                 }
-                case "deposer bas","db":{
-                    try {
-                        int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer");
-                        this.jeu.deposerObjet(Position.BAS,indice);
-                        choixInstruction = false;
-                    } catch (DepotImpossibleException | IndexOutOfBoundsException e){
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
+                this.ihm.afficherInformation(affichage);
+                break;
+
+            case "inventaire", "i":
+                // TODO(nico)
+                break;
+
+            case "sauvegarder", "s":
+                String nom = "";
+                boolean choixNom = true;
+                while (choixNom) {
+                    nom = this.ihm.demanderString("Entrez un nom pour la sauvegarde.");
+                    if (!nom.isEmpty()) choixNom = false;
                 }
-                case "deposer droite","dd":{
-                    try {
-                        int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer");
-                        this.jeu.deposerObjet(Position.DROITE,indice);
-                        choixInstruction = false;
-                    } catch (DepotImpossibleException | IndexOutOfBoundsException e){
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
-                }
-                case "deposer gauche","dg":{
-                    try {
-                        int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.");
-                        this.jeu.deposerObjet(Position.GAUCHE,indice);
-                        choixInstruction = false;
-                    } catch (DepotImpossibleException | IndexOutOfBoundsException e){
-                        this.ihm.afficherErreur(e.getMessage());
-                    }
-                    break;
-                }
+
+                List<List<Acteur>> contenu = this.jeu.getCarte();
+                Carte carte = new Carte(nom, this.jeu.getTheme(), contenu.get(0).size(), contenu.size(), contenu);
+                carte.sauvegarderFichier();
+                this.ihm.afficherInformation("Carte sauvegardé avec le nom \"" + nom + "\".");
+                break;
+
+            // Déplacements
+            case "haut", "h":
+                deplacerJoueur(Position.HAUT); break;
+            case "bas", "b":
+                deplacerJoueur(Position.BAS); break;
+            case "gauche", "g":
+                deplacerJoueur(Position.GAUCHE); break;
+            case "droite", "d":
+                deplacerJoueur(Position.DROITE); break;
+
+            // Ramasser
+            case "ramasser haut", "rh":
+                ramasserObjet(Position.HAUT); break;
+            case "ramasser bas", "rb":
+                ramasserObjet(Position.BAS); break;
+            case "ramasser gauche", "rg":
+                ramasserObjet(Position.GAUCHE); break;
+            case "ramasser droite", "rd":
+                ramasserObjet(Position.DROITE); break;
+
+            // Déposer
+            case "deposer haut","dh":
+                deposerObjet(Position.HAUT); break;
+            case "deposer bas","db":
+                deposerObjet(Position.BAS); break;
+            case "deposer gauche","dg":
+                deposerObjet(Position.GAUCHE); break;
+            case "deposer droite","dd":
+                deposerObjet(Position.DROITE); break;
+
             default:
                 ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");
                 break;
             }
         }
-    }
-
-
-    public void jouer() {
-        this.initialiserJeu();
-        this.afficherCarte();
-        while (this.enCours) {
-            // TODO(nico): notifier le jeu qu'on débute un tour
-            this.executerInstruction();
-            // TODO(nico): notifier le jeu qu'on fini un tour
-        }
-
-        // TODO(nico): fin du jeu
     }
 }

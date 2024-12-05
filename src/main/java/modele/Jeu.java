@@ -92,6 +92,26 @@ public class Jeu {
         return this.theme;
     }
 
+    public Personnage getPersonnage() {
+        return this.personnage;
+    }
+
+    public List<Objet> getInventaire() {
+        return this.inventaire;
+    }
+
+    public List<Animal> getAnimaux() {
+        return this.animaux;
+    }
+
+    public List<Acteur> getDecors() {
+        return this.decors;
+    }
+
+    public List<Objet> getObjets() {
+        return this.objets;
+    }
+
     public void deplacerJoueur(Position position) throws DeplacementImpossibleException {
         int x = this.personnage.getX();
         int y = this.personnage.getY();
