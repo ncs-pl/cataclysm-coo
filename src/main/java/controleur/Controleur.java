@@ -42,7 +42,7 @@ public class Controleur {
         }
     }
 
-    @SuppressWarnings("ExtractMethodRecommender, StringConcatenationInLoop")
+    @SuppressWarnings("ExtractMethodRecommender")
     public void jouer() {
         Carte carte = null;
         boolean choixCarte = true;
@@ -144,7 +144,7 @@ public class Controleur {
         while (enCours) {
             String instruction = this.ihm.demanderString("Entrez une instruction.");
             switch (instruction.toLowerCase()) {
-            case "aide", "a", "?":
+            case "aide", "a", "?": {
                 String aide = "Manuel d'utilisation de Cataclysm COO :\n";
                 aide += "\n";
                 aide += "* aide (a, ?):\n";
@@ -173,13 +173,13 @@ public class Controleur {
                 aide += "* deposer haut, bas, gauche, droite (dh, db, dg, dd):\n";
                 aide += "\tDépose un objet de votre inventaire dans la case du haut, du bas, de gauche ou de droite respectivement.\n";
                 this.ihm.afficherInformation(aide);
-                break;
+            } break;
 
-            case "quitter", "q":
+            case "quitter", "q": {
                 enCours = false;
-                break;
+            } break;
 
-            case "carte", "c":
+            case "carte", "c": {
                 String affichage = "Carte :\n\n";
 
                 // On construit la carte en faisant une forme remplie de zones vides dont les dimensions
@@ -266,13 +266,14 @@ public class Controleur {
 
                 // TODO(nico): Ajouter une légende pour le symboles.
                 this.ihm.afficherInformation(affichage);
-                break;
+            }
+            break;
 
-            case "inventaire", "i":
+            case "inventaire", "i": {
                 // TODO(nico)
-                break;
+            } break;
 
-            case "sauvegarder", "s":
+            case "sauvegarder", "s": {
                 String nom = "";
                 boolean choixNom = true;
                 while (choixNom) {
@@ -280,12 +281,26 @@ public class Controleur {
                     if (!nom.isEmpty()) choixNom = false;
                 }
 
-                // TODO(nico)
-                List<List<Acteur>> contenu = this.jeu.getCarte();
-                Carte nouvelleCarte = new Carte(nom, this.jeu.getTheme(), contenu.get(0).size(), contenu.size(), contenu);
+                int lignes = this.jeu.getLignes();
+                int colonnes = this.jeu.getColonnes();
+                List<List<Acteur>> contenu = new ArrayList<>();
+
+                for (int i = 0; i < lignes; ++ i) {
+                    List<Acteur> ligne = new ArrayList<>();
+                    for (int j = 0; j < colonnes; ++j) {
+                        ligne.add(new CaseVide(i, j));
+                    }
+                    contenu.add(ligne);
+                }
+
+                for (Animal animal : this.jeu.getAnimaux()) contenu.get(animal.getX()).set(animal.getY(), animal);
+                for (Acteur decor : this.jeu.getDecors()) contenu.get(decor.getX()).set(decor.getY(), decor);
+                for (Objet objet : this.jeu.getObjets()) contenu.get(objet.getX()).set(objet.getY(), objet);
+
+                Carte nouvelleCarte = new Carte(nom, this.jeu.getTheme(), lignes, colonnes, contenu);
                 nouvelleCarte.sauvegarderFichier();
                 this.ihm.afficherInformation("Carte sauvegardé avec le nom \"" + nom + "\".");
-                break;
+            } break;
 
             // Déplacements
             case "haut", "h":
@@ -317,9 +332,9 @@ public class Controleur {
             case "deposer droite","dd":
                 deposerObjet(Position.DROITE); break;
 
-            default:
+            default: {
                 this.ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");
-                break;
+            } break;
             }
         }
     }

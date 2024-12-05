@@ -247,5 +247,10 @@ public class Jeu {
         this.inventaire.remove(objet);
         this.objets.add(objet);
     }
+
+    public Carte construireFichierCarte() {
+
+        new Carte(nom, this.theme, this.lignes, this.colonnes, contenu);
+    }
 }
 
