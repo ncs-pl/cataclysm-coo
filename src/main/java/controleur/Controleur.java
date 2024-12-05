@@ -203,7 +203,7 @@ public class Controleur {
                 }
 
                 Personnage personnage = this.jeu.getPersonnage();
-                carteContenu.get(personnage.getX()).set(personnage.getY(), Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_PURPLE + "@" + Ihm.COLOR_RESET);
+                carteContenu.get(personnage.getLigne()).set(personnage.getColonne(), Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_PURPLE + "@" + Ihm.COLOR_RESET);
 
                 for (Animal animal : this.jeu.getAnimaux()) {
                     String s = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "?" + Ihm.COLOR_RESET;
@@ -218,7 +218,7 @@ public class Controleur {
                         this.ihm.afficherErreur("Animal inconnu : " + animal);
                         break;
                     }
-                    carteContenu.get(animal.getX()).set(animal.getY(), s);
+                    carteContenu.get(animal.getLigne()).set(animal.getColonne(), s);
                 }
 
                 for (Acteur decor : this.jeu.getDecors()) {
@@ -240,7 +240,7 @@ public class Controleur {
                         this.ihm.afficherErreur("Décor inconnu : " + decor);
                         break;
                     }
-                    carteContenu.get(decor.getX()).set(decor.getY(), s);
+                    carteContenu.get(decor.getLigne()).set(decor.getColonne(), s);
                 }
 
                 for (Objet objet : this.jeu.getObjets()) {
@@ -259,10 +259,17 @@ public class Controleur {
                         this.ihm.afficherErreur("Objet inconnu : " + objet);
                         break;
                     }
-                    carteContenu.get(objet.getX()).set(objet.getY(), s);
+                    carteContenu.get(objet.getLigne()).set(objet.getColonne(), s);
                 }
 
-                affichage += carteContenu;
+                for (List<String> ligne : carteContenu) {
+                    for (String colonne : ligne) {
+                        //noinspection StringConcatenationInLoop
+                        affichage += colonne;
+                    }
+                    //noinspection StringConcatenationInLoop
+                    affichage += "\n";
+                }
 
                 // TODO(nico): Ajouter une légende pour le symboles.
                 this.ihm.afficherInformation(affichage);
@@ -318,9 +325,9 @@ public class Controleur {
                     contenu.add(ligne);
                 }
 
-                for (Animal animal : this.jeu.getAnimaux()) contenu.get(animal.getX()).set(animal.getY(), animal);
-                for (Acteur decor : this.jeu.getDecors()) contenu.get(decor.getX()).set(decor.getY(), decor);
-                for (Objet objet : this.jeu.getObjets()) contenu.get(objet.getX()).set(objet.getY(), objet);
+                for (Animal animal : this.jeu.getAnimaux()) contenu.get(animal.getLigne()).set(animal.getColonne(), animal);
+                for (Acteur decor : this.jeu.getDecors()) contenu.get(decor.getLigne()).set(decor.getColonne(), decor);
+                for (Objet objet : this.jeu.getObjets()) contenu.get(objet.getLigne()).set(objet.getColonne(), objet);
 
                 Carte nouvelleCarte = new Carte(nom, this.jeu.getTheme(), lignes, colonnes, contenu);
                 nouvelleCarte.sauvegarderFichier();

@@ -3,28 +3,28 @@ package modele;
 /** Un acteur est une donnée représentant une entité dans le jeu (animal, objet, personnage, &c.). */
 public abstract class Acteur {
     public final ActeurId id; // Nom identifiant le type d'objet.
-    private int x;            // Position x de l'objet.
-    private int y;            // Position y de l'objet.
+    private int colonne;      // Colonne de la position de l'objet.
+    private int ligne;        // Ligne de la position de l'objet.
 
-    public Acteur(ActeurId id, int x, int y) {
+    public Acteur(ActeurId id, int colonne, int ligne) {
         this.id = id;
-        this.x = x;
-        this.y = y;
+        this.colonne = colonne;
+        this.ligne = ligne;
     }
 
-    public int getX() {
-        return this.x;
+    public int getColonne() {
+        return this.colonne;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setColonne(int colonne) {
+        this.colonne = colonne;
     }
 
-    public int getY() {
-        return this.y;
+    public int getLigne() {
+        return this.ligne;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setLigne(int ligne) {
+        this.ligne = ligne;
     }
 }
