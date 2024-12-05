@@ -177,14 +177,14 @@ public class Jeu {
         this.objets.remove(objet);
     }
 
-    public void deposerObjet(Position position, int indice) throws DepotImpossible {
+    public void deposerObjet(Position position, int indice) throws DepotImpossibleException {
         assert(this.personnage != null);
 
         // TODO(nico): meilleure API
         List<Objet> inventaire = this.personnage.getInventaire();
-        if (inventaire.isEmpty()) throw new DepotImpossible("L'inventaire est vide.");
-        if (indice < 0) throw new DepotImpossible("Indice d'objet trop petit.");
-        if (inventaire.size() < indice) throw new DepotImpossible("Indice d'objet trop grand.");
+        if (inventaire.isEmpty()) throw new DepotImpossibleException("L'inventaire est vide.");
+        if (indice < 0) throw new DepotImpossibleException("Indice d'objet trop petit.");
+        if (inventaire.size() < indice) throw new DepotImpossibleException("Indice d'objet trop grand.");
 
         int x = this.personnage.getX();
         int y = this.personnage.getY();
@@ -203,25 +203,24 @@ public class Jeu {
             break;
         }
 
-        // TODO(nico): Ajouter suffixe Exception à l'erreur...
-        if (x < 0) throw new DepotImpossible("Bordure gauche de la carte.");
-        if (x >= this.lignes) throw new DepotImpossible("Bordure droite de la carte.");
-        if (y < 0) throw new DepotImpossible("Bordure supérieure de la carte.");
-        if (y >= this.colonnes) throw new DepotImpossible("Bordure inférieure de la carte.");
+        if (x < 0) throw new DepotImpossibleException("Bordure gauche de la carte.");
+        if (x >= this.lignes) throw new DepotImpossibleException("Bordure droite de la carte.");
+        if (y < 0) throw new DepotImpossibleException("Bordure supérieure de la carte.");
+        if (y >= this.colonnes) throw new DepotImpossibleException("Bordure inférieure de la carte.");
 
         for (Animal animal : this.animaux) {
             if (x == animal.getX() && y == animal.getY())
-                throw new DepotImpossible("Animal sur la position demandée.");
+                throw new DepotImpossibleException("Animal sur la position demandée.");
         }
 
         for (Acteur decor : this.decors) {
             if (x == decor.getX() && y == decor.getY())
-                throw new DepotImpossible("Case bloquée par le décor.");
+                throw new DepotImpossibleException("Case bloquée par le décor.");
         }
 
         for (Objet objet : this.objets) {
             if (x == objet.getX() && y == objet.getY())
-                throw new DepotImpossible("Objet sur la case demandée..");
+                throw new DepotImpossibleException("Objet sur la case demandée..");
         }
 
         Objet objet = inventaire.get(indice);

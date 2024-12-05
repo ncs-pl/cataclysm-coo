@@ -317,7 +317,7 @@ public class Controleur {
                         int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer");
                         this.jeu.deposerObjet(Position.HAUT,indice);
                         choixInstruction = false;
-                    } catch (DepotImpossible | IndexOutOfBoundsException e){
+                    } catch (DepotImpossibleException | IndexOutOfBoundsException e){
                         this.ihm.afficherErreur(e.getMessage());
                     }
                     break;
@@ -327,7 +327,7 @@ public class Controleur {
                         int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer");
                         this.jeu.deposerObjet(Position.BAS,indice);
                         choixInstruction = false;
-                    } catch (DepotImpossible | IndexOutOfBoundsException e){
+                    } catch (DepotImpossibleException | IndexOutOfBoundsException e){
                         this.ihm.afficherErreur(e.getMessage());
                     }
                     break;
@@ -337,7 +337,7 @@ public class Controleur {
                         int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer");
                         this.jeu.deposerObjet(Position.DROITE,indice);
                         choixInstruction = false;
-                    } catch (DepotImpossible | IndexOutOfBoundsException e){
+                    } catch (DepotImpossibleException | IndexOutOfBoundsException e){
                         this.ihm.afficherErreur(e.getMessage());
                     }
                     break;
@@ -347,7 +347,7 @@ public class Controleur {
                         int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.");
                         this.jeu.deposerObjet(Position.GAUCHE,indice);
                         choixInstruction = false;
-                    } catch (DepotImpossible | IndexOutOfBoundsException e){
+                    } catch (DepotImpossibleException | IndexOutOfBoundsException e){
                         this.ihm.afficherErreur(e.getMessage());
                     }
                     break;
