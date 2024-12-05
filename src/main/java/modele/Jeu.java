@@ -19,7 +19,6 @@ public class Jeu {
         this.lignes = carte.getLignes();
         this.colonnes = carte.getColonnes();
 
-        // Initialisation du jeu
         for (List<Acteur> ligne : carte.getContenu()) {
             for (Acteur acteur : ligne) {
                 switch (acteur.id) {
@@ -28,48 +27,55 @@ public class Jeu {
 
                 case PERSONNAGE:
                     if (this.personnage != null) throw new CarteInvalideException("Plus d'un personnage dans la carte");
-                    this.personnage = (Personnage)acteur;
+                    this.personnage = (Personnage) acteur;
                     break;
 
                 // Objets
                 case BANANE:
                     if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Banane en dehors de la jungle");
-                    this.objets.add((Banane)acteur);
+                    this.objets.add((Objet) acteur);
                     break;
                 case CHAMPIGNON:
-                    this.objets.add((Champignon)acteur);
+                    this.objets.add((Objet) acteur);
                     break;
                 case GLAND:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Gland en dehors de la forêt");
-                    this.objets.add((Gland)acteur);
+                    if (theme != JeuTheme.FORET)
+                        throw new CarteInvalideException("Gland en dehors de la forêt");
+                    this.objets.add((Objet) acteur);
                     break;
 
                 // Animaux
                 case ECUREUIL:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Ecureuil en dehors de la forêt");
-                    this.animaux.add((Ecureuil)acteur);
+                    if (theme != JeuTheme.FORET)
+                        throw new CarteInvalideException("Ecureuil en dehors de la forêt");
+                    this.animaux.add((Animal) acteur);
                     break;
                 case SINGE:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Singe en dehors de la jungle");
-                    this.animaux.add((Singe)acteur);
+                    if (theme != JeuTheme.JUNGLE)
+                        throw new CarteInvalideException("Singe en dehors de la jungle");
+                    this.animaux.add((Animal) acteur);
                     break;
 
                 // Décors
                 case ARBRE:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Arbre en dehors de la forêt");
-                    this.decors.add((Arbre)acteur);
+                    if (theme != JeuTheme.FORET)
+                        throw new CarteInvalideException("Arbre en dehors de la forêt");
+                    this.decors.add(acteur);
                     break;
                 case BUISSON:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Buisson en dehors de la forêt");
-                    this.decors.add((Buisson)acteur);
+                    if (theme != JeuTheme.FORET)
+                        throw new CarteInvalideException("Buisson en dehors de la forêt");
+                    this.decors.add(acteur);
                     break;
                 case COCOTIER:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Cocotier en dehors de la jungle");
-                    this.decors.add((Cocotier)acteur);
+                    if (theme != JeuTheme.JUNGLE)
+                        throw new CarteInvalideException("Cocotier en dehors de la jungle");
+                    this.decors.add(acteur);
                     break;
                 case PETIT_ROCHER:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Petit rocher en dehors de la Jungle");
-                    this.decors.add((PetitRocher)acteur);
+                    if (theme != JeuTheme.JUNGLE)
+                        throw new CarteInvalideException("Petit rocher en dehors de la Jungle");
+                    this.decors.add(acteur);
                     break;
 
                 default:
@@ -77,6 +83,9 @@ public class Jeu {
                 }
             }
         }
+
+        if (this.personnage == null)
+            throw new CarteInvalideException("Aucun personnage dans la carte.");
     }
 
     public JeuTheme getTheme() {
@@ -84,8 +93,6 @@ public class Jeu {
     }
 
     public void deplacerJoueur(Position position) throws DeplacementImpossibleException {
-        assert(this.personnage != null);
-
         int x = this.personnage.getX();
         int y = this.personnage.getY();
         switch (position) {
@@ -128,8 +135,6 @@ public class Jeu {
     }
 
     public void ramasserObjet(Position position) throws AucunObjetException {
-        assert(this.personnage != null);
-
         int x = this.personnage.getX();
         int y = this.personnage.getY();
         switch (position) {
@@ -166,8 +171,6 @@ public class Jeu {
     }
 
     public void deposerObjet(Position position, int indice) throws DepotImpossibleException {
-        assert(this.personnage != null);
-
         if (this.inventaire.isEmpty()) throw new DepotImpossibleException("L'inventaire est vide.");
         if (indice < 0) throw new DepotImpossibleException("Indice d'objet trop petit.");
         if (this.inventaire.size() < indice) throw new DepotImpossibleException("Indice d'objet trop grand.");
