@@ -60,17 +60,20 @@ public class Controleur {
         try {
             int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.");
             this.jeu.deposerObjet(position, indice-1);
-        } catch (DepotImpossibleException e){
+        } catch (DepotImpossibleException e) {
             this.ihm.afficherErreur(e.getMessage());
         }
     }
 
     @SuppressWarnings("ExtractMethodRecommender")
     public void jouer() {
+        // Initialisation de la partie.
+
         Carte carte = null;
         boolean choixCarte = true;
         while (choixCarte) {
             String chemin = this.ihm.demanderString("Entrez le nom du fichier de la carte à utiliser, ou rien pour en créer une nouvelle.");
+
             if (chemin.isEmpty()) {
                 JeuTheme theme = null;
                 boolean choixTheme = true;
@@ -94,54 +97,39 @@ public class Controleur {
                 int lignes = -1;
                 boolean choixLigne = true;
                 while (choixLigne) {
-                    String choix = this.ihm.demanderString("Choisissez le nombre de lignes de la carte (0 < i <= 1024).");
-                    int choixInt;
-                    try {
-                        choixInt = Integer.parseInt(choix);
-                    } catch (NumberFormatException e) {
-                        this.ihm.afficherErreur("Le nombre n'est pas un entier.");
-                        continue;
-                    }
+                    int choix = this.ihm.demanderInt("Choisissez le nombre de lignes de la carte (0 < i <= 1024).");
 
-                    if (choixInt <= 0) {
+                    if (choix <= 0) {
                         this.ihm.afficherErreur("Nombre de lignes nul ou négatif interdit.");
                         continue;
                     }
 
-                    if (choixInt > 1024) {
+                    if (choix > 1024) {
                         this.ihm.afficherErreur("Nombre de lignes dépassant 1024 interdit.");
                         continue;
                     }
 
                     choixLigne = false;
-                    lignes = choixInt;
+                    lignes = choix;
                 }
 
                 int colonnes = -1;
                 boolean choixColonne = true;
                 while (choixColonne) {
-                    String choix = this.ihm.demanderString("Choisissez le nombre de colonnes de la carte (0 < i <= 1024).");
+                    int choix = this.ihm.demanderInt("Choisissez le nombre de colonnes de la carte (0 < i <= 1024).");
 
-                    int choixInt;
-                    try {
-                        choixInt = Integer.parseInt(choix);
-                    } catch (NumberFormatException e) {
-                        this.ihm.afficherErreur("Le nombre n'est pas un entier.");
-                        continue;
-                    }
-
-                    if (choixInt <= 0) {
+                    if (choix <= 0) {
                         this.ihm.afficherErreur("Nombre de colonnes nul ou négatif interdit.");
                         continue;
                     }
 
-                    if (choixInt > 1024) {
+                    if (choix > 1024) {
                         this.ihm.afficherErreur("Nombre de colonnes dépassant 1024 interdit.");
                         continue;
                     }
 
                     choixColonne = false;
-                    colonnes = choixInt;
+                    colonnes = choix;
                 }
 
                 List<List<Acteur>> contenu = new ArrayList<>(lignes);
@@ -165,6 +153,8 @@ public class Controleur {
         }
 
         this.jeu = new Jeu(carte);
+
+        // Tours de jeu.
 
         boolean enCours = true;
         while (enCours) {
@@ -440,5 +430,9 @@ public class Controleur {
                 break;
             }
         }
+
+        // Fin du jeu
+
+        // TODO(nico): y a sûrement un truc à faire ici, faut voir la doc...
     }
 }
