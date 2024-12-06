@@ -196,7 +196,6 @@ public class Controleur {
                 for (int i = 0; i < lignes; ++i) {
                     List<String> ligne = new ArrayList<>();
                     for (int j = 0; j < colonnes; ++j) {
-
                         ligne.add(Ihm.COLOR_BACKGROUND_GREEN + "." + Ihm.COLOR_RESET);
                     }
                     carteContenu.add(ligne);
@@ -209,6 +208,7 @@ public class Controleur {
                     String s = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "?" + Ihm.COLOR_RESET;
                     switch (animal.id) {
                     case ECUREUIL:
+                        // TODO(nico): Gestion de la couleur selon l'état ici.
                         s = Ihm.COLOR_BACKGROUND_YELLOW + animal.getCouleur() + "E" + Ihm.COLOR_RESET;
                         break;
                     case SINGE:
@@ -277,29 +277,34 @@ public class Controleur {
             break;
 
             case "inventaire", "i": {
-                String affichage = "Inventaire :\n\n";
+                String affichage = "Inventaire :\n";
 
                 List<Objet> inventaire = this.jeu.getInventaire();
-                for (int i = 0; i < inventaire.size(); ++i) {
-                    String nom = "??";
-                    ActeurId id = inventaire.get(i).id;
-                    switch (id) {
-                    case BANANE:
-                        nom = "Banane";
-                        break;
-                    case CHAMPIGNON:
-                        nom = "Champignon";
-                        break;
-                    case GLAND:
-                        nom = "Gland";
-                        break;
-                    default:
-                        this.ihm.afficherErreur("Objet \"" + id + "\"inconnu dans l'inventaire");
-                        break;
+                int inventaireSize = inventaire.size();
+                if (inventaireSize == 0) {
+                    affichage += "\tRien...";
+                } else{
+                    for (int i = 0; i < inventaireSize; ++i) {
+                        String nom = "??";
+                        ActeurId id = inventaire.get(i).id;
+                        switch (id) {
+                        case BANANE:
+                            nom = "Banane";
+                            break;
+                        case CHAMPIGNON:
+                            nom = "Champignon";
+                            break;
+                        case GLAND:
+                            nom = "Gland";
+                            break;
+                        default:
+                            this.ihm.afficherErreur("Objet \"" + id + "\"inconnu dans l'inventaire");
+                            break;
                     }
 
                     //noinspection StringConcatenationInLoop
-                    affichage += (i+1) + ". " + nom + "\n";
+                    affichage += (i + 1) + ". " + nom + "\n";
+                }
                 }
 
                 this.ihm.afficherInformation(affichage);
