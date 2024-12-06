@@ -1,59 +1,48 @@
 package modele;
 
+/** Un animal est un acteur avec une Intelligence Artificielle pouvant
+    influencer la carte et le personnage. */
 public abstract class Animal extends Acteur {
-    //private EtatAnimalFaim faim = EtatAnimalFaim.RASSASIE;
-    private boolean ami;
-    /** Stock de nourriture avant d'avoir faim */
-    private int saturation;
-    private Etat etat = new EtatRassasie(this);
+    private boolean amitie;  // Si l'animal est ami.
+    private int saturation;  // La satiété de l'animal.
+    private AnimalEtat etat; // L'état de l'animal.
 
     public Animal(ActeurId id, int x, int y) {
         super(id, x, y);
+        this.amitie     = false;
+        this.saturation = 0;
+        this.etat       = new AnimalEtatRassasie(this);
     }
 
-    /*public EtatAnimalFaim getFaim() {
-        return this.faim;
+    /** Obtient le statut d'amitié de l'animal. */
+    public boolean obtenirAmitie() {
+        return this.amitie;
     }
 
-    public void setFaim(EtatAnimalFaim faim) {
-        this.faim = faim;
-    }
-    */
-    public boolean getAmi() {
-        return this.ami;
+    /** Modifie le statut d'amitié de l'animal. */
+    public void changerAmitie(boolean amitie) {
+        this.amitie = amitie;
     }
 
-    public void setAmi(boolean ami) {
-        this.ami = ami;
-    }
-
-    public int getSaturation() {
+    /** Obtient la saturation de l'animal. */
+    public int obtenirSaturation() {
         return saturation;
     }
 
-    public void setSaturation(int saturation) {
-        // TODO(nico): vérifier l'intervalle de saturation
-        // Décorateur ???????????
+    /** Modifie la saturation de l'animal. */
+    public void changerSaturation(int saturation) {
         assert(saturation >= 0);
         this.saturation = saturation;
     }
 
-    public void setEtat(Etat etat) {
-        this.etat = etat;
-    }
-
-    public String getCouleur(){
-       return etat.getCouleur();
-    }
-
-    /*
-    public EtatAnimal getEtat() {
+    /** Obtient l'état actuel de l'animal. */
+    public AnimalEtat obtenirEtat() {
         return this.etat;
     }
 
-    public void setEtat(EtatAnimal etat) {
+    /** Modifie l'état de l'animal. */
+    public void changerEtat(AnimalEtat etat) {
+        assert(etat != null);
         this.etat = etat;
     }
-
-     */
 }

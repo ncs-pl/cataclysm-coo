@@ -75,7 +75,7 @@ public class Controleur {
                 JeuTheme theme = null;
                 boolean choixTheme = true;
                 while (choixTheme) {
-                    String choix = ihm.demanderString("Choisissez le thème de la partie (foret, jungle).");
+                    String choix = this.ihm.demanderString("Choisissez le thème de la partie (foret, jungle).");
                     switch (choix.toLowerCase()) {
                     case "foret":
                         theme = JeuTheme.FORET;
@@ -86,7 +86,7 @@ public class Controleur {
                         choixTheme = false;
                         break;
                     default:
-                        ihm.afficherErreur("Thème inconnu.");
+                        this.ihm.afficherErreur("Thème inconnu.");
                         break;
                     }
                 }
@@ -94,22 +94,22 @@ public class Controleur {
                 int lignes = -1;
                 boolean choixLigne = true;
                 while (choixLigne) {
-                    String choix = ihm.demanderString("Choisissez le nombre de lignes de la carte (0 < i <= 1024).");
+                    String choix = this.ihm.demanderString("Choisissez le nombre de lignes de la carte (0 < i <= 1024).");
                     int choixInt;
                     try {
                         choixInt = Integer.parseInt(choix);
                     } catch (NumberFormatException e) {
-                        ihm.afficherErreur("Le nombre n'est pas un entier.");
+                        this.ihm.afficherErreur("Le nombre n'est pas un entier.");
                         continue;
                     }
 
                     if (choixInt <= 0) {
-                        ihm.afficherErreur("Nombre de lignes nul ou négatif interdit.");
+                        this.ihm.afficherErreur("Nombre de lignes nul ou négatif interdit.");
                         continue;
                     }
 
                     if (choixInt > 1024) {
-                        ihm.afficherErreur("Nombre de lignes dépassant 1024 interdit.");
+                        this.ihm.afficherErreur("Nombre de lignes dépassant 1024 interdit.");
                         continue;
                     }
 
@@ -120,22 +120,23 @@ public class Controleur {
                 int colonnes = -1;
                 boolean choixColonne = true;
                 while (choixColonne) {
-                    String choix = ihm.demanderString("Choisissez le nombre de colonnes de la carte (0 < i <= 1024).");
+                    String choix = this.ihm.demanderString("Choisissez le nombre de colonnes de la carte (0 < i <= 1024).");
+
                     int choixInt;
                     try {
                         choixInt = Integer.parseInt(choix);
                     } catch (NumberFormatException e) {
-                        ihm.afficherErreur("Le nombre n'est pas un entier.");
+                        this.ihm.afficherErreur("Le nombre n'est pas un entier.");
                         continue;
                     }
 
                     if (choixInt <= 0) {
-                        ihm.afficherErreur("Nombre de colonnes nul ou négatif interdit.");
+                        this.ihm.afficherErreur("Nombre de colonnes nul ou négatif interdit.");
                         continue;
                     }
 
                     if (choixInt > 1024) {
-                        ihm.afficherErreur("Nombre de colonnes dépassant 1024 interdit.");
+                        this.ihm.afficherErreur("Nombre de colonnes dépassant 1024 interdit.");
                         continue;
                     }
 
@@ -148,15 +149,17 @@ public class Controleur {
                     List<Acteur> ligne = new ArrayList<>(colonnes);
                     contenu.set(i, ligne);
                 }
+
                 carte = new Carte("ALEATOIRE", theme, lignes, colonnes, contenu);
                 carte.genererContenuAleatoire();
+
                 choixCarte = false;
             } else {
                 try {
                     carte = new Carte(chemin);
                     choixCarte = false;
                 } catch (IOException | CarteInvalideException e) {
-                    ihm.afficherErreur(e.getMessage());
+                    this.ihm.afficherErreur(e.getMessage());
                 }
             }
         }
@@ -167,7 +170,7 @@ public class Controleur {
         while (enCours) {
             String instruction = this.ihm.demanderString("Entrez une instruction.");
             switch (instruction.toLowerCase()) {
-            case "aide", "a", "?": {
+            case "aide", "a", "?":
                 String aide = "Manuel d'utilisation de Cataclysm COO :\n";
                 aide += "\n";
                 aide += "* aide (a, ?):\n";
@@ -196,98 +199,116 @@ public class Controleur {
                 aide += "* deposer haut, bas, gauche, droite (dh, db, dg, dd):\n";
                 aide += "\tDépose un objet de votre inventaire dans la case du haut, du bas, de gauche ou de droite respectivement.\n";
                 this.ihm.afficherInformation(aide);
-            } break;
+                break;
 
-            case "quitter", "q": {
+            case "quitter", "q":
                 enCours = false;
-            } break;
+            break;
 
             case "carte", "c": {
-                String affichage = "Carte :\n\n";
+                // La carte du jeu.
 
-                // On construit la carte en faisant une forme remplie de zones vides dont les dimensions
-                // sont de celles indiquées par le jeu.
-                // Ensuite, on remplace les bonnes positions par les symboles correspondants aux acteurs
-                // spécifiques selon le thème.
+                String affichage = "Carte :\n";
+
+                // On construit la carte en faisant une forme remplie de
+                // zones vides dont les dimensions sont de celles indiquées par
+                // le jeu.  Ensuite, on remplace les bonnes positions par les
+                // symboles correspondants aux acteurs spécifiques selon le
+                // thème.
 
                 int lignes = this.jeu.getLignes();
                 int colonnes = this.jeu.getColonnes();
                 JeuTheme theme = this.jeu.getTheme();
 
                 List<List<String>> carteContenu = new ArrayList<>();
+
                 for (int i = 0; i < lignes; ++i) {
                     List<String> ligne = new ArrayList<>();
                     for (int j = 0; j < colonnes; ++j) {
                         ligne.add(Controleur.STRING_ZONE_VIDE);
                     }
+
                     carteContenu.add(ligne);
                 }
 
                 Personnage personnage = this.jeu.getPersonnage();
-                carteContenu.get(personnage.getLigne()).set(personnage.getColonne(), Controleur.STRING_PERSONNAGE);
+                carteContenu.get(personnage.getLigne())
+                            .set(personnage.getColonne(),
+                                 Controleur.STRING_PERSONNAGE);
 
                 for (Animal animal : this.jeu.getAnimaux()) {
                     String s = Controleur.STRING_INCONNU;
-                    EtatAnimal etat = animal.getEtat();
+                    AnimalEtat etat = animal.obtenirEtat();
                     ActeurId id = animal.id;
 
-                    switch (etat) {
-                    case AFFAME:
-                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_AFFAME : Controleur.STRING_SINGE_AFFAME;
+                    switch (etat.obtenirId()) {
+                    case AnimalEtat.ETAT_AFFAME:
+                        s = id == ActeurId.ECUREUIL
+                            ? Controleur.STRING_ECUREUIL_AFFAME
+                            : Controleur.STRING_SINGE_AFFAME;
                         break;
-                    case RASSASIE:
-                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_RASSASIE : Controleur.STRING_SINGE_RASSASIE;
+                    case AnimalEtat.ETAT_RASSASIE:
+                        s = id == ActeurId.ECUREUIL
+                            ? Controleur.STRING_ECUREUIL_RASSASIE
+                            : Controleur.STRING_SINGE_RASSASIE;
                         break;
-                    case AMI:
-                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_AMI : Controleur.STRING_SINGE_AMI;
+                    case AnimalEtat.ETAT_AMI:
+                        s = id == ActeurId.ECUREUIL
+                            ? Controleur.STRING_ECUREUIL_AMI
+                            : Controleur.STRING_SINGE_AMI;
                         break;
-                    case JUNKIE:
-                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_JUNKIE : Controleur.STRING_SINGE_JUNKIE;
+                    case AnimalEtat.ETAT_JUNKIE:
+                        s = id == ActeurId.ECUREUIL
+                            ? Controleur.STRING_ECUREUIL_JUNKIE
+                            : Controleur.STRING_SINGE_JUNKIE;
                         break;
-                    case PERCHE:
-                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_PERCHE : Controleur.STRING_SINGE_PERCHE;
+                    case AnimalEtat.ETAT_PERCHE:
+                        s = id == ActeurId.ECUREUIL
+                            ? Controleur.STRING_ECUREUIL_PERCHE
+                            : Controleur.STRING_SINGE_PERCHE;
                         break;
-                    case CACHE:
-                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_CACHE : Controleur.STRING_SINGE_CACHE;
+                    case AnimalEtat.ETAT_CACHE:
+                        s = id == ActeurId.ECUREUIL
+                            ? Controleur.STRING_ECUREUIL_CACHE
+                            : Controleur.STRING_SINGE_CACHE;
                         break;
                     default:
-                        this.ihm.afficherErreur("Animal dans l'état inconnu \"" + etat + "\".");
+                        this.ihm.afficherErreur("État inconnu \"" + etat + "\".");
                     }
-                    carteContenu.get(animal.getLigne()).set(animal.getColonne(), s);
+
+                    carteContenu.get(animal.getLigne())
+                                 .set(animal.getColonne(), s);
                 }
 
                 for (Acteur decor : this.jeu.getDecors()) {
                     String s = Controleur.STRING_INCONNU;
                     switch (decor.id) {
-                    case ARBRE:
-                        s = Controleur.STRING_ARBRE; break;
-                    case BUISSON:
-                        s = Controleur.STRING_BUISSON; break;
-                    case COCOTIER:
-                        s = Controleur.STRING_COCOTIER; break;
-                    case PETIT_ROCHER:
-                        s = Controleur.STRING_PETIT_ROCHER; break;
+                    case ARBRE:        s = Controleur.STRING_ARBRE;        break;
+                    case BUISSON:      s = Controleur.STRING_BUISSON;      break;
+                    case COCOTIER:     s = Controleur.STRING_COCOTIER;     break;
+                    case PETIT_ROCHER: s = Controleur.STRING_PETIT_ROCHER; break;
                     default:
                         this.ihm.afficherErreur("Décor inconnu : " + decor);
                         break;
                     }
-                    carteContenu.get(decor.getLigne()).set(decor.getColonne(), s);
+
+                    carteContenu.get(decor.getLigne())
+                                .set(decor.getColonne(), s);
                 }
 
                 for (Objet objet : this.jeu.getObjets()) {
                     String s = Controleur.STRING_INCONNU;
                     switch (objet.id) {
-                    case BANANE:
-                        s = Controleur.STRING_BANANE; break;
-                    case CHAMPIGNON:
-                        s = Controleur.STRING_CHAMPIGNON; break;
-                    case GLAND:
-                        s = Controleur.STRING_GLAND; break;
+                    case BANANE:     s = Controleur.STRING_BANANE;     break;
+                    case CHAMPIGNON: s = Controleur.STRING_CHAMPIGNON; break;
+                    case GLAND:      s = Controleur.STRING_GLAND;      break;
                     default:
                         this.ihm.afficherErreur("Objet inconnu : " + objet);
                         break;
                     }
-                    carteContenu.get(objet.getLigne()).set(objet.getColonne(), s);
+
+                    carteContenu.get(objet.getLigne())
+                                .set(objet.getColonne(), s);
                 }
 
                 for (List<String> ligne : carteContenu) {
@@ -299,38 +320,41 @@ public class Controleur {
                     affichage += "\n";
                 }
 
+                // Légende pour les symboles de la carte.
+
                 String legende = "Légende :\n";
                 legende += "* " + Controleur.STRING_PERSONNAGE + " : personnage\n";
-                legende += "* " + Controleur.STRING_ZONE_VIDE + " : zone vide\n";
+                legende += "* " + Controleur.STRING_ZONE_VIDE  + " : zone vide\n";
+
                 switch (theme) {
                 case FORET:
-                    legende += "* " + Controleur.STRING_ARBRE + " : arbre\n";
-                    legende += "* " + Controleur.STRING_BUISSON + " : buisson\n";
-                    legende += "* " + Controleur.STRING_GLAND + " : gland\n";
-                    legende += "* " + Controleur.STRING_CHAMPIGNON + " : champignon\n";
-                    legende += "* " + Controleur.STRING_ECUREUIL_AFFAME + " : écureuil affamé\n";
+                    legende += "* " + Controleur.STRING_ARBRE             + " : arbre\n";
+                    legende += "* " + Controleur.STRING_BUISSON           + " : buisson\n";
+                    legende += "* " + Controleur.STRING_GLAND             + " : gland\n";
+                    legende += "* " + Controleur.STRING_CHAMPIGNON        + " : champignon\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_AFFAME   + " : écureuil affamé\n";
                     legende += "* " + Controleur.STRING_ECUREUIL_RASSASIE + " : écureuil rassasié\n";
-                    legende += "* " + Controleur.STRING_ECUREUIL_AMI + " : écureuil ami\n";
-                    legende += "* " + Controleur.STRING_ECUREUIL_JUNKIE + " : écureuil junkie\n";
-                    legende += "* " + Controleur.STRING_ECUREUIL_PERCHE + " : écureuil perché dans un arbre\n";
-                    legende += "* " + Controleur.STRING_ECUREUIL_CACHE + " : écureuil caché dans un buisson\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_AMI      + " : écureuil ami\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_JUNKIE   + " : écureuil junkie\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_PERCHE   + " : écureuil perché dans un arbre\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_CACHE    + " : écureuil caché dans un buisson\n";
                     break;
                 case JUNGLE:
-                    legende += "* " + Controleur.STRING_COCOTIER + " : cocotier\n";
-                    legende += "* " + Controleur.STRING_PETIT_ROCHER + " : petit rocher\n";
-                    legende += "* " + Controleur.STRING_BANANE + " : banane\n";
-                    legende += "* " + Controleur.STRING_CHAMPIGNON + " : champignon\n";
-                    legende += "* " + Controleur.STRING_SINGE_AFFAME + " : singe affamé\n";
+                    legende += "* " + Controleur.STRING_COCOTIER       + " : cocotier\n";
+                    legende += "* " + Controleur.STRING_PETIT_ROCHER   + " : petit rocher\n";
+                    legende += "* " + Controleur.STRING_BANANE         + " : banane\n";
+                    legende += "* " + Controleur.STRING_CHAMPIGNON     + " : champignon\n";
+                    legende += "* " + Controleur.STRING_SINGE_AFFAME   + " : singe affamé\n";
                     legende += "* " + Controleur.STRING_SINGE_RASSASIE + " : singe rassasié\n";
-                    legende += "* " + Controleur.STRING_SINGE_AMI + " : singe ami\n";
-                    legende += "* " + Controleur.STRING_SINGE_JUNKIE + " : singe junkie\n";
-                    legende += "* " + Controleur.STRING_SINGE_PERCHE + " : singe perché dans un cocotier\n";
-                    legende += "* " + Controleur.STRING_SINGE_CACHE + " : singe caché derrière un petit rocher\n";
+                    legende += "* " + Controleur.STRING_SINGE_AMI      + " : singe ami\n";
+                    legende += "* " + Controleur.STRING_SINGE_JUNKIE   + " : singe junkie\n";
+                    legende += "* " + Controleur.STRING_SINGE_PERCHE   + " : singe perché dans un cocotier\n";
+                    legende += "* " + Controleur.STRING_SINGE_CACHE    + " : singe caché derrière un petit rocher\n";
                     break;
                 }
+
                 legende += "* " + Controleur.STRING_INCONNU + " : erreur\n";
-                affichage += "\n";
-                affichage += legende;
+                affichage += "\n" + legende;
 
                 this.ihm.afficherInformation(affichage);
             } break;
@@ -340,6 +364,7 @@ public class Controleur {
 
                 List<Objet> inventaire = this.jeu.getInventaire();
                 int inventaireSize = inventaire.size();
+
                 if (inventaireSize == 0) {
                     affichage += "\tRien...";
                 } else {
@@ -347,22 +372,16 @@ public class Controleur {
                         String nom = "??";
                         ActeurId id = inventaire.get(i).id;
                         switch (id) {
-                        case BANANE:
-                            nom = "Banane";
-                            break;
-                        case CHAMPIGNON:
-                            nom = "Champignon";
-                            break;
-                        case GLAND:
-                            nom = "Gland";
-                            break;
+                        case BANANE:     nom = "Banane";     break;
+                        case CHAMPIGNON: nom = "Champignon"; break;
+                        case GLAND:      nom = "Gland";      break;
                         default:
                             this.ihm.afficherErreur("Objet \"" + id + "\"inconnu dans l'inventaire");
                             break;
                         }
 
-                    //noinspection StringConcatenationInLoop
-                    affichage += (i + 1) + ". " + nom + "\n";
+                        //noinspection StringConcatenationInLoop
+                        affichage += (i + 1) + ". " + nom + "\n";
                     }
                 }
 
@@ -399,38 +418,26 @@ public class Controleur {
 //            } break;
 
             // Déplacements
-            case "haut", "h":
-                deplacerJoueur(Position.HAUT); break;
-            case "bas", "b":
-                deplacerJoueur(Position.BAS); break;
-            case "gauche", "g":
-                deplacerJoueur(Position.GAUCHE); break;
-            case "droite", "d":
-                deplacerJoueur(Position.DROITE); break;
+            case "haut", "h":   deplacerJoueur(Position.HAUT);   break;
+            case "bas", "b":    deplacerJoueur(Position.BAS);    break;
+            case "gauche", "g": deplacerJoueur(Position.GAUCHE); break;
+            case "droite", "d": deplacerJoueur(Position.DROITE); break;
 
             // Ramasser
-            case "ramasser haut", "rh":
-                ramasserObjet(Position.HAUT); break;
-            case "ramasser bas", "rb":
-                ramasserObjet(Position.BAS); break;
-            case "ramasser gauche", "rg":
-                ramasserObjet(Position.GAUCHE); break;
-            case "ramasser droite", "rd":
-                ramasserObjet(Position.DROITE); break;
+            case "ramasser haut", "rh":   ramasserObjet(Position.HAUT);   break;
+            case "ramasser bas", "rb":    ramasserObjet(Position.BAS);    break;
+            case "ramasser gauche", "rg": ramasserObjet(Position.GAUCHE); break;
+            case "ramasser droite", "rd": ramasserObjet(Position.DROITE); break;
 
             // Déposer
-            case "deposer haut","dh":
-                deposerObjet(Position.HAUT); break;
-            case "deposer bas","db":
-                deposerObjet(Position.BAS); break;
-            case "deposer gauche","dg":
-                deposerObjet(Position.GAUCHE); break;
-            case "deposer droite","dd":
-                deposerObjet(Position.DROITE); break;
+            case "deposer haut","dh":  deposerObjet(Position.HAUT);    break;
+            case "deposer bas","db":    deposerObjet(Position.BAS);    break;
+            case "deposer gauche","dg": deposerObjet(Position.GAUCHE); break;
+            case "deposer droite","dd": deposerObjet(Position.DROITE); break;
 
-            default: {
+            default:
                 this.ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");
-            } break;
+                break;
             }
         }
     }
