@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-/** Interface homme-machine avec le terminal utilisateur (stdin, stdout, stderr). */
+/** Interface homme-machine avec le terminal utilisateur. */
 @SuppressWarnings("unused")
 public class Ihm {
     // Voir https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
@@ -32,18 +32,27 @@ public class Ihm {
 
     public Ihm(InputStream input, PrintStream output, PrintStream error) {
         this.scanner = new Scanner(input);
-        this.output = output;
-        this.error = error;
+        this.output  = output;
+        this.error   = error;
     }
 
+    /** Affiche une information à l'utilisateur. */
     public void afficherInformation(String message) {
-        this.output.println(Ihm.COULEUR_CYAN + "[INFO] " + message + Ihm.COULEUR_REINITIALISATION);
+        this.output.println(Ihm.COULEUR_CYAN
+                            + "[INFO] "
+                            + message
+                            + Ihm.COULEUR_REINITIALISATION);
     }
 
+    /** Affiche une erreur à l'utilisateur. */
     public void afficherErreur(String erreur) {
-        this.error.println(Ihm.COULEUR_ROUGE + "[ERREUR] " + erreur + Ihm.COULEUR_REINITIALISATION);
+        this.error.println(Ihm.COULEUR_ROUGE
+                           + "[ERREUR] "
+                           + erreur
+                           + Ihm.COULEUR_REINITIALISATION);
     }
 
+    /** Demande un string à l'utilisateur. */
     public String demanderString(String question) {
         // NOTE(nico): Pour éviter un overwrite de stdout
         try {
@@ -52,12 +61,16 @@ public class Ihm {
             this.afficherErreur(e.getMessage());
         }
 
-        this.output.println(Ihm.COULEUR_JAUNE + question + Ihm.COULEUR_REINITIALISATION);
-        this.output.print(Ihm.COULEUR_JAUNE + "> " + Ihm.COULEUR_REINITIALISATION);
+        this.output.println(Ihm.COULEUR_JAUNE
+                            + question
+                            + Ihm.COULEUR_REINITIALISATION);
+        this.output.print(Ihm.COULEUR_JAUNE
+                          + "> "
+                          + Ihm.COULEUR_REINITIALISATION);
         return this.scanner.nextLine();
     }
 
-
+    /** Demande un nombre à l'utilisateur. */
     public int demanderInt(String question) {
         // NOTE(nico): Pour éviter un overwrite de stdout
         try {
@@ -66,15 +79,20 @@ public class Ihm {
             this.afficherErreur(e.getMessage());
         }
 
-        this.output.println(Ihm.COULEUR_JAUNE + question + Ihm.COULEUR_REINITIALISATION);
-        this.output.print(Ihm.COULEUR_JAUNE + "> " + Ihm.COULEUR_REINITIALISATION);
+        this.output.println(Ihm.COULEUR_JAUNE
+                            + question
+                            + Ihm.COULEUR_REINITIALISATION);
+        this.output.print(Ihm.COULEUR_JAUNE
+                          + "> "
+                          + Ihm.COULEUR_REINITIALISATION);
+
         // TODO(nico): probablement mieux à faire !
         while (true) {
             if (this.scanner.hasNextInt()) {
                 return this.scanner.nextInt();
             }
 
-            afficherErreur("Valeur entrée non-numérique.");
+            afficherErreur("Pas un nombre valide.");
             scanner.nextLine();
         }
     }

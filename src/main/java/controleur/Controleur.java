@@ -222,43 +222,43 @@ public class Controleur {
                 }
 
                 Personnage personnage = this.jeu.getPersonnage();
-                carteContenu.get(personnage.getLigne())
-                            .set(personnage.getColonne(),
+                carteContenu.get(personnage.obtenirLigne())
+                            .set(personnage.obtenirColonne(),
                                  Controleur.STRING_PERSONNAGE);
 
                 for (Animal animal : this.jeu.getAnimaux()) {
                     String s = Controleur.STRING_INCONNU;
                     AnimalEtat etat = animal.obtenirEtat();
-                    ActeurId id = animal.id;
+                    int type = animal.obtenirType();
 
                     switch (etat.obtenirId()) {
                     case AnimalEtat.ETAT_AFFAME:
-                        s = id == ActeurId.ECUREUIL
+                        s = type == Acteur.TYPE_ECUREUIL
                             ? Controleur.STRING_ECUREUIL_AFFAME
                             : Controleur.STRING_SINGE_AFFAME;
                         break;
                     case AnimalEtat.ETAT_RASSASIE:
-                        s = id == ActeurId.ECUREUIL
+                        s = type == Acteur.TYPE_ECUREUIL
                             ? Controleur.STRING_ECUREUIL_RASSASIE
                             : Controleur.STRING_SINGE_RASSASIE;
                         break;
                     case AnimalEtat.ETAT_AMI:
-                        s = id == ActeurId.ECUREUIL
+                        s = type == Acteur.TYPE_ECUREUIL
                             ? Controleur.STRING_ECUREUIL_AMI
                             : Controleur.STRING_SINGE_AMI;
                         break;
                     case AnimalEtat.ETAT_JUNKIE:
-                        s = id == ActeurId.ECUREUIL
+                        s = type == Acteur.TYPE_ECUREUIL
                             ? Controleur.STRING_ECUREUIL_JUNKIE
                             : Controleur.STRING_SINGE_JUNKIE;
                         break;
                     case AnimalEtat.ETAT_PERCHE:
-                        s = id == ActeurId.ECUREUIL
+                        s = type == Acteur.TYPE_ECUREUIL
                             ? Controleur.STRING_ECUREUIL_PERCHE
                             : Controleur.STRING_SINGE_PERCHE;
                         break;
                     case AnimalEtat.ETAT_CACHE:
-                        s = id == ActeurId.ECUREUIL
+                        s = type == Acteur.TYPE_ECUREUIL
                             ? Controleur.STRING_ECUREUIL_CACHE
                             : Controleur.STRING_SINGE_CACHE;
                         break;
@@ -266,39 +266,39 @@ public class Controleur {
                         this.ihm.afficherErreur("État inconnu \"" + etat + "\".");
                     }
 
-                    carteContenu.get(animal.getLigne())
-                                 .set(animal.getColonne(), s);
+                    carteContenu.get(animal.obtenirLigne())
+                                 .set(animal.obtenirColonne(), s);
                 }
 
                 for (Acteur decor : this.jeu.getDecors()) {
                     String s = Controleur.STRING_INCONNU;
-                    switch (decor.id) {
-                    case ARBRE:        s = Controleur.STRING_ARBRE;        break;
-                    case BUISSON:      s = Controleur.STRING_BUISSON;      break;
-                    case COCOTIER:     s = Controleur.STRING_COCOTIER;     break;
-                    case PETIT_ROCHER: s = Controleur.STRING_PETIT_ROCHER; break;
+                    switch (decor.obtenirType()) {
+                    case Acteur.TYPE_ARBRE:        s = Controleur.STRING_ARBRE;        break;
+                    case Acteur.TYPE_BUISSON:      s = Controleur.STRING_BUISSON;      break;
+                    case Acteur.TYPE_COCOTIER:     s = Controleur.STRING_COCOTIER;     break;
+                    case Acteur.TYPE_PETIT_ROCHER: s = Controleur.STRING_PETIT_ROCHER; break;
                     default:
                         this.ihm.afficherErreur("Décor inconnu : " + decor);
                         break;
                     }
 
-                    carteContenu.get(decor.getLigne())
-                                .set(decor.getColonne(), s);
+                    carteContenu.get(decor.obtenirLigne())
+                                .set(decor.obtenirColonne(), s);
                 }
 
                 for (Objet objet : this.jeu.getObjets()) {
                     String s = Controleur.STRING_INCONNU;
-                    switch (objet.id) {
-                    case BANANE:     s = Controleur.STRING_BANANE;     break;
-                    case CHAMPIGNON: s = Controleur.STRING_CHAMPIGNON; break;
-                    case GLAND:      s = Controleur.STRING_GLAND;      break;
+                    switch (objet.obtenirType()) {
+                    case Acteur.TYPE_BANANE:     s = Controleur.STRING_BANANE;     break;
+                    case Acteur.TYPE_CHAMPIGNON: s = Controleur.STRING_CHAMPIGNON; break;
+                    case Acteur.TYPE_GLAND:      s = Controleur.STRING_GLAND;      break;
                     default:
                         this.ihm.afficherErreur("Objet inconnu : " + objet);
                         break;
                     }
 
-                    carteContenu.get(objet.getLigne())
-                                .set(objet.getColonne(), s);
+                    carteContenu.get(objet.obtenirLigne())
+                                .set(objet.obtenirColonne(), s);
                 }
 
                 for (List<String> ligne : carteContenu) {
@@ -360,13 +360,13 @@ public class Controleur {
                 } else {
                     for (int i = 0; i < inventaireSize; ++i) {
                         String nom = "??";
-                        ActeurId id = inventaire.get(i).id;
-                        switch (id) {
-                        case BANANE:     nom = "Banane";     break;
-                        case CHAMPIGNON: nom = "Champignon"; break;
-                        case GLAND:      nom = "Gland";      break;
+                        int type = inventaire.get(i).obtenirType();
+                        switch (type) {
+                        case Acteur.TYPE_BANANE:     nom = "Banane";     break;
+                        case Acteur.TYPE_CHAMPIGNON: nom = "Champignon"; break;
+                        case Acteur.TYPE_GLAND:      nom = "Gland";      break;
                         default:
-                            this.ihm.afficherErreur("Objet \"" + id + "\"inconnu dans l'inventaire");
+                            this.ihm.afficherErreur("Objet \"" + type + "\" inconnu dans l'inventaire");
                             break;
                         }
 

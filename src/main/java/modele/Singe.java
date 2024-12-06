@@ -1,8 +1,9 @@
 package modele;
 
-public class Singe extends Animal{
+/** Un singe. */
+public class Singe extends Animal {
     public Singe(int x, int y) {
-        super(ActeurId.SINGE, x, y);
+        super(Acteur.TYPE_SINGE, x, y);
         this.changerSaturation(3);
     }
 }

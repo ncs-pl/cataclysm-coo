@@ -138,7 +138,7 @@ public class Carte {
                     if (this.theme == JeuTheme.FORET) acteur = new Buisson(j, i);
                     break;
                 case '.':
-                    if (this.theme == JeuTheme.FORET) acteur = new CaseVide(j, i);
+                    if (this.theme == JeuTheme.FORET) acteur = new ZoneVide(j, i);
                     break;
                 default:
                     break;

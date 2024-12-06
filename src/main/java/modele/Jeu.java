@@ -21,60 +21,78 @@ public class Jeu {
 
         for (List<Acteur> ligne : carte.getContenu()) {
             for (Acteur acteur : ligne) {
-                switch (acteur.id) {
-                case ZONE_VIDE:
-                    break;
+                switch (acteur.obtenirType()) {
+                case Acteur.TYPE_ZONE_VIDE: break;
+                case Acteur.TYPE_PERSONNAGE:
+                    if (this.personnage != null) {
+                        throw new CarteInvalideException("Plus d'un personnage dans la carte");
+                    }
 
-                case PERSONNAGE:
-                    if (this.personnage != null) throw new CarteInvalideException("Plus d'un personnage dans la carte");
                     this.personnage = (Personnage) acteur;
                     break;
 
                 // Objets
-                case BANANE:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Banane en dehors de la jungle");
+                case Acteur.TYPE_BANANE:
+                    if (theme != JeuTheme.JUNGLE) {
+                        throw new CarteInvalideException("Banane en dehors de la jungle");
+                    }
+
                     this.objets.add((Objet) acteur);
                     break;
-                case CHAMPIGNON:
+                case Acteur.TYPE_CHAMPIGNON:
                     this.objets.add((Objet) acteur);
                     break;
-                case GLAND:
-                    if (theme != JeuTheme.FORET)
+                case Acteur.TYPE_GLAND:
+                    if (theme != JeuTheme.FORET) {
                         throw new CarteInvalideException("Gland en dehors de la forêt");
+                    }
+
                     this.objets.add((Objet) acteur);
                     break;
 
                 // Animaux
-                case ECUREUIL:
-                    if (theme != JeuTheme.FORET)
+                case Acteur.TYPE_ECUREUIL:
+                    if (theme != JeuTheme.FORET) {
                         throw new CarteInvalideException("Ecureuil en dehors de la forêt");
+                    }
+
                     this.animaux.add((Animal) acteur);
                     break;
-                case SINGE:
-                    if (theme != JeuTheme.JUNGLE)
+                case Acteur.TYPE_SINGE:
+                    if (theme != JeuTheme.JUNGLE) {
                         throw new CarteInvalideException("Singe en dehors de la jungle");
+                    }
+
                     this.animaux.add((Animal) acteur);
                     break;
 
                 // Décors
-                case ARBRE:
-                    if (theme != JeuTheme.FORET)
+                case Acteur.TYPE_ARBRE:
+                    if (theme != JeuTheme.FORET) {
                         throw new CarteInvalideException("Arbre en dehors de la forêt");
+                    }
+
                     this.decors.add(acteur);
                     break;
-                case BUISSON:
-                    if (theme != JeuTheme.FORET)
+                case Acteur.TYPE_BUISSON:
+                    if (theme != JeuTheme.FORET) {
                         throw new CarteInvalideException("Buisson en dehors de la forêt");
+                    }
+
                     this.decors.add(acteur);
                     break;
-                case COCOTIER:
-                    if (theme != JeuTheme.JUNGLE)
+                case Acteur.TYPE_COCOTIER:
+                    if (theme != JeuTheme.JUNGLE) {
                         throw new CarteInvalideException("Cocotier en dehors de la jungle");
+                    }
+
                     this.decors.add(acteur);
                     break;
-                case PETIT_ROCHER:
-                    if (theme != JeuTheme.JUNGLE)
+                case Acteur.TYPE_PETIT_ROCHER:
+                    if (theme != JeuTheme.JUNGLE) {
                         throw new CarteInvalideException("Petit rocher en dehors de la Jungle");
+                    }
+
                     this.decors.add(acteur);
                     break;
 
@@ -121,8 +139,8 @@ public class Jeu {
     }
 
     public void deplacerJoueur(Position position) throws DeplacementImpossibleException {
-        int colonne = this.personnage.getColonne();
-        int ligne = this.personnage.getLigne();
+        int colonne = this.personnage.obtenirColonne();
+        int ligne = this.personnage.obtenirLigne();
         switch (position) {
         case HAUT:
             ligne -= 1;
@@ -138,33 +156,44 @@ public class Jeu {
             break;
         }
 
-        if (colonne < 0) throw new DeplacementImpossibleException("Bordure gauche de la carte.");
-        if (colonne >= this.colonnes) throw new DeplacementImpossibleException("Bordure droite de la carte.");
-        if (ligne < 0) throw new DeplacementImpossibleException("Bordure supérieure de la carte.");
-        if (ligne >= this.lignes) throw new DeplacementImpossibleException("Bordure inférieure de la carte.");
+        if (colonne < 0) {
+            throw new DeplacementImpossibleException("Bordure gauche de la carte.");
+        }
+
+        if (colonne >= this.colonnes) {
+            throw new DeplacementImpossibleException("Bordure droite de la carte.");
+        }
+
+        if (ligne < 0) {
+            throw new DeplacementImpossibleException("Bordure supérieure de la carte.");
+        }
+
+        if (ligne >= this.lignes) {
+            throw new DeplacementImpossibleException("Bordure inférieure de la carte.");
+        }
 
         for (Animal animal : this.animaux) {
-            if (colonne == animal.getColonne() && ligne == animal.getLigne())
+            if (colonne == animal.obtenirColonne() && ligne == animal.obtenirLigne())
                 throw new DeplacementImpossibleException("Animal sur la case.");
         }
 
         for (Acteur decor : this.decors) {
-            if (colonne == decor.getColonne() && ligne == decor.getLigne())
+            if (colonne == decor.obtenirColonne() && ligne == decor.obtenirLigne())
                 throw new DeplacementImpossibleException("Case bloquée par le décor.");
         }
 
         for (Objet objet : this.objets) {
-            if (colonne == objet.getColonne() && ligne == objet.getLigne())
+            if (colonne == objet.obtenirColonne() && ligne == objet.obtenirLigne())
                 throw new DeplacementImpossibleException("Objet sur la case.");
         }
 
-        this.personnage.setColonne(colonne);
-        this.personnage.setLigne(ligne);
+        this.personnage.changerColonne(colonne);
+        this.personnage.changerLigne(ligne);
     }
 
     public void ramasserObjet(Position position) throws AucunObjetException {
-        int colonne = this.personnage.getColonne();
-        int ligne = this.personnage.getLigne();
+        int colonne = this.personnage.obtenirColonne();
+        int ligne = this.personnage.obtenirLigne();
         switch (position) {
         case HAUT:
             ligne -= 1;
@@ -180,31 +209,55 @@ public class Jeu {
             break;
         }
 
-        if (colonne < 0) throw new AucunObjetException("Bordure gauche de la carte.");
-        if (colonne >= this.colonnes) throw new AucunObjetException("Bordure droite de la carte.");
-        if (ligne < 0) throw new AucunObjetException("Bordure supérieure de la carte.");
-        if (ligne >= this.lignes) throw new AucunObjetException("Bordure inférieure de la carte.");
+        if (colonne < 0) {
+            throw new AucunObjetException("Bordure gauche de la carte.");
+        }
+
+        if (colonne >= this.colonnes) {
+            throw new AucunObjetException("Bordure droite de la carte.");
+        }
+
+        if (ligne < 0) {
+            throw new AucunObjetException("Bordure supérieure de la carte.");
+        }
+
+        if (ligne >= this.lignes) {
+            throw new AucunObjetException("Bordure inférieure de la carte.");
+        }
 
         Objet objet = null;
         for (Objet o : this.objets) {
-            if (colonne == o.getColonne() && ligne == o.getLigne()) objet = o;
+            if (colonne == o.obtenirColonne() && ligne == o.obtenirLigne()) {
+                objet = o;
+            }
         }
 
-        if (objet == null) throw new AucunObjetException("Aucun objet à ramasser à la position demandée.");
+        if (objet == null) {
+            throw new AucunObjetException("Aucun objet à ramasser à la position demandée.");
+        }
 
-        objet.setColonne(-1);
-        objet.setLigne(-1);
+        objet.changerColonne(-1);
+        objet.changerLigne(-1);
+
         this.inventaire.add(objet);
         this.objets.remove(objet);
     }
 
     public void deposerObjet(Position position, int indice) throws DepotImpossibleException {
-        if (this.inventaire.isEmpty()) throw new DepotImpossibleException("L'inventaire est vide.");
-        if (indice < 0) throw new DepotImpossibleException("Indice d'objet trop petit.");
-        if (this.inventaire.size() < indice) throw new DepotImpossibleException("Indice d'objet trop grand.");
+        if (this.inventaire.isEmpty()) {
+            throw new DepotImpossibleException("L'inventaire est vide.");
+        }
 
-        int colonne = this.personnage.getColonne();
-        int ligne = this.personnage.getLigne();
+        if (indice < 0) {
+            throw new DepotImpossibleException("Indice d'objet trop petit.");
+        }
+
+        if (this.inventaire.size() < indice) {
+            throw new DepotImpossibleException("Indice d'objet trop grand.");
+        }
+
+        int colonne = this.personnage.obtenirColonne();
+        int ligne = this.personnage.obtenirLigne();
         switch (position) {
         case HAUT:
             ligne -= 1;
@@ -220,29 +273,43 @@ public class Jeu {
             break;
         }
 
-        if (colonne < 0) throw new DepotImpossibleException("Bordure gauche de la carte.");
-        if (colonne >= this.colonnes) throw new DepotImpossibleException("Bordure droite de la carte.");
-        if (ligne < 0) throw new DepotImpossibleException("Bordure supérieure de la carte.");
-        if (ligne >= this.lignes) throw new DepotImpossibleException("Bordure inférieure de la carte.");
+        if (colonne < 0) {
+            throw new DepotImpossibleException("Bordure gauche de la carte.");
+        }
+
+        if (colonne >= this.colonnes) {
+            throw new DepotImpossibleException("Bordure droite de la carte.");
+        }
+
+        if (ligne < 0) {
+            throw new DepotImpossibleException("Bordure supérieure de la carte.");
+        }
+
+        if (ligne >= this.lignes) {
+            throw new DepotImpossibleException("Bordure inférieure de la carte.");
+        }
 
         for (Animal animal : this.animaux) {
-            if (colonne == animal.getColonne() && ligne == animal.getLigne())
+            if (colonne == animal.obtenirColonne() && ligne == animal.obtenirLigne()) {
                 throw new DepotImpossibleException("Animal sur la position demandée.");
+            }
         }
 
         for (Acteur decor : this.decors) {
-            if (colonne == decor.getColonne() && ligne == decor.getLigne())
+            if (colonne == decor.obtenirColonne() && ligne == decor.obtenirLigne()) {
                 throw new DepotImpossibleException("Case bloquée par le décor.");
+            }
         }
 
         for (Objet objet : this.objets) {
-            if (colonne == objet.getColonne() && ligne == objet.getLigne())
+            if (colonne == objet.obtenirColonne() && ligne == objet.obtenirLigne()) {
                 throw new DepotImpossibleException("Objet sur la case demandée..");
+            }
         }
 
         Objet objet = this.inventaire.get(indice);
-        objet.setColonne(colonne);
-        objet.setLigne(ligne);
+        objet.changerColonne(colonne);
+        objet.changerLigne(ligne);
 
         this.inventaire.remove(objet);
         this.objets.add(objet);

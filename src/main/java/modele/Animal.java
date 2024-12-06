@@ -7,8 +7,8 @@ public abstract class Animal extends Acteur {
     private int saturation;  // La satiété de l'animal.
     private AnimalEtat etat; // L'état de l'animal.
 
-    public Animal(ActeurId id, int x, int y) {
-        super(id, x, y);
+    public Animal(int type, int x, int y) {
+        super(type, x, y);
         this.amitie     = false;
         this.saturation = 0;
         this.etat       = new AnimalEtatRassasie(this);
