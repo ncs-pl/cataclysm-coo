@@ -15,11 +15,11 @@ public class Jeu {
     private final List<Objet> objets     = new ArrayList<>(); // Objets sur la carte.
 
     public Jeu(Carte carte) {
-        this.theme = carte.getTheme();
-        this.lignes = carte.getLignes();
-        this.colonnes = carte.getColonnes();
+        this.theme    = carte.obtenirTheme();
+        this.lignes   = carte.obtenirLignes();
+        this.colonnes = carte.obtenirColonnes();
 
-        for (List<Acteur> ligne : carte.getContenu()) {
+        for (List<Acteur> ligne : carte.obtenirContenu()) {
             for (Acteur acteur : ligne) {
                 switch (acteur.obtenirType()) {
                 case Acteur.TYPE_ZONE_VIDE: break;
@@ -102,138 +102,126 @@ public class Jeu {
             }
         }
 
-        if (this.personnage == null)
+        if (this.personnage == null) {
             throw new CarteInvalideException("Aucun personnage dans la carte.");
+        }
     }
 
-    public JeuTheme getTheme() {
+    /** Obtient le thème du jeu en cours. */
+    public JeuTheme obtenirTheme() {
         return this.theme;
     }
 
-    public int getLignes() {
+    /** Obtient le nombre de lignes dans le jeu en cours. */
+    public int obtenirLignes() {
         return this.lignes;
     }
 
-    public int getColonnes() {
+    /** Obtient le nombre de colonnes dans le jeu en cours. */
+    public int obtenirColonnes() {
         return this.colonnes;
     }
 
-    public Personnage getPersonnage() {
+    /** Obtient le personnage sur la carte. */
+    public Personnage obtenirPersonnage() {
         return this.personnage;
     }
 
-    public List<Objet> getInventaire() {
+    /** Obtient l'inventaire du joueur. */
+    public List<Objet> obtenirInventaire() {
         return this.inventaire;
     }
 
-    public List<Animal> getAnimaux() {
+    /** Obtient les animaux sur la carte. */
+    public List<Animal> obtenirAnimaux() {
         return this.animaux;
     }
 
-    public List<Acteur> getDecors() {
+    /** Obtient les décors sur la carte. */
+    public List<Acteur> obtenirDecors() {
         return this.decors;
     }
 
-    public List<Objet> getObjets() {
+    /** Obtient les objets sur la carte. */
+    public List<Objet> obtenirObjets() {
         return this.objets;
     }
 
-    public void deplacerJoueur(Position position) throws DeplacementImpossibleException {
+    /** Déplace le personnqge dans une certaine direction d'une case. */
+    @SuppressWarnings("DuplicatedCode")
+    public void deplacerJoueur(Position position)
+        throws PositionInvalideException {
         int colonne = this.personnage.obtenirColonne();
-        int ligne = this.personnage.obtenirLigne();
+        int ligne   = this.personnage.obtenirLigne();
         switch (position) {
-        case HAUT:
-            ligne -= 1;
-            break;
-        case BAS:
-            ligne += 1;
-            break;
-        case DROITE:
-            colonne += 1;
-            break;
-        case GAUCHE:
-            colonne -= 1;
-            break;
+        case HAUT:   ligne   -= 1; break;
+        case BAS:    ligne   += 1; break;
+        case DROITE: colonne += 1; break;
+        case GAUCHE: colonne -= 1; break;
         }
 
-        if (colonne < 0) {
-            throw new DeplacementImpossibleException("Bordure gauche de la carte.");
-        }
-
-        if (colonne >= this.colonnes) {
-            throw new DeplacementImpossibleException("Bordure droite de la carte.");
-        }
-
-        if (ligne < 0) {
-            throw new DeplacementImpossibleException("Bordure supérieure de la carte.");
-        }
-
-        if (ligne >= this.lignes) {
-            throw new DeplacementImpossibleException("Bordure inférieure de la carte.");
+        if (colonne < 0              ||
+            colonne >= this.colonnes ||
+            ligne < 0                ||
+            ligne >= this.lignes) {
+            throw new PositionInvalideException("Bordures de la carte.");
         }
 
         for (Animal animal : this.animaux) {
-            if (colonne == animal.obtenirColonne() && ligne == animal.obtenirLigne())
-                throw new DeplacementImpossibleException("Animal sur la case.");
+            if (colonne == animal.obtenirColonne() &&
+                ligne == animal.obtenirLigne()) {
+                throw new PositionInvalideException("Case bloquée par un animal.");
+            }
         }
 
         for (Acteur decor : this.decors) {
-            if (colonne == decor.obtenirColonne() && ligne == decor.obtenirLigne())
-                throw new DeplacementImpossibleException("Case bloquée par le décor.");
+            if (colonne == decor.obtenirColonne() &&
+                ligne == decor.obtenirLigne()) {
+                throw new PositionInvalideException("Case bloquée par le décor.");
+            }
         }
 
         for (Objet objet : this.objets) {
-            if (colonne == objet.obtenirColonne() && ligne == objet.obtenirLigne())
-                throw new DeplacementImpossibleException("Objet sur la case.");
+            if (colonne == objet.obtenirColonne() &&
+                ligne == objet.obtenirLigne()) {
+                throw new PositionInvalideException("Case bloquée par un objet.");
+            }
         }
 
         this.personnage.changerColonne(colonne);
         this.personnage.changerLigne(ligne);
     }
 
-    public void ramasserObjet(Position position) throws AucunObjetException {
+    /** Ramasse un objet d'une case voisine dans l'inventaire. */
+    @SuppressWarnings("DuplicatedCode")
+    public void ramasserObjet(Position position)
+        throws PositionInvalideException {
         int colonne = this.personnage.obtenirColonne();
-        int ligne = this.personnage.obtenirLigne();
+        int ligne   = this.personnage.obtenirLigne();
         switch (position) {
-        case HAUT:
-            ligne -= 1;
-            break;
-        case BAS:
-            ligne += 1;
-            break;
-        case DROITE:
-            colonne += 1;
-            break;
-        case GAUCHE:
-            colonne -= 1;
-            break;
+        case HAUT:   ligne   -= 1; break;
+        case BAS:    ligne   += 1; break;
+        case DROITE: colonne += 1; break;
+        case GAUCHE: colonne -= 1; break;
         }
 
-        if (colonne < 0) {
-            throw new AucunObjetException("Bordure gauche de la carte.");
-        }
-
-        if (colonne >= this.colonnes) {
-            throw new AucunObjetException("Bordure droite de la carte.");
-        }
-
-        if (ligne < 0) {
-            throw new AucunObjetException("Bordure supérieure de la carte.");
-        }
-
-        if (ligne >= this.lignes) {
-            throw new AucunObjetException("Bordure inférieure de la carte.");
+        if (colonne < 0              ||
+            colonne >= this.colonnes ||
+            ligne < 0                ||
+            ligne >= this.lignes) {
+            throw new PositionInvalideException("Bordures de la carte.");
         }
 
         Objet objet = null;
         for (Objet o : this.objets) {
-            if (colonne == o.obtenirColonne() && ligne == o.obtenirLigne()) {
+            if (colonne == o.obtenirColonne() &&
+                ligne == o.obtenirLigne()) {
                 objet = o;
             }
         }
 
         if (objet == null) {
-            throw new AucunObjetException("Aucun objet à ramasser à la position demandée.");
+            throw new PositionInvalideException("Aucun objet à ramasser à la position demandée.");
         }
 
         objet.changerColonne(-1);
@@ -243,67 +231,54 @@ public class Jeu {
         this.objets.remove(objet);
     }
 
-    public void deposerObjet(Position position, int indice) throws DepotImpossibleException {
+    /** Dépose un objet de l'inventaire sur une case voisine. */
+    @SuppressWarnings("DuplicatedCode")
+    public void deposerObjet(Position position, int indice)
+        throws InventaireVideException,
+               IndexOutOfBoundsException,
+               PositionInvalideException {
         if (this.inventaire.isEmpty()) {
-            throw new DepotImpossibleException("L'inventaire est vide.");
+            throw new InventaireVideException("L'inventaire est vide.");
         }
 
-        if (indice < 0) {
-            throw new DepotImpossibleException("Indice d'objet trop petit.");
-        }
-
-        if (this.inventaire.size() < indice) {
-            throw new DepotImpossibleException("Indice d'objet trop grand.");
+        if (indice < 0 || this.inventaire.size() < indice) {
+            throw new IndexOutOfBoundsException("Indice d'objet invalide.");
         }
 
         int colonne = this.personnage.obtenirColonne();
-        int ligne = this.personnage.obtenirLigne();
+        int ligne   = this.personnage.obtenirLigne();
         switch (position) {
-        case HAUT:
-            ligne -= 1;
-            break;
-        case BAS:
-            ligne += 1;
-            break;
-        case DROITE:
-            colonne += 1;
-            break;
-        case GAUCHE:
-            colonne -= 1;
-            break;
+        case HAUT:   ligne   -= 1; break;
+        case BAS:    ligne   += 1; break;
+        case DROITE: colonne += 1; break;
+        case GAUCHE: colonne -= 1; break;
         }
 
-        if (colonne < 0) {
-            throw new DepotImpossibleException("Bordure gauche de la carte.");
-        }
-
-        if (colonne >= this.colonnes) {
-            throw new DepotImpossibleException("Bordure droite de la carte.");
-        }
-
-        if (ligne < 0) {
-            throw new DepotImpossibleException("Bordure supérieure de la carte.");
-        }
-
-        if (ligne >= this.lignes) {
-            throw new DepotImpossibleException("Bordure inférieure de la carte.");
+        if (colonne < 0              ||
+            colonne >= this.colonnes ||
+            ligne < 0                ||
+            ligne >= this.lignes) {
+            throw new PositionInvalideException("Bordures de la carte.");
         }
 
         for (Animal animal : this.animaux) {
-            if (colonne == animal.obtenirColonne() && ligne == animal.obtenirLigne()) {
-                throw new DepotImpossibleException("Animal sur la position demandée.");
+            if (colonne == animal.obtenirColonne() &&
+                ligne == animal.obtenirLigne()) {
+                throw new PositionInvalideException("Case bloquée par un animal.");
             }
         }
 
         for (Acteur decor : this.decors) {
-            if (colonne == decor.obtenirColonne() && ligne == decor.obtenirLigne()) {
-                throw new DepotImpossibleException("Case bloquée par le décor.");
+            if (colonne == decor.obtenirColonne() &&
+                ligne == decor.obtenirLigne()) {
+                throw new PositionInvalideException("Case bloquée par le décor.");
             }
         }
 
         for (Objet objet : this.objets) {
-            if (colonne == objet.obtenirColonne() && ligne == objet.obtenirLigne()) {
-                throw new DepotImpossibleException("Objet sur la case demandée..");
+            if (colonne == objet.obtenirColonne() &&
+                ligne == objet.obtenirLigne()) {
+                throw new PositionInvalideException("Case déjà occupée par un objet.");
             }
         }
 
@@ -315,4 +290,3 @@ public class Jeu {
         this.objets.add(objet);
     }
 }
-

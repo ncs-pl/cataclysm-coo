@@ -43,7 +43,7 @@ public class Controleur {
     private void deplacerJoueur(Position position) {
         try {
             this.jeu.deplacerJoueur(position);
-        } catch (DeplacementImpossibleException e) {
+        } catch (PositionInvalideException e) {
             this.ihm.afficherErreur(e.getMessage());
         }
     }
@@ -51,7 +51,7 @@ public class Controleur {
     private void ramasserObjet(Position position) {
         try {
             this.jeu.ramasserObjet(position);
-        } catch (AucunObjetException e) {
+        } catch (PositionInvalideException e) {
             this.ihm.afficherErreur(e.getMessage());
         }
     }
@@ -60,7 +60,9 @@ public class Controleur {
         try {
             int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.");
             this.jeu.deposerObjet(position, indice-1);
-        } catch (DepotImpossibleException e) {
+        } catch (PositionInvalideException |
+                 InventaireVideException   |
+                 IndexOutOfBoundsException e) {
             this.ihm.afficherErreur(e.getMessage());
         }
     }
@@ -206,9 +208,9 @@ public class Controleur {
                 // symboles correspondants aux acteurs spécifiques selon le
                 // thème.
 
-                int lignes = this.jeu.getLignes();
-                int colonnes = this.jeu.getColonnes();
-                JeuTheme theme = this.jeu.getTheme();
+                int lignes = this.jeu.obtenirLignes();
+                int colonnes = this.jeu.obtenirColonnes();
+                JeuTheme theme = this.jeu.obtenirTheme();
 
                 List<List<String>> carteContenu = new ArrayList<>();
 
@@ -221,12 +223,12 @@ public class Controleur {
                     carteContenu.add(ligne);
                 }
 
-                Personnage personnage = this.jeu.getPersonnage();
+                Personnage personnage = this.jeu.obtenirPersonnage();
                 carteContenu.get(personnage.obtenirLigne())
                             .set(personnage.obtenirColonne(),
                                  Controleur.STRING_PERSONNAGE);
 
-                for (Animal animal : this.jeu.getAnimaux()) {
+                for (Animal animal : this.jeu.obtenirAnimaux()) {
                     String s = Controleur.STRING_INCONNU;
                     AnimalEtat etat = animal.obtenirEtat();
                     int type = animal.obtenirType();
@@ -270,7 +272,7 @@ public class Controleur {
                                  .set(animal.obtenirColonne(), s);
                 }
 
-                for (Acteur decor : this.jeu.getDecors()) {
+                for (Acteur decor : this.jeu.obtenirDecors()) {
                     String s = Controleur.STRING_INCONNU;
                     switch (decor.obtenirType()) {
                     case Acteur.TYPE_ARBRE:        s = Controleur.STRING_ARBRE;        break;
@@ -286,7 +288,7 @@ public class Controleur {
                                 .set(decor.obtenirColonne(), s);
                 }
 
-                for (Objet objet : this.jeu.getObjets()) {
+                for (Objet objet : this.jeu.obtenirObjets()) {
                     String s = Controleur.STRING_INCONNU;
                     switch (objet.obtenirType()) {
                     case Acteur.TYPE_BANANE:     s = Controleur.STRING_BANANE;     break;
@@ -352,7 +354,7 @@ public class Controleur {
             case "inventaire", "i": {
                 String affichage = "Inventaire :\n";
 
-                List<Objet> inventaire = this.jeu.getInventaire();
+                List<Objet> inventaire = this.jeu.obtenirInventaire();
                 int inventaireSize = inventaire.size();
 
                 if (inventaireSize == 0) {

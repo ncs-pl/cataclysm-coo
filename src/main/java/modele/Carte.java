@@ -170,19 +170,19 @@ public class Carte {
         this.contenu = contenu;
     }
 
-    public JeuTheme getTheme() {
+    public JeuTheme obtenirTheme() {
         return this.theme;
     }
 
-    public int getLignes() {
+    public int obtenirLignes() {
         return this.lignes;
     }
 
-    public int getColonnes() {
+    public int obtenirColonnes() {
         return this.colonnes;
     }
 
-    public List<List<Acteur>> getContenu() {
+    public List<List<Acteur>> obtenirContenu() {
         return this.contenu;
     }
 
