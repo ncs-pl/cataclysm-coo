@@ -1,10 +1,10 @@
 package modele;
 
 public enum EtatAnimal {
-    /** L'animal est junkie. */
-    JUNKIE,
-    /** L'animal est perché dans un arbre. */
-    PERCHE_ARBRE,
-    /** L'animal est caché dans un buisson. */
-    CACHE_BUISSON,
+    AFFAME,   // Juste avant midi.
+    RASSASIE, // Trql.
+    AMI,      // Poto.
+    JUNKIE,   // Après consommation d'un champi.
+    PERCHE,   // Perché dans un arbre ou un cocotier.
+    CACHE,    // Caché dans un buisson ou derrière un rocher.
 }

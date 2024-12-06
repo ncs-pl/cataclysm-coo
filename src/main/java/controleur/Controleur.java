@@ -9,6 +9,29 @@ import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
+    static String STRING_INCONNU = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "?" + Ihm.COLOR_RESET;
+    static String STRING_PERSONNAGE = Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_PURPLE + "@" + Ihm.COLOR_RESET;
+    static String STRING_ZONE_VIDE = Ihm.COLOR_BACKGROUND_GREEN + "." + Ihm.COLOR_RESET;
+    static String STRING_ARBRE = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "A" + Ihm.COLOR_RESET;
+    static String STRING_BUISSON = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "B" + Ihm.COLOR_RESET;
+    static String STRING_COCOTIER = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "A" + Ihm.COLOR_RESET;
+    static String STRING_PETIT_ROCHER = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_WHITE + "R" + Ihm.COLOR_RESET;
+    static String STRING_BANANE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_BLACK + "B" + Ihm.COLOR_RESET;
+    static String STRING_CHAMPIGNON = Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_RED + "C" + Ihm.COLOR_RESET;
+    static String STRING_GLAND = Ihm.COLOR_BACKGROUND_RED + Ihm.COLOR_YELLOW + "G" + Ihm.COLOR_RESET;
+    static String STRING_ECUREUIL_AFFAME = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_BLACK + "E" + Ihm.COLOR_RESET;
+    static String STRING_ECUREUIL_RASSASIE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_BLUE + "E" + Ihm.COLOR_RESET;
+    static String STRING_ECUREUIL_AMI = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "E" + Ihm.COLOR_RESET;
+    static String STRING_ECUREUIL_JUNKIE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_RED + "E" + Ihm.COLOR_RESET;
+    static String STRING_ECUREUIL_PERCHE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_GREEN + "E" + Ihm.COLOR_RESET;
+    static String STRING_ECUREUIL_CACHE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_YELLOW + "E" + Ihm.COLOR_RESET;
+    static String STRING_SINGE_AFFAME = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_BLACK + "S" + Ihm.COLOR_RESET;
+    static String STRING_SINGE_RASSASIE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_BLUE + "S" + Ihm.COLOR_RESET;
+    static String STRING_SINGE_AMI = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "S" + Ihm.COLOR_RESET;
+    static String STRING_SINGE_JUNKIE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_RED + "S" + Ihm.COLOR_RESET;
+    static String STRING_SINGE_PERCHE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_GREEN + "S" + Ihm.COLOR_RESET;
+    static String STRING_SINGE_CACHE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_YELLOW + "S" + Ihm.COLOR_RESET;
+
     private final Ihm ihm; // Interface de jeu
     private Jeu jeu;       // Partie en cours
 
@@ -190,52 +213,60 @@ public class Controleur {
                 int lignes = this.jeu.getLignes();
                 int colonnes = this.jeu.getColonnes();
                 JeuTheme theme = this.jeu.getTheme();
-                // TODO(nico): Thème jungle, ce qui changera peut-être les couleurs du personnage, des zones vides...
 
                 List<List<String>> carteContenu = new ArrayList<>();
                 for (int i = 0; i < lignes; ++i) {
                     List<String> ligne = new ArrayList<>();
                     for (int j = 0; j < colonnes; ++j) {
-                        ligne.add(Ihm.COLOR_BACKGROUND_GREEN + "." + Ihm.COLOR_RESET);
+                        ligne.add(Controleur.STRING_ZONE_VIDE);
                     }
                     carteContenu.add(ligne);
                 }
 
                 Personnage personnage = this.jeu.getPersonnage();
-                carteContenu.get(personnage.getLigne()).set(personnage.getColonne(), Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_PURPLE + "@" + Ihm.COLOR_RESET);
+                carteContenu.get(personnage.getLigne()).set(personnage.getColonne(), Controleur.STRING_PERSONNAGE);
 
                 for (Animal animal : this.jeu.getAnimaux()) {
-                    String s = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "?" + Ihm.COLOR_RESET;
-                    switch (animal.id) {
-                    case ECUREUIL:
-                        // TODO(nico): Gestion de la couleur selon l'état ici.
-                        s = Ihm.COLOR_BACKGROUND_YELLOW + animal.getCouleur() + "E" + Ihm.COLOR_RESET;
+                    String s = Controleur.STRING_INCONNU;
+                    EtatAnimal etat = animal.getEtat();
+                    ActeurId id = animal.id;
+
+                    switch (etat) {
+                    case AFFAME:
+                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_AFFAME : Controleur.STRING_SINGE_AFFAME;
                         break;
-                    case SINGE:
-                        // TODO(nico): Thème de la jungle.
+                    case RASSASIE:
+                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_RASSASIE : Controleur.STRING_SINGE_RASSASIE;
+                        break;
+                    case AMI:
+                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_AMI : Controleur.STRING_SINGE_AMI;
+                        break;
+                    case JUNKIE:
+                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_JUNKIE : Controleur.STRING_SINGE_JUNKIE;
+                        break;
+                    case PERCHE:
+                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_PERCHE : Controleur.STRING_SINGE_PERCHE;
+                        break;
+                    case CACHE:
+                        s = id == ActeurId.ECUREUIL ? Controleur.STRING_ECUREUIL_CACHE : Controleur.STRING_SINGE_CACHE;
                         break;
                     default:
-                        this.ihm.afficherErreur("Animal inconnu : " + animal);
-                        break;
+                        this.ihm.afficherErreur("Animal dans l'état inconnu \"" + etat + "\".");
                     }
                     carteContenu.get(animal.getLigne()).set(animal.getColonne(), s);
                 }
 
                 for (Acteur decor : this.jeu.getDecors()) {
-                    String s = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "?" + Ihm.COLOR_RESET;
+                    String s = Controleur.STRING_INCONNU;
                     switch (decor.id) {
                     case ARBRE:
-                        s = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "A" + Ihm.COLOR_RESET;
-                        break;
+                        s = Controleur.STRING_ARBRE; break;
                     case BUISSON:
-                        s = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "B" + Ihm.COLOR_RESET;
-                        break;
+                        s = Controleur.STRING_BUISSON; break;
                     case COCOTIER:
-                        // TODO(nico): Thème de la jungle.
-                        break;
+                        s = Controleur.STRING_COCOTIER; break;
                     case PETIT_ROCHER:
-                        // TODO(nico): Thème de la jungle.
-                        break;
+                        s = Controleur.STRING_PETIT_ROCHER; break;
                     default:
                         this.ihm.afficherErreur("Décor inconnu : " + decor);
                         break;
@@ -244,17 +275,14 @@ public class Controleur {
                 }
 
                 for (Objet objet : this.jeu.getObjets()) {
-                    String s = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "?" + Ihm.COLOR_RESET;
+                    String s = Controleur.STRING_INCONNU;
                     switch (objet.id) {
                     case BANANE:
-                        // TODO(nico): Thème de la jungle.
-                        break;
+                        s = Controleur.STRING_BANANE; break;
                     case CHAMPIGNON:
-                        s = Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_RED + "C" + Ihm.COLOR_RESET;
-                        break;
+                        s = Controleur.STRING_CHAMPIGNON; break;
                     case GLAND:
-                        s = Ihm.COLOR_BACKGROUND_RED + Ihm.COLOR_YELLOW + "G" + Ihm.COLOR_RESET;
-                        break;
+                        s = Controleur.STRING_GLAND; break;
                     default:
                         this.ihm.afficherErreur("Objet inconnu : " + objet);
                         break;
@@ -271,10 +299,41 @@ public class Controleur {
                     affichage += "\n";
                 }
 
-                // TODO(nico): Ajouter une légende pour le symboles.
+                String legende = "Légende :\n";
+                legende += "* " + Controleur.STRING_PERSONNAGE + " : personnage\n";
+                legende += "* " + Controleur.STRING_ZONE_VIDE + " : zone vide\n";
+                switch (theme) {
+                case FORET:
+                    legende += "* " + Controleur.STRING_ARBRE + " : arbre\n";
+                    legende += "* " + Controleur.STRING_BUISSON + " : buisson\n";
+                    legende += "* " + Controleur.STRING_GLAND + " : gland\n";
+                    legende += "* " + Controleur.STRING_CHAMPIGNON + " : champignon\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_AFFAME + " : écureuil affamé\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_RASSASIE + " : écureuil rassasié\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_AMI + " : écureuil ami\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_JUNKIE + " : écureuil junkie\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_PERCHE + " : écureuil perché dans un arbre\n";
+                    legende += "* " + Controleur.STRING_ECUREUIL_CACHE + " : écureuil caché dans un buisson\n";
+                    break;
+                case JUNGLE:
+                    legende += "* " + Controleur.STRING_COCOTIER + " : cocotier\n";
+                    legende += "* " + Controleur.STRING_PETIT_ROCHER + " : petit rocher\n";
+                    legende += "* " + Controleur.STRING_BANANE + " : banane\n";
+                    legende += "* " + Controleur.STRING_CHAMPIGNON + " : champignon\n";
+                    legende += "* " + Controleur.STRING_SINGE_AFFAME + " : singe affamé\n";
+                    legende += "* " + Controleur.STRING_SINGE_RASSASIE + " : singe rassasié\n";
+                    legende += "* " + Controleur.STRING_SINGE_AMI + " : singe ami\n";
+                    legende += "* " + Controleur.STRING_SINGE_JUNKIE + " : singe junkie\n";
+                    legende += "* " + Controleur.STRING_SINGE_PERCHE + " : singe perché dans un cocotier\n";
+                    legende += "* " + Controleur.STRING_SINGE_CACHE + " : singe caché derrière un petit rocher\n";
+                    break;
+                }
+                legende += "* " + Controleur.STRING_INCONNU + " : erreur\n";
+                affichage += "\n";
+                affichage += legende;
+
                 this.ihm.afficherInformation(affichage);
-            }
-            break;
+            } break;
 
             case "inventaire", "i": {
                 String affichage = "Inventaire :\n";
@@ -283,7 +342,7 @@ public class Controleur {
                 int inventaireSize = inventaire.size();
                 if (inventaireSize == 0) {
                     affichage += "\tRien...";
-                } else{
+                } else {
                     for (int i = 0; i < inventaireSize; ++i) {
                         String nom = "??";
                         ActeurId id = inventaire.get(i).id;
@@ -300,11 +359,11 @@ public class Controleur {
                         default:
                             this.ihm.afficherErreur("Objet \"" + id + "\"inconnu dans l'inventaire");
                             break;
-                    }
+                        }
 
                     //noinspection StringConcatenationInLoop
                     affichage += (i + 1) + ". " + nom + "\n";
-                }
+                    }
                 }
 
                 this.ihm.afficherInformation(affichage);
