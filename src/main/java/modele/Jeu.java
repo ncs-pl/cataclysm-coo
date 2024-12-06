@@ -10,9 +10,9 @@ public class Jeu {
 
     private Personnage personnage;                            // Le joueur.
     private final List<Objet> inventaire = new ArrayList<>(); // Inventaire du joueur.
-    private final List<Animal> animaux = new ArrayList<>();   // Animaux sur la carte.
-    private final List<Acteur> decors = new ArrayList<>();    // Décors bloquant sur la carte.
-    private final List<Objet> objets = new ArrayList<>();     // Objets sur la carte.
+    private final List<Animal> animaux   = new ArrayList<>(); // Animaux sur la carte.
+    private final List<Acteur> decors    = new ArrayList<>(); // Décors bloquant sur la carte.
+    private final List<Objet> objets     = new ArrayList<>(); // Objets sur la carte.
 
     public Jeu(Carte carte) {
         this.theme = carte.getTheme();

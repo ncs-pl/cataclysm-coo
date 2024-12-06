@@ -179,11 +179,11 @@ public class Carte {
         return this.contenu;
     }
 
-    public void sauvegarderFichier() {
-        // TODO(nico): possibilité de sauvegarder la carte dans un fichier
-        System.out.println(this.nom);
-        throw new RuntimeException("Unimplemented");
-    }
+//    public void sauvegarderFichier() {
+//        // TODO(nico): possibilité de sauvegarder la carte dans un fichier
+//        System.out.println(this.nom);
+//        throw new RuntimeException("Unimplemented");
+//    }
 
     public void genererContenuAleatoire() {
         // TODO(nico): Génerer un contenu aléatoire selon le thème et les dimensions fournies dans le constructeur.

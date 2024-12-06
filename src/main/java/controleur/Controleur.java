@@ -9,28 +9,28 @@ import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
-    static String STRING_INCONNU = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "?" + Ihm.COLOR_RESET;
-    static String STRING_PERSONNAGE = Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_PURPLE + "@" + Ihm.COLOR_RESET;
-    static String STRING_ZONE_VIDE = Ihm.COLOR_BACKGROUND_GREEN + "." + Ihm.COLOR_RESET;
-    static String STRING_ARBRE = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "A" + Ihm.COLOR_RESET;
-    static String STRING_BUISSON = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "B" + Ihm.COLOR_RESET;
-    static String STRING_COCOTIER = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_GREEN + "A" + Ihm.COLOR_RESET;
-    static String STRING_PETIT_ROCHER = Ihm.COLOR_BACKGROUND_BLACK + Ihm.COLOR_WHITE + "R" + Ihm.COLOR_RESET;
-    static String STRING_BANANE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_BLACK + "B" + Ihm.COLOR_RESET;
-    static String STRING_CHAMPIGNON = Ihm.COLOR_BACKGROUND_WHITE + Ihm.COLOR_RED + "C" + Ihm.COLOR_RESET;
-    static String STRING_GLAND = Ihm.COLOR_BACKGROUND_RED + Ihm.COLOR_YELLOW + "G" + Ihm.COLOR_RESET;
-    static String STRING_ECUREUIL_AFFAME = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_BLACK + "E" + Ihm.COLOR_RESET;
-    static String STRING_ECUREUIL_RASSASIE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_BLUE + "E" + Ihm.COLOR_RESET;
-    static String STRING_ECUREUIL_AMI = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "E" + Ihm.COLOR_RESET;
-    static String STRING_ECUREUIL_JUNKIE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_RED + "E" + Ihm.COLOR_RESET;
-    static String STRING_ECUREUIL_PERCHE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_GREEN + "E" + Ihm.COLOR_RESET;
-    static String STRING_ECUREUIL_CACHE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_YELLOW + "E" + Ihm.COLOR_RESET;
-    static String STRING_SINGE_AFFAME = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_BLACK + "S" + Ihm.COLOR_RESET;
-    static String STRING_SINGE_RASSASIE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_BLUE + "S" + Ihm.COLOR_RESET;
-    static String STRING_SINGE_AMI = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_PURPLE + "S" + Ihm.COLOR_RESET;
-    static String STRING_SINGE_JUNKIE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_RED + "S" + Ihm.COLOR_RESET;
-    static String STRING_SINGE_PERCHE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_GREEN + "S" + Ihm.COLOR_RESET;
-    static String STRING_SINGE_CACHE = Ihm.COLOR_BACKGROUND_YELLOW + Ihm.COLOR_YELLOW + "S" + Ihm.COLOR_RESET;
+    private static final String STRING_INCONNU           = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + "?" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_PERSONNAGE        = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_VIOLET + "@" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ZONE_VIDE         = Ihm.COULEUR_FOND_VERT                       + "." + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ARBRE             = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + "A" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_BUISSON           = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + "B" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_COCOTIER          = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + "A" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_PETIT_ROCHER      = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_BLANC  + "R" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_BANANE            = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + "B" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_CHAMPIGNON        = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_ROUGE  + "C" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_GLAND             = Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_JAUNE  + "G" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_AFFAME   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + "E" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_RASSASIE = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_BLEU   + "E" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_AMI      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + "E" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_JUNKIE   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_ROUGE  + "E" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_PERCHE   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VERT   + "E" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_CACHE    = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE  + "E" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_AFFAME      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + "S" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_RASSASIE    = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_BLEU   + "S" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_AMI         = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + "S" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_JUNKIE      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_ROUGE  + "S" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_PERCHE      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VERT   + "S" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_CACHE       = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE  + "S" + Ihm.COULEUR_REINITIALISATION;
 
     private final Ihm ihm; // Interface de jeu
     private Jeu jeu;       // Partie en cours
@@ -182,10 +182,10 @@ public class Controleur {
                 aide += "* inventaire (i):\n";
                 aide += "\tAffiche votre inventaire.\n";
                 aide += "\n";
-                aide += "* sauvegarder (s):\n";
-                aide += "\tSauvegarde la carte actuel dans un fichier pour jouer plus tard.  Cela ne\n";
-                aide += "\tretient pas les états des animaux ainsi que votre inventaire.";
-                aide += "\n";
+//                aide += "* sauvegarder (s):\n";
+//                aide += "\tSauvegarde la carte actuel dans un fichier pour jouer plus tard.  Cela ne\n";
+//                aide += "\tretient pas les états des animaux ainsi que votre inventaire.";
+//                aide += "\n";
                 aide += "* haut, bas, gauche, droite (h, b, g, d):\n";
                 aide += "\tDéplace le joueur vers le haut, le bas, la gauche ou la droite respectivement.\n";
                 aide += "\n";
@@ -369,34 +369,34 @@ public class Controleur {
                 this.ihm.afficherInformation(affichage);
             } break;
 
-            case "sauvegarder", "s": {
-                String nom = "";
-                boolean choixNom = true;
-                while (choixNom) {
-                    nom = this.ihm.demanderString("Entrez un nom pour la sauvegarde.");
-                    if (!nom.isEmpty()) choixNom = false;
-                }
-
-                int lignes = this.jeu.getLignes();
-                int colonnes = this.jeu.getColonnes();
-                List<List<Acteur>> contenu = new ArrayList<>();
-
-                for (int i = 0; i < lignes; ++ i) {
-                    List<Acteur> ligne = new ArrayList<>();
-                    for (int j = 0; j < colonnes; ++j) {
-                        ligne.add(new CaseVide(i, j));
-                    }
-                    contenu.add(ligne);
-                }
-
-                for (Animal animal : this.jeu.getAnimaux()) contenu.get(animal.getLigne()).set(animal.getColonne(), animal);
-                for (Acteur decor : this.jeu.getDecors()) contenu.get(decor.getLigne()).set(decor.getColonne(), decor);
-                for (Objet objet : this.jeu.getObjets()) contenu.get(objet.getLigne()).set(objet.getColonne(), objet);
-
-                Carte nouvelleCarte = new Carte(nom, this.jeu.getTheme(), lignes, colonnes, contenu);
-                nouvelleCarte.sauvegarderFichier();
-                this.ihm.afficherInformation("Carte sauvegardé avec le nom \"" + nom + "\".");
-            } break;
+//            case "sauvegarder", "s": {
+//                String nom = "";
+//                boolean choixNom = true;
+//                while (choixNom) {
+//                    nom = this.ihm.demanderString("Entrez un nom pour la sauvegarde.");
+//                    if (!nom.isEmpty()) choixNom = false;
+//                }
+//
+//                int lignes = this.jeu.getLignes();
+//                int colonnes = this.jeu.getColonnes();
+//                List<List<Acteur>> contenu = new ArrayList<>();
+//
+//                for (int i = 0; i < lignes; ++ i) {
+//                    List<Acteur> ligne = new ArrayList<>();
+//                    for (int j = 0; j < colonnes; ++j) {
+//                        ligne.add(new CaseVide(i, j));
+//                    }
+//                    contenu.add(ligne);
+//                }
+//
+//                for (Animal animal : this.jeu.getAnimaux()) contenu.get(animal.getLigne()).set(animal.getColonne(), animal);
+//                for (Acteur decor : this.jeu.getDecors()) contenu.get(decor.getLigne()).set(decor.getColonne(), decor);
+//                for (Objet objet : this.jeu.getObjets()) contenu.get(objet.getLigne()).set(objet.getColonne(), objet);
+//
+//                Carte nouvelleCarte = new Carte(nom, this.jeu.getTheme(), lignes, colonnes, contenu);
+//                nouvelleCarte.sauvegarderFichier();
+//                this.ihm.afficherInformation("Carte sauvegardé avec le nom \"" + nom + "\".");
+//            } break;
 
             // Déplacements
             case "haut", "h":
