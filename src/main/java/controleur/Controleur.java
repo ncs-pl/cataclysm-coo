@@ -14,7 +14,7 @@ public class Controleur {
     private static final String STRING_ZONE_VIDE         = Ihm.COULEUR_FOND_VERT                       + "." + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_ARBRE             = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + "A" + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_BUISSON           = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + "B" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_COCOTIER          = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + "A" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_COCOTIER          = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + "P" + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_PETIT_ROCHER      = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_BLANC  + "R" + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_BANANE            = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + "B" + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_CHAMPIGNON        = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_ROUGE  + "C" + Ihm.COULEUR_REINITIALISATION;
