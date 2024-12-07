@@ -112,6 +112,7 @@ public class Carte {
                 }
 
                 Acteur acteur = null;
+                //Cocotier / Rocher à rajouter
                 switch (symbole) {
                 case '@':
                     acteur = new Personnage(j, i);
@@ -129,7 +130,13 @@ public class Carte {
                     if (this.theme == JeuTheme.JUNGLE) acteur = new Banane(j, i);
                     break;
                 case 'C':
-                    if (this.theme == JeuTheme.FORET) acteur = new Champignon(j, i);
+                    if (this.theme == JeuTheme.FORET || this.theme == JeuTheme.JUNGLE) acteur = new Champignon(j, i);
+                    break;
+                case 'R' :
+                    if(this.theme == JeuTheme.JUNGLE) acteur = new PetitRocher(j,i);
+                    break;
+                case 'P' :
+                    if(this.theme == JeuTheme.JUNGLE) acteur = new Cocotier(j,i);
                     break;
                 case 'A':
                     if (this.theme == JeuTheme.FORET) acteur = new Arbre(j, i);
@@ -138,7 +145,7 @@ public class Carte {
                     if (this.theme == JeuTheme.FORET) acteur = new Buisson(j, i);
                     break;
                 case '.':
-                    if (this.theme == JeuTheme.FORET) acteur = new ZoneVide(j, i);
+                    if (this.theme == JeuTheme.FORET || this.theme == JeuTheme.JUNGLE) acteur = new ZoneVide(j, i);
                     break;
                 default:
                     break;
