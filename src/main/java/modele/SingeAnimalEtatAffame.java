@@ -14,15 +14,43 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
         return SingeAnimalEtatAffame.instance;
     }
 
-    @Override public void deplacer(Animal animal) {
-        // TODO(nico)
+    @Override public void deplacer(Animal animal, Jeu jeu) {
+        int ligne   = animal.obtenirLigne();
+        int colonne = animal.obtenirColonne();
+
+        // Chercher nourriture proche.
+
+        Banane banane         = jeu.chercherBananeVoisin(ligne, colonne);
+        Champignon champignon = jeu.chercherChampignonVoisin(ligne, colonne);
+        if (banane != null || champignon != null) {
+            animal.changerSaturation(3);
+
+            // Vérifier pour probable nouvelle amitié.
+            int amitie = animal.obtenirAmitie();
+            if (jeu.chercherPersonnageVoisin(ligne, colonne)) amitie += 1;
+            animal.changerAmitie(amitie);
+
+            AnimalEtat etat = SingeAnimalEtatRassasie.obtenirInstance();
+            if (amitie >= 2) {
+                animal.changerAmitie(0);
+                etat = SingeAnimalEtatAmi.obtenirInstance();
+            }
+            animal.changerEtat(etat);
+            return;
+        }
+
+        // Sinon se déplacer aléatoirement.
+
+             if (jeu.verifierCaseVide(ligne - 1, colonne))     ligne   -= 1; // Haut.
+        else if (jeu.verifierCaseVide(ligne,     colonne - 1)) colonne -= 1; // Gauche.
+        else if (jeu.verifierCaseVide(ligne,     colonne + 1)) colonne += 1; // Droite.
+        else if (jeu.verifierCaseVide(ligne + 1, colonne))     ligne   += 1; // Bas.
+        animal.changerLigne(ligne);
+        animal.changerColonne(colonne);
     }
 
-    @Override public void manger(Animal animal) {
-        // TODO(nico)
-    }
 
     @Override public void prendreCoup(Animal animal) {
-        // TODO(nico)
+        throw new AnimalEtatException("Comportement non-spécifié.");
     }
 }
