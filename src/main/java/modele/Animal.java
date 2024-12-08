@@ -11,7 +11,6 @@ public class Animal extends Acteur {
         super(type, x, y);
         this.amitie     = false;
         this.saturation = 0;
-        this.etat       = new AnimalEtatRassasie(this);
     }
 
     /** Obtient le statut d'amitié de l'animal. */
