@@ -29,10 +29,10 @@ public abstract class AnimalEtat {
     }
 
     /** Déplacer l'animal sur la carte. */
-    public abstract void deplacer(Animal animal);
+    public abstract void deplacer(Animal animal, Jeu jeu);
 
     /** L'animal se nourrit si possible. */
-    public abstract void manger(Animal animal);
+    public abstract void manger(Animal animal, Jeu jeu);
 
     /** L'animal se prend un coup. */
     public abstract void prendreCoup(Animal animal);

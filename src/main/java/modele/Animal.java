@@ -3,23 +3,23 @@ package modele;
 /** Un animal est un acteur avec une Intelligence Artificielle pouvant
     influencer la carte et le personnage. */
 public class Animal extends Acteur {
-    private boolean amitie;  // Si l'animal est ami.
+    private int amitie;      // Le niveau d'amitié de l'animal.
     private int saturation;  // La satiété de l'animal.
     private AnimalEtat etat; // L'état de l'animal.
 
     public Animal(int type, int x, int y) {
         super(type, x, y);
-        this.amitie     = false;
+        this.amitie     = 0;
         this.saturation = 0;
     }
 
-    /** Obtient le statut d'amitié de l'animal. */
-    public boolean obtenirAmitie() {
+    /** Obtient le niveau d'amitié de l'animal. */
+    public int obtenirAmitie() {
         return this.amitie;
     }
 
-    /** Modifie le statut d'amitié de l'animal. */
-    public void changerAmitie(boolean amitie) {
+    /** Modifie le niveau d'amitié de l'animal. */
+    public void changerAmitie(int amitie) {
         this.amitie = amitie;
     }
 
@@ -46,13 +46,13 @@ public class Animal extends Acteur {
     }
 
     /** Déplacer l'animal sur la carte. */
-    public void deplacer() {
-        this.etat.deplacer(this);
+    public void deplacer(Jeu jeu) {
+        this.etat.deplacer(this, jeu);
     }
 
     /** L'animal se nourrit si possible. */
-    public void manger() {
-        this.etat.manger(this);
+    public void manger(Jeu jeu) {
+        this.etat.manger(this, jeu);
     }
 
     /** L'animal se prend un coup. */

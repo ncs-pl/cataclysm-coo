@@ -293,8 +293,47 @@ public class Jeu {
     /** Exécute les intelligences artificiels des animaux. */
     public void executerIntelligenceAnimaux() {
         for (Animal animal : this.animaux) {
-            animal.deplacer();
-            animal.manger();
+            int etatId = animal.obtenirEtat().obtenirId();
+
+            if (etatId == AnimalEtat.ETAT_AFFAME ||
+                etatId == AnimalEtat.ETAT_RASSASIE) animal.deplacer(this);
+
+            if (etatId == AnimalEtat.ETAT_AFFAME) animal.manger(this);
         }
+    }
+
+    /** Retourne true si le personnage est sur une case voisine. */
+    @SuppressWarnings("RedundantIfStatement")
+    public boolean verifierPersonnageVoisin(int ligne, int colonne) {
+        // TODO(nico): faut-il regarder les diagonales ? Pour l'instant on le
+        //             fait, mais à voir...
+        int personnageLigne   = this.personnage.obtenirLigne();
+        int personnageColonne = this.personnage.obtenirColonne();
+        if (ligne == personnageLigne - 1 && colonne == personnageColonne - 1) return true; // Haut gauche.
+        if (ligne == personnageLigne - 1 && colonne == personnageColonne)     return true; // Haut.
+        if (ligne == personnageLigne - 1 && colonne == personnageColonne + 1) return true; // Haut droite.
+        if (ligne == personnageLigne     && colonne == personnageColonne - 1) return true; // Gauche.
+        if (ligne == personnageLigne     && colonne == personnageColonne + 1) return true; // Droite.
+        if (ligne == personnageLigne + 1 && colonne == personnageColonne - 1) return true; // Bas gauche.
+        if (ligne == personnageLigne + 1 && colonne == personnageColonne)     return true; // Bas.
+        if (ligne == personnageLigne + 1 && colonne == personnageColonne + 1) return true; // Bas droite.
+        return false;
+    }
+
+    /** Retourne true si la position spécifiée n'est pas occupée. */
+    public boolean verifierCaseVide(int ligne, int colonne) {
+        for (Animal a : this.animaux) {
+            if (colonne == a.obtenirColonne() && ligne == a.obtenirLigne()) return false;
+        }
+
+        for (Acteur d : this.decors) {
+            if (colonne == d.obtenirColonne() && ligne == d.obtenirLigne()) return false;
+        }
+
+        for (Objet o : this.objets) {
+            if (colonne == o.obtenirColonne() && ligne == o.obtenirLigne()) return false;
+        }
+
+        return true;
     }
 }
