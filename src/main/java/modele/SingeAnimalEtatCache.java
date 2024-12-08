@@ -14,15 +14,15 @@ public class SingeAnimalEtatCache extends AnimalEtat {
         return SingeAnimalEtatCache.instance;
     }
 
-    @Override public void deplacer(Animal animal) {
-        // TODO(nico)
+    @Override public void deplacer(Animal animal, Jeu jeu) {
+        throw new AnimalEtatException("Pas encore implémenté.");
     }
 
-    @Override public void manger(Animal animal) {
-        // TODO(nico)
+    @Override public void manger(Animal animal, Jeu jeu) {
+        throw new AnimalEtatException("Pas encore implémenté.");
     }
 
     @Override public void prendreCoup(Animal animal) {
-        // TODO(nico)
+        throw new AnimalEtatException("Pas encore implémenté.");
     }
 }
