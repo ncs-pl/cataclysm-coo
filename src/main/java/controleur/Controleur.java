@@ -432,6 +432,8 @@ public class Controleur {
             case "deposer gauche","dg": deposerObjet(Position.GAUCHE); break;
             case "deposer droite","dd": deposerObjet(Position.DROITE); break;
 
+            // TODO(nico): mettre un coup à un animal
+
             default:
                 this.ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");
                 break;

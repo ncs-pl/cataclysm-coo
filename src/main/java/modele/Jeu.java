@@ -293,7 +293,8 @@ public class Jeu {
     /** Exécute les intelligences artificiels des animaux. */
     public void executerIntelligenceAnimaux() {
         for (Animal animal : this.animaux) {
-            animal.executerIntelligence();
+            animal.deplacer();
+            animal.manger();
         }
     }
 }

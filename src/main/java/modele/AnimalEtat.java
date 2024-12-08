@@ -1,7 +1,7 @@
 package modele;
 
 /** Modèle d'un état d'un animal, selon le paterne d'État. */
-public class AnimalEtat {
+public abstract class AnimalEtat {
     public static final int ETAT_AFFAME = 0;   // Affamé.
     public static final int ETAT_AMI    = 1;   // Ami et rassasié.
     public static final int ETAT_CACHE  = 2;   // Caché derrière un buisson.
@@ -29,5 +29,12 @@ public class AnimalEtat {
         return this.animal;
     }
 
-    // TODO(younes): les IA
+    /** Déplacer l'animal sur la carte. */
+    public abstract void deplacer();
+
+    /** L'animal se nourrit si possible. */
+    public abstract void manger();
+
+    /** L'animal se prend un coup. */
+    public abstract void prendreCoup();
 }
