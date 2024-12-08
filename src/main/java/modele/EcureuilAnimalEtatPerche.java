@@ -7,10 +7,7 @@ public class EcureuilAnimalEtatPerche extends AnimalEtat {
 
     /** Obtient l'instance singleton de l'état. */
     public static AnimalEtat obtenirInstance() {
-        if (EcureuilAnimalEtatPerche.instance == null) {
-            EcureuilAnimalEtatPerche.instance = new EcureuilAnimalEtatPerche();
-        }
-
+        if (EcureuilAnimalEtatPerche.instance == null) EcureuilAnimalEtatPerche.instance = new EcureuilAnimalEtatPerche();
         return EcureuilAnimalEtatPerche.instance;
     }
 

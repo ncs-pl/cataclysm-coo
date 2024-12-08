@@ -7,10 +7,7 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
 
     /** Obtient l'instance singleton de l'état. */
     public static AnimalEtat obtenirInstance() {
-        if (SingeAnimalEtatRassasie.instance == null) {
-            SingeAnimalEtatRassasie.instance = new SingeAnimalEtatRassasie();
-        }
-
+        if (SingeAnimalEtatRassasie.instance == null) SingeAnimalEtatRassasie.instance = new SingeAnimalEtatRassasie();
         return SingeAnimalEtatRassasie.instance;
     }
 
