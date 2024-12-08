@@ -9,28 +9,28 @@ import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
-    private static final String STRING_INCONNU           = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + "?" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_PERSONNAGE        = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_VIOLET + "@" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ZONE_VIDE         = Ihm.COULEUR_FOND_VERT                       + "." + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ARBRE             = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + "A" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_BUISSON           = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + "B" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_COCOTIER          = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + "P" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_PETIT_ROCHER      = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_BLANC  + "R" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_BANANE            = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + "B" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_CHAMPIGNON        = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_ROUGE  + "C" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_GLAND             = Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_JAUNE  + "G" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_AFFAME   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + "E" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_RASSASIE = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_BLEU   + "E" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_AMI      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + "E" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_JUNKIE   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_ROUGE  + "E" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_PERCHE   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VERT   + "E" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_CACHE    = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE  + "E" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_AFFAME      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + "S" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_RASSASIE    = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_BLEU   + "S" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_AMI         = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + "S" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_JUNKIE      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_ROUGE  + "S" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_PERCHE      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VERT   + "S" + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_CACHE       = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE  + "S" + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_INCONNU           = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_INCONNU      + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_PERSONNAGE        = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_PERSONNAGE   + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ZONE_VIDE         = Ihm.COULEUR_FOND_VERT                       + Carte.SYMBOLE_ZONE_VIDE    + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ARBRE             = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + Carte.SYMBOLE_ARBRE        + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_BUISSON           = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + Carte.SYMBOLE_BUISSON      + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_COCOTIER          = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + Carte.SYMBOLE_COCOTIER     + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_PETIT_ROCHER      = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_BLANC  + Carte.SYMBOLE_PETIT_ROCHER + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_BANANE            = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_BANANE       + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_CHAMPIGNON        = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_CHAMPIGNON   + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_GLAND             = Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_JAUNE  + Carte.SYMBOLE_GLAND        + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_AFFAME   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_RASSASIE = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_BLEU   + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_AMI      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_JUNKIE   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_PERCHE   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VERT   + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_CACHE    = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE  + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_AFFAME      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_RASSASIE    = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_BLEU   + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_AMI         = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_JUNKIE      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_PERCHE      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VERT   + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_CACHE       = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE  + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
 
     private final Ihm ihm; // Interface de jeu
     private Jeu jeu;       // Partie en cours
@@ -60,14 +60,12 @@ public class Controleur {
         try {
             int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.");
             this.jeu.deposerObjet(position, indice-1);
-        } catch (PositionInvalideException |
-                 InventaireVideException   |
-                 IndexOutOfBoundsException e) {
+        } catch (PositionInvalideException | InventaireVideException | IndexOutOfBoundsException e) {
             this.ihm.afficherErreur(e.getMessage());
         }
     }
 
-    @SuppressWarnings("ExtractMethodRecommender")
+    @SuppressWarnings("ExtractMethodRecommender, StringConcatenationInLoop")
     private void afficherCarte() {
         // La carte du jeu.
 
@@ -79,25 +77,21 @@ public class Controleur {
         // symboles correspondants aux acteurs spécifiques selon le
         // thème.
 
-        int lignes = this.jeu.obtenirLignes();
-        int colonnes = this.jeu.obtenirColonnes();
+        int lignes     = this.jeu.obtenirLignes();
+        int colonnes   = this.jeu.obtenirColonnes();
         JeuTheme theme = this.jeu.obtenirTheme();
 
         List<List<String>> carteContenu = new ArrayList<>();
 
         for (int i = 0; i < lignes; ++i) {
             List<String> ligne = new ArrayList<>();
-            for (int j = 0; j < colonnes; ++j) {
-                ligne.add(Controleur.STRING_ZONE_VIDE);
-            }
-
+            for (int j = 0; j < colonnes; ++j) ligne.add(Controleur.STRING_ZONE_VIDE);
             carteContenu.add(ligne);
         }
 
         Personnage personnage = this.jeu.obtenirPersonnage();
         carteContenu.get(personnage.obtenirLigne())
-                .set(personnage.obtenirColonne(),
-                        Controleur.STRING_PERSONNAGE);
+                    .set(personnage.obtenirColonne(), Controleur.STRING_PERSONNAGE);
 
         for (Animal animal : this.jeu.obtenirAnimaux()) {
             String s = Controleur.STRING_INCONNU;
@@ -108,39 +102,33 @@ public class Controleur {
             case AnimalEtat.ETAT_AFFAME:
                 s = type == Acteur.TYPE_ECUREUIL
                         ? Controleur.STRING_ECUREUIL_AFFAME
-                        : Controleur.STRING_SINGE_AFFAME;
-                break;
+                        : Controleur.STRING_SINGE_AFFAME;     break;
             case AnimalEtat.ETAT_RASSASIE:
                 s = type == Acteur.TYPE_ECUREUIL
                         ? Controleur.STRING_ECUREUIL_RASSASIE
-                        : Controleur.STRING_SINGE_RASSASIE;
-                break;
+                        : Controleur.STRING_SINGE_RASSASIE;   break;
             case AnimalEtat.ETAT_AMI:
                 s = type == Acteur.TYPE_ECUREUIL
                         ? Controleur.STRING_ECUREUIL_AMI
-                        : Controleur.STRING_SINGE_AMI;
-                break;
+                        : Controleur.STRING_SINGE_AMI;        break;
             case AnimalEtat.ETAT_JUNKIE:
                 s = type == Acteur.TYPE_ECUREUIL
                         ? Controleur.STRING_ECUREUIL_JUNKIE
-                        : Controleur.STRING_SINGE_JUNKIE;
-                break;
+                        : Controleur.STRING_SINGE_JUNKIE;     break;
             case AnimalEtat.ETAT_PERCHE:
                 s = type == Acteur.TYPE_ECUREUIL
                         ? Controleur.STRING_ECUREUIL_PERCHE
-                        : Controleur.STRING_SINGE_PERCHE;
-                break;
+                        : Controleur.STRING_SINGE_PERCHE;     break;
             case AnimalEtat.ETAT_CACHE:
                 s = type == Acteur.TYPE_ECUREUIL
                         ? Controleur.STRING_ECUREUIL_CACHE
-                        : Controleur.STRING_SINGE_CACHE;
-                break;
+                        : Controleur.STRING_SINGE_CACHE;      break;
             default:
                 this.ihm.afficherErreur("État inconnu \"" + etat + "\".");
             }
 
             carteContenu.get(animal.obtenirLigne())
-                    .set(animal.obtenirColonne(), s);
+                        .set(animal.obtenirColonne(), s);
         }
 
         for (Acteur decor : this.jeu.obtenirDecors()) {
@@ -170,16 +158,11 @@ public class Controleur {
                 break;
             }
 
-            carteContenu.get(objet.obtenirLigne())
-                    .set(objet.obtenirColonne(), s);
+            carteContenu.get(objet.obtenirLigne()).set(objet.obtenirColonne(), s);
         }
 
         for (List<String> ligne : carteContenu) {
-            for (String colonne : ligne) {
-                //noinspection StringConcatenationInLoop
-                affichage += colonne;
-            }
-            //noinspection StringConcatenationInLoop
+            for (String colonne : ligne) affichage += colonne;
             affichage += "\n";
         }
 

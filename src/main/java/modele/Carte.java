@@ -17,6 +17,19 @@ import java.util.List;
  * utilisé par le jeu pour construire son game state initial
  */
 public class Carte {
+    public static final char SYMBOLE_INCONNU      = '?';
+    public static final char SYMBOLE_PERSONNAGE   = '@';
+    public static final char SYMBOLE_ZONE_VIDE    = '.';
+    public static final char SYMBOLE_ARBRE        = 'A';
+    public static final char SYMBOLE_BUISSON      = 'B';
+    public static final char SYMBOLE_COCOTIER     = 'P';
+    public static final char SYMBOLE_PETIT_ROCHER = 'R';
+    public static final char SYMBOLE_BANANE       = 'N';
+    public static final char SYMBOLE_CHAMPIGNON   = 'C';
+    public static final char SYMBOLE_GLAND        = 'G';
+    public static final char SYMBOLE_ECUREUIL     = 'E';
+    public static final char SYMBOLE_SINGE        = 'S';
+
     private final String nom;                 // Nom de la carte
     private final JeuTheme theme;             // Thème de la carte
     private final int lignes;                 // Nombre de lignes
@@ -51,24 +64,21 @@ public class Carte {
         //     COLONNES (0 < i < 1024)
         //     CONTENU
 
+        // Thème
+
         String ligneTheme = reader.readLine();
-        if (ligneTheme == null)
-            throw new CarteInvalideException("La fichier de carte ne contient pas de thème.");
+        if (ligneTheme == null) throw new CarteInvalideException("La fichier de carte ne contient pas de thème.");
 
         switch (ligneTheme.toLowerCase()) {
-        case "f":
-            this.theme = JeuTheme.FORET;
-            break;
-        case "j":
-            this.theme = JeuTheme.JUNGLE;
-            break;
-        default:
-            throw new CarteInvalideException("Thème '" + ligneTheme + "' invalide.");
+        case "f": this.theme = JeuTheme.FORET;  break;
+        case "j": this.theme = JeuTheme.JUNGLE; break;
+        default:  throw new CarteInvalideException("Thème '" + ligneTheme + "' invalide.");
         }
 
+        // Nombre de lignes
+
         String ligneLignes = reader.readLine();
-        if (ligneLignes == null)
-            throw new CarteInvalideException("La fichier de carte ne contient pas de nombre de lignes.");
+        if (ligneLignes == null) throw new CarteInvalideException("La fichier de carte ne contient pas de nombre de lignes.");
 
         int lignes;
         try {
@@ -77,9 +87,11 @@ public class Carte {
             throw new CarteInvalideException("Le nombre de lignes n'est pas un entier.");
         }
 
-        if (lignes <= 0) throw new CarteInvalideException("Nombre de lignes nul ou négatif interdit.");
+        if (lignes <= 0)   throw new CarteInvalideException("Nombre de lignes nul ou négatif interdit.");
         if (lignes > 1024) throw new CarteInvalideException("Nombre de lignes dépassant 1024 interdit.");
         this.lignes = lignes;
+
+        // Nombre de colonnes
 
         String ligneColonnes = reader.readLine();
         if (ligneColonnes == null)
@@ -91,9 +103,11 @@ public class Carte {
             throw new CarteInvalideException("Le nombre de colonnes n'est pas un entier.");
         }
 
-        if (colonnes <= 0) throw new CarteInvalideException("Nombre de colonnes nul ou négatif interdit.");
+        if (colonnes <= 0)   throw new CarteInvalideException("Nombre de colonnes nul ou négatif interdit.");
         if (colonnes > 1024) throw new CarteInvalideException("Nombre de colonnes dépassant 1024 interdit.");
         this.colonnes = colonnes;
+
+        // Contenu
 
         this.contenu = new ArrayList<>(this.colonnes);
         for (int i = 0; i < this.lignes; ++i) {
@@ -103,7 +117,6 @@ public class Carte {
             List<Acteur> acteurs = new ArrayList<>(this.colonnes);
             for (int j = 0; j < this.colonnes; ++j) {
                 char symbole;
-
                 try {
                     symbole = ligne.charAt(j);
                 } catch (IndexOutOfBoundsException e) {
@@ -112,63 +125,28 @@ public class Carte {
 
                 Acteur acteur = null;
                 switch (symbole) {
-                case '@':
-                    acteur = new Personnage(j, i);
-                    break;
-                case 'E':
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Ecureuil(j, i);
-                    }
-                    break;
-                case 'S':
-                    if (this.theme == JeuTheme.JUNGLE) {
-                        acteur = new Singe(j, i);
-                    }
-                    break;
-                case 'G':
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Gland(j, i);
-                    }
-                    break;
-                case 'b':
-                    if (this.theme == JeuTheme.JUNGLE) {
-                        acteur = new Banane(j, i);
-                    }
-                    break;
-                case 'C':
-                    acteur = new Champignon(j, i);
-                    break;
-                case 'R' :
-                    if(this.theme == JeuTheme.JUNGLE) {
-                        acteur = new PetitRocher(j, i);
-                    }
-                    break;
-                case 'P' :
-                    if(this.theme == JeuTheme.JUNGLE) {
-                        acteur = new Cocotier(j, i);
-                    }
-                    break;
-                case 'A':
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Arbre(j, i);
-                    }
-                    break;
-                case 'B':
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Buisson(j, i);
-                    }
-                    break;
-                case '.':
-                    acteur = new ZoneVide(j, i);
-                    break;
-                default:
-                    break;
+                case Carte.SYMBOLE_PERSONNAGE:         acteur = new Personnage(j, i);  break;
+                case Carte.SYMBOLE_ECUREUIL:
+                    if (this.theme == JeuTheme.FORET)  acteur = new Ecureuil(j, i);    break;
+                case Carte.SYMBOLE_SINGE:
+                    if (this.theme == JeuTheme.JUNGLE) acteur = new Singe(j, i);       break;
+                case Carte.SYMBOLE_GLAND:
+                    if (this.theme == JeuTheme.FORET)  acteur = new Gland(j, i);       break;
+                case Carte.SYMBOLE_BANANE:
+                    if (this.theme == JeuTheme.JUNGLE) acteur = new Banane(j, i);      break;
+                case Carte.SYMBOLE_CHAMPIGNON:         acteur = new Champignon(j, i);  break;
+                case Carte.SYMBOLE_PETIT_ROCHER:
+                    if(this.theme == JeuTheme.JUNGLE)  acteur = new PetitRocher(j, i); break;
+                case Carte.SYMBOLE_COCOTIER:
+                    if(this.theme == JeuTheme.JUNGLE)  acteur = new Cocotier(j, i);    break;
+                case Carte.SYMBOLE_ARBRE:
+                    if (this.theme == JeuTheme.FORET)  acteur = new Arbre(j, i);       break;
+                case Carte.SYMBOLE_BUISSON:
+                    if (this.theme == JeuTheme.FORET)  acteur = new Buisson(j, i);     break;
+                case Carte.SYMBOLE_ZONE_VIDE:          acteur = new ZoneVide(j, i);    break;
+                default:                                                               break;
                 }
-
-                if (acteur == null) {
-                    throw new CarteInvalideException("Contenu ayant des caractères illégaux.");
-                }
-
+                if (acteur == null) throw new CarteInvalideException("Contenu ayant des caractères illégaux.");
                 acteurs.add(j, acteur);
             }
 
