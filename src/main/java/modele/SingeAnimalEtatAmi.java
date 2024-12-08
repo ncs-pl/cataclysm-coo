@@ -14,15 +14,15 @@ public class SingeAnimalEtatAmi extends AnimalEtat {
         return SingeAnimalEtatAmi.instance;
     }
 
-    @Override public void deplacer(Animal animal) {
-        // TODO(nico)
+    @Override public void deplacer(Animal animal, Jeu jeu) {
+        throw new AnimalEtatException("Comportement non-spécifié.");
     }
 
-    @Override public void manger(Animal animal) {
-        // TODO(nico)
+    @Override public void manger(Animal animal, Jeu jeu) {
+        throw new AnimalEtatException("Singe déjà rassasié...");
     }
 
     @Override public void prendreCoup(Animal animal) {
-        // TODO(nico)
+        animal.changerEtat(SingeAnimalEtatRassasie.obtenirInstance());
     }
 }
