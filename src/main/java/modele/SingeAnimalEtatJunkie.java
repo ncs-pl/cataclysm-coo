@@ -18,10 +18,6 @@ public class SingeAnimalEtatJunkie extends AnimalEtat {
         throw new AnimalEtatException("Pas encore implémenté.");
     }
 
-    @Override public void manger(Animal animal, Jeu jeu) {
-        throw new AnimalEtatException("Pas encore implémenté.");
-    }
-
     @Override public void prendreCoup(Animal animal) {
         throw new AnimalEtatException("Pas encore implémenté.");
     }

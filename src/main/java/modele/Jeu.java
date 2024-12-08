@@ -297,14 +297,12 @@ public class Jeu {
 
             if (etatId == AnimalEtat.ETAT_AFFAME ||
                 etatId == AnimalEtat.ETAT_RASSASIE) animal.deplacer(this);
-
-            if (etatId == AnimalEtat.ETAT_AFFAME) animal.manger(this);
         }
     }
 
     /** Retourne true si le personnage est sur une case voisine. */
     @SuppressWarnings("RedundantIfStatement")
-    public boolean verifierPersonnageVoisin(int ligne, int colonne) {
+    public boolean chercherPersonnageVoisin(int ligne, int colonne) {
         // TODO(nico): faut-il regarder les diagonales ? Pour l'instant on le
         //             fait, mais à voir...
         int personnageLigne   = this.personnage.obtenirLigne();
@@ -335,5 +333,50 @@ public class Jeu {
         }
 
         return true;
+    }
+
+    /** Retourne un gland à côté de la position donnée, ou null sinon. */
+    public Gland chercherGlandVoisin(int ligne, int colonne) {
+        for (Objet o : this.objets) {
+            if (o.obtenirType() != Acteur.TYPE_GLAND) continue;
+
+            int oLigne   = o.obtenirLigne();
+            int oColonne = o.obtenirColonne();
+            if (oLigne == ligne - 1 && oColonne == colonne)     return (Gland) o; // Haut.
+            if (oLigne == ligne     && oColonne == colonne - 1) return (Gland) o; // Gauche.
+            if (oLigne == ligne     && oColonne == colonne + 1) return (Gland) o; // Droite.
+            if (oLigne == ligne + 1 && oColonne == colonne)     return (Gland) o; // Bas.
+        }
+        return null;
+    }
+
+    /** Retourne un champignon à côté de la position donnée, ou null sinon. */
+    public Champignon chercherChampignonVoisin(int ligne, int colonne) {
+        for (Objet o : this.objets) {
+            if (o.obtenirType() != Acteur.TYPE_CHAMPIGNON) continue;
+
+            int oLigne   = o.obtenirLigne();
+            int oColonne = o.obtenirColonne();
+            if (oLigne == ligne - 1 && oColonne == colonne)     return (Champignon) o; // Haut.
+            if (oLigne == ligne     && oColonne == colonne - 1) return (Champignon) o; // Gauche.
+            if (oLigne == ligne     && oColonne == colonne + 1) return (Champignon) o; // Droite.
+            if (oLigne == ligne + 1 && oColonne == colonne)     return (Champignon) o; // Bas.
+        }
+        return null;
+    }
+
+    /** Retourne une banane à côté de la position donnée, ou null sinon. */
+    public Banane chercherBananeVoisin(int ligne, int colonne) {
+        for (Objet o : this.objets) {
+            if (o.obtenirType() != Acteur.TYPE_BANANE) continue;
+
+            int oLigne   = o.obtenirLigne();
+            int oColonne = o.obtenirColonne();
+            if (oLigne == ligne - 1 && oColonne == colonne)     return (Banane) o; // Haut.
+            if (oLigne == ligne     && oColonne == colonne - 1) return (Banane) o; // Gauche.
+            if (oLigne == ligne     && oColonne == colonne + 1) return (Banane) o; // Droite.
+            if (oLigne == ligne + 1 && oColonne == colonne)     return (Banane) o; // Bas.
+        }
+        return null;
     }
 }

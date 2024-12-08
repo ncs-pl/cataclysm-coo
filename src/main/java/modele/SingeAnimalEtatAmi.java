@@ -18,10 +18,6 @@ public class SingeAnimalEtatAmi extends AnimalEtat {
         throw new AnimalEtatException("Comportement non-spécifié.");
     }
 
-    @Override public void manger(Animal animal, Jeu jeu) {
-        throw new AnimalEtatException("Singe déjà rassasié...");
-    }
-
     @Override public void prendreCoup(Animal animal) {
         animal.changerEtat(SingeAnimalEtatRassasie.obtenirInstance());
     }

@@ -21,7 +21,7 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
         // On cherche la première cellule vide parmi celle du dessus,
         // de gauche, de droite, ou d'en dessous (dans cet ordre), ou sinon
         // on ne bouge pas.
-        if (jeu.verifierCaseVide(ligne - 1, colonne))     ligne   -= 1;
+             if (jeu.verifierCaseVide(ligne - 1, colonne))     ligne   -= 1;
         else if (jeu.verifierCaseVide(ligne,     colonne - 1)) colonne -= 1;
         else if (jeu.verifierCaseVide(ligne,     colonne + 1)) colonne += 1;
         else if (jeu.verifierCaseVide(ligne + 1, colonne))     ligne   += 1;
@@ -34,10 +34,6 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
         if (saturation == 0) {
             animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
         }
-    }
-
-    @Override public void manger(Animal animal, Jeu jeu) {
-        throw new AnimalEtatException("Singe déjà rassasié...");
     }
 
     @Override public void prendreCoup(Animal animal) {

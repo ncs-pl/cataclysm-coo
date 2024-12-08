@@ -36,10 +36,6 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
         }
     }
 
-    @Override public void manger(Animal animal, Jeu jeu) {
-        throw new AnimalEtatException("Écureuil déjà rassasié...");
-    }
-
     @Override public void prendreCoup(Animal animal) {
         throw new AnimalEtatException("Comportement non-spécifié.");
     }

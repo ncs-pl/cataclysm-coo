@@ -50,11 +50,6 @@ public class Animal extends Acteur {
         this.etat.deplacer(this, jeu);
     }
 
-    /** L'animal se nourrit si possible. */
-    public void manger(Jeu jeu) {
-        this.etat.manger(this, jeu);
-    }
-
     /** L'animal se prend un coup. */
     public void prendreCoup() {
         this.etat.prendreCoup(this);
