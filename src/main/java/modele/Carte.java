@@ -50,7 +50,6 @@ public class Carte {
         //     LIGNES (0 < i < 1024)
         //     COLONNES (0 < i < 1024)
         //     CONTENU
-        // TODO(nico): représenter les états des animaux
 
         String ligneTheme = reader.readLine();
         if (ligneTheme == null)
@@ -112,48 +111,67 @@ public class Carte {
                 }
 
                 Acteur acteur = null;
-                //Cocotier / Rocher à rajouter
                 switch (symbole) {
                 case '@':
                     acteur = new Personnage(j, i);
                     break;
                 case 'E':
-                    if (this.theme == JeuTheme.FORET) acteur = new Ecureuil(j, i);
+                    if (this.theme == JeuTheme.FORET) {
+                        acteur = new Ecureuil(j, i);
+                    }
                     break;
                 case 'S':
-                    if (this.theme == JeuTheme.JUNGLE) acteur = new Singe(j, i);
+                    if (this.theme == JeuTheme.JUNGLE) {
+                        acteur = new Singe(j, i);
+                    }
                     break;
                 case 'G':
-                    if (this.theme == JeuTheme.FORET) acteur = new Gland(j, i);
+                    if (this.theme == JeuTheme.FORET) {
+                        acteur = new Gland(j, i);
+                    }
                     break;
                 case 'b':
-                    if (this.theme == JeuTheme.JUNGLE) acteur = new Banane(j, i);
+                    if (this.theme == JeuTheme.JUNGLE) {
+                        acteur = new Banane(j, i);
+                    }
                     break;
                 case 'C':
-                    if (this.theme == JeuTheme.FORET || this.theme == JeuTheme.JUNGLE) acteur = new Champignon(j, i);
+                    acteur = new Champignon(j, i);
                     break;
                 case 'R' :
-                    if(this.theme == JeuTheme.JUNGLE) acteur = new PetitRocher(j,i);
+                    if(this.theme == JeuTheme.JUNGLE) {
+                        acteur = new PetitRocher(j, i);
+                    }
                     break;
                 case 'P' :
-                    if(this.theme == JeuTheme.JUNGLE) acteur = new Cocotier(j,i);
+                    if(this.theme == JeuTheme.JUNGLE) {
+                        acteur = new Cocotier(j, i);
+                    }
                     break;
                 case 'A':
-                    if (this.theme == JeuTheme.FORET) acteur = new Arbre(j, i);
+                    if (this.theme == JeuTheme.FORET) {
+                        acteur = new Arbre(j, i);
+                    }
                     break;
                 case 'B':
-                    if (this.theme == JeuTheme.FORET) acteur = new Buisson(j, i);
+                    if (this.theme == JeuTheme.FORET) {
+                        acteur = new Buisson(j, i);
+                    }
                     break;
                 case '.':
-                    if (this.theme == JeuTheme.FORET || this.theme == JeuTheme.JUNGLE) acteur = new ZoneVide(j, i);
+                    acteur = new ZoneVide(j, i);
                     break;
                 default:
                     break;
                 }
 
-                if (acteur == null) throw new CarteInvalideException("Contenu ayant des caractères illégaux.");
+                if (acteur == null) {
+                    throw new CarteInvalideException("Contenu ayant des caractères illégaux.");
+                }
+
                 acteurs.add(j, acteur);
             }
+
             this.contenu.add(i, acteurs);
         }
     }
