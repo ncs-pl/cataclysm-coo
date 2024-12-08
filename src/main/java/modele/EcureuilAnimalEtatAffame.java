@@ -11,17 +11,24 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
         return EcureuilAnimalEtatAffame.instance;
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override public void deplacer(Animal animal, Jeu jeu) {
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
 
         // Chercher nourriture proche.
 
-        // TODO(nico): supprimer l'objet et déplacer l'animal sur la case
         Gland gland           = jeu.chercherGlandVoisin(ligne, colonne);
         Champignon champignon = jeu.chercherChampignonVoisin(ligne, colonne);
         if (gland != null || champignon != null) {
             animal.changerSaturation(5);
+
+            // Se déplacer sur la case de la nourriture et supprimer l'objet.
+            Objet nourriture = gland;
+            if (gland == null) nourriture = champignon;
+            animal.changerLigne(nourriture.obtenirLigne());
+            animal.changerColonne(nourriture.obtenirColonne());
+            jeu.supprimerObjet(nourriture);
 
             // Vérifier pour probable nouvelle amitié.
             int amitie = animal.obtenirAmitie();

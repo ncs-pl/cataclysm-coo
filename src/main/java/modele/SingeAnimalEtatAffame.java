@@ -11,17 +11,24 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
         return SingeAnimalEtatAffame.instance;
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override public void deplacer(Animal animal, Jeu jeu) {
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
 
         // Chercher nourriture proche.
 
-        // TODO(nico): supprimer l'objet et déplacer l'animal sur la case
         Banane banane         = jeu.chercherBananeVoisine(ligne, colonne);
         Champignon champignon = jeu.chercherChampignonVoisin(ligne, colonne);
         if (banane != null || champignon != null) {
             animal.changerSaturation(3);
+
+            // Se déplacer sur la case de la nourriture et supprimer l'objet.
+            Objet nourriture = banane;
+            if (banane == null) nourriture = champignon;
+            animal.changerLigne(nourriture.obtenirLigne());
+            animal.changerColonne(nourriture.obtenirColonne());
+            jeu.supprimerObjet(nourriture);
 
             // Vérifier pour probable nouvelle amitié.
             int amitie = animal.obtenirAmitie();

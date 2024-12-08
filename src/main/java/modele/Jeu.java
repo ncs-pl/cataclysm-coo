@@ -111,6 +111,10 @@ public class Jeu {
     /** Obtient les objets sur la carte. */
     public List<Objet> obtenirObjets() { return this.objets; }
 
+    /** Supprime un objet des objets de la carte, utile pour simuler un
+        animal qui mange. */
+    public void supprimerObjet(Objet objet) { this.objets.remove(objet); }
+
     /** Déplace le personnqge dans une certaine direction d'une case. */
     @SuppressWarnings("DuplicatedCode")
     public void deplacerJoueur(Position position)
