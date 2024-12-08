@@ -6,4 +6,9 @@ public class Singe extends Animal {
         super(Acteur.TYPE_SINGE, x, y);
         this.changerSaturation(3);
     }
+
+    @Override public void executerIntelligence() {
+        // TODO(nico): stratégie qui appelle les états
+        throw new RuntimeException("Unimplemented");
+    }
 }

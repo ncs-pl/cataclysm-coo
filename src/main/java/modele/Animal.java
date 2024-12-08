@@ -14,6 +14,9 @@ public abstract class Animal extends Acteur {
         this.etat       = new AnimalEtatRassasie(this);
     }
 
+    /** Exécute l'intelligence articifielle de l'animal selon son état. */
+    public abstract void executerIntelligence();
+
     /** Obtient le statut d'amitié de l'animal. */
     public boolean obtenirAmitie() {
         return this.amitie;

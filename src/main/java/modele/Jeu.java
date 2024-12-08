@@ -289,4 +289,11 @@ public class Jeu {
         this.inventaire.remove(objet);
         this.objets.add(objet);
     }
+
+    /** Exécute les intelligences artificiels des animaux. */
+    public void executerIntelligenceAnimaux() {
+        for (Animal animal : this.animaux) {
+            animal.executerIntelligence();
+        }
+    }
 }

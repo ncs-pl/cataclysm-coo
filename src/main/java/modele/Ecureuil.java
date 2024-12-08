@@ -6,4 +6,9 @@ public class Ecureuil extends Animal {
         super(Acteur.TYPE_ECUREUIL, x, y);
         this.changerSaturation(5);
     }
+
+    @Override public void executerIntelligence() {
+        // TODO(nico): stratégie qui appelle les états
+        throw new RuntimeException("Unimplemented");
+    }
 }
