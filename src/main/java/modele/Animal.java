@@ -47,16 +47,16 @@ public class Animal extends Acteur {
 
     /** Déplacer l'animal sur la carte. */
     public void deplacer() {
-        this.etat.deplacer();
+        this.etat.deplacer(this);
     }
 
     /** L'animal se nourrit si possible. */
     public void manger() {
-        this.etat.manger();
+        this.etat.manger(this);
     }
 
     /** L'animal se prend un coup. */
     public void prendreCoup() {
-        this.etat.prendreCoup();
+        this.etat.prendreCoup(this);
     }
 }

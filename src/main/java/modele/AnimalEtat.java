@@ -9,14 +9,18 @@ public abstract class AnimalEtat {
     public static final int ETAT_PERCHE = 4;   // Perché dans un arbre.
     public static final int ETAT_RASSASIE = 5; // Rassasié mais pas ami.
 
-    private final int id;        // Identifiant numérique de l'état.
-    private final Animal animal; // L'animal visé par l'état.
+    protected static AnimalEtat instance; // Instance singleton.
 
-    AnimalEtat(int id, Animal animal) {
+    private final int id; // Identifiant numérique de l'état.
+
+    protected AnimalEtat(int id) {
         assert(id >= 0 && id <= 5);
-        assert(animal != null);
         this.id = id;
-        this.animal = animal;
+    }
+
+    /** Obtient l'instance singleton de l'état. */
+    public static AnimalEtat obtenirInstance() {
+        throw new RuntimeException("Unimplemented");
     }
 
     /** Obtient l'identifiant numérique de l'état, pour un switch. */
@@ -24,17 +28,12 @@ public abstract class AnimalEtat {
         return this.id;
     }
 
-    /** Retourne l'animal visé par l'état. */
-    public Animal obtenirAnimal() {
-        return this.animal;
-    }
-
     /** Déplacer l'animal sur la carte. */
-    public abstract void deplacer();
+    public abstract void deplacer(Animal animal);
 
     /** L'animal se nourrit si possible. */
-    public abstract void manger();
+    public abstract void manger(Animal animal);
 
     /** L'animal se prend un coup. */
-    public abstract void prendreCoup();
+    public abstract void prendreCoup(Animal animal);
 }

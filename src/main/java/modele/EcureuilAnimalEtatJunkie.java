@@ -1,19 +1,28 @@
 package modele;
 
 public class EcureuilAnimalEtatJunkie extends AnimalEtat {
-    EcureuilAnimalEtatJunkie(Animal animal) {
-        super(AnimalEtat.ETAT_JUNKIE, animal);
+    private EcureuilAnimalEtatJunkie() {
+        super(AnimalEtat.ETAT_JUNKIE);
     }
 
-    @Override public void deplacer() {
+    /** Obtient l'instance singleton de l'état. */
+    public static AnimalEtat obtenirInstance() {
+        if (EcureuilAnimalEtatJunkie.instance == null) {
+            EcureuilAnimalEtatJunkie.instance = new EcureuilAnimalEtatJunkie();
+        }
+
+        return EcureuilAnimalEtatJunkie.instance;
+    }
+
+    @Override public void deplacer(Animal animal) {
         // TODO(nico)
     }
 
-    @Override public void manger() {
+    @Override public void manger(Animal animal) {
         // TODO(nico)
     }
 
-    @Override public void prendreCoup() {
+    @Override public void prendreCoup(Animal animal) {
         // TODO(nico)
     }
 }

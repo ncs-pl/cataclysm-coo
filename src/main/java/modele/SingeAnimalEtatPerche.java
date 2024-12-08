@@ -1,20 +1,28 @@
 package modele;
 
 public class SingeAnimalEtatPerche extends AnimalEtat {
-    SingeAnimalEtatPerche(Animal animal) {
-        super(AnimalEtat.ETAT_PERCHE, animal);
+    private SingeAnimalEtatPerche() {
+        super(AnimalEtat.ETAT_PERCHE);
     }
 
-    @Override public void deplacer() {
+    /** Obtient l'instance singleton de l'état. */
+    public static AnimalEtat obtenirInstance() {
+        if (SingeAnimalEtatPerche.instance == null) {
+            SingeAnimalEtatPerche.instance = new SingeAnimalEtatPerche();
+        }
+
+        return SingeAnimalEtatPerche.instance;
+    }
+
+    @Override public void deplacer(Animal animal) {
         // TODO(nico)
     }
 
-    @Override public void manger() {
+    @Override public void manger(Animal animal) {
         // TODO(nico)
     }
 
-    @Override public void prendreCoup() {
+    @Override public void prendreCoup(Animal animal) {
         // TODO(nico)
     }
-}
 }
