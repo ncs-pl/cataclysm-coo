@@ -25,9 +25,7 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
         int saturation = animal.obtenirSaturation();
         animal.changerSaturation(saturation - 1);
 
-        if (saturation == 0) {
-            animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
-        }
+        if (saturation == 0) animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
     }
 
     @Override public void prendreCoup(Animal animal) {

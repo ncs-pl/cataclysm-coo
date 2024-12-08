@@ -25,9 +25,7 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
         int saturation = animal.obtenirSaturation();
         animal.changerSaturation(saturation - 1);
 
-        if (saturation == 0) {
-            animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
-        }
+        if (saturation == 0) animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
     }
 
     @Override public void prendreCoup(Animal animal) {
