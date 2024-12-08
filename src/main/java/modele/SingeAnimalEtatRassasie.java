@@ -18,15 +18,12 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
     @Override public void deplacer(Animal animal, Jeu jeu) {
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
-        // On cherche la première cellule vide parmi celle du dessus,
-        // de gauche, de droite, ou d'en dessous (dans cet ordre), ou sinon
-        // on ne bouge pas.
-             if (jeu.verifierCaseVide(ligne - 1, colonne))     ligne   -= 1;
-        else if (jeu.verifierCaseVide(ligne,     colonne - 1)) colonne -= 1;
-        else if (jeu.verifierCaseVide(ligne,     colonne + 1)) colonne += 1;
-        else if (jeu.verifierCaseVide(ligne + 1, colonne))     ligne   += 1;
-        animal.changerLigne(ligne);
-        animal.changerColonne(colonne);
+
+        ZoneVide vide = jeu.chercherZoneVideVoisine(ligne, colonne);
+        if (vide != null) {
+            animal.changerLigne(vide.obtenirLigne());
+            animal.changerColonne(vide.obtenirColonne());
+        }
 
         int saturation = animal.obtenirSaturation();
         animal.changerSaturation(saturation - 1);

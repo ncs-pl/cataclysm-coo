@@ -20,6 +20,7 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
 
         // Chercher nourriture proche.
 
+        // TODO(nico): supprimer l'objet et déplacer l'animal sur la case
         Gland gland           = jeu.chercherGlandVoisin(ligne, colonne);
         Champignon champignon = jeu.chercherChampignonVoisin(ligne, colonne);
         if (gland != null || champignon != null) {
@@ -40,13 +41,11 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
         }
 
         // Sinon se déplacer aléatoirement.
-
-             if (jeu.verifierCaseVide(ligne - 1, colonne))     ligne   -= 1; // Haut.
-        else if (jeu.verifierCaseVide(ligne,     colonne - 1)) colonne -= 1; // Gauche.
-        else if (jeu.verifierCaseVide(ligne,     colonne + 1)) colonne += 1; // Droite.
-        else if (jeu.verifierCaseVide(ligne + 1, colonne))     ligne   += 1; // Bas.
-        animal.changerLigne(ligne);
-        animal.changerColonne(colonne);
+        ZoneVide vide = jeu.chercherZoneVideVoisine(ligne, colonne);
+        if (vide != null) {
+            animal.changerLigne(vide.obtenirLigne());
+            animal.changerColonne(vide.obtenirColonne());
+        }
     }
 
     @Override public void prendreCoup(Animal animal) {

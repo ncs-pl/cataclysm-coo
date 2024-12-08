@@ -20,7 +20,8 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
 
         // Chercher nourriture proche.
 
-        Banane banane         = jeu.chercherBananeVoisin(ligne, colonne);
+        // TODO(nico): supprimer l'objet et déplacer l'animal sur la case
+        Banane banane         = jeu.chercherBananeVoisine(ligne, colonne);
         Champignon champignon = jeu.chercherChampignonVoisin(ligne, colonne);
         if (banane != null || champignon != null) {
             animal.changerSaturation(3);
@@ -41,12 +42,11 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
 
         // Sinon se déplacer aléatoirement.
 
-             if (jeu.verifierCaseVide(ligne - 1, colonne))     ligne   -= 1; // Haut.
-        else if (jeu.verifierCaseVide(ligne,     colonne - 1)) colonne -= 1; // Gauche.
-        else if (jeu.verifierCaseVide(ligne,     colonne + 1)) colonne += 1; // Droite.
-        else if (jeu.verifierCaseVide(ligne + 1, colonne))     ligne   += 1; // Bas.
-        animal.changerLigne(ligne);
-        animal.changerColonne(colonne);
+        ZoneVide vide = jeu.chercherZoneVideVoisine(ligne, colonne);
+        if (vide != null) {
+            animal.changerLigne(vide.obtenirLigne());
+            animal.changerColonne(vide.obtenirColonne());
+        }
     }
 
 

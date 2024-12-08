@@ -366,7 +366,7 @@ public class Jeu {
     }
 
     /** Retourne une banane à côté de la position donnée, ou null sinon. */
-    public Banane chercherBananeVoisin(int ligne, int colonne) {
+    public Banane chercherBananeVoisine(int ligne, int colonne) {
         for (Objet o : this.objets) {
             if (o.obtenirType() != Acteur.TYPE_BANANE) continue;
 
@@ -377,6 +377,15 @@ public class Jeu {
             if (oLigne == ligne     && oColonne == colonne + 1) return (Banane) o; // Droite.
             if (oLigne == ligne + 1 && oColonne == colonne)     return (Banane) o; // Bas.
         }
+        return null;
+    }
+
+    /** Retourne une zone vide voisine ou null sinon. */
+    public ZoneVide chercherZoneVideVoisine(int ligne, int colonne) {
+        if (this.verifierCaseVide(ligne-1, colonne))   return new ZoneVide(ligne-1, colonne);   // Haut.
+        if (this.verifierCaseVide(ligne,   colonne-1)) return new ZoneVide(ligne,   colonne-1); // Gauche.
+        if (this.verifierCaseVide(ligne,   colonne+1)) return new ZoneVide(ligne,   colonne+1); // Droite.
+        if (this.verifierCaseVide(ligne+1, colonne))   return new ZoneVide(ligne+1, colonne);   // Bas.
         return null;
     }
 }
