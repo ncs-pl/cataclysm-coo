@@ -143,8 +143,8 @@ public class Controleur {
                 break;
             }
 
-            carteContenu.get(decor.obtenirColonne())
-                        .set(decor.obtenirLigne(), s);
+            carteContenu.get(decor.obtenirLigne())
+                        .set(decor.obtenirColonne(), s);
         }
 
         for (Objet objet : this.jeu.obtenirObjets()) {
@@ -158,8 +158,8 @@ public class Controleur {
                 break;
             }
 
-            carteContenu.get(objet.obtenirColonne())
-                        .set(objet.obtenirLigne(), s);
+            carteContenu.get(objet.obtenirLigne())
+                        .set(objet.obtenirColonne(), s);
         }
 
         for (List<String> ligne : carteContenu) {
@@ -327,7 +327,6 @@ public class Controleur {
                 aide += "\n";
                 aide += "* ramasser haut, bas, gauche, droite (rh, rb, rg, rd):\n";
                 aide += "\tRamasse dans votre inventaire l'objet de la case du haut, du bas, de gauche ou de droite respectivement.\n";
-                aide += "\n";
                 aide += "\n";
                 aide += "* deposer haut, bas, gauche, droite (dh, db, dg, dd):\n";
                 aide += "\tDépose un objet de votre inventaire dans la case du haut, du bas, de gauche ou de droite respectivement.\n";
