@@ -34,7 +34,7 @@ public class Carte {
     private final JeuTheme theme;             // Thème de la carte
     private final int lignes;                 // Nombre de lignes
     private final int colonnes;               // Nombre de colonnes
-    private final List<List<Acteur>> contenu; // Contenu même de la carte.
+    private List<List<Acteur>> contenu; // Contenu même de la carte.
 
     @SuppressWarnings("ExtractMethodRecommender")
     public Carte(String nom) throws IOException, CarteInvalideException {
@@ -219,9 +219,56 @@ public class Carte {
 //        throw new RuntimeException("Unimplemented");
 //    }
 
+    @SuppressWarnings("EnhancedSwitchMigration")
     public void genererContenuAleatoire() {
-        // TODO(nico): Génerer un contenu aléatoire selon le thème et les dimensions fournies dans le constructeur.
-        System.out.println(this.nom);
-        throw new RuntimeException("Unimplemented");
+        this.contenu = new ArrayList<>(this.colonnes);
+        for (int lig = 0; lig < this.lignes; ++lig) {
+            List<Acteur> ligne = new ArrayList<>(this.colonnes);
+            for (int col = 0; col < this.colonnes; ++col) {
+                ZoneVide vide = new ZoneVide(lig, col, this.lignes, this.colonnes);
+                ligne.add(vide);
+            }
+            this.contenu.add(ligne);
+        }
+
+        for (int col = 0; col < this.colonnes; ++col) {
+            Acteur haut;
+            Acteur bas;
+            switch (this.theme) {
+            case FORET:
+                haut = new Arbre(0, col, this.lignes, this.colonnes);
+                bas = new Arbre(this.lignes-1, col, this.lignes, this.colonnes);
+                break;
+            case JUNGLE:
+                haut = new Cocotier(0, col, this.lignes, this.colonnes);
+                bas = new Cocotier(this.lignes-1, col, this.lignes, this.colonnes);
+                break;
+            default:
+                throw new CarteInvalideException("Thème \"" + this.theme + "\" inconnu.");
+            }
+            this.contenu.get(0).set(col, haut);
+            this.contenu.get(this.lignes-1).set(col, bas);
+        }
+
+        for (int lig = 0; lig < lignes; ++lig) {
+            Acteur gauche;
+            Acteur droite;
+            switch (this.theme) {
+            case FORET:
+                gauche = new Arbre(lig, 0, this.lignes, this.colonnes);
+                droite = new Arbre(lig, this.colonnes-1, this.lignes, this.colonnes);
+                break;
+            case JUNGLE:
+                gauche = new Cocotier(lig, 0, this.lignes, this.colonnes);
+                droite = new Cocotier(lig, this.colonnes-1, this.lignes, this.colonnes);
+                break;
+            default:
+                throw new CarteInvalideException("Thème \"" + this.theme + "\" inconnu.");
+            }
+            this.contenu.get(lig).set(0, gauche);
+            this.contenu.get(lig).set(this.colonnes-1, droite);
+        }
+
+        this.contenu.get(1).set(1, new Personnage(1, 1, lignes, colonnes));
     }
 }

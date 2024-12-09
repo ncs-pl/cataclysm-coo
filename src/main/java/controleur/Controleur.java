@@ -304,69 +304,32 @@ public class Controleur {
 
             if (chemin.isEmpty()) {
                 JeuTheme theme = null;
-                boolean choixTheme = true;
-                while (choixTheme) {
+                while (true) {
                     String choix = this.ihm.demanderString("Choisissez le thème de la partie (foret, jungle).");
                     switch (choix.toLowerCase()) {
-                    case "foret":
-                        theme = JeuTheme.FORET;
-                        choixTheme = false;
-                        break;
-                    case "jungle":
-                        theme = JeuTheme.JUNGLE;
-                        choixTheme = false;
-                        break;
-                    default:
-                        this.ihm.afficherErreur("Thème inconnu.");
-                        break;
+                    case "foret", "f":  theme = JeuTheme.FORET;  break;
+                    case "jungle", "j": theme = JeuTheme.JUNGLE; break;
+                    default:                                     break;
                     }
+                    if (theme != null) break;
+                    this.ihm.afficherErreur("Thème inconnu.");
                 }
 
-                int lignes = -1;
-                boolean choixLigne = true;
-                while (choixLigne) {
-                    int choix = this.ihm.demanderInt("Choisissez le nombre de lignes de la carte (0 < i <= 1024).");
-
-                    if (choix <= 0) {
-                        this.ihm.afficherErreur("Nombre de lignes nul ou négatif interdit.");
-                        continue;
-                    }
-
-                    if (choix > 1024) {
-                        this.ihm.afficherErreur("Nombre de lignes dépassant 1024 interdit.");
-                        continue;
-                    }
-
-                    choixLigne = false;
-                    lignes = choix;
+                int lignes;
+                while (true) {
+                    lignes = this.ihm.demanderInt("Choisissez le nombre de lignes de la carte (0 < i <= 1024).");
+                    if (lignes > 0 && lignes < 1024) break;
+                    this.ihm.afficherErreur("Nombre de ligne invalide.");
                 }
 
-                int colonnes = -1;
-                boolean choixColonne = true;
-                while (choixColonne) {
-                    int choix = this.ihm.demanderInt("Choisissez le nombre de colonnes de la carte (0 < i <= 1024).");
-
-                    if (choix <= 0) {
-                        this.ihm.afficherErreur("Nombre de colonnes nul ou négatif interdit.");
-                        continue;
-                    }
-
-                    if (choix > 1024) {
-                        this.ihm.afficherErreur("Nombre de colonnes dépassant 1024 interdit.");
-                        continue;
-                    }
-
-                    choixColonne = false;
-                    colonnes = choix;
+                int colonnes;
+                while (true) {
+                    colonnes = this.ihm.demanderInt("Choisissez le nombre de colonnes de la carte (0 < i <= 1024).");
+                    if (colonnes > 0 && colonnes < 1024) break;
+                    this.ihm.afficherErreur("Nombre de colonne invalide.");
                 }
 
-                List<List<Acteur>> contenu = new ArrayList<>(lignes);
-                for (int i = 0; i < lignes; i++) {
-                    List<Acteur> ligne = new ArrayList<>(colonnes);
-                    contenu.set(i, ligne);
-                }
-
-                carte = new Carte("ALEATOIRE", theme, lignes, colonnes, contenu);
+                carte = new Carte("ALEATOIRE", theme, lignes, colonnes, null);
                 carte.genererContenuAleatoire();
 
                 choixCarte = false;
