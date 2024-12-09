@@ -125,26 +125,57 @@ public class Carte {
 
                 Acteur acteur = null;
                 switch (symbole) {
-                case Carte.SYMBOLE_PERSONNAGE:         acteur = new Personnage(j, i);  break;
+                case Carte.SYMBOLE_PERSONNAGE:
+                    acteur = new Personnage(i, j, this.lignes, this.colonnes);
+                    break;
                 case Carte.SYMBOLE_ECUREUIL:
-                    if (this.theme == JeuTheme.FORET)  acteur = new Ecureuil(j, i);    break;
+                    if (this.theme == JeuTheme.FORET) {
+                        acteur = new Ecureuil(i, j, this.lignes, this.colonnes);
+                    }
+                    break;
                 case Carte.SYMBOLE_SINGE:
-                    if (this.theme == JeuTheme.JUNGLE) acteur = new Singe(j, i);       break;
+                    if (this.theme == JeuTheme.JUNGLE) {
+                        acteur = new Singe(i, j, this.lignes, this.colonnes);
+                    }
+                    break;
                 case Carte.SYMBOLE_GLAND:
-                    if (this.theme == JeuTheme.FORET)  acteur = new Gland(j, i);       break;
+                    if (this.theme == JeuTheme.FORET) {
+                        acteur = new Gland(i, j, this.lignes, this.colonnes);
+                    }
+                    break;
                 case Carte.SYMBOLE_BANANE:
-                    if (this.theme == JeuTheme.JUNGLE) acteur = new Banane(j, i);      break;
-                case Carte.SYMBOLE_CHAMPIGNON:         acteur = new Champignon(j, i);  break;
+                    if (this.theme == JeuTheme.JUNGLE) {
+                        acteur = new Banane(i, j, this.lignes, this.colonnes);
+                    }
+                    break;
+                case Carte.SYMBOLE_CHAMPIGNON:
+                    acteur = new Champignon(i, j, this.lignes, this.colonnes);
+                    break;
                 case Carte.SYMBOLE_PETIT_ROCHER:
-                    if(this.theme == JeuTheme.JUNGLE)  acteur = new PetitRocher(j, i); break;
+                    if (this.theme == JeuTheme.JUNGLE) {
+                        acteur = new PetitRocher(i, j, this.lignes, this.colonnes);
+                    }
+                    break;
                 case Carte.SYMBOLE_COCOTIER:
-                    if(this.theme == JeuTheme.JUNGLE)  acteur = new Cocotier(j, i);    break;
+                    if(this.theme == JeuTheme.JUNGLE) {
+                        acteur = new Cocotier(i, j, this.lignes, this.colonnes);
+                    }
+                    break;
                 case Carte.SYMBOLE_ARBRE:
-                    if (this.theme == JeuTheme.FORET)  acteur = new Arbre(j, i);       break;
+                    if (this.theme == JeuTheme.FORET) {
+                        acteur = new Arbre(i, j, this.lignes, this.colonnes);
+                    }
+                    break;
                 case Carte.SYMBOLE_BUISSON:
-                    if (this.theme == JeuTheme.FORET)  acteur = new Buisson(j, i);     break;
-                case Carte.SYMBOLE_ZONE_VIDE:          acteur = new ZoneVide(j, i);    break;
-                default:                                                               break;
+                    if (this.theme == JeuTheme.FORET) {
+                        acteur = new Buisson(i, j, this.lignes, this.colonnes);
+                    }
+                    break;
+                case Carte.SYMBOLE_ZONE_VIDE:
+                    acteur = new ZoneVide(i, j, this.lignes, this.colonnes);
+                    break;
+                default:
+                    break;
                 }
                 if (acteur == null) throw new CarteInvalideException("Contenu ayant des caractères illégaux.");
                 acteurs.add(j, acteur);

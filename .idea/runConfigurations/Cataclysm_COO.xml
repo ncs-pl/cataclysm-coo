@@ -2,6 +2,7 @@
   <configuration default="false" name="Cataclysm COO" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="Main" />
     <module name="cataclysm-coo.git" />
+    <option name="VM_PARAMETERS" value="-enableassertions" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

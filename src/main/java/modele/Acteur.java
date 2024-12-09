@@ -16,15 +16,27 @@ public abstract class Acteur {
     public static final int TYPE_ZONE_VIDE    = 10;
 
     private final int type; // Identifiant numérique du type d'acteur.
-    private int colonne;    // Colonne de la position de l'acteur.
     private int ligne;      // Ligne de la position de l'acteur.
+    private int colonne;    // Colonne de la position de l'acteur.
+
+    private final int maxLigne;   // Ligne max.
+    private final int maxColonne; // Colonne max.
     // NOTE(nico): colonne et ligne sont à -1 lorsque l'objet est mis dans
     //             l'inventaire.
 
-    public Acteur(int type, int colonne, int ligne) {
-        this.type    = type;
+    public Acteur(int type, int ligne, int colonne, int maxLigne, int maxColonne) {
+        assert(maxLigne > 0);
+        assert(maxColonne > 0);
+        assert(ligne >= 0);
+        assert(ligne < maxLigne);
+        assert(colonne >= 0);
+        assert(colonne < maxColonne);
+
+        this.type = type;
         this.colonne = colonne;
-        this.ligne   = ligne;
+        this.ligne = ligne;
+        this.maxColonne = maxColonne;
+        this.maxLigne = maxLigne;
     }
 
     /** Obtient l'identification numérique du type d'acteur, pour switch... */
@@ -39,6 +51,7 @@ public abstract class Acteur {
 
     /** Modifie la colonne de la position de l'acteur. */
     public void changerColonne(int colonne) {
+        assert(colonne >= 0 && colonne < maxColonne); // NOTE(nico): temp
         this.colonne = colonne;
     }
 
@@ -49,6 +62,7 @@ public abstract class Acteur {
 
     /** Modifie la ligne de la position de l'acteur. */
     public void changerLigne(int ligne) {
+        assert(ligne >= 0 && ligne < maxLigne); // NOTE(nico): temp
         this.ligne = ligne;
     }
 }

@@ -15,6 +15,7 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
     @Override public void deplacer(Animal animal, Jeu jeu) {
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
+        assert(ligne >= 0 && ligne < 35); // tmp
 
         // Chercher nourriture proche.
 
@@ -52,7 +53,6 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
             animal.changerColonne(vide.obtenirColonne());
         }
     }
-
 
     @Override public void prendreCoup(Animal animal) {
         throw new AnimalEtatException("Comportement non-spécifié.");

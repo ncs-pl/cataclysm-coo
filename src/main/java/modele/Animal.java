@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.WeakHashMap;
+
 /** Un animal est un acteur avec une Intelligence Artificielle pouvant
     influencer la carte et le personnage. */
 public class Animal extends Acteur {
@@ -7,10 +9,23 @@ public class Animal extends Acteur {
     private int saturation;  // La satiété de l'animal.
     private AnimalEtat etat; // L'état de l'animal.
 
-    public Animal(int type, int x, int y) {
-        super(type, x, y);
-        this.amitie     = 0;
+    private final int maxAmitie;
+    private final int maxSaturation;
+
+    public Animal(int type,
+                  int ligne,
+                  int colonne,
+                  int maxLigne,
+                  int maxColonne,
+                  int maxAmitie,
+                  int maxSaturation) {
+        super(type, ligne, colonne, maxLigne, maxColonne);
+        assert(maxAmitie > 0);
+        assert(maxSaturation > 0);
+        this.amitie = 0;
         this.saturation = 0;
+        this.maxAmitie = maxAmitie;
+        this.maxSaturation = maxSaturation;
     }
 
     /** Obtient le niveau d'amitié de l'animal. */
@@ -20,6 +35,8 @@ public class Animal extends Acteur {
 
     /** Modifie le niveau d'amitié de l'animal. */
     public void changerAmitie(int amitie) {
+        assert(amitie >= 0);
+        assert(amitie <= maxAmitie);
         this.amitie = amitie;
     }
 
@@ -31,6 +48,7 @@ public class Animal extends Acteur {
     /** Modifie la saturation de l'animal. */
     public void changerSaturation(int saturation) {
         assert(saturation >= 0);
+        assert(saturation <= maxSaturation);
         this.saturation = saturation;
     }
 

@@ -282,10 +282,10 @@ public class Jeu {
 
     /** Retourne une zone vide voisine ou null sinon. */
     public ZoneVide chercherZoneVideVoisine(int ligne, int colonne) {
-        if (this.verifierCaseVide(ligne-1, colonne))   return new ZoneVide(ligne-1, colonne);   // Haut.
-        if (this.verifierCaseVide(ligne,   colonne-1)) return new ZoneVide(ligne,   colonne-1); // Gauche.
-        if (this.verifierCaseVide(ligne,   colonne+1)) return new ZoneVide(ligne,   colonne+1); // Droite.
-        if (this.verifierCaseVide(ligne+1, colonne))   return new ZoneVide(ligne+1, colonne);   // Bas.
+        if (this.verifierCaseVide(ligne-1, colonne)) return new ZoneVide(ligne-1, colonne, this.lignes, this.colonnes); // Haut.
+        if (this.verifierCaseVide(ligne, colonne-1)) return new ZoneVide(ligne, colonne-1, this.lignes, this.colonnes); // Gauche.
+        if (this.verifierCaseVide(ligne, colonne+1)) return new ZoneVide(ligne, colonne+1, this.lignes, this.colonnes); // Droite.
+        if (this.verifierCaseVide(ligne+1, colonne)) return new ZoneVide(ligne+1, colonne, this.lignes, this.colonnes); // Bas.
         return null;
     }
 }

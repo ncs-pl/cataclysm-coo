@@ -4,9 +4,9 @@ package modele;
 public class Personnage extends Acteur {
     private int sante;     // La santé du joueur, entre 0 et 100.
 
-    public Personnage(int x, int y) {
-        super(Acteur.TYPE_PERSONNAGE, x, y);
-        this.sante  = 100;
+    public Personnage(int ligne, int colonne, int maxLigne, int maxColonne) {
+        super(Acteur.TYPE_PERSONNAGE, ligne, colonne, maxLigne, maxColonne);
+        this.sante = 100;
     }
 
     /** Obtient la santé du joueur. */
