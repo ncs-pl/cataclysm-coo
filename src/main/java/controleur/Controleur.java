@@ -9,28 +9,115 @@ import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
-    private static final String STRING_INCONNU           = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_INCONNU      + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_PERSONNAGE        = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_PERSONNAGE   + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ZONE_VIDE         = Ihm.COULEUR_FOND_VERT                       + Carte.SYMBOLE_ZONE_VIDE    + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ARBRE             = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + Carte.SYMBOLE_ARBRE        + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_BUISSON           = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + Carte.SYMBOLE_BUISSON      + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_COCOTIER          = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_VERT   + Carte.SYMBOLE_COCOTIER     + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_PETIT_ROCHER      = Ihm.COULEUR_FOND_NOIR  + Ihm.COULEUR_BLANC  + Carte.SYMBOLE_PETIT_ROCHER + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_BANANE            = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_BANANE       + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_CHAMPIGNON        = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_CHAMPIGNON   + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_GLAND             = Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_JAUNE  + Carte.SYMBOLE_GLAND        + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_AFFAME   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_RASSASIE = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_BLEU   + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_AMI      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_JUNKIE   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_PERCHE   = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VERT   + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_CACHE    = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE  + Carte.SYMBOLE_ECUREUIL     + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_AFFAME      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_RASSASIE    = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_BLEU   + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_AMI         = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_JUNKIE      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_PERCHE      = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VERT   + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_CACHE       = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE  + Carte.SYMBOLE_SINGE        + Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_INCONNU =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_ROUGE           +
+        Carte.SYMBOLE_INCONNU       +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_PERSONNAGE =
+        Ihm.COULEUR_FOND_BLANC      +
+        Ihm.COULEUR_VIOLET          +
+        Carte.SYMBOLE_PERSONNAGE    +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ZONE_VIDE =
+        Ihm.COULEUR_FOND_VERT       +
+        Carte.SYMBOLE_ZONE_VIDE     +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ARBRE =
+        Ihm.COULEUR_FOND_NOIR       +
+        Ihm.COULEUR_VERT            +
+        Carte.SYMBOLE_ARBRE         +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_BUISSON =
+        Ihm.COULEUR_FOND_NOIR       +
+        Ihm.COULEUR_VERT            +
+        Carte.SYMBOLE_BUISSON       +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_COCOTIER =
+        Ihm.COULEUR_FOND_NOIR       +
+        Ihm.COULEUR_VERT            +
+        Carte.SYMBOLE_COCOTIER      +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_PETIT_ROCHER =
+        Ihm.COULEUR_FOND_NOIR       +
+        Ihm.COULEUR_BLANC           +
+        Carte.SYMBOLE_PETIT_ROCHER  +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_BANANE =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_NOIR            +
+        Carte.SYMBOLE_BANANE        +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_CHAMPIGNON =
+        Ihm.COULEUR_FOND_BLANC      +
+        Ihm.COULEUR_ROUGE           +
+        Carte.SYMBOLE_CHAMPIGNON    +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_GLAND =
+        Ihm.COULEUR_FOND_ROUGE      +
+        Ihm.COULEUR_JAUNE           +
+        Carte.SYMBOLE_GLAND         +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_AFFAME =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_NOIR            +
+        Carte.SYMBOLE_ECUREUIL      +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_RASSASIE =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_BLEU            +
+        Carte.SYMBOLE_ECUREUIL      +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_AMI =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_VIOLET          +
+        Carte.SYMBOLE_ECUREUIL      +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_JUNKIE =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_ROUGE           +
+        Carte.SYMBOLE_ECUREUIL      +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_PERCHE =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_VERT            +
+        Carte.SYMBOLE_ECUREUIL      +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_ECUREUIL_CACHE =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_JAUNE           +
+        Carte.SYMBOLE_ECUREUIL      +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_AFFAME =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_NOIR            +
+        Carte.SYMBOLE_SINGE         +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_RASSASIE =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_BLEU            +
+        Carte.SYMBOLE_SINGE         +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_AMI =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_VIOLET          +
+        Carte.SYMBOLE_SINGE         +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_JUNKIE =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_ROUGE           +
+        Carte.SYMBOLE_SINGE         +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_PERCHE =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_VERT            +
+        Carte.SYMBOLE_SINGE         +
+        Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_SINGE_CACHE =
+        Ihm.COULEUR_FOND_JAUNE      +
+        Ihm.COULEUR_JAUNE           +
+        Carte.SYMBOLE_SINGE         +
+        Ihm.COULEUR_REINITIALISATION;
 
     private final Ihm ihm; // Interface de jeu
     private Jeu jeu;       // Partie en cours
@@ -200,7 +287,7 @@ public class Controleur {
             break;
         }
 
-        legende += "* " + Controleur.STRING_INCONNU + " : erreur\n";
+//        legende += "* " + Controleur.STRING_INCONNU + " : erreur\n";
         affichage += "\n" + legende;
 
         this.ihm.afficherInformation(affichage);
