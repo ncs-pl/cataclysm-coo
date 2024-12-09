@@ -90,8 +90,8 @@ public class Controleur {
         }
 
         Personnage personnage = this.jeu.obtenirPersonnage();
-        carteContenu.get(personnage.obtenirColonne())
-                    .set(personnage.obtenirLigne(), Controleur.STRING_PERSONNAGE);
+        carteContenu.get(personnage.obtenirLigne())
+                    .set(personnage.obtenirColonne(), Controleur.STRING_PERSONNAGE);
 
         for (Animal animal : this.jeu.obtenirAnimaux()) {
             String s = Controleur.STRING_INCONNU;
@@ -127,8 +127,8 @@ public class Controleur {
                 this.ihm.afficherErreur("État inconnu \"" + etat + "\".");
             }
 
-            carteContenu.get(animal.obtenirColonne())
-                        .set(animal.obtenirLigne(), s);
+            carteContenu.get(animal.obtenirLigne())
+                        .set(animal.obtenirColonne(), s);
         }
 
         for (Acteur decor : this.jeu.obtenirDecors()) {
@@ -294,6 +294,8 @@ public class Controleur {
         }
 
         this.jeu = new Jeu(carte);
+
+        this.afficherCarte();
 
         // Tours de jeu.
 
