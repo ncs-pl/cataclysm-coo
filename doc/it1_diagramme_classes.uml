@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/nc0/Documents/Cours/Licence Informatique Orléans/L3/Conception Orientée Objet/Projet/cataclysm-coo.git/src/main/java</OriginalElement>
+  <nodes>
+    <node x="541.5" y="-1.5">modele.AnimalEtat</node>
+    <node x="691.5" y="490.5">modele.EcureuilAnimalEtatCache</node>
+    <node x="1763.5" y="1027.5">modele.Gland</node>
+    <node x="-130.5" y="-13.5">modele.Acteur</node>
+    <node x="755.0" y="1027.5">modele.Cocotier</node>
+    <node x="1537.5" y="490.5">modele.SingeAnimalEtatAffame</node>
+    <node x="1731.5" y="270.5">modele.SingeAnimalEtatRassasie</node>
+    <node x="909.0" y="270.5">modele.EcureuilAnimalEtatPerche</node>
+    <node x="1856.5" y="1946.5">controleur.Controleur</node>
+    <node x="333.5" y="887.5">modele.CarteInvalideException</node>
+    <node x="877.0" y="887.5">modele.Buisson</node>
+    <node x="1751.0" y="2234.5">Main</node>
+    <node x="1122.5" y="490.5">modele.EcureuilAnimalEtatRassasie</node>
+    <node x="1120.0" y="1318.5">modele.Jeu</node>
+    <node x="2531.0" y="270.5">modele.EcureuilAnimalEtatJunkie</node>
+    <node x="1878.0" y="887.5">modele.Banane</node>
+    <node x="1524.0" y="887.5">modele.Singe</node>
+    <node x="212.0" y="1027.5">modele.ZoneVide</node>
+    <node x="-114.0" y="1027.5">modele.PositionInvalideException</node>
+    <node x="2340.5" y="490.5">modele.SingeAnimalEtatCache</node>
+    <node x="2001.0" y="47.5">modele.AnimalEtatException</node>
+    <node x="2740.0" y="490.5">modele.SingeAnimalEtatJunkie</node>
+    <node x="485.5" y="1027.5">modele.PetitRocher</node>
+    <node x="453.5" y="527.5">modele.Objet</node>
+    <node x="147.0" y="430.5">modele.Animal</node>
+    <node x="50.0" y="887.5">modele.InventaireVideException</node>
+    <node x="1954.0" y="1498.5">vue.Ihm</node>
+    <node x="2002.5" y="1027.5">modele.Champignon</node>
+    <node x="2928.5" y="270.5">modele.EcureuilAnimalEtatAffame</node>
+    <node x="1941.5" y="490.5">modele.SingeAnimalEtatAmi</node>
+    <node x="1397.0" y="1027.5">modele.Ecureuil</node>
+    <node x="1526.0" y="1474.5">modele.Carte</node>
+    <node x="1341.5" y="270.5">modele.EcureuilAnimalEtatAmi</node>
+    <node x="2138.0" y="270.5">modele.SingeAnimalEtatPerche</node>
+    <node x="1164.0" y="887.5">modele.Arbre</node>
+    <node x="2148.0" y="862.5">modele.JeuTheme</node>
+    <node x="2215.5" y="1982.5">modele.Position</node>
+    <node x="1004.5" y="1002.5">modele.Personnage</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="modele.SingeAnimalEtatJunkie" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="57.0" y="-68.5" />
+      <point x="2911.0" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatJunkie" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-57.0" y="-68.5" />
+      <point x="2797.0" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.Jeu" target="modele.Objet" relationship="TO_MANY">
+      <point x="87.0" y="-260.5" />
+      <point x="1381.0" y="1259.0" />
+      <point x="1734.0" y="1259.0" />
+      <point x="1734.0" y="699.0" />
+      <point x="554.0" y="699.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Buisson" target="modele.Acteur" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="974.0" y="779.0" />
+      <point x="-6.0" y="779.0" />
+      <point x="-6.0" y="359.0" />
+      <point x="34.0" y="359.0" />
+      <point x="34.0" y="199.0" />
+      <point x="26.25" y="199.0" />
+      <point x="52.25" y="92.5" />
+    </edge>
+    <edge source="modele.PetitRocher" target="modele.Acteur" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="594.0" y="819.0" />
+      <point x="-86.0" y="819.0" />
+      <point x="-86.0" y="359.0" />
+      <point x="34.0" y="359.0" />
+      <point x="34.0" y="199.0" />
+      <point x="26.25" y="199.0" />
+      <point x="52.25" y="92.5" />
+    </edge>
+    <edge source="modele.ZoneVide" target="modele.Acteur" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="314.0" y="859.0" />
+      <point x="-126.0" y="859.0" />
+      <point x="-126.0" y="359.0" />
+      <point x="34.0" y="359.0" />
+      <point x="34.0" y="199.0" />
+      <point x="26.25" y="199.0" />
+      <point x="52.25" y="92.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatPerche" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-62.5" y="-68.5" />
+      <point x="971.5" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.Banane" target="modele.Objet" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="1974.0" y="859.0" />
+      <point x="1854.0" y="859.0" />
+      <point x="1854.0" y="659.0" />
+      <point x="674.0" y="659.0" />
+      <point x="674.0" y="499.0" />
+      <point x="554.0" y="499.0" />
+      <point x="0.0" y="-31.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatPerche" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="62.5" y="-68.5" />
+      <point x="1096.5" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatAffame" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-62.75" y="-68.5" />
+      <point x="2991.25" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="controleur.Controleur" target="modele.Jeu" relationship="TO_ONE">
+      <point x="58.75" y="-92.5" />
+      <point x="2032.75" y="1919.0" />
+      <point x="2034.0" y="1919.0" />
+      <point x="2034.0" y="1879.0" />
+      <point x="1494.0" y="1879.0" />
+      <point x="1494.0" y="1279.0" />
+      <point x="1381.0" y="1279.0" />
+      <point x="87.0" y="-260.5" />
+    </edge>
+    <edge source="controleur.Controleur" target="vue.Ihm" relationship="TO_ONE">
+      <point x="58.75" y="-92.5" />
+      <point x="2032.75" y="1919.0" />
+      <point x="2034.0" y="1919.0" />
+      <point x="-80.0" y="80.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.Personnage" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1139.0" />
+      <point x="1059.25" y="1139.0" />
+      <point x="-54.75" y="56.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.Ecureuil" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1139.0" />
+      <point x="1494.0" y="1139.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatRassasie" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="65.75" y="-68.5" />
+      <point x="1319.75" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="Main" target="controleur.Controleur" relationship="CREATE">
+      <point x="0.0" y="-44.5" />
+      <point x="1834.0" y="1899.0" />
+      <point x="1915.25" y="1899.0" />
+      <point x="-58.75" y="-92.5" />
+    </edge>
+    <edge source="controleur.Controleur" target="modele.Carte" relationship="CREATE">
+      <point x="-58.75" y="-92.5" />
+      <point x="1915.25" y="1919.0" />
+      <point x="1914.0" y="1919.0" />
+      <point x="1914.0" y="1859.0" />
+      <point x="1934.0" y="1859.0" />
+      <point x="1934.0" y="1419.0" />
+      <point x="1620.0" y="1419.0" />
+      <point x="-94.0" y="-104.5" />
+    </edge>
+    <edge source="modele.Jeu" target="modele.Personnage" relationship="TO_ONE">
+      <point x="87.0" y="-260.5" />
+      <point x="1381.0" y="1259.0" />
+      <point x="1734.0" y="1259.0" />
+      <point x="1734.0" y="1159.0" />
+      <point x="1168.75" y="1159.0" />
+      <point x="54.75" y="56.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatCache" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-56.75" y="-68.5" />
+      <point x="2397.25" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatAffame" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="58.25" y="-68.5" />
+      <point x="1712.25" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Jeu" target="modele.JeuTheme" relationship="TO_ONE">
+      <point x="87.0" y="-260.5" />
+      <point x="1381.0" y="1259.0" />
+      <point x="1734.0" y="1259.0" />
+      <point x="1734.0" y="1179.0" />
+      <point x="2154.0" y="1179.0" />
+      <point x="2154.0" y="1119.0" />
+      <point x="2254.0" y="1119.0" />
+      <point x="0.0" y="56.5" />
+    </edge>
+    <edge source="modele.Animal" target="modele.AnimalEtat" relationship="TO_ONE">
+      <point x="63.5" y="-128.5" />
+      <point x="337.5" y="199.0" />
+      <point x="597.75" y="199.0" />
+      <point x="-56.25" y="80.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatJunkie" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="61.5" y="-68.5" />
+      <point x="2715.5" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.Singe" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatJunkie" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-61.5" y="-68.5" />
+      <point x="2592.5" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.Jeu" target="modele.InventaireVideException" relationship="CREATE">
+      <point x="-87.0" y="-260.5" />
+      <point x="1207.0" y="1259.0" />
+      <point x="174.0" y="1259.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Singe" target="modele.Animal" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="1614.0" y="859.0" />
+      <point x="1494.0" y="859.0" />
+      <point x="1494.0" y="639.0" />
+      <point x="434.0" y="639.0" />
+      <point x="434.0" y="379.0" />
+      <point x="210.5" y="379.0" />
+      <point x="-63.5" y="-128.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatAmi" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-56.25" y="-68.5" />
+      <point x="1997.75" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatAmi" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="56.25" y="-68.5" />
+      <point x="2110.25" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatAmi" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="56.25" y="-68.5" />
+      <point x="1510.25" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="controleur.Controleur" target="modele.Jeu" relationship="CREATE">
+      <point x="-58.75" y="-92.5" />
+      <point x="1915.25" y="1919.0" />
+      <point x="1914.0" y="1919.0" />
+      <point x="1914.0" y="1859.0" />
+      <point x="1094.0" y="1859.0" />
+      <point x="1094.0" y="1279.0" />
+      <point x="1207.0" y="1279.0" />
+      <point x="-87.0" y="-260.5" />
+    </edge>
+    <edge source="modele.Animal" target="modele.Acteur" relationship="GENERALIZATION">
+      <point x="-63.5" y="-128.5" />
+      <point x="210.5" y="359.0" />
+      <point x="34.0" y="359.0" />
+      <point x="34.0" y="199.0" />
+      <point x="26.25" y="199.0" />
+      <point x="52.25" y="92.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.CarteInvalideException" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1179.0" />
+      <point x="454.0" y="1179.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatRassasie" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-61.25" y="-68.5" />
+      <point x="1792.75" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.Jeu" target="modele.ZoneVide" relationship="CREATE">
+      <point x="-87.0" y="-260.5" />
+      <point x="1207.0" y="1259.0" />
+      <point x="174.0" y="1259.0" />
+      <point x="174.0" y="1119.0" />
+      <point x="314.0" y="1119.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatAffame" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-58.25" y="-68.5" />
+      <point x="1595.75" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.Cocotier" target="modele.Acteur" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="854.0" y="799.0" />
+      <point x="-46.0" y="799.0" />
+      <point x="-46.0" y="359.0" />
+      <point x="34.0" y="359.0" />
+      <point x="34.0" y="199.0" />
+      <point x="26.25" y="199.0" />
+      <point x="52.25" y="92.5" />
+    </edge>
+    <edge source="modele.Jeu" target="modele.Animal" relationship="TO_MANY">
+      <point x="87.0" y="-260.5" />
+      <point x="1381.0" y="1259.0" />
+      <point x="1734.0" y="1259.0" />
+      <point x="1734.0" y="1159.0" />
+      <point x="1374.0" y="1159.0" />
+      <point x="1374.0" y="719.0" />
+      <point x="114.0" y="719.0" />
+      <point x="114.0" y="399.0" />
+      <point x="337.5" y="399.0" />
+      <point x="63.5" y="-128.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.Gland" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1139.0" />
+      <point x="1854.0" y="1139.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Arbre" target="modele.Acteur" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="1254.0" y="739.0" />
+      <point x="74.0" y="739.0" />
+      <point x="74.0" y="359.0" />
+      <point x="34.0" y="359.0" />
+      <point x="34.0" y="199.0" />
+      <point x="26.25" y="199.0" />
+      <point x="52.25" y="92.5" />
+    </edge>
+    <edge source="modele.Gland" target="modele.Objet" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="1854.0" y="659.0" />
+      <point x="674.0" y="659.0" />
+      <point x="674.0" y="499.0" />
+      <point x="554.0" y="499.0" />
+      <point x="0.0" y="-31.5" />
+    </edge>
+    <edge source="modele.Jeu" target="modele.Acteur" relationship="TO_MANY">
+      <point x="87.0" y="-260.5" />
+      <point x="1381.0" y="1259.0" />
+      <point x="1734.0" y="1259.0" />
+      <point x="1734.0" y="1159.0" />
+      <point x="734.0" y="1159.0" />
+      <point x="734.0" y="839.0" />
+      <point x="-166.0" y="839.0" />
+      <point x="-166.0" y="339.0" />
+      <point x="-78.25" y="339.0" />
+      <point x="-52.25" y="92.5" />
+    </edge>
+    <edge source="modele.Ecureuil" target="modele.Animal" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="1494.0" y="639.0" />
+      <point x="434.0" y="639.0" />
+      <point x="434.0" y="379.0" />
+      <point x="210.5" y="379.0" />
+      <point x="-63.5" y="-128.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.Champignon" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1139.0" />
+      <point x="2114.0" y="1139.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatCache" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="61.25" y="-68.5" />
+      <point x="875.25" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Jeu" target="modele.CarteInvalideException" relationship="CREATE">
+      <point x="-87.0" y="-260.5" />
+      <point x="1207.0" y="1259.0" />
+      <point x="174.0" y="1259.0" />
+      <point x="174.0" y="1219.0" />
+      <point x="454.0" y="1219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatAmi" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-56.25" y="-68.5" />
+      <point x="1397.75" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.Personnage" target="modele.Acteur" relationship="GENERALIZATION">
+      <point x="0.0" y="-56.5" />
+      <point x="1114.0" y="759.0" />
+      <point x="34.0" y="759.0" />
+      <point x="34.0" y="199.0" />
+      <point x="26.25" y="199.0" />
+      <point x="52.25" y="92.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatRassasie" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="61.25" y="-68.5" />
+      <point x="1915.25" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.JeuTheme" relationship="TO_ONE">
+      <point x="94.0" y="-104.5" />
+      <point x="1808.0" y="1399.0" />
+      <point x="2154.0" y="1399.0" />
+      <point x="2154.0" y="1119.0" />
+      <point x="2254.0" y="1119.0" />
+      <point x="0.0" y="56.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatPerche" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="58.0" y="-68.5" />
+      <point x="2312.0" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Jeu" target="modele.PositionInvalideException" relationship="CREATE">
+      <point x="-87.0" y="-260.5" />
+      <point x="1207.0" y="1259.0" />
+      <point x="174.0" y="1259.0" />
+      <point x="174.0" y="1239.0" />
+      <point x="14.0" y="1239.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.Arbre" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1139.0" />
+      <point x="1254.0" y="1139.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.Buisson" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1139.0" />
+      <point x="974.0" y="1139.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatRassasie" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-65.75" y="-68.5" />
+      <point x="1188.25" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.PetitRocher" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1139.0" />
+      <point x="594.0" y="1139.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.Champignon" target="modele.Objet" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="2114.0" y="859.0" />
+      <point x="1854.0" y="859.0" />
+      <point x="1854.0" y="659.0" />
+      <point x="674.0" y="659.0" />
+      <point x="674.0" y="499.0" />
+      <point x="554.0" y="499.0" />
+      <point x="0.0" y="-31.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.ZoneVide" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1199.0" />
+      <point x="314.0" y="1199.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatCache" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-61.25" y="-68.5" />
+      <point x="752.75" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.Banane" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1139.0" />
+      <point x="1974.0" y="1139.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.EcureuilAnimalEtatAffame" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="62.75" y="-68.5" />
+      <point x="3116.75" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatCache" target="modele.AnimalEtatException" relationship="CREATE">
+      <point x="56.75" y="-68.5" />
+      <point x="2510.75" y="219.0" />
+      <point x="2114.0" y="219.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="Main" target="vue.Ihm" relationship="CREATE">
+      <point x="0.0" y="-44.5" />
+      <point x="1834.0" y="2199.0" />
+      <point x="2194.0" y="2199.0" />
+      <point x="80.0" y="80.5" />
+    </edge>
+    <edge source="modele.SingeAnimalEtatPerche" target="modele.AnimalEtat" relationship="GENERALIZATION">
+      <point x="-58.0" y="-68.5" />
+      <point x="2196.0" y="239.0" />
+      <point x="1194.0" y="239.0" />
+      <point x="1194.0" y="199.0" />
+      <point x="710.25" y="199.0" />
+      <point x="56.25" y="80.5" />
+    </edge>
+    <edge source="modele.Objet" target="modele.Acteur" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="554.0" y="359.0" />
+      <point x="34.0" y="359.0" />
+      <point x="34.0" y="199.0" />
+      <point x="26.25" y="199.0" />
+      <point x="52.25" y="92.5" />
+    </edge>
+    <edge source="modele.Carte" target="modele.Cocotier" relationship="CREATE">
+      <point x="-94.0" y="-104.5" />
+      <point x="1620.0" y="1439.0" />
+      <point x="1614.0" y="1439.0" />
+      <point x="1614.0" y="1139.0" />
+      <point x="854.0" y="1139.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.3057675996607294" showDependencies="true" x="1506.9999999999998" y="1155.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

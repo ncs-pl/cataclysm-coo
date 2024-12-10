@@ -1,0 +1,14 @@
+Paternes de conception orientiée objet utilisés
+dans le code :
+
+(a) Paterne d'états : pour les différents
+    états des animaux, les classes sont
+    nommées <Animal>AnimalEtat<Etat>.
+
+(b) Paterne singleton : pour les états,
+    évitant de créer un nombre incalculable
+    d'objets similaires plusieurs fois.
+
+(c) Paterne façade : notre contrôleur
+    est organisé comme une façade du jeu pour
+    le joueur depuis Main.
