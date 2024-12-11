@@ -19,7 +19,6 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
 
     @SuppressWarnings("DuplicatedCode")
     @Override public void deplacer(Animal animal, Jeu jeu) {
-        System.out.println("help");
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
 
@@ -32,9 +31,11 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
         }
 
         int saturation = animal.obtenirSaturation();
-        animal.changerSaturation(saturation - 1);
-
-        if (saturation == 0) animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
+        if (saturation == 0){
+            animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
+        } else {
+            animal.changerSaturation(saturation - 1);
+        }
     }
 
     @Override public void prendreCoup(Animal animal) {

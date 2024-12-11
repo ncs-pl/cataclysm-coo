@@ -39,9 +39,7 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
             // Vérifier pour probable nouvelle amitié.
             /*int amitie = animal.obtenirAmitie();
             if (jeu.chercherPersonnageVoisin(ligne, colonne)) amitie += 1;
-            animal.changerAmitie(amitie);
-*/
-            System.out.println("HEEEEEEEEEEEEEEEELP");
+            animal.changerAmitie(amitie);*/
             animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
 
             /*
