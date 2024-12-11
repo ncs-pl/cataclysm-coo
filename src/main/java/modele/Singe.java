@@ -7,4 +7,9 @@ public class Singe extends Animal {
         this.changerSaturation(3);
         this.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
     }
+    
+    @Override
+    public void deplacer(Jeu jeu) {
+        this.obtenirEtat().deplacer(this, jeu);
+    }
 }

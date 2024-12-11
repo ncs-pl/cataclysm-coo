@@ -1,6 +1,12 @@
 package modele;
 
+import java.util.List;
+import java.util.Random;
+
 public class SingeAnimalEtatAffame extends AnimalEtat {
+
+    private static SingeAnimalEtatAffame instance;
+
     private SingeAnimalEtatAffame() {
         super(AnimalEtat.ETAT_AFFAME);
     }
@@ -18,38 +24,44 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
 
         // Chercher nourriture proche.
 
-        Banane banane         = jeu.chercherBananeVoisine(ligne, colonne);
-        Champignon champignon = jeu.chercherChampignonVoisin(ligne, colonne);
+        Objet banane         = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_BANANE);
+        Objet champignon = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_CHAMPIGNON);
         if (banane != null || champignon != null) {
             animal.changerSaturation(3);
 
             // Se déplacer sur la case de la nourriture et supprimer l'objet.
-            Objet nourriture = banane;
-            if (banane == null) nourriture = champignon;
+            Objet nourriture = banane == null ? champignon : banane;
+
             animal.changerLigne(nourriture.obtenirLigne());
             animal.changerColonne(nourriture.obtenirColonne());
             jeu.supprimerObjet(nourriture);
 
             // Vérifier pour probable nouvelle amitié.
+
+            animal.changerEtat(SingeAnimalEtatRassasie.obtenirInstance());
+
+
             int amitie = animal.obtenirAmitie();
             if (jeu.chercherPersonnageVoisin(ligne, colonne)) amitie += 1;
             animal.changerAmitie(amitie);
 
-            AnimalEtat etat = SingeAnimalEtatRassasie.obtenirInstance();
+            /*
             if (amitie >= 2) {
-                animal.changerAmitie(0);
-                etat = SingeAnimalEtatAmi.obtenirInstance();
+                //TODO effectuer et gerer changement etat ami
+                animal.changerEtat(SingeAnimalEtatAmi.obtenirInstance());
+            }*/
+
+        } else {
+
+            // Sinon se déplacer aléatoirement.
+
+            List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
+            if (!vides.isEmpty()) {
+                Random rand = new Random();
+                Acteur vide = vides.get(rand.nextInt(vides.size()));
+                animal.changerLigne(vide.obtenirLigne());
+                animal.changerColonne(vide.obtenirColonne());
             }
-            animal.changerEtat(etat);
-            return;
-        }
-
-        // Sinon se déplacer aléatoirement.
-
-        ZoneVide vide = jeu.chercherZoneVideVoisine(ligne, colonne);
-        if (vide != null) {
-            animal.changerLigne(vide.obtenirLigne());
-            animal.changerColonne(vide.obtenirColonne());
         }
     }
 

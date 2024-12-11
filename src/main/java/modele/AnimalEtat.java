@@ -9,8 +9,6 @@ public abstract class AnimalEtat {
     public static final int ETAT_PERCHE = 4;   // Perché dans un arbre.
     public static final int ETAT_RASSASIE = 5; // Rassasié mais pas ami.
 
-    protected static AnimalEtat instance; // Instance singleton.
-
     private final int id; // Identifiant numérique de l'état.
 
     protected AnimalEtat(int id) {

@@ -1,6 +1,11 @@
 package modele;
+import java.util.List;
+import java.util.Random;
 
 public class EcureuilAnimalEtatAffame extends AnimalEtat {
+
+    private static EcureuilAnimalEtatAffame instance;
+
     private EcureuilAnimalEtatAffame() {
         super(AnimalEtat.ETAT_AFFAME);
     }
@@ -18,37 +23,44 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
 
         // Chercher nourriture proche.
 
-        Gland gland           = jeu.chercherGlandVoisin(ligne, colonne);
-        Champignon champignon = jeu.chercherChampignonVoisin(ligne, colonne);
+
+        Objet gland           = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_GLAND);
+        Objet champignon = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_CHAMPIGNON);
         if (gland != null || champignon != null) {
             animal.changerSaturation(5);
 
             // Se déplacer sur la case de la nourriture et supprimer l'objet.
-            Objet nourriture = gland;
-            if (gland == null) nourriture = champignon;
+            Objet nourriture = gland == null ? champignon : gland;
+
             animal.changerLigne(nourriture.obtenirLigne());
             animal.changerColonne(nourriture.obtenirColonne());
             jeu.supprimerObjet(nourriture);
+
+            animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
+
 
             // Vérifier pour probable nouvelle amitié.
             int amitie = animal.obtenirAmitie();
             if (jeu.chercherPersonnageVoisin(ligne, colonne)) amitie += 1;
             animal.changerAmitie(amitie);
 
-            AnimalEtat etat = EcureuilAnimalEtatRassasie.obtenirInstance();
             if (amitie >= 1) {
-                animal.changerAmitie(0);
-                etat = EcureuilAnimalEtatAmi.obtenirInstance();
+                /* TODO effectuer le changement d'Etat
+                animal.changerEtat(EcureuilAnimalEtatAmi.obtenirInstance());
+                 */
             }
-            animal.changerEtat(etat);
-            return;
-        }
+        } else {
 
-        // Sinon se déplacer aléatoirement.
-        ZoneVide vide = jeu.chercherZoneVideVoisine(ligne, colonne);
-        if (vide != null) {
-            animal.changerLigne(vide.obtenirLigne());
-            animal.changerColonne(vide.obtenirColonne());
+            // Sinon se déplacer aléatoirement.
+
+
+            List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
+            if (!vides.isEmpty()) {
+                Random rand = new Random();
+                Acteur vide = vides.get(rand.nextInt(vides.size()));
+                animal.changerLigne(vide.obtenirLigne());
+                animal.changerColonne(vide.obtenirColonne());
+            }
         }
     }
 

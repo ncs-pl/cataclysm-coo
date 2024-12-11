@@ -157,9 +157,6 @@ public class Jeu {
 
         if (objet == null) throw new PositionInvalideException("Aucun objet à ramasser à la position demandée.");
 
-        objet.changerColonne(-1);
-        objet.changerLigne(-1);
-
         this.inventaire.add(objet);
         this.objets.remove(objet);
     }
@@ -195,26 +192,19 @@ public class Jeu {
     /** Exécute les intelligences artificiels des animaux. */
     public void executerIntelligenceAnimaux() {
         for (Animal animal : this.animaux) {
-            int etatId = animal.obtenirEtat().obtenirId();
-
-            if (etatId == AnimalEtat.ETAT_AFFAME || etatId == AnimalEtat.ETAT_RASSASIE) animal.deplacer(this);
+            animal.deplacer(this);
         }
     }
 
     /** Retourne true si le personnage est sur une case voisine. */
     @SuppressWarnings("RedundantIfStatement")
     public boolean chercherPersonnageVoisin(int ligne, int colonne) {
-        // TODO(nico): faut-il regarder les diagonales ? Pour l'instant on le fait, mais à voir...
         int personnageLigne   = this.personnage.obtenirLigne();
         int personnageColonne = this.personnage.obtenirColonne();
-        if (ligne == personnageLigne-1 && colonne == personnageColonne-1) return true; // Haut gauche.
         if (ligne == personnageLigne-1 && colonne == personnageColonne)   return true; // Haut.
-        if (ligne == personnageLigne-1 && colonne == personnageColonne+1) return true; // Haut droite.
         if (ligne == personnageLigne   && colonne == personnageColonne-1) return true; // Gauche.
         if (ligne == personnageLigne   && colonne == personnageColonne+1) return true; // Droite.
-        if (ligne == personnageLigne+1 && colonne == personnageColonne-1) return true; // Bas gauche.
         if (ligne == personnageLigne+1 && colonne == personnageColonne)   return true; // Bas.
-        if (ligne == personnageLigne+1 && colonne == personnageColonne+1) return true; // Bas droite.
         return false;
     }
 
@@ -235,57 +225,28 @@ public class Jeu {
         return true;
     }
 
-    /** Retourne un gland à côté de la position donnée, ou null sinon. */
-    public Gland chercherGlandVoisin(int ligne, int colonne) {
+    public Objet chercherObjetVoisin(int ligne, int colonne, int type) {
+        //todo(lucas) : Plutôt regarder que les cases adjacente ?
         for (Objet o : this.objets) {
-            if (o.obtenirType() != Acteur.TYPE_GLAND) continue;
-
-            int oLigne   = o.obtenirLigne();
-            int oColonne = o.obtenirColonne();
-            if (oLigne == ligne-1 && oColonne == colonne)   return (Gland) o; // Haut.
-            if (oLigne == ligne   && oColonne == colonne-1) return (Gland) o; // Gauche.
-            if (oLigne == ligne   && oColonne == colonne+1) return (Gland) o; // Droite.
-            if (oLigne == ligne+1 && oColonne == colonne)   return (Gland) o; // Bas.
-        }
-        return null;
-    }
-
-    /** Retourne un champignon à côté de la position donnée, ou null sinon. */
-    public Champignon chercherChampignonVoisin(int ligne, int colonne) {
-        for (Objet o : this.objets) {
-            if (o.obtenirType() != Acteur.TYPE_CHAMPIGNON) continue;
-
-            int oLigne   = o.obtenirLigne();
-            int oColonne = o.obtenirColonne();
-            if (oLigne == ligne-1 && oColonne == colonne)   return (Champignon) o; // Haut.
-            if (oLigne == ligne   && oColonne == colonne-1) return (Champignon) o; // Gauche.
-            if (oLigne == ligne   && oColonne == colonne+1) return (Champignon) o; // Droite.
-            if (oLigne == ligne+1 && oColonne == colonne)   return (Champignon) o; // Bas.
-        }
-        return null;
-    }
-
-    /** Retourne une banane à côté de la position donnée, ou null sinon. */
-    public Banane chercherBananeVoisine(int ligne, int colonne) {
-        for (Objet o : this.objets) {
-            if (o.obtenirType() != Acteur.TYPE_BANANE) continue;
-
-            int oLigne   = o.obtenirLigne();
-            int oColonne = o.obtenirColonne();
-            if (oLigne == ligne-1 && oColonne == colonne)   return (Banane) o; // Haut.
-            if (oLigne == ligne   && oColonne == colonne-1) return (Banane) o; // Gauche.
-            if (oLigne == ligne   && oColonne == colonne+1) return (Banane) o; // Droite.
-            if (oLigne == ligne+1 && oColonne == colonne)   return (Banane) o; // Bas.
+            if (o.obtenirType() == type){
+                int oLigne = o.obtenirLigne();
+                int oColonne = o.obtenirColonne();
+                if(oLigne == ligne-1 && oColonne == colonne) return o;
+                if(oLigne == ligne && oColonne == colonne-1) return o;
+                if(oLigne == ligne && oColonne == colonne+1) return o;
+                if(oLigne == ligne+1 && oColonne == colonne) return o;
+            }
         }
         return null;
     }
 
     /** Retourne une zone vide voisine ou null sinon. */
-    public ZoneVide chercherZoneVideVoisine(int ligne, int colonne) {
-        if (this.verifierCaseVide(ligne-1, colonne)) return new ZoneVide(ligne-1, colonne, this.lignes, this.colonnes); // Haut.
-        if (this.verifierCaseVide(ligne, colonne-1)) return new ZoneVide(ligne, colonne-1, this.lignes, this.colonnes); // Gauche.
-        if (this.verifierCaseVide(ligne, colonne+1)) return new ZoneVide(ligne, colonne+1, this.lignes, this.colonnes); // Droite.
-        if (this.verifierCaseVide(ligne+1, colonne)) return new ZoneVide(ligne+1, colonne, this.lignes, this.colonnes); // Bas.
-        return null;
+    public List<ZoneVide> chercherZonesVidesVoisine(int ligne, int colonne) {
+        List<ZoneVide> zones = new ArrayList<>();
+        if (this.verifierCaseVide(ligne-1, colonne)) zones.add(new ZoneVide(ligne-1, colonne, this.lignes, this.colonnes)); // Haut.
+        if (this.verifierCaseVide(ligne, colonne-1)) zones.add(new ZoneVide(ligne, colonne-1, this.lignes, this.colonnes)); // Gauche.
+        if (this.verifierCaseVide(ligne, colonne+1)) zones.add(new ZoneVide(ligne, colonne+1, this.lignes, this.colonnes)); // Droite.
+        if (this.verifierCaseVide(ligne+1, colonne)) zones.add(new ZoneVide(ligne+1, colonne, this.lignes, this.colonnes)); // Bas.
+        return zones;
     }
 }

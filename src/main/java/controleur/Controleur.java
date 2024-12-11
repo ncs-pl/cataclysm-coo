@@ -351,6 +351,8 @@ public class Controleur {
 
         boolean enCours = true;
         while (enCours) {
+            boolean toursInvalide = true;
+
             String instruction = this.ihm.demanderString("Entrez une instruction.");
             switch (instruction.toLowerCase()) {
             case "aide", "a", "?":
@@ -385,6 +387,7 @@ public class Controleur {
 
             case "quitter", "q":
                 enCours = false;
+                toursInvalide = false;
                 break;
 
             case "carte", "c":
@@ -450,22 +453,58 @@ public class Controleur {
 //            } break;
 
             // Déplacements
-            case "haut", "h":   deplacerJoueur(Position.HAUT);   break;
-            case "bas", "b":    deplacerJoueur(Position.BAS);    break;
-            case "gauche", "g": deplacerJoueur(Position.GAUCHE); break;
-            case "droite", "d": deplacerJoueur(Position.DROITE); break;
+            case "haut", "h":
+                deplacerJoueur(Position.HAUT);
+                toursInvalide = false;
+                break;
+            case "bas", "b":
+                deplacerJoueur(Position.BAS);
+                toursInvalide = false;
+                break;
+            case "gauche", "g":
+                deplacerJoueur(Position.GAUCHE);
+                toursInvalide = false;
+                break;
+            case "droite", "d":
+                deplacerJoueur(Position.DROITE);
+                toursInvalide = false;
+                break;
 
             // Ramasser
-            case "ramasser haut", "rh":   ramasserObjet(Position.HAUT);   break;
-            case "ramasser bas", "rb":    ramasserObjet(Position.BAS);    break;
-            case "ramasser gauche", "rg": ramasserObjet(Position.GAUCHE); break;
-            case "ramasser droite", "rd": ramasserObjet(Position.DROITE); break;
+            case "ramasser haut", "rh":
+                ramasserObjet(Position.HAUT);
+                toursInvalide = false;
+                break;
+            case "ramasser bas", "rb":
+                ramasserObjet(Position.BAS);
+                toursInvalide = false;
+                break;
+            case "ramasser gauche", "rg":
+                ramasserObjet(Position.GAUCHE);
+                toursInvalide = false;
+                break;
+            case "ramasser droite", "rd":
+                ramasserObjet(Position.DROITE);
+                toursInvalide = false;
+                break;
 
             // Déposer
-            case "deposer haut","dh":   deposerObjet(Position.HAUT);   break;
-            case "deposer bas","db":    deposerObjet(Position.BAS);    break;
-            case "deposer gauche","dg": deposerObjet(Position.GAUCHE); break;
-            case "deposer droite","dd": deposerObjet(Position.DROITE); break;
+            case "deposer haut","dh":
+                deposerObjet(Position.HAUT);
+                toursInvalide = false;
+                break;
+            case "deposer bas","db":
+                deposerObjet(Position.BAS);
+                toursInvalide = false;
+                break;
+            case "deposer gauche","dg":
+                deposerObjet(Position.GAUCHE);
+                toursInvalide = false;
+                break;
+            case "deposer droite","dd":
+                deposerObjet(Position.DROITE);
+                toursInvalide = false;
+                break;
 
             // TODO(nico): mettre un coup à un animal
 
@@ -474,9 +513,11 @@ public class Controleur {
                 break;
             }
 
+            if (toursInvalide) continue;
             // IA des animaux
 
             this.jeu.executerIntelligenceAnimaux();
+            this.afficherCarte();
         }
 
         // Fin du jeu

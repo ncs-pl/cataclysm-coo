@@ -1,6 +1,12 @@
 package modele;
 
+import java.util.List;
+import java.util.Random;
+
 public class SingeAnimalEtatRassasie extends AnimalEtat {
+
+    private static SingeAnimalEtatRassasie instance;
+
     private SingeAnimalEtatRassasie() {
         super(AnimalEtat.ETAT_RASSASIE);
     }
@@ -16,16 +22,20 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
 
-        ZoneVide vide = jeu.chercherZoneVideVoisine(ligne, colonne);
-        if (vide != null) {
+        List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
+        if (!vides.isEmpty()) {
+            Random rand = new Random();
+            Acteur vide = vides.get(rand.nextInt(vides.size()));
             animal.changerLigne(vide.obtenirLigne());
             animal.changerColonne(vide.obtenirColonne());
         }
 
         int saturation = animal.obtenirSaturation();
-        animal.changerSaturation(saturation - 1);
-
-        if (saturation == 0) animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
+        if (saturation == 0){
+            animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
+        } else {
+            animal.changerSaturation(saturation - 1);
+        }
     }
 
     @Override public void prendreCoup(Animal animal) {
