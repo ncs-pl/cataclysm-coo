@@ -123,6 +123,7 @@ public class Carte {
                     throw new CarteInvalideException("Contenu ayant moins de colonnes qu'annoncé.");
                 }
 
+                // TODO(nico): factory pattern?
                 Acteur acteur = null;
                 switch (symbole) {
                 case Carte.SYMBOLE_PERSONNAGE:

@@ -1,5 +1,6 @@
 package modele;
 
+// TODO(nico): sentiment objet
 /** Un acteur est une donnée représentant une entité dans le jeu (animal,
     objet, personnage, &c.). */
 public abstract class Acteur {

@@ -12,3 +12,7 @@ dans le code :
 (c) Paterne façade : notre contrôleur
     est organisé comme une façade du jeu pour
     le joueur depuis Main.
+
+(d) Paterne stratégie : La classe acteur est organisée
+    comme une stratégie et les stratégies sont les Objet
+    et Animal (ainsi que les acteurs simples).
