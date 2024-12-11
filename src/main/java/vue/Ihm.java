@@ -89,7 +89,9 @@ public class Ihm {
         // TODO(nico): probablement mieux à faire !
         while (true) {
             if (this.scanner.hasNextInt()) {
-                return this.scanner.nextInt();
+                int res = this.scanner.nextInt();
+                this.scanner.nextLine();
+                return res;
             }
 
             afficherErreur("Pas un nombre valide.");

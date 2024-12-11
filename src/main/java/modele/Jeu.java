@@ -157,9 +157,6 @@ public class Jeu {
 
         if (objet == null) throw new PositionInvalideException("Aucun objet à ramasser à la position demandée.");
 
-        objet.changerColonne(-1);
-        objet.changerLigne(-1);
-
         this.inventaire.add(objet);
         this.objets.remove(objet);
     }
