@@ -37,18 +37,20 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
             jeu.supprimerObjet(nourriture);
 
             // Vérifier pour probable nouvelle amitié.
+
+            animal.changerEtat(SingeAnimalEtatRassasie.obtenirInstance());
+
+
             int amitie = animal.obtenirAmitie();
             if (jeu.chercherPersonnageVoisin(ligne, colonne)) amitie += 1;
             animal.changerAmitie(amitie);
 
-            animal.changerEtat(SingeAnimalEtatRassasie.obtenirInstance());
-
-            /*AnimalEtat etat = SingeAnimalEtatRassasie.obtenirInstance();
+            /*
             if (amitie >= 2) {
-                animal.changerAmitie(0);
-                etat = SingeAnimalEtatAmi.obtenirInstance();
-            }
-            animal.changerEtat(etat);*/
+                //TODO effectuer et gerer changement etat ami
+                animal.changerEtat(SingeAnimalEtatAmi.obtenirInstance());
+            }*/
+
         } else {
 
             // Sinon se déplacer aléatoirement.

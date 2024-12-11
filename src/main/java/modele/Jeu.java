@@ -199,7 +199,6 @@ public class Jeu {
     /** Retourne true si le personnage est sur une case voisine. */
     @SuppressWarnings("RedundantIfStatement")
     public boolean chercherPersonnageVoisin(int ligne, int colonne) {
-        // TODO(nico): faut-il regarder les diagonales ? Pour l'instant on le fait, mais à voir...
         int personnageLigne   = this.personnage.obtenirLigne();
         int personnageColonne = this.personnage.obtenirColonne();
         if (ligne == personnageLigne-1 && colonne == personnageColonne)   return true; // Haut.
@@ -226,7 +225,6 @@ public class Jeu {
         return true;
     }
 
-    //todo(lucas) faire du type un enum ?
     public Objet chercherObjetVoisin(int ligne, int colonne, int type) {
         //todo(lucas) : Plutôt regarder que les cases adjacente ?
         for (Objet o : this.objets) {
@@ -242,53 +240,8 @@ public class Jeu {
         return null;
     }
 
-    /** Retourne un gland à côté de la position donnée, ou null sinon. */
-    public Gland chercherGlandVoisin(int ligne, int colonne) {
-        for (Objet o : this.objets) {
-            if (o.obtenirType() != Acteur.TYPE_GLAND) continue;
-
-            int oLigne   = o.obtenirLigne();
-            int oColonne = o.obtenirColonne();
-            if (oLigne == ligne-1 && oColonne == colonne)   return (Gland) o; // Haut.
-            if (oLigne == ligne   && oColonne == colonne-1) return (Gland) o; // Gauche.
-            if (oLigne == ligne   && oColonne == colonne+1) return (Gland) o; // Droite.
-            if (oLigne == ligne+1 && oColonne == colonne)   return (Gland) o; // Bas.
-        }
-        return null;
-    }
-
-    /** Retourne un champignon à côté de la position donnée, ou null sinon. */
-    public Champignon chercherChampignonVoisin(int ligne, int colonne) {
-        for (Objet o : this.objets) {
-            if (o.obtenirType() != Acteur.TYPE_CHAMPIGNON) continue;
-
-            int oLigne   = o.obtenirLigne();
-            int oColonne = o.obtenirColonne();
-            if (oLigne == ligne-1 && oColonne == colonne)   return (Champignon) o; // Haut.
-            if (oLigne == ligne   && oColonne == colonne-1) return (Champignon) o; // Gauche.
-            if (oLigne == ligne   && oColonne == colonne+1) return (Champignon) o; // Droite.
-            if (oLigne == ligne+1 && oColonne == colonne)   return (Champignon) o; // Bas.
-        }
-        return null;
-    }
-
-    /** Retourne une banane à côté de la position donnée, ou null sinon. */
-    public Banane chercherBananeVoisine(int ligne, int colonne) {
-        for (Objet o : this.objets) {
-            if (o.obtenirType() != Acteur.TYPE_BANANE) continue;
-
-            int oLigne   = o.obtenirLigne();
-            int oColonne = o.obtenirColonne();
-            if (oLigne == ligne-1 && oColonne == colonne)   return (Banane) o; // Haut.
-            if (oLigne == ligne   && oColonne == colonne-1) return (Banane) o; // Gauche.
-            if (oLigne == ligne   && oColonne == colonne+1) return (Banane) o; // Droite.
-            if (oLigne == ligne+1 && oColonne == colonne)   return (Banane) o; // Bas.
-        }
-        return null;
-    }
-
     /** Retourne une zone vide voisine ou null sinon. */
-    public List<ZoneVide> chercherZoneVideVoisine(int ligne, int colonne) {
+    public List<ZoneVide> chercherZonesVidesVoisine(int ligne, int colonne) {
         List<ZoneVide> zones = new ArrayList<>();
         if (this.verifierCaseVide(ligne-1, colonne)) zones.add(new ZoneVide(ligne-1, colonne, this.lignes, this.colonnes)); // Haut.
         if (this.verifierCaseVide(ligne, colonne-1)) zones.add(new ZoneVide(ligne, colonne-1, this.lignes, this.colonnes)); // Gauche.

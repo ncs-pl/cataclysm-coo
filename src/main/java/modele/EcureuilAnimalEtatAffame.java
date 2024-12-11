@@ -36,19 +36,19 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
             animal.changerColonne(nourriture.obtenirColonne());
             jeu.supprimerObjet(nourriture);
 
-            // Vérifier pour probable nouvelle amitié.
-            /*int amitie = animal.obtenirAmitie();
-            if (jeu.chercherPersonnageVoisin(ligne, colonne)) amitie += 1;
-            animal.changerAmitie(amitie);*/
             animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
 
-            /*
-            AnimalEtat etat = EcureuilAnimalEtatRassasie.obtenirInstance();
+
+            // Vérifier pour probable nouvelle amitié.
+            int amitie = animal.obtenirAmitie();
+            if (jeu.chercherPersonnageVoisin(ligne, colonne)) amitie += 1;
+            animal.changerAmitie(amitie);
+
             if (amitie >= 1) {
-                animal.changerAmitie(0);
-                etat = EcureuilAnimalEtatAmi.obtenirInstance();
+                /* TODO effectuer le changement d'Etat
+                animal.changerEtat(EcureuilAnimalEtatAmi.obtenirInstance());
+                 */
             }
-            animal.changerEtat(etat);*/
         } else {
 
             // Sinon se déplacer aléatoirement.
