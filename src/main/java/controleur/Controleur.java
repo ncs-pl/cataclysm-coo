@@ -477,6 +477,7 @@ public class Controleur {
             // IA des animaux
 
             this.jeu.executerIntelligenceAnimaux();
+            this.afficherCarte();
         }
 
         // Fin du jeu

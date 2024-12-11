@@ -1,6 +1,9 @@
 package modele;
 
 public class SingeAnimalEtatJunkie extends AnimalEtat {
+
+    private static SingeAnimalEtatJunkie instance;
+
     private SingeAnimalEtatJunkie() {
         super(AnimalEtat.ETAT_JUNKIE);
     }

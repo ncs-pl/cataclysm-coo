@@ -4,7 +4,7 @@ import java.util.WeakHashMap;
 
 /** Un animal est un acteur avec une Intelligence Artificielle pouvant
     influencer la carte et le personnage. */
-public class Animal extends Acteur {
+public abstract class Animal extends Acteur {
     private int amitie;      // Le niveau d'amitié de l'animal.
     private int saturation;  // La satiété de l'animal.
     private AnimalEtat etat; // L'état de l'animal.
@@ -64,9 +64,7 @@ public class Animal extends Acteur {
     }
 
     /** Déplacer l'animal sur la carte. */
-    public void deplacer(Jeu jeu) {
-        this.etat.deplacer(this, jeu);
-    }
+    abstract public void deplacer(Jeu jeu);
 
     /** L'animal se prend un coup. */
     public void prendreCoup() {

@@ -195,9 +195,7 @@ public class Jeu {
     /** Exécute les intelligences artificiels des animaux. */
     public void executerIntelligenceAnimaux() {
         for (Animal animal : this.animaux) {
-            int etatId = animal.obtenirEtat().obtenirId();
-
-            if (etatId == AnimalEtat.ETAT_AFFAME || etatId == AnimalEtat.ETAT_RASSASIE) animal.deplacer(this);
+            animal.deplacer(this);
         }
     }
 
@@ -207,14 +205,10 @@ public class Jeu {
         // TODO(nico): faut-il regarder les diagonales ? Pour l'instant on le fait, mais à voir...
         int personnageLigne   = this.personnage.obtenirLigne();
         int personnageColonne = this.personnage.obtenirColonne();
-        if (ligne == personnageLigne-1 && colonne == personnageColonne-1) return true; // Haut gauche.
         if (ligne == personnageLigne-1 && colonne == personnageColonne)   return true; // Haut.
-        if (ligne == personnageLigne-1 && colonne == personnageColonne+1) return true; // Haut droite.
         if (ligne == personnageLigne   && colonne == personnageColonne-1) return true; // Gauche.
         if (ligne == personnageLigne   && colonne == personnageColonne+1) return true; // Droite.
-        if (ligne == personnageLigne+1 && colonne == personnageColonne-1) return true; // Bas gauche.
         if (ligne == personnageLigne+1 && colonne == personnageColonne)   return true; // Bas.
-        if (ligne == personnageLigne+1 && colonne == personnageColonne+1) return true; // Bas droite.
         return false;
     }
 
@@ -233,6 +227,22 @@ public class Jeu {
         }
 
         return true;
+    }
+
+    //todo(lucas) faire du type un enum ?
+    public Objet chercherObjetVoisin(int ligne, int colonne, int type) {
+        //todo(lucas) : Plutôt regarder que les cases adjacente ?
+        for (Objet o : this.objets) {
+            if (o.obtenirType() == type){
+                int oLigne = o.obtenirLigne();
+                int oColonne = o.obtenirColonne();
+                if(oLigne == ligne-1 && oColonne == colonne) return o;
+                if(oLigne == ligne && oColonne == colonne-1) return o;
+                if(oLigne == ligne && oColonne == colonne+1) return o;
+                if(oLigne == ligne+1 && oColonne == colonne) return o;
+            }
+        }
+        return null;
     }
 
     /** Retourne un gland à côté de la position donnée, ou null sinon. */
@@ -281,11 +291,12 @@ public class Jeu {
     }
 
     /** Retourne une zone vide voisine ou null sinon. */
-    public ZoneVide chercherZoneVideVoisine(int ligne, int colonne) {
-        if (this.verifierCaseVide(ligne-1, colonne)) return new ZoneVide(ligne-1, colonne, this.lignes, this.colonnes); // Haut.
-        if (this.verifierCaseVide(ligne, colonne-1)) return new ZoneVide(ligne, colonne-1, this.lignes, this.colonnes); // Gauche.
-        if (this.verifierCaseVide(ligne, colonne+1)) return new ZoneVide(ligne, colonne+1, this.lignes, this.colonnes); // Droite.
-        if (this.verifierCaseVide(ligne+1, colonne)) return new ZoneVide(ligne+1, colonne, this.lignes, this.colonnes); // Bas.
-        return null;
+    public List<ZoneVide> chercherZoneVideVoisine(int ligne, int colonne) {
+        List<ZoneVide> zones = new ArrayList<>();
+        if (this.verifierCaseVide(ligne-1, colonne)) zones.add(new ZoneVide(ligne-1, colonne, this.lignes, this.colonnes)); // Haut.
+        if (this.verifierCaseVide(ligne, colonne-1)) zones.add(new ZoneVide(ligne, colonne-1, this.lignes, this.colonnes)); // Gauche.
+        if (this.verifierCaseVide(ligne, colonne+1)) zones.add(new ZoneVide(ligne, colonne+1, this.lignes, this.colonnes)); // Droite.
+        if (this.verifierCaseVide(ligne+1, colonne)) zones.add(new ZoneVide(ligne+1, colonne, this.lignes, this.colonnes)); // Bas.
+        return zones;
     }
 }

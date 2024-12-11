@@ -1,6 +1,9 @@
 package modele;
 
 public class EcureuilAnimalEtatPerche extends AnimalEtat {
+
+    private static EcureuilAnimalEtatPerche instance;
+
     private EcureuilAnimalEtatPerche() {
         super(AnimalEtat.ETAT_PERCHE);
     }
