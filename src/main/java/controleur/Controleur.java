@@ -471,7 +471,7 @@ public class Controleur {
 
             default:
                 this.ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");
-                break;
+                continue;
             }
 
             // IA des animaux

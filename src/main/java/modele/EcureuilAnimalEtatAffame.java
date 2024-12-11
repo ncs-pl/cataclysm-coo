@@ -54,7 +54,7 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
             // Sinon se déplacer aléatoirement.
 
 
-            List<ZoneVide> vides = jeu.chercherZoneVideVoisine(ligne, colonne);
+            List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
             if (!vides.isEmpty()) {
                 Random rand = new Random();
                 Acteur vide = vides.get(rand.nextInt(vides.size()));

@@ -22,7 +22,7 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
 
-        List<ZoneVide> vides = jeu.chercherZoneVideVoisine(ligne, colonne);
+        List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
         if (!vides.isEmpty()) {
             Random rand = new Random();
             Acteur vide = vides.get(rand.nextInt(vides.size()));
