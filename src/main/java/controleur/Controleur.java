@@ -127,28 +127,34 @@ public class Controleur {
         this.ihm = ihm;
     }
 
-    private void deplacerJoueur(Position position) {
+    private boolean deplacerJoueur(Position position) {
         try {
             this.jeu.deplacerJoueur(position);
+            return false;
         } catch (PositionInvalideException e) {
             this.ihm.afficherErreur(e.getMessage());
+            return true;
         }
     }
 
-    private void ramasserObjet(Position position) {
+    private boolean ramasserObjet(Position position) {
         try {
             this.jeu.ramasserObjet(position);
+            return false;
         } catch (PositionInvalideException e) {
             this.ihm.afficherErreur(e.getMessage());
+            return true;
         }
     }
 
-    private void deposerObjet(Position position) {
+    private boolean deposerObjet(Position position) {
         try {
             int indice = this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.");
             this.jeu.deposerObjet(position, indice-1);
+            return false;
         } catch (PositionInvalideException | InventaireVideException | IndexOutOfBoundsException e) {
             this.ihm.afficherErreur(e.getMessage());
+            return true;
         }
     }
 
@@ -454,56 +460,44 @@ public class Controleur {
 
             // Déplacements
             case "haut", "h":
-                deplacerJoueur(Position.HAUT);
-                toursInvalide = false;
+                toursInvalide = deplacerJoueur(Position.HAUT);
                 break;
             case "bas", "b":
-                deplacerJoueur(Position.BAS);
-                toursInvalide = false;
+                toursInvalide = deplacerJoueur(Position.BAS);
                 break;
             case "gauche", "g":
-                deplacerJoueur(Position.GAUCHE);
-                toursInvalide = false;
+                toursInvalide = deplacerJoueur(Position.GAUCHE);
                 break;
             case "droite", "d":
-                deplacerJoueur(Position.DROITE);
-                toursInvalide = false;
+                toursInvalide = deplacerJoueur(Position.DROITE);
                 break;
 
             // Ramasser
             case "ramasser haut", "rh":
-                ramasserObjet(Position.HAUT);
-                toursInvalide = false;
+                toursInvalide = ramasserObjet(Position.HAUT);
                 break;
             case "ramasser bas", "rb":
-                ramasserObjet(Position.BAS);
-                toursInvalide = false;
+                toursInvalide = ramasserObjet(Position.BAS);
                 break;
             case "ramasser gauche", "rg":
-                ramasserObjet(Position.GAUCHE);
-                toursInvalide = false;
+                toursInvalide = ramasserObjet(Position.GAUCHE);
                 break;
             case "ramasser droite", "rd":
-                ramasserObjet(Position.DROITE);
-                toursInvalide = false;
+                toursInvalide = ramasserObjet(Position.DROITE);
                 break;
 
             // Déposer
             case "deposer haut","dh":
-                deposerObjet(Position.HAUT);
-                toursInvalide = false;
+                toursInvalide = deposerObjet(Position.HAUT);
                 break;
             case "deposer bas","db":
-                deposerObjet(Position.BAS);
-                toursInvalide = false;
+                toursInvalide = deposerObjet(Position.BAS);
                 break;
             case "deposer gauche","dg":
-                deposerObjet(Position.GAUCHE);
-                toursInvalide = false;
+                toursInvalide = deposerObjet(Position.GAUCHE);
                 break;
             case "deposer droite","dd":
-                deposerObjet(Position.DROITE);
-                toursInvalide = false;
+                toursInvalide = deposerObjet(Position.DROITE);
                 break;
 
             // TODO(nico): mettre un coup à un animal
