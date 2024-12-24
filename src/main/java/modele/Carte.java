@@ -17,18 +17,6 @@ import java.util.List;
  * utilisé par le jeu pour construire son game state initial
  */
 public class Carte {
-    public static final char SYMBOLE_INCONNU      = '?';
-    public static final char SYMBOLE_PERSONNAGE   = '@';
-    public static final char SYMBOLE_ZONE_VIDE    = '.';
-    public static final char SYMBOLE_ARBRE        = 'A';
-    public static final char SYMBOLE_BUISSON      = 'B';
-    public static final char SYMBOLE_COCOTIER     = 'P';
-    public static final char SYMBOLE_PETIT_ROCHER = 'R';
-    public static final char SYMBOLE_BANANE       = 'N';
-    public static final char SYMBOLE_CHAMPIGNON   = 'C';
-    public static final char SYMBOLE_GLAND        = 'G';
-    public static final char SYMBOLE_ECUREUIL     = 'E';
-    public static final char SYMBOLE_SINGE        = 'S';
 
     private final String nom;                 // Nom de la carte
     private final JeuTheme theme;             // Thème de la carte
@@ -126,53 +114,53 @@ public class Carte {
                 // TODO(nico): factory pattern?
                 Acteur acteur = null;
                 switch (symbole) {
-                case Carte.SYMBOLE_PERSONNAGE:
+                case Acteur.SYMBOLE_PERSONNAGE:
                     acteur = new Personnage(i, j, this.lignes, this.colonnes);
                     break;
-                case Carte.SYMBOLE_ECUREUIL:
+                case Acteur.SYMBOLE_ECUREUIL:
                     if (this.theme == JeuTheme.FORET) {
                         acteur = new Ecureuil(i, j, this.lignes, this.colonnes);
                     }
                     break;
-                case Carte.SYMBOLE_SINGE:
+                case Acteur.SYMBOLE_SINGE:
                     if (this.theme == JeuTheme.JUNGLE) {
                         acteur = new Singe(i, j, this.lignes, this.colonnes);
                     }
                     break;
-                case Carte.SYMBOLE_GLAND:
+                case Acteur.SYMBOLE_GLAND:
                     if (this.theme == JeuTheme.FORET) {
                         acteur = new Gland(i, j, this.lignes, this.colonnes);
                     }
                     break;
-                case Carte.SYMBOLE_BANANE:
+                case Acteur.SYMBOLE_BANANE:
                     if (this.theme == JeuTheme.JUNGLE) {
                         acteur = new Banane(i, j, this.lignes, this.colonnes);
                     }
                     break;
-                case Carte.SYMBOLE_CHAMPIGNON:
+                case Acteur.SYMBOLE_CHAMPIGNON:
                     acteur = new Champignon(i, j, this.lignes, this.colonnes);
                     break;
-                case Carte.SYMBOLE_PETIT_ROCHER:
+                case Acteur.SYMBOLE_PETIT_ROCHER:
                     if (this.theme == JeuTheme.JUNGLE) {
                         acteur = new PetitRocher(i, j, this.lignes, this.colonnes);
                     }
                     break;
-                case Carte.SYMBOLE_COCOTIER:
+                case Acteur.SYMBOLE_COCOTIER:
                     if(this.theme == JeuTheme.JUNGLE) {
                         acteur = new Cocotier(i, j, this.lignes, this.colonnes);
                     }
                     break;
-                case Carte.SYMBOLE_ARBRE:
+                case Acteur.SYMBOLE_ARBRE:
                     if (this.theme == JeuTheme.FORET) {
                         acteur = new Arbre(i, j, this.lignes, this.colonnes);
                     }
                     break;
-                case Carte.SYMBOLE_BUISSON:
+                case Acteur.SYMBOLE_BUISSON:
                     if (this.theme == JeuTheme.FORET) {
                         acteur = new Buisson(i, j, this.lignes, this.colonnes);
                     }
                     break;
-                case Carte.SYMBOLE_ZONE_VIDE:
+                case Acteur.SYMBOLE_ZONE_VIDE:
                     acteur = new ZoneVide(i, j, this.lignes, this.colonnes);
                     break;
                 default:
