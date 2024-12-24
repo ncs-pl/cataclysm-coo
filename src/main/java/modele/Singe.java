@@ -1,5 +1,7 @@
 package modele;
 
+import vue.Ihm;
+
 /** Un singe. */
 public class Singe extends Animal {
     public Singe(int ligne, int colonne, int maxLigne, int maxColonne) {
@@ -11,5 +13,13 @@ public class Singe extends Animal {
     @Override
     public void deplacer(Jeu jeu) {
         this.obtenirEtat().deplacer(this, jeu);
+    }
+
+    @Override
+    public String toString() {
+        return Ihm.COULEUR_FOND_JAUNE      +
+                Ihm.COULEUR_BLEU            +
+                Acteur.SYMBOLE_SINGE         +
+                Ihm.COULEUR_REINITIALISATION;
     }
 }

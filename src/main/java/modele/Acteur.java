@@ -20,6 +20,22 @@ public abstract class Acteur {
     public static final int TYPE_HIBOU = 13;
 
 
+    public static final char SYMBOLE_INCONNU      = '?';
+    public static final char SYMBOLE_PERSONNAGE   = '@';
+    public static final char SYMBOLE_ZONE_VIDE    = '.';
+    public static final char SYMBOLE_ARBRE        = 'A';
+    public static final char SYMBOLE_BUISSON      = 'B';
+    public static final char SYMBOLE_COCOTIER     = 'P';
+    public static final char SYMBOLE_PETIT_ROCHER = 'O';
+    public static final char SYMBOLE_BANANE       = 'N';
+    public static final char SYMBOLE_CHAMPIGNON   = 'C';
+    public static final char SYMBOLE_GLAND        = 'G';
+    public static final char SYMBOLE_ECUREUIL     = 'E';
+    public static final char SYMBOLE_SINGE        = 'S';
+    public static final char SYMBOLE_RENARD       = 'R';
+    public static final char SYMBOLE_HIBOU        = 'H';
+    public static final char SYMBOLE_CHAMPIGNON_VENENEUX = 'M';
+
     private final int type; // Identifiant numérique du type d'acteur.
     private int ligne;      // Ligne de la position de l'acteur.
     private int colonne;    // Colonne de la position de l'acteur.
@@ -70,4 +86,7 @@ public abstract class Acteur {
         assert(ligne >= 0 && ligne < maxLigne); // NOTE(nico): temp
         this.ligne = ligne;
     }
+
+    @Override
+    abstract public String toString();
 }

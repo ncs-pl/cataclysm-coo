@@ -12,130 +12,79 @@ public class Controleur {
     private static final String STRING_INCONNU =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_ROUGE           +
-        Carte.SYMBOLE_INCONNU       +
-        Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_PERSONNAGE =
-        Ihm.COULEUR_FOND_BLANC      +
-        Ihm.COULEUR_VIOLET          +
-        Carte.SYMBOLE_PERSONNAGE    +
-        Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ZONE_VIDE =
-        Ihm.COULEUR_FOND_VERT       +
-        Carte.SYMBOLE_ZONE_VIDE     +
-        Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ARBRE =
-        Ihm.COULEUR_FOND_NOIR       +
-        Ihm.COULEUR_VERT            +
-        Carte.SYMBOLE_ARBRE         +
-        Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_BUISSON =
-        Ihm.COULEUR_FOND_NOIR       +
-        Ihm.COULEUR_VERT            +
-        Carte.SYMBOLE_BUISSON       +
-        Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_COCOTIER =
-        Ihm.COULEUR_FOND_NOIR       +
-        Ihm.COULEUR_VERT            +
-        Carte.SYMBOLE_COCOTIER      +
-        Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_PETIT_ROCHER =
-        Ihm.COULEUR_FOND_NOIR       +
-        Ihm.COULEUR_BLANC           +
-        Carte.SYMBOLE_PETIT_ROCHER  +
-        Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_BANANE =
-        Ihm.COULEUR_FOND_JAUNE      +
-        Ihm.COULEUR_NOIR            +
-        Carte.SYMBOLE_BANANE        +
-        Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_CHAMPIGNON =
-        Ihm.COULEUR_FOND_BLANC      +
-        Ihm.COULEUR_ROUGE           +
-        Carte.SYMBOLE_CHAMPIGNON    +
-        Ihm.COULEUR_REINITIALISATION;
-
-    private static final String STRING_CHAMPIGNON_VENENEUX =
-        Ihm.COULEUR_FOND_BLANC      +
-        Ihm.COULEUR_JAUNE           +
-        Carte.SYMBOLE_CHAMPIGNON_VENENEUX    +
-        Ihm.COULEUR_REINITIALISATION;
-
-    private static final String STRING_GLAND =
-        Ihm.COULEUR_FOND_ROUGE      +
-        Ihm.COULEUR_JAUNE           +
-        Carte.SYMBOLE_GLAND         +
+        Acteur.SYMBOLE_INCONNU       +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_ECUREUIL_AFFAME =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_NOIR            +
-        Carte.SYMBOLE_ECUREUIL      +
+        Acteur.SYMBOLE_ECUREUIL      +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_ECUREUIL_RASSASIE =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_BLEU            +
-        Carte.SYMBOLE_ECUREUIL      +
+        Acteur.SYMBOLE_ECUREUIL      +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_ECUREUIL_AMI =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_VIOLET          +
-        Carte.SYMBOLE_ECUREUIL      +
+        Acteur.SYMBOLE_ECUREUIL      +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_ECUREUIL_JUNKIE =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_ROUGE           +
-        Carte.SYMBOLE_ECUREUIL      +
+        Acteur.SYMBOLE_ECUREUIL      +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_ECUREUIL_PERCHE =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_VERT            +
-        Carte.SYMBOLE_ECUREUIL      +
+        Acteur.SYMBOLE_ECUREUIL      +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_ECUREUIL_CACHE =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_JAUNE           +
-        Carte.SYMBOLE_ECUREUIL      +
+        Acteur.SYMBOLE_ECUREUIL      +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_SINGE_AFFAME =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_NOIR            +
-        Carte.SYMBOLE_SINGE         +
+        Acteur.SYMBOLE_SINGE         +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_SINGE_RASSASIE =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_BLEU            +
-        Carte.SYMBOLE_SINGE         +
+        Acteur.SYMBOLE_SINGE         +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_SINGE_AMI =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_VIOLET          +
-        Carte.SYMBOLE_SINGE         +
+        Acteur.SYMBOLE_SINGE         +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_SINGE_JUNKIE =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_ROUGE           +
-        Carte.SYMBOLE_SINGE         +
+        Acteur.SYMBOLE_SINGE         +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_SINGE_PERCHE =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_VERT            +
-        Carte.SYMBOLE_SINGE         +
+        Acteur.SYMBOLE_SINGE         +
         Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_SINGE_CACHE =
         Ihm.COULEUR_FOND_JAUNE      +
         Ihm.COULEUR_JAUNE           +
-        Carte.SYMBOLE_SINGE         +
+        Acteur.SYMBOLE_SINGE         +
         Ihm.COULEUR_REINITIALISATION;
 
     private static final String STRING_RENARD_AFFAME =
             Ihm.COULEUR_FOND_JAUNE      +
                     Ihm.COULEUR_NOIR            +
-                    Carte.SYMBOLE_RENARD      +
+                    Acteur.SYMBOLE_RENARD      +
                     Ihm.COULEUR_REINITIALISATION;
 
     private static final String STRING_HIBOU_AFFAME =
             Ihm.COULEUR_FOND_JAUNE      +
                     Ihm.COULEUR_NOIR            +
-                    Carte.SYMBOLE_HIBOU      +
+                    Acteur.SYMBOLE_HIBOU      +
                     Ihm.COULEUR_REINITIALISATION;
 
     private final Ihm ihm; // Interface de jeu
@@ -177,6 +126,7 @@ public class Controleur {
         }
     }
 
+    /*
     @SuppressWarnings("ExtractMethodRecommender, StringConcatenationInLoop")
     private void afficherCarte() {
         // La carte du jeu.
@@ -197,7 +147,7 @@ public class Controleur {
 
         for (int i = 0; i < lignes; ++i) {
             List<String> ligne = new ArrayList<>();
-            for (int j = 0; j < colonnes; ++j) ligne.add(Controleur.STRING_ZONE_VIDE);
+            for (int j = 0; j < colonnes; ++j) ligne.add(ZoneVide.STRING_ZONE_VIDE);
             carteContenu.add(ligne);
         }
 
@@ -319,6 +269,57 @@ public class Controleur {
 
 //        legende += "* " + Controleur.STRING_INCONNU + " : erreur\n";
         affichage += "\n" + legende;
+
+        this.ihm.afficherInformation(affichage);
+    }*/
+
+    //TODO LEGENDE ?????????
+    private void afficherCarte(){
+
+        // La carte du jeu.
+
+        String affichage = "Carte :\n";
+
+        // On construit la carte en faisant une forme remplie de
+        // zones vides dont les dimensions sont de celles indiquées par
+        // le jeu.  Ensuite, on remplace les bonnes positions par les
+        // symboles correspondants aux acteurs spécifiques selon le
+        // thème.
+
+        int lignes     = this.jeu.obtenirLignes();
+        int colonnes   = this.jeu.obtenirColonnes();
+        JeuTheme theme = this.jeu.obtenirTheme();
+
+        List<List<String>> carteContenu = new ArrayList<>();
+
+        for (int i = 0; i < lignes; i++) {
+            List<String> ligne = new ArrayList<>();
+            //TODO changer stockage des zoneVide pour pouvoir les toStrings
+            for (int j = 0; j < colonnes; ++j) ligne.add(Ihm.COULEUR_FOND_VERT       +
+                    Acteur.SYMBOLE_ZONE_VIDE     +
+                    Ihm.COULEUR_REINITIALISATION);
+            carteContenu.add(ligne);
+        }
+
+        for (Animal animal : this.jeu.obtenirAnimaux()){
+            carteContenu.get(animal.obtenirLigne())
+                    .set(animal.obtenirColonne(), animal.toString());
+        }
+        for (Acteur decor : this.jeu.obtenirDecors()){
+            carteContenu.get(decor.obtenirLigne())
+                    .set(decor.obtenirColonne(), decor.toString());
+        }
+        for (Objet objet : this.jeu.obtenirObjets()){
+            carteContenu.get(objet.obtenirLigne())
+                    .set(objet.obtenirColonne(), objet.toString());
+        }
+
+        for (List<String> ligne : carteContenu) {
+            for (String colonne : ligne) affichage += colonne;
+            affichage += "\n";
+        }
+
+        // Légende pour les symboles de la carte.
 
         this.ihm.afficherInformation(affichage);
     }
