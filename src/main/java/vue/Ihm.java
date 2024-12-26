@@ -25,7 +25,6 @@ public class Ihm {
     public static final String COULEUR_FOND_VIOLET      = "\u001B[45m";
     public static final String COULEUR_FOND_CYAN        = "\u001B[46m";
     public static final String COULEUR_FOND_BLANC       = "\u001B[47m";
-
     private final Scanner scanner;    // Entrée système.
     private final PrintStream output; // Sortie système pour les informations.
     private final PrintStream error;  // Sortie système pour les erreurs.

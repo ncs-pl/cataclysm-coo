@@ -15,6 +15,10 @@ public abstract class Acteur {
     public static final int TYPE_SINGE        = 8;
     public static final int TYPE_PERSONNAGE   = 9;
     public static final int TYPE_ZONE_VIDE    = 10;
+    public static final int TYPE_CHAMPIGNON_VENENEUX = 11;
+    public static final int TYPE_RENARD = 12;
+    public static final int TYPE_HIBOU = 13;
+
 
     private final int type; // Identifiant numérique du type d'acteur.
     private int ligne;      // Ligne de la position de l'acteur.

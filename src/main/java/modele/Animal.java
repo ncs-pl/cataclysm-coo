@@ -5,6 +5,7 @@ import java.util.WeakHashMap;
 /** Un animal est un acteur avec une Intelligence Artificielle pouvant
     influencer la carte et le personnage. */
 public abstract class Animal extends Acteur {
+    //TODO : Déplacer la gestion d'amitié dans les classes Ecureuil et Singe
     private int amitie;      // Le niveau d'amitié de l'animal.
     private int saturation;  // La satiété de l'animal.
     private AnimalEtat etat; // L'état de l'animal.

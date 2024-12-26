@@ -53,6 +53,13 @@ public class Controleur {
         Ihm.COULEUR_ROUGE           +
         Carte.SYMBOLE_CHAMPIGNON    +
         Ihm.COULEUR_REINITIALISATION;
+
+    private static final String STRING_CHAMPIGNON_VENENEUX =
+        Ihm.COULEUR_FOND_BLANC      +
+        Ihm.COULEUR_JAUNE           +
+        Carte.SYMBOLE_CHAMPIGNON_VENENEUX    +
+        Ihm.COULEUR_REINITIALISATION;
+
     private static final String STRING_GLAND =
         Ihm.COULEUR_FOND_ROUGE      +
         Ihm.COULEUR_JAUNE           +
@@ -118,6 +125,18 @@ public class Controleur {
         Ihm.COULEUR_JAUNE           +
         Carte.SYMBOLE_SINGE         +
         Ihm.COULEUR_REINITIALISATION;
+
+    private static final String STRING_RENARD_AFFAME =
+            Ihm.COULEUR_FOND_JAUNE      +
+                    Ihm.COULEUR_NOIR            +
+                    Carte.SYMBOLE_RENARD      +
+                    Ihm.COULEUR_REINITIALISATION;
+
+    private static final String STRING_HIBOU_AFFAME =
+            Ihm.COULEUR_FOND_JAUNE      +
+                    Ihm.COULEUR_NOIR            +
+                    Carte.SYMBOLE_HIBOU      +
+                    Ihm.COULEUR_REINITIALISATION;
 
     private final Ihm ihm; // Interface de jeu
     private Jeu jeu;       // Partie en cours
@@ -193,9 +212,13 @@ public class Controleur {
 
             switch (etat.obtenirId()) {
             case AnimalEtat.ETAT_AFFAME:
-                s = type == Acteur.TYPE_ECUREUIL
-                        ? Controleur.STRING_ECUREUIL_AFFAME
-                        : Controleur.STRING_SINGE_AFFAME;     break;
+                switch (animal.obtenirType()){
+                    case Acteur.TYPE_ECUREUIL -> s = Controleur.STRING_ECUREUIL_AFFAME;
+                    case Acteur.TYPE_SINGE ->  s = Controleur.STRING_SINGE_AFFAME;
+                    case Acteur.TYPE_RENARD -> s = Controleur.STRING_RENARD_AFFAME;
+                    case Acteur.TYPE_HIBOU ->   s = Controleur.STRING_HIBOU_AFFAME;
+                }
+                break;
             case AnimalEtat.ETAT_RASSASIE:
                 s = type == Acteur.TYPE_ECUREUIL
                         ? Controleur.STRING_ECUREUIL_RASSASIE
@@ -245,6 +268,7 @@ public class Controleur {
             switch (objet.obtenirType()) {
             case Acteur.TYPE_BANANE:     s = Controleur.STRING_BANANE;     break;
             case Acteur.TYPE_CHAMPIGNON: s = Controleur.STRING_CHAMPIGNON; break;
+            case Acteur.TYPE_CHAMPIGNON_VENENEUX: s = Controleur.STRING_CHAMPIGNON_VENENEUX; break;
             case Acteur.TYPE_GLAND:      s = Controleur.STRING_GLAND;      break;
             default:
                 this.ihm.afficherErreur("Objet inconnu : " + objet);

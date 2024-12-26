@@ -38,6 +38,9 @@ public class Jeu {
                 case Acteur.TYPE_CHAMPIGNON:
                     this.objets.add((Objet) acteur);
                     break;
+                case Acteur.TYPE_CHAMPIGNON_VENENEUX:
+                    this.objets.add((Objet) acteur);
+                    break;
                 case Acteur.TYPE_GLAND:
                     if (theme != JeuTheme.FORET) throw new CarteInvalideException("Gland en dehors de la forêt");
 
@@ -47,6 +50,16 @@ public class Jeu {
                 // Animaux
                 case Acteur.TYPE_ECUREUIL:
                     if (theme != JeuTheme.FORET) throw new CarteInvalideException("Ecureuil en dehors de la forêt");
+
+                    this.animaux.add((Animal) acteur);
+                    break;
+                case Acteur.TYPE_RENARD:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Renard en dehors de la forêt");
+
+                    this.animaux.add((Animal) acteur);
+                    break;
+                case Acteur.TYPE_HIBOU:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Hibou en dehors de la forêt");
 
                     this.animaux.add((Animal) acteur);
                     break;
