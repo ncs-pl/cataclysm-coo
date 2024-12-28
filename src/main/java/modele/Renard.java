@@ -9,4 +9,9 @@ public class Renard extends Animal {
 
     @Override
     public void deplacer(Jeu jeu) {}
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }

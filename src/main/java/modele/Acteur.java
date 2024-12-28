@@ -36,19 +36,6 @@ public abstract class Acteur {
     public static final char SYMBOLE_HIBOU        = 'H';
     public static final char SYMBOLE_CHAMPIGNON_VENENEUX = 'M';
 
-    public static final char SYMBOLE_INCONNU      = '?';
-    public static final char SYMBOLE_PERSONNAGE   = '@';
-    public static final char SYMBOLE_ZONE_VIDE    = '.';
-    public static final char SYMBOLE_ARBRE        = 'A';
-    public static final char SYMBOLE_BUISSON      = 'B';
-    public static final char SYMBOLE_COCOTIER     = 'P';
-    public static final char SYMBOLE_PETIT_ROCHER = 'R';
-    public static final char SYMBOLE_BANANE       = 'N';
-    public static final char SYMBOLE_CHAMPIGNON   = 'C';
-    public static final char SYMBOLE_GLAND        = 'G';
-    public static final char SYMBOLE_ECUREUIL     = 'E';
-    public static final char SYMBOLE_SINGE        = 'S';
-
     private final int type; // Identifiant numérique du type d'acteur.
     private int ligne;      // Ligne de la position de l'acteur.
     private int colonne;    // Colonne de la position de l'acteur.
