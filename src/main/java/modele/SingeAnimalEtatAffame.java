@@ -1,5 +1,7 @@
 package modele;
 
+import vue.Ihm;
+
 import java.util.List;
 import java.util.Random;
 
@@ -36,10 +38,13 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
             animal.changerColonne(nourriture.obtenirColonne());
             jeu.supprimerObjet(nourriture);
 
+            if (banane != null){
+                animal.changerEtat(SingeAnimalEtatRassasie.obtenirInstance());
+            } else {
+                animal.changerEtat(SingeAnimalEtatJunkie.obtenirInstance());
+            }
+
             // Vérifier pour probable nouvelle amitié.
-
-            animal.changerEtat(SingeAnimalEtatRassasie.obtenirInstance());
-
 
             int amitie = animal.obtenirAmitie();
             if (jeu.chercherPersonnageVoisin(ligne, colonne)) amitie += 1;
@@ -55,12 +60,25 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
 
             // Sinon se déplacer aléatoirement.
 
-            List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
-            if (!vides.isEmpty()) {
+            List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
+            zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
+
+            int decors = -1;
+
+            if (!zones.isEmpty()) {
                 Random rand = new Random();
-                Acteur vide = vides.get(rand.nextInt(vides.size()));
-                animal.changerLigne(vide.obtenirLigne());
-                animal.changerColonne(vide.obtenirColonne());
+                Acteur next = zones.get(rand.nextInt(zones.size()));
+
+                if (next.obtenirType() == Acteur.TYPE_COCOTIER || next.obtenirType() == Acteur.TYPE_PETIT_ROCHER) {
+                    decors = next.obtenirType();
+                }
+
+                animal.changerLigne(next.obtenirLigne());
+                animal.changerColonne(next.obtenirColonne());
+            }
+
+            if (decors == Acteur.TYPE_COCOTIER || decors == Acteur.TYPE_PETIT_ROCHER) {
+                animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatAffame.obtenirInstance()));
             }
         }
     }
@@ -71,6 +89,9 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
 
     @Override
     public String toString() {
-        return "";
+        return Ihm.COULEUR_FOND_JAUNE      +
+                Ihm.COULEUR_NOIR            +
+                Acteur.SYMBOLE_SINGE         +
+                Ihm.COULEUR_REINITIALISATION;
     }
 }

@@ -26,12 +26,12 @@ public class EcureuilAnimalEtatJunkie extends AnimalEtat {
 
         //TODO: Forcer l'animal à ne pas revenir sur ces pas ?
 
-        int ligne   = animal.obtenirLigne();
-        int colonne = animal.obtenirColonne();
-
         int decors = -1;
 
         for (int i = 0; i < 2; ++i){
+
+            int ligne   = animal.obtenirLigne();
+            int colonne = animal.obtenirColonne();
 
             List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
             zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
