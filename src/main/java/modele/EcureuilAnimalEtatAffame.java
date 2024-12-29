@@ -1,4 +1,6 @@
 package modele;
+import vue.Ihm;
+
 import java.util.List;
 import java.util.Random;
 
@@ -36,8 +38,11 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
             animal.changerColonne(nourriture.obtenirColonne());
             jeu.supprimerObjet(nourriture);
 
-            animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
-
+            if (gland != null){
+                animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
+            } else {
+                animal.changerEtat(EcureuilAnimalEtatJunkie.obtenirInstance());
+            }
 
             // Vérifier pour probable nouvelle amitié.
             int amitie = animal.obtenirAmitie();
@@ -53,13 +58,27 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
 
             // Sinon se déplacer aléatoirement.
 
+            List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
+            zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
 
-            List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
-            if (!vides.isEmpty()) {
+            int decors = -1;
+
+            if (!zones.isEmpty()) {
                 Random rand = new Random();
-                Acteur vide = vides.get(rand.nextInt(vides.size()));
-                animal.changerLigne(vide.obtenirLigne());
-                animal.changerColonne(vide.obtenirColonne());
+                Acteur next = zones.get(rand.nextInt(zones.size()));
+
+                if (next.obtenirType() == Acteur.TYPE_ARBRE || next.obtenirType() == Acteur.TYPE_BUISSON) {
+                    decors = next.obtenirType();
+                }
+
+                animal.changerLigne(next.obtenirLigne());
+                animal.changerColonne(next.obtenirColonne());
+            }
+
+            if(decors == Acteur.TYPE_ARBRE) {
+                animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
+            } else if (decors == Acteur.TYPE_BUISSON) {
+                animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
             }
         }
     }
@@ -70,6 +89,9 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
 
     @Override
     public String toString() {
-        return "";
+        return Ihm.COULEUR_FOND_JAUNE      +
+                Ihm.COULEUR_NOIR            +
+                Acteur.SYMBOLE_ECUREUIL      +
+                Ihm.COULEUR_REINITIALISATION;
     }
 }

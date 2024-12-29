@@ -17,9 +17,6 @@ public class Singe extends Animal {
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_JAUNE      +
-                Ihm.COULEUR_BLEU            +
-                Acteur.SYMBOLE_SINGE         +
-                Ihm.COULEUR_REINITIALISATION;
+        return this.obtenirEtat().toString();
     }
 }

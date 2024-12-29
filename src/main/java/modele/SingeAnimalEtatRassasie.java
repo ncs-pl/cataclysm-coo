@@ -1,5 +1,7 @@
 package modele;
 
+import vue.Ihm;
+
 import java.util.List;
 import java.util.Random;
 
@@ -22,19 +24,37 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
 
-        List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
-        if (!vides.isEmpty()) {
+        List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
+        zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
+
+        int decors = -1;
+
+        if (!zones.isEmpty()) {
             Random rand = new Random();
-            Acteur vide = vides.get(rand.nextInt(vides.size()));
-            animal.changerLigne(vide.obtenirLigne());
-            animal.changerColonne(vide.obtenirColonne());
+            Acteur next = zones.get(rand.nextInt(zones.size()));
+
+            if (next.obtenirType() == Acteur.TYPE_COCOTIER || next.obtenirType() == Acteur.TYPE_PETIT_ROCHER){
+                decors = next.obtenirType();
+            }
+
+            animal.changerLigne(next.obtenirLigne());
+            animal.changerColonne(next.obtenirColonne());
         }
 
         int saturation = animal.obtenirSaturation();
+
         if (saturation == 0){
-            animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
+            if(decors == Acteur.TYPE_COCOTIER || decors == Acteur.TYPE_PETIT_ROCHER){
+                animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatAffame.obtenirInstance()));
+            } else {
+                animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
+            }
         } else {
             animal.changerSaturation(saturation - 1);
+        }
+
+        if (decors == Acteur.TYPE_COCOTIER || decors == Acteur.TYPE_PETIT_ROCHER) {
+            animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatRassasie.obtenirInstance()));
         }
     }
 
@@ -44,6 +64,9 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
 
     @Override
     public String toString() {
-        return "";
+        return Ihm.COULEUR_FOND_JAUNE      +
+                Ihm.COULEUR_BLEU            +
+                Acteur.SYMBOLE_SINGE         +
+                Ihm.COULEUR_REINITIALISATION;
     }
 }
