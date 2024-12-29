@@ -24,6 +24,8 @@ public class EcureuilAnimalEtatJunkie extends AnimalEtat {
     @SuppressWarnings("DuplicatedCode")
     @Override public void deplacer(Animal animal, Jeu jeu) {
 
+        //TODO: Forcer l'animal à ne pas revenir sur ces pas ?
+
         faireDeplacement(animal, jeu);
         faireDeplacement(animal, jeu);
 

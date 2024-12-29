@@ -38,8 +38,11 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
             animal.changerColonne(nourriture.obtenirColonne());
             jeu.supprimerObjet(nourriture);
 
-            animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
-
+            if (gland != null){
+                animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
+            } else {
+                animal.changerEtat(EcureuilAnimalEtatJunkie.obtenirInstance());
+            }
 
             // Vérifier pour probable nouvelle amitié.
             int amitie = animal.obtenirAmitie();
