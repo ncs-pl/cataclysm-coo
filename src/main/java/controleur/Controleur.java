@@ -545,7 +545,7 @@ public class Controleur {
             if (toursInvalide) continue;
             // IA des animaux
 
-            this.jeu.executerIntelligenceAnimaux();
+            this.jeu.executerIntelligenceAnimaux_Predateurs();
             this.afficherCarte();
         }
 

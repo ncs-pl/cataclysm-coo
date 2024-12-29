@@ -212,9 +212,12 @@ public class Jeu {
     }
 
     /** Exécute les intelligences artificiels des animaux. */
-    public void executerIntelligenceAnimaux() {
+    public void executerIntelligenceAnimaux_Predateurs() {
         for (Animal animal : this.animaux) {
             animal.deplacer(this);
+        }
+        for (Predateur predateur : this.predateurs){
+            predateur.deplacer(this);
         }
     }
 
