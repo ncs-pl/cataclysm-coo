@@ -238,6 +238,20 @@ public class Jeu {
         return true;
     }
 
+    public boolean verifierCaseDecors(int ligne, int colonne) {
+        for (Acteur d : this.decors) {
+            if (colonne == d.obtenirColonne() && ligne == d.obtenirLigne()) return true;
+        }
+        return false;
+    }
+
+    public Acteur obtenirCaseDecors(int ligne, int colonne) {
+        for (Acteur d : this.decors) {
+            if(colonne == d.obtenirColonne() && ligne == d.obtenirLigne()) return d;
+        }
+        return null;
+    }
+
     public Objet chercherObjetVoisin(int ligne, int colonne, int type) {
         //todo(lucas) : Plutôt regarder que les cases adjacente ?
         for (Objet o : this.objets) {
@@ -256,10 +270,29 @@ public class Jeu {
     /** Retourne une zone vide voisine ou null sinon. */
     public List<ZoneVide> chercherZonesVidesVoisine(int ligne, int colonne) {
         List<ZoneVide> zones = new ArrayList<>();
-        if (this.verifierCaseVide(ligne-1, colonne)) zones.add(new ZoneVide(ligne-1, colonne, this.lignes, this.colonnes)); // Haut.
-        if (this.verifierCaseVide(ligne, colonne-1)) zones.add(new ZoneVide(ligne, colonne-1, this.lignes, this.colonnes)); // Gauche.
-        if (this.verifierCaseVide(ligne, colonne+1)) zones.add(new ZoneVide(ligne, colonne+1, this.lignes, this.colonnes)); // Droite.
-        if (this.verifierCaseVide(ligne+1, colonne)) zones.add(new ZoneVide(ligne+1, colonne, this.lignes, this.colonnes)); // Bas.
+        if (this.verifierCaseVide(ligne-1, colonne) && ligne-1 >= 0)
+            zones.add(new ZoneVide(ligne-1, colonne, this.lignes, this.colonnes)); // Haut.
+        if (this.verifierCaseVide(ligne, colonne-1) && colonne-1 >= 0)
+            zones.add(new ZoneVide(ligne, colonne-1, this.lignes, this.colonnes)); // Gauche.
+        if (this.verifierCaseVide(ligne, colonne+1) && colonne+1 < this.colonnes)
+            zones.add(new ZoneVide(ligne, colonne+1, this.lignes, this.colonnes)); // Droite.
+        if (this.verifierCaseVide(ligne+1, colonne) && ligne+1 < this.lignes)
+            zones.add(new ZoneVide(ligne+1, colonne, this.lignes, this.colonnes)); // Bas.
         return zones;
+    }
+
+    //TODO : Faire des fonctions génériques ?
+
+    public List<Acteur> chercherDecorsVoisins(int ligne, int colonne) {
+        List<Acteur> decors = new ArrayList<>();
+        if (this.verifierCaseDecors(ligne-1, colonne))
+            decors.add(obtenirCaseDecors(ligne-1, colonne));
+        if (this.verifierCaseDecors(ligne, colonne-1))
+            decors.add(obtenirCaseDecors(ligne, colonne-1));
+        if (this.verifierCaseDecors(ligne, colonne+1))
+            decors.add(obtenirCaseDecors(ligne, colonne+1));
+        if (this.verifierCaseDecors(ligne+1, colonne))
+            decors.add(obtenirCaseDecors(ligne+1, colonne));
+        return decors;
     }
 }

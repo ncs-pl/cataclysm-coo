@@ -26,15 +26,47 @@ public class EcureuilAnimalEtatJunkie extends AnimalEtat {
 
         //TODO: Forcer l'animal à ne pas revenir sur ces pas ?
 
-        faireDeplacement(animal, jeu);
-        faireDeplacement(animal, jeu);
+        int ligne   = animal.obtenirLigne();
+        int colonne = animal.obtenirColonne();
+
+        int decors = -1;
+
+        for (int i = 0; i < 2; ++i){
+
+            List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
+            zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
+
+            if (!zones.isEmpty()) {
+                Random rand = new Random();
+                Acteur next = zones.get(rand.nextInt(zones.size()));
+
+                if (next.obtenirType() == Acteur.TYPE_ARBRE || next.obtenirType() == Acteur.TYPE_BUISSON){
+                    decors = next.obtenirType();
+                } else {
+                    decors = -1;
+                }
+
+                animal.changerLigne(next.obtenirLigne());
+                animal.changerColonne(next.obtenirColonne());
+            }
+        }
 
         int saturation = animal.obtenirSaturation();
         if (saturation == 0){
-            animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
+            if(decors == Acteur.TYPE_ARBRE)
+                animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
+            else if (decors == Acteur.TYPE_BUISSON)
+                animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
+            else
+                animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
         } else {
             animal.changerSaturation(saturation - 1);
         }
+
+        if(decors == Acteur.TYPE_ARBRE)
+            animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatJunkie.obtenirInstance()));
+        else if (decors == Acteur.TYPE_BUISSON)
+            animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatJunkie.obtenirInstance()));
     }
 
     @Override public void prendreCoup(Animal animal) {
@@ -47,19 +79,5 @@ public class EcureuilAnimalEtatJunkie extends AnimalEtat {
                 Ihm.COULEUR_ROUGE           +
                 Acteur.SYMBOLE_ECUREUIL      +
                 Ihm.COULEUR_REINITIALISATION;
-    }
-
-    @SuppressWarnings("DuplicatedCode")
-    private void faireDeplacement(Animal animal, Jeu jeu){
-        int ligne   = animal.obtenirLigne();
-        int colonne = animal.obtenirColonne();
-
-        List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
-        if (!vides.isEmpty()) {
-            Random rand = new Random();
-            Acteur vide = vides.get(rand.nextInt(vides.size()));
-            animal.changerLigne(vide.obtenirLigne());
-            animal.changerColonne(vide.obtenirColonne());
-        }
     }
 }

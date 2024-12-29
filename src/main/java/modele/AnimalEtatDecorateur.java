@@ -2,15 +2,16 @@ package modele;
 
 public class AnimalEtatDecorateur extends AnimalEtat {
 
-    private AnimalEtat animalEtat;
+    protected AnimalEtat animalEtat;
 
-    private AnimalEtatDecorateur(AnimalEtat animalEtat) {
+    protected AnimalEtatDecorateur(AnimalEtat animalEtat) {
         super(AnimalEtat.ETAT_AFFAME);
         this.animalEtat = animalEtat;
     }
 
     @Override
     public void deplacer(Animal animal, Jeu jeu) {
+        animal.changerEtat(this.animalEtat);
         this.animalEtat.deplacer(animal, jeu);
     }
 

@@ -58,13 +58,27 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
 
             // Sinon se déplacer aléatoirement.
 
+            List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
+            zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
 
-            List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
-            if (!vides.isEmpty()) {
+            int decors = -1;
+
+            if (!zones.isEmpty()) {
                 Random rand = new Random();
-                Acteur vide = vides.get(rand.nextInt(vides.size()));
-                animal.changerLigne(vide.obtenirLigne());
-                animal.changerColonne(vide.obtenirColonne());
+                Acteur next = zones.get(rand.nextInt(zones.size()));
+
+                if (next.obtenirType() == Acteur.TYPE_ARBRE || next.obtenirType() == Acteur.TYPE_BUISSON) {
+                    decors = next.obtenirType();
+                }
+
+                animal.changerLigne(next.obtenirLigne());
+                animal.changerColonne(next.obtenirColonne());
+            }
+
+            if(decors == Acteur.TYPE_ARBRE) {
+                animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
+            } else if (decors == Acteur.TYPE_BUISSON) {
+                animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
             }
         }
     }
