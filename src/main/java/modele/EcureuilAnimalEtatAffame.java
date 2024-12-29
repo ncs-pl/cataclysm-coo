@@ -1,4 +1,6 @@
 package modele;
+import vue.Ihm;
+
 import java.util.List;
 import java.util.Random;
 
@@ -70,6 +72,9 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
 
     @Override
     public String toString() {
-        return "";
+        return Ihm.COULEUR_FOND_JAUNE      +
+                Ihm.COULEUR_NOIR            +
+                Acteur.SYMBOLE_ECUREUIL      +
+                Ihm.COULEUR_REINITIALISATION;
     }
 }
