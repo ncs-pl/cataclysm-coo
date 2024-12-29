@@ -11,6 +11,8 @@ public class Jeu {
     private Personnage personnage;                            // Le joueur.
     private final List<Objet> inventaire = new ArrayList<>(); // Inventaire du joueur.
     private final List<Animal> animaux   = new ArrayList<>(); // Animaux sur la carte.
+    private final List<Predateur> predateurs   = new ArrayList<Predateur>(); // Prédateurs sur la carte.
+
     private final List<Acteur> decors    = new ArrayList<>(); // Décors bloquant sur la carte.
     private final List<Objet> objets     = new ArrayList<>(); // Objets sur la carte.
 
@@ -53,20 +55,22 @@ public class Jeu {
 
                     this.animaux.add((Animal) acteur);
                     break;
-                case Acteur.TYPE_RENARD:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Renard en dehors de la forêt");
-
-                    this.animaux.add((Animal) acteur);
-                    break;
-                case Acteur.TYPE_HIBOU:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Hibou en dehors de la forêt");
-
-                    this.animaux.add((Animal) acteur);
-                    break;
                 case Acteur.TYPE_SINGE:
                     if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Singe en dehors de la jungle");
 
                     this.animaux.add((Animal) acteur);
+                    break;
+
+                //Prédateurs
+                case Acteur.TYPE_RENARD:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Renard en dehors de la forêt");
+
+                    this.predateurs.add((Predateur) acteur);
+                    break;
+                case Acteur.TYPE_HIBOU:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Hibou en dehors de la forêt");
+
+                    this.predateurs.add((Predateur) acteur);
                     break;
 
                 // Décors
@@ -117,6 +121,11 @@ public class Jeu {
 
     /** Obtient les animaux sur la carte. */
     public List<Animal> obtenirAnimaux() { return this.animaux; }
+
+    /** Obtient les prédateurs sur la carte. */
+    public List<Predateur> obtenirPredateurs() {
+        return predateurs;
+    }
 
     /** Obtient les décors sur la carte. */
     public List<Acteur> obtenirDecors() { return this.decors; }

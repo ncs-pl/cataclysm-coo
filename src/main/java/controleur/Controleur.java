@@ -126,17 +126,16 @@ public class Controleur {
         Carte.SYMBOLE_SINGE         +
         Ihm.COULEUR_REINITIALISATION;
 
-    private static final String STRING_RENARD_AFFAME =
+    private static final String STRING_RENARD =
             Ihm.COULEUR_FOND_JAUNE      +
-                    Ihm.COULEUR_NOIR            +
-                    Carte.SYMBOLE_RENARD      +
-                    Ihm.COULEUR_REINITIALISATION;
+            Ihm.COULEUR_NOIR            +
+            Carte.SYMBOLE_RENARD      +
+            Ihm.COULEUR_REINITIALISATION;
 
-    private static final String STRING_HIBOU_AFFAME =
-            Ihm.COULEUR_FOND_JAUNE      +
-                    Ihm.COULEUR_NOIR            +
-                    Carte.SYMBOLE_HIBOU      +
-                    Ihm.COULEUR_REINITIALISATION;
+    private static final String STRING_HIBOU =
+            Ihm.COULEUR_FOND_VIOLET      +
+            Carte.SYMBOLE_HIBOU      +
+            Ihm.COULEUR_REINITIALISATION;
 
     private final Ihm ihm; // Interface de jeu
     private Jeu jeu;       // Partie en cours
@@ -215,8 +214,6 @@ public class Controleur {
                 switch (animal.obtenirType()){
                     case Acteur.TYPE_ECUREUIL -> s = Controleur.STRING_ECUREUIL_AFFAME;
                     case Acteur.TYPE_SINGE ->  s = Controleur.STRING_SINGE_AFFAME;
-                    case Acteur.TYPE_RENARD -> s = Controleur.STRING_RENARD_AFFAME;
-                    case Acteur.TYPE_HIBOU ->   s = Controleur.STRING_HIBOU_AFFAME;
                 }
                 break;
             case AnimalEtat.ETAT_RASSASIE:
@@ -246,6 +243,20 @@ public class Controleur {
             carteContenu.get(animal.obtenirLigne())
                         .set(animal.obtenirColonne(), s);
         }
+
+        for (Predateur predateur : this.jeu.obtenirPredateurs()){
+            String s = Controleur.STRING_INCONNU;
+            switch (predateur.obtenirType()){
+                case Acteur.TYPE_RENARD : s = STRING_RENARD;   break;
+                case Acteur.TYPE_HIBOU : s = STRING_HIBOU;     break;
+                default:
+                    this.ihm.afficherErreur("Prédateur inconnu : " + predateur);
+                    break;
+            }
+            carteContenu.get(predateur.obtenirLigne())
+                    .set(predateur.obtenirColonne(), s);
+        }
+
 
         for (Acteur decor : this.jeu.obtenirDecors()) {
             String s = Controleur.STRING_INCONNU;
