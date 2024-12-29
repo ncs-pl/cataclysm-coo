@@ -11,7 +11,6 @@ public class AnimalEtatDecorateur extends AnimalEtat {
 
     @Override
     public void deplacer(Animal animal, Jeu jeu) {
-        animal.changerEtat(this.animalEtat);
         this.animalEtat.deplacer(animal, jeu);
     }
 

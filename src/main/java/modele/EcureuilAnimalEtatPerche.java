@@ -9,6 +9,12 @@ public class EcureuilAnimalEtatPerche extends AnimalEtatDecorateur {
     }
 
     @Override
+    public void deplacer(Animal animal, Jeu jeu) {
+        animal.changerEtat(this.animalEtat);
+        super.deplacer(animal, jeu);
+    }
+
+    @Override
     public String toString() {
         String temp = super.toString();
         return temp.substring(0, 5) +
