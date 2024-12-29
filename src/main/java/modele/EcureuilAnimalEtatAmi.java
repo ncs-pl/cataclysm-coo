@@ -21,4 +21,9 @@ public class EcureuilAnimalEtatAmi extends AnimalEtat {
     @Override public void prendreCoup(Animal animal) {
         animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
     }
+    
+    @Override
+    public String toString() {
+        return "";
+    }
 }

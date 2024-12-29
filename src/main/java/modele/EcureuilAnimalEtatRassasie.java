@@ -41,4 +41,9 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
     @Override public void prendreCoup(Animal animal) {
         throw new AnimalEtatException("Comportement non-spécifié.");
     }
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }

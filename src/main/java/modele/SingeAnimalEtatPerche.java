@@ -21,4 +21,9 @@ public class SingeAnimalEtatPerche extends AnimalEtat {
     @Override public void prendreCoup(Animal animal) {
         throw new AnimalEtatException("Pas encore implémenté.");
     }
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }

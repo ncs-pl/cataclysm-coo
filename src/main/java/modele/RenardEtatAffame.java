@@ -20,4 +20,9 @@ public class RenardEtatAffame extends AnimalEtat{
     @Override
     public void prendreCoup(Animal animal) {
     }
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }

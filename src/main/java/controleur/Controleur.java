@@ -292,6 +292,8 @@ public class Controleur {
 
         List<List<String>> carteContenu = new ArrayList<>();
 
+        /** Création d'un carte de cases vides */
+
         for (int i = 0; i < lignes; i++) {
             List<String> ligne = new ArrayList<>();
             //TODO changer stockage des zoneVide pour pouvoir les toStrings
@@ -301,18 +303,32 @@ public class Controleur {
             carteContenu.add(ligne);
         }
 
-        for (Animal animal : this.jeu.obtenirAnimaux()){
-            carteContenu.get(animal.obtenirLigne())
-                    .set(animal.obtenirColonne(), animal.toString());
-        }
+        /** Ajout des décors */
+
         for (Acteur decor : this.jeu.obtenirDecors()){
             carteContenu.get(decor.obtenirLigne())
                     .set(decor.obtenirColonne(), decor.toString());
         }
+
+        /** Ajout des objets */
+
         for (Objet objet : this.jeu.obtenirObjets()){
             carteContenu.get(objet.obtenirLigne())
                     .set(objet.obtenirColonne(), objet.toString());
         }
+
+        /** Ajout des animaux */
+
+        for (Animal animal : this.jeu.obtenirAnimaux()){
+            carteContenu.get(animal.obtenirLigne())
+                    .set(animal.obtenirColonne(), animal.toString());
+        }
+
+        /** Ajout du personnage */
+
+        Personnage personnage = this.jeu.obtenirPersonnage();
+        carteContenu.get(personnage.obtenirLigne())
+                .set(personnage.obtenirColonne(), personnage.toString());
 
         for (List<String> ligne : carteContenu) {
             for (String colonne : ligne) affichage += colonne;
