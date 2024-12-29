@@ -17,9 +17,6 @@ public class Ecureuil extends Animal {
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_JAUNE      +
-                Ihm.COULEUR_BLEU            +
-                Acteur.SYMBOLE_ECUREUIL      +
-                Ihm.COULEUR_REINITIALISATION;
+        return this.obtenirEtat().toString();
     }
 }
