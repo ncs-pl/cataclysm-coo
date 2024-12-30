@@ -235,6 +235,7 @@ public class Jeu {
 
     /** Retourne true si la position spécifiée n'est pas occupée. */
     public boolean verifierCaseVide(int ligne, int colonne) {
+        if (colonne < 0 || colonne >= this.colonnes || ligne < 0 || ligne >= this.lignes) return false;
         for (Animal a : this.animaux) {
             if (colonne == a.obtenirColonne() && ligne == a.obtenirLigne()) return false;
         }
@@ -287,4 +288,31 @@ public class Jeu {
         }
     return null;
     }
+
+
+    /** Retourne les cases possibles pour le déplacement d'un Hibou */
+    public List<int[]> destinationsHibou(int ligne , int colonne){
+        ArrayList<int[]> possibles = new ArrayList<int[]>();
+        int[] haut = {ligne - 2 , colonne};
+        int[] bas = {ligne + 2 , colonne};
+        int[] droite = {ligne , colonne +2};
+        int[] gauche = {ligne , colonne -2};
+
+        //Haut et Bas
+        if (haut[0] > 0 && haut[0] < this.lignes) {
+            possibles.add(haut);
+        }
+        if (bas[0] > 0 && bas[0] < this.lignes) {
+            possibles.add(bas);
+        }
+        if (droite[1] > 0 && droite[1] < this.colonnes){
+            possibles.add(droite);
+        }
+        if (gauche[1] > 0 && gauche[1] < this.colonnes){
+            possibles.add(gauche);
+        }
+
+        return possibles;
+    }
+
 }
