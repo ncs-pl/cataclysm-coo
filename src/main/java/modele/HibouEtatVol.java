@@ -22,13 +22,24 @@ public class HibouEtatVol extends HibouEtat{
         int ligne   = hibou.obtenirLigne();
         int colonne = hibou.obtenirColonne();
 
-        List<int[]> destinations = jeu.destinationsHibou(ligne,colonne);
-        if(!(destinations.isEmpty())){
-            Random rand = new Random();
-            int[] dest = destinations.get(rand.nextInt(destinations.size()));
-            hibou.changerColonne(dest[1]);
-            hibou.changerLigne(dest[0]);
+        Animal proie = jeu.chercherProieHibou(ligne,colonne);
+        if(proie != null){
+            int lProie = proie.obtenirLigne();
+            int cProie = proie.obtenirColonne();
+            jeu.obtenirAnimaux().remove(proie);
+            hibou.changerColonne(cProie);
+            hibou.changerLigne(lProie);
+            hibou.changerEtat(HibouEtatRepos.obtenirInstance());
         }
-        hibou.changerEtat(HibouEtatRepos.obtenirInstance());
+
+        else{
+            List<int[]> destinations = jeu.destinationsHibou(ligne,colonne);
+            if(!(destinations.isEmpty())){
+                Random rand = new Random();
+                int[] dest = destinations.get(rand.nextInt(destinations.size()));
+                hibou.changerColonne(dest[1]);
+                hibou.changerLigne(dest[0]);
+            }
+        }
     }
 }

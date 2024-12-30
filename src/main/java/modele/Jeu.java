@@ -315,4 +315,20 @@ public class Jeu {
         return possibles;
     }
 
+
+    /** Retourne une proie se trouvant dans un rayon de 3 cases du hibou */
+    public Animal chercherProieHibou(int ligne , int colonne){
+        for(Animal a : this.animaux){
+            int aLigne = a.obtenirLigne();
+            int aColonne = a.obtenirColonne();
+            if(aLigne >= ligne - 3 && aLigne <= ligne + 3 && aColonne >= colonne - 3 && aColonne <= colonne + 3){
+                if (a.obtenirEtat() != EcureuilAnimalEtatCache.obtenirInstance() && a.obtenirEtat() != EcureuilAnimalEtatPerche.obtenirInstance()){
+                    return a;
+                }
+            }
+        }
+        return null;
+
+    }
+
 }

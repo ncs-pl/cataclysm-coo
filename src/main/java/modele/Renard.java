@@ -21,13 +21,14 @@ public class Renard extends Predateur {
             this.changerColonne(cProie);
             this.changerLigne(lProie);
         }
-
-        List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
-        if (!vides.isEmpty()) {
-            Random rand = new Random();
-            Acteur vide = vides.get(rand.nextInt(vides.size()));
-            this.changerLigne(vide.obtenirLigne());
-            this.changerColonne(vide.obtenirColonne());
+        else{
+            List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
+            if (!vides.isEmpty()) {
+                Random rand = new Random();
+                Acteur vide = vides.get(rand.nextInt(vides.size()));
+                this.changerLigne(vide.obtenirLigne());
+                this.changerColonne(vide.obtenirColonne());
+            }
         }
     }
 }
