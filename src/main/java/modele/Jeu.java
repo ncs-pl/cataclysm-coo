@@ -213,11 +213,11 @@ public class Jeu {
 
     /** Exécute les intelligences artificiels des animaux. */
     public void executerIntelligenceAnimaux_Predateurs() {
-        for (Animal animal : this.animaux) {
-            animal.deplacer(this);
-        }
         for (Predateur predateur : this.predateurs){
             predateur.deplacer(this);
+        }
+        for (Animal animal : this.animaux) {
+            animal.deplacer(this);
         }
     }
 
@@ -251,7 +251,7 @@ public class Jeu {
     }
 
     public Objet chercherObjetVoisin(int ligne, int colonne, int type) {
-        //todo(lucas) : Plutôt regarder que les cases adjacente ?
+        //todo(Lucas) Vérifier seulement les case adjascentes
         for (Objet o : this.objets) {
             if (o.obtenirType() == type){
                 int oLigne = o.obtenirLigne();
@@ -273,5 +273,18 @@ public class Jeu {
         if (this.verifierCaseVide(ligne, colonne+1)) zones.add(new ZoneVide(ligne, colonne+1, this.lignes, this.colonnes)); // Droite.
         if (this.verifierCaseVide(ligne+1, colonne)) zones.add(new ZoneVide(ligne+1, colonne, this.lignes, this.colonnes)); // Bas.
         return zones;
+    }
+
+    /** Retourne une proie se trouvant dans une case voisine */
+    public Animal chercherProieVoisine(int ligne , int colonne){
+        for(Animal a : this.animaux){
+            int aLigne = a.obtenirLigne();
+            int aColonne = a.obtenirColonne();
+            if(aLigne == ligne - 1 && aColonne == colonne) return a; // Haut
+            if(aLigne == ligne + 1 && aColonne == colonne) return a; // Bas
+            if(aLigne == ligne && aColonne == colonne + 1) return a; // Droite
+            if(aLigne == ligne && aColonne == colonne -1) return a; // Gauche
+        }
+    return null;
     }
 }

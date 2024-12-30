@@ -13,6 +13,15 @@ public class Renard extends Predateur {
         int ligne   = this.obtenirLigne();
         int colonne = this.obtenirColonne();
 
+        Animal proie = jeu.chercherProieVoisine(ligne,colonne);
+        if(proie != null){
+            int lProie = proie.obtenirLigne();
+            int cProie = proie.obtenirColonne();
+            jeu.obtenirAnimaux().remove(proie);
+            this.changerColonne(cProie);
+            this.changerLigne(lProie);
+        }
+
         List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
         if (!vides.isEmpty()) {
             Random rand = new Random();
