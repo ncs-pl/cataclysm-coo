@@ -212,7 +212,10 @@ public class Jeu {
     }
 
     /** Exécute les intelligences artificiels des animaux. */
-    public void executerIntelligenceAnimaux() {
+    public void executerIntelligenceAnimaux_Predateurs() {
+        for (Predateur predateur : this.predateurs){
+            predateur.deplacer(this);
+        }
         for (Animal animal : this.animaux) {
             animal.deplacer(this);
         }
@@ -232,6 +235,7 @@ public class Jeu {
 
     /** Retourne true si la position spécifiée n'est pas occupée. */
     public boolean verifierCaseVide(int ligne, int colonne) {
+        if (colonne < 0 || colonne >= this.colonnes || ligne < 0 || ligne >= this.lignes) return false;
         for (Animal a : this.animaux) {
             if (colonne == a.obtenirColonne() && ligne == a.obtenirLigne()) return false;
         }
@@ -248,7 +252,7 @@ public class Jeu {
     }
 
     public Objet chercherObjetVoisin(int ligne, int colonne, int type) {
-        //todo(lucas) : Plutôt regarder que les cases adjacente ?
+        //todo(Lucas) Vérifier seulement les case adjascentes
         for (Objet o : this.objets) {
             if (o.obtenirType() == type){
                 int oLigne = o.obtenirLigne();
@@ -271,4 +275,60 @@ public class Jeu {
         if (this.verifierCaseVide(ligne+1, colonne)) zones.add(new ZoneVide(ligne+1, colonne, this.lignes, this.colonnes)); // Bas.
         return zones;
     }
+
+    /** Retourne une proie se trouvant dans une case voisine */
+    public Animal chercherProieVoisine(int ligne , int colonne){
+        for(Animal a : this.animaux){
+            int aLigne = a.obtenirLigne();
+            int aColonne = a.obtenirColonne();
+            if(aLigne == ligne - 1 && aColonne == colonne) return a; // Haut
+            if(aLigne == ligne + 1 && aColonne == colonne) return a; // Bas
+            if(aLigne == ligne && aColonne == colonne + 1) return a; // Droite
+            if(aLigne == ligne && aColonne == colonne -1) return a; // Gauche
+        }
+    return null;
+    }
+
+
+    /** Retourne les cases possibles pour le déplacement d'un Hibou */
+    public List<int[]> destinationsHibou(int ligne , int colonne){
+        ArrayList<int[]> possibles = new ArrayList<int[]>();
+        int[] haut = {ligne - 2 , colonne};
+        int[] bas = {ligne + 2 , colonne};
+        int[] droite = {ligne , colonne +2};
+        int[] gauche = {ligne , colonne -2};
+
+        //Haut et Bas
+        if (haut[0] > 0 && haut[0] < this.lignes) {
+            possibles.add(haut);
+        }
+        if (bas[0] > 0 && bas[0] < this.lignes) {
+            possibles.add(bas);
+        }
+        if (droite[1] > 0 && droite[1] < this.colonnes){
+            possibles.add(droite);
+        }
+        if (gauche[1] > 0 && gauche[1] < this.colonnes){
+            possibles.add(gauche);
+        }
+
+        return possibles;
+    }
+
+
+    /** Retourne une proie se trouvant dans un rayon de 3 cases du hibou */
+    public Animal chercherProieHibou(int ligne , int colonne){
+        for(Animal a : this.animaux){
+            int aLigne = a.obtenirLigne();
+            int aColonne = a.obtenirColonne();
+            if(aLigne >= ligne - 3 && aLigne <= ligne + 3 && aColonne >= colonne - 3 && aColonne <= colonne + 3){
+                if (a.obtenirEtat() != EcureuilAnimalEtatCache.obtenirInstance() && a.obtenirEtat() != EcureuilAnimalEtatPerche.obtenirInstance()){
+                    return a;
+                }
+            }
+        }
+        return null;
+
+    }
+
 }

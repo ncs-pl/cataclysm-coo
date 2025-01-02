@@ -67,6 +67,7 @@ public abstract class Acteur {
 
     /** Modifie la ligne de la position de l'acteur. */
     public void changerLigne(int ligne) {
+        //todo(Younes) supprimer/modifier les assert (les hibous peuvent survoler les bordures de carte)
         assert(ligne >= 0 && ligne < maxLigne); // NOTE(nico): temp
         this.ligne = ligne;
     }
