@@ -30,20 +30,22 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
 
         Objet gland           = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_GLAND);
         Objet champignon = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_CHAMPIGNON);
-        if (gland != null || champignon != null) {
+        Objet cVeneneux = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_CHAMPIGNON_VENENEUX);
+
+        if (gland != null || champignon != null || cVeneneux != null) {
             animal.changerSaturation(5);
 
             // Se déplacer sur la case de la nourriture et supprimer l'objet.
-            Objet nourriture = gland == null ? champignon : gland;
+            Objet nourriture = gland == null ? (champignon == null ? cVeneneux : champignon) : gland;
 
             animal.changerLigne(nourriture.obtenirLigne());
             animal.changerColonne(nourriture.obtenirColonne());
             jeu.supprimerObjet(nourriture);
 
-            if (gland != null){
-                animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
-            } else {
+            if (cVeneneux != null){
                 animal.changerEtat(EcureuilAnimalEtatJunkie.obtenirInstance());
+            } else {
+                animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
             }
 
             // Vérifier pour probable nouvelle amitié.
