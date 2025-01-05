@@ -8,16 +8,20 @@ public class Jeu {
     private final int colonnes;   // Nombre de colonnes de la carte.
     private final int lignes;     // Nombre de lignes de la carte.
 
-    private Personnage personnage;                            // Le joueur.
-    private final List<Objet> inventaire = new ArrayList<>(); // Inventaire du joueur.
-    private final List<Animal> animaux   = new ArrayList<>(); // Animaux sur la carte.
-    private final List<Predateur> predateurs   = new ArrayList<Predateur>(); // Prédateurs sur la carte.
+    private final ActeurAbstractFactory factory; // Factory
 
-    private final List<Acteur> decors    = new ArrayList<>(); // Décors bloquant sur la carte.
-    private final List<Objet> objets     = new ArrayList<>(); // Objets sur la carte.
+    private       Personnage personnage;                                   // Le joueur.
+    private final List<Objet> inventaire     = new ArrayList<>();          // Inventaire du joueur.
+    private final List<Animal> animaux       = new ArrayList<>();          // Animaux sur la carte.
+    private final List<Predateur> predateurs = new ArrayList<Predateur>(); // Prédateurs sur la carte.
+
+    private final List<Acteur> decors = new ArrayList<>(); // Décors bloquant sur la carte.
+    private final List<Objet>  objets = new ArrayList<>(); // Objets sur la carte.
 
     public Jeu(Carte carte) {
-        this.theme    = carte.obtenirTheme();
+        this.theme   = carte.obtenirTheme();
+        this.factory = this.theme == JeuTheme.FORET ? ActeurForetFactory.getInstance()
+                                                    : ActeurJungleFactory.getInstance();
         this.lignes   = carte.obtenirLignes();
         this.colonnes = carte.obtenirColonnes();
 
@@ -121,37 +125,17 @@ public class Jeu {
         if (this.personnage == null) throw new CarteInvalideException("Aucun personnage dans la carte.");
     }
 
-    /** Obtient le thème du jeu en cours. */
-    public JeuTheme obtenirTheme() { return this.theme; }
+    public JeuTheme        obtenirTheme()      { return this.theme;      } // Obtient le thème du jeu en cours.
+    public int             obtenirLignes()     { return this.lignes;     } // Obtient le nombre de lignes dans le jeu en cours.
+    public int             obtenirColonnes()   { return this.colonnes;   } // Obtient le nombre de colonnes dans le jeu en cours.
+    public Personnage      obtenirPersonnage() { return this.personnage; } // Obtient le personnage sur la carte.
+    public List<Objet>     obtenirInventaire() { return this.inventaire; } // Obtient l'inventaire du joueur.
+    public List<Animal>    obtenirAnimaux()    { return this.animaux;    } // Obtient les animaux sur la carte.
+    public List<Predateur> obtenirPredateurs() { return predateurs;      } // Obtient les prédateurs sur la carte.
+    public List<Acteur>    obtenirDecors()     { return this.decors;     } // Obtient les décors sur la carte.
+    public List<Objet>     obtenirObjets()     { return this.objets;     } // Obtient les objets sur la carte.
 
-    /** Obtient le nombre de lignes dans le jeu en cours. */
-    public int obtenirLignes() { return this.lignes; }
-
-    /** Obtient le nombre de colonnes dans le jeu en cours. */
-    public int obtenirColonnes() { return this.colonnes; }
-
-    /** Obtient le personnage sur la carte. */
-    public Personnage obtenirPersonnage() { return this.personnage; }
-
-    /** Obtient l'inventaire du joueur. */
-    public List<Objet> obtenirInventaire() { return this.inventaire; }
-
-    /** Obtient les animaux sur la carte. */
-    public List<Animal> obtenirAnimaux() { return this.animaux; }
-
-    /** Obtient les prédateurs sur la carte. */
-    public List<Predateur> obtenirPredateurs() {
-        return predateurs;
-    }
-
-    /** Obtient les décors sur la carte. */
-    public List<Acteur> obtenirDecors() { return this.decors; }
-
-    /** Obtient les objets sur la carte. */
-    public List<Objet> obtenirObjets() { return this.objets; }
-
-    /** Supprime un objet des objets de la carte, utile pour simuler un
-        animal qui mange. */
+    /** Supprime un objet des objets de la carte, utile pour simuler un animal qui mange. */
     public void supprimerObjet(Objet objet) { this.objets.remove(objet); }
 
     /** Déplace le personnqge dans une certaine direction d'une case. */
@@ -167,8 +151,9 @@ public class Jeu {
         case GAUCHE: colonne -= 1; break;
         }
 
-        if (colonne < 0 || colonne >= this.colonnes || ligne < 0 || ligne >= this.lignes) throw new PositionInvalideException("Bordures de la carte.");
-        if (!this.verifierCaseVide(ligne, colonne)) throw new PositionInvalideException("Case bloquée.");
+        if (colonne < 0 || colonne >= this.colonnes ||
+            ligne < 0 || ligne >= this.lignes)         throw new PositionInvalideException("Bordures de la carte.");
+        if (!this.verifierCaseVide(ligne, colonne))    throw new PositionInvalideException("Case bloquée.");
 
         this.personnage.changerColonne(colonne);
         this.personnage.changerLigne(ligne);
@@ -187,7 +172,8 @@ public class Jeu {
         case GAUCHE: colonne -= 1; break;
         }
 
-        if (colonne < 0 || colonne >= this.colonnes || ligne < 0 || ligne >= this.lignes) throw new PositionInvalideException("Bordures de la carte.");
+        if (colonne < 0 || colonne >= this.colonnes ||
+            ligne < 0 || ligne >= this.lignes)         throw new PositionInvalideException("Bordures de la carte.");
 
         Objet objet = null;
         for (Objet o : this.objets) {
@@ -217,8 +203,9 @@ public class Jeu {
         case GAUCHE: colonne -= 1; break;
         }
 
-        if (colonne < 0 || colonne >= this.colonnes || ligne < 0 || ligne >= this.lignes) throw new PositionInvalideException("Bordures de la carte.");
-        if (!this.verifierCaseVide(ligne, colonne)) throw new PositionInvalideException("Case occupée.");
+        if (colonne < 0 || colonne >= this.colonnes ||
+            ligne < 0 || ligne >= this.lignes)         throw new PositionInvalideException("Bordures de la carte.");
+        if (!this.verifierCaseVide(ligne, colonne))    throw new PositionInvalideException("Case occupée.");
 
         Objet objet = this.inventaire.get(indice);
         objet.changerColonne(colonne);
@@ -230,12 +217,8 @@ public class Jeu {
 
     /** Exécute les intelligences artificiels des animaux. */
     public void executerIntelligenceAnimaux_Predateurs() {
-        for (Predateur predateur : this.predateurs){
-            predateur.deplacer(this);
-        }
-        for (Animal animal : this.animaux) {
-            animal.deplacer(this);
-        }
+        for (Predateur predateur : this.predateurs) predateur.deplacer(this);
+        for (Animal animal : this.animaux)          animal.deplacer(this);
     }
 
     /** Retourne true si le personnage est sur une case voisine. */
@@ -286,10 +269,10 @@ public class Jeu {
     /** Retourne une zone vide voisine ou null sinon. */
     public List<ZoneVide> chercherZonesVidesVoisine(int ligne, int colonne) {
         List<ZoneVide> zones = new ArrayList<>();
-        if (this.verifierCaseVide(ligne-1, colonne)) zones.add(new ZoneVide(ligne-1, colonne, this.lignes, this.colonnes)); // Haut.
-        if (this.verifierCaseVide(ligne, colonne-1)) zones.add(new ZoneVide(ligne, colonne-1, this.lignes, this.colonnes)); // Gauche.
-        if (this.verifierCaseVide(ligne, colonne+1)) zones.add(new ZoneVide(ligne, colonne+1, this.lignes, this.colonnes)); // Droite.
-        if (this.verifierCaseVide(ligne+1, colonne)) zones.add(new ZoneVide(ligne+1, colonne, this.lignes, this.colonnes)); // Bas.
+        if (this.verifierCaseVide(ligne-1, colonne)) zones.add(this.factory.creerZoneVide(ligne-1, colonne, this.lignes, this.colonnes)); // Haut.
+        if (this.verifierCaseVide(ligne, colonne-1)) zones.add(this.factory.creerZoneVide(ligne, colonne-1, this.lignes, this.colonnes)); // Gauche.
+        if (this.verifierCaseVide(ligne, colonne+1)) zones.add(this.factory.creerZoneVide(ligne, colonne+1, this.lignes, this.colonnes)); // Droite.
+        if (this.verifierCaseVide(ligne+1, colonne)) zones.add(this.factory.creerZoneVide(ligne+1, colonne, this.lignes, this.colonnes)); // Bas.
         return zones;
     }
 
@@ -301,7 +284,7 @@ public class Jeu {
             if(aLigne == ligne - 1 && aColonne == colonne) return a; // Haut
             if(aLigne == ligne + 1 && aColonne == colonne) return a; // Bas
             if(aLigne == ligne && aColonne == colonne + 1) return a; // Droite
-            if(aLigne == ligne && aColonne == colonne -1) return a; // Gauche
+            if(aLigne == ligne && aColonne == colonne - 1) return a; // Gauche
         }
     return null;
     }
@@ -315,19 +298,11 @@ public class Jeu {
         int[] droite = {ligne , colonne +2};
         int[] gauche = {ligne , colonne -2};
 
-        //Haut et Bas
-        if (haut[0] > 0 && haut[0] < this.lignes) {
-            possibles.add(haut);
-        }
-        if (bas[0] > 0 && bas[0] < this.lignes) {
-            possibles.add(bas);
-        }
-        if (droite[1] > 0 && droite[1] < this.colonnes){
-            possibles.add(droite);
-        }
-        if (gauche[1] > 0 && gauche[1] < this.colonnes){
-            possibles.add(gauche);
-        }
+        // Haut et bas
+        if (haut[0] > 0   && haut[0] < this.lignes)     possibles.add(haut);
+        if (bas[0] > 0    && bas[0]  < this.lignes)     possibles.add(bas);
+        if (droite[1] > 0 && droite[1] < this.colonnes) possibles.add(droite);
+        if (gauche[1] > 0 && gauche[1] < this.colonnes) possibles.add(gauche);
 
         return possibles;
     }
@@ -338,10 +313,10 @@ public class Jeu {
         for(Animal a : this.animaux){
             int aLigne = a.obtenirLigne();
             int aColonne = a.obtenirColonne();
-            if(aLigne >= ligne - 3 && aLigne <= ligne + 3 && aColonne >= colonne - 3 && aColonne <= colonne + 3){
-                if (a.obtenirEtat() != EcureuilAnimalEtatCache.obtenirInstance() && a.obtenirEtat() != EcureuilAnimalEtatPerche.obtenirInstance()){
-                    return a;
-                }
+            if (aLigne >= ligne - 3     && aLigne <= ligne + 3   &&
+                aColonne >= colonne - 3 && aColonne <= colonne + 3) {
+                if (a.obtenirEtat() != EcureuilAnimalEtatCache.obtenirInstance() &&
+                    a.obtenirEtat() != EcureuilAnimalEtatPerche.obtenirInstance())  return a;
             }
         }
         return null;
