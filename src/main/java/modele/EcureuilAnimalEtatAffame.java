@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 public class EcureuilAnimalEtatAffame extends AnimalEtat {
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR + Ecureuil.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 
-    private static EcureuilAnimalEtatAffame instance;
+    private static EcureuilAnimalEtatAffame instance; // Singleton
 
     private EcureuilAnimalEtatAffame() {
         super(AnimalEtat.ETAT_AFFAME);
@@ -89,6 +90,6 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR + Ecureuil.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+        return EcureuilAnimalEtatAffame.AFFICHAGE;
     }
 }

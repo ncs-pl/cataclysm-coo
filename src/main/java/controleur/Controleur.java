@@ -9,36 +9,6 @@ import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
-    /* TODO(nico): vérifier strings.
-    private static final String STRING_INCONNU                  = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_INCONNU                  + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_PERSONNAGE               = Ihm.COULEUR_FOND_BLANC  + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_PERSONNAGE               + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ZONE_VIDE                = Ihm.COULEUR_FOND_VERT                        + Carte.SYMBOLE_ZONE_VIDE                + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ARBRE                    = Ihm.COULEUR_FOND_NOIR   + Ihm.COULEUR_VERT   + Carte.SYMBOLE_ARBRE                    + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_BUISSON                  = Ihm.COULEUR_FOND_NOIR   + Ihm.COULEUR_VERT   + Carte.SYMBOLE_BUISSON                  + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_COCOTIER                 = Ihm.COULEUR_FOND_NOIR   + Ihm.COULEUR_VERT   + Carte.SYMBOLE_COCOTIER                 + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_PETIT_ROCHER             = Ihm.COULEUR_FOND_NOIR   + Ihm.COULEUR_BLANC  + Carte.SYMBOLE_PETIT_ROCHER             + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_BANANE                   = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_BANANE                   + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_CHAMPIGNON               = Ihm.COULEUR_FOND_BLANC  + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_CHAMPIGNON               + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_CHAMPIGNON_VENENEUX      = Ihm.COULEUR_FOND_BLANC  + Ihm.COULEUR_JAUNE  + Carte.SYMBOLE_CHAMPIGNON_VENENEUX      + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_GLAND                    = Ihm.COULEUR_FOND_ROUGE  + Ihm.COULEUR_JAUNE  + Carte.SYMBOLE_GLAND                    + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_AFFAME          = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_ECUREUIL                 + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_RASSASIE        = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_BLEU   + Carte.SYMBOLE_ECUREUIL                 + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_AMI             = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_ECUREUIL                 + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_JUNKIE          = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_ECUREUIL                 + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_PERCHE          = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_VERT   + Carte.SYMBOLE_ECUREUIL                 + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_ECUREUIL_CACHE           = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_JAUNE  + Carte.SYMBOLE_ECUREUIL                 + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_AFFAME             = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_SINGE                    + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_RASSASIE           = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_BLEU   + Carte.SYMBOLE_SINGE                    + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_AMI                = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_SINGE                    + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_JUNKIE             = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_SINGE                    + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_PERCHE             = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_VERT   + Carte.SYMBOLE_SINGE                    + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SINGE_CACHE              = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_JAUNE  + Carte.SYMBOLE_SINGE                    + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_RENARD                   = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_RENARD                   + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_HIBOU                    = Ihm.COULEUR_FOND_VIOLET                      + Carte.SYMBOLE_HIBOU                    + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SERPENT                  = Ihm.COULEUR_FOND_BLANC  + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_SERPENT                  + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_SCORPION                 = Ihm.COULEUR_FOND_ROUGE  + Ihm.COULEUR_BLANC  + Carte.SYMBOLE_SCORPION                 + Ihm.COULEUR_REINITIALISATION;
-    private static final String STRING_CHAMPIGNON_HALLUCINOGENE = Ihm.COULEUR_FOND_BLEU                        + Carte.SYMBOLE_CHAMPIGNON_HALLUCINOGENE + Ihm.COULEUR_REINITIALISATION;
-    */
     private final Ihm ihm; // Interface de jeu
     private Jeu jeu;       // Partie en cours
 
@@ -78,7 +48,6 @@ public class Controleur {
         }
     }
 
-    /*@SuppressWarnings("StringConcatenationInLoop")
     private void afficherCarte() {
         // La carte du jeu.
 
@@ -94,214 +63,122 @@ public class Controleur {
         int colonnes   = this.jeu.obtenirColonnes();
         JeuTheme theme = this.jeu.obtenirTheme();
 
+        //noinspection ExtractMethodRecommender
         List<List<String>> carteContenu = new ArrayList<>();
 
-        for (int i = 0; i < lignes; ++i) {
-            List<String> ligne = new ArrayList<>();
-            for (int j = 0; j < colonnes; ++j) ligne.add(Controleur.STRING_ZONE_VIDE);
-            carteContenu.add(ligne);
-        }
+/*
+        // NOTE(nico): Initialisation de stubs pour obtenir les toStrig.
+        // On n'a pas le choix car en mode objet faut "séparer les interfaces"
+        // (useless mais bon).  Bref du coup on créer des stubs ici. avec des
+        // coordonnées fausses, ce qui n'est pas grave car ils n'impactent pas
+        // la game state, et donc on peut appeler toString() dessus.
+        // Ça coûte cher en performance car ça détruit la cache locality du CPU,
+        // mais on n'a pas le choix :)
+        ActeurAbstractFactory factory = theme == JeuTheme.FORET ? ActeurForetFactory.getInstance()
+                                                                : ActeurJungleFactory.getInstance();
+        int sx = 0; int sy = 0; int smx = 0; int smy = 0; // TODO(nico): vérifier que ça crash pas si on a une carte de dimension 0x0 !
+        Animal stubAnimal    = factory.creerAnimal(sx, sy, smx, smy);
+        Acteur stubDeco1     = factory.creerDecor1(sx, sy, smx, smy);
+        Acteur stubDeco2     = factory.creerDecor1(sx, sy, smx, smy);
+        Objet stubAliment    = factory.creerObjetAliment(sx, sy, smx, smy);
+        Objet stubChampi     = factory.creerObjetChampignon(sx, sy, smx, smy);
+        Objet stubDrogue     = factory.creerObjetChampignonDrogue(sx, sy, smx, smy);
+        Predateur stubPred1  = factory.creerPredateur1(sx, sy, smx, smy);
+        Predateur stubPred2  = factory.creerPredateur2(sx, sy, smx, smy);
+        Personnage stubPerso = factory.creerPersonnage(sx, sy, smx, smy);
+        ZoneVide stubVide    = factory.creerZoneVide(sx, sy, smx, smy);
+*/
 
-        Personnage personnage = this.jeu.obtenirPersonnage();
-        carteContenu.get(personnage.obtenirLigne())
-                    .set(personnage.obtenirColonne(), Controleur.STRING_PERSONNAGE);
-
-        for (Animal animal : this.jeu.obtenirAnimaux()) {
-            String s = Controleur.STRING_INCONNU;
-            AnimalEtat etat = animal.obtenirEtat();
-            int type = animal.obtenirType();
-
-            switch (etat.obtenirId()) {
-            case AnimalEtat.ETAT_AFFAME:
-                switch (animal.obtenirType()){
-                    case Acteur.TYPE_ECUREUIL -> s = Controleur.STRING_ECUREUIL_AFFAME;
-                    case Acteur.TYPE_SINGE ->  s = Controleur.STRING_SINGE_AFFAME;
-                }
-                break;
-            case AnimalEtat.ETAT_RASSASIE:
-                s = type == Acteur.TYPE_ECUREUIL
-                        ? Controleur.STRING_ECUREUIL_RASSASIE
-                        : Controleur.STRING_SINGE_RASSASIE;   break;
-            case AnimalEtat.ETAT_AMI:
-                s = type == Acteur.TYPE_ECUREUIL
-                        ? Controleur.STRING_ECUREUIL_AMI
-                        : Controleur.STRING_SINGE_AMI;        break;
-            case AnimalEtat.ETAT_JUNKIE:
-                s = type == Acteur.TYPE_ECUREUIL
-                        ? Controleur.STRING_ECUREUIL_JUNKIE
-                        : Controleur.STRING_SINGE_JUNKIE;     break;
-            case AnimalEtat.ETAT_PERCHE:
-                s = type == Acteur.TYPE_ECUREUIL
-                        ? Controleur.STRING_ECUREUIL_PERCHE
-                        : Controleur.STRING_SINGE_PERCHE;     break;
-            case AnimalEtat.ETAT_CACHE:
-                s = type == Acteur.TYPE_ECUREUIL
-                        ? Controleur.STRING_ECUREUIL_CACHE
-                        : Controleur.STRING_SINGE_CACHE;      break;
-            default:
-                this.ihm.afficherErreur("État inconnu \"" + etat + "\".");
-            }
-
-            carteContenu.get(animal.obtenirLigne())
-                        .set(animal.obtenirColonne(), s);
-        }
-
-        for (Predateur predateur : this.jeu.obtenirPredateurs()){
-            String s = Controleur.STRING_INCONNU;
-            switch (predateur.obtenirType()){
-                case Acteur.TYPE_RENARD : s = STRING_RENARD;   break;
-                case Acteur.TYPE_SERPENT : s = STRING_SERPENT;   break;
-                case Acteur.TYPE_SCORPION : s = STRING_SCORPION;   break;
-                case Acteur.TYPE_HIBOU : s = STRING_HIBOU;     break;
-                default:
-                    this.ihm.afficherErreur("Prédateur inconnu : " + predateur);
-                    break;
-            }
-            carteContenu.get(predateur.obtenirLigne())
-                    .set(predateur.obtenirColonne(), s);
-        }
-
-
-        for (Acteur decor : this.jeu.obtenirDecors()) {
-            String s = Controleur.STRING_INCONNU;
-            switch (decor.obtenirType()) {
-            case Acteur.TYPE_ARBRE:        s = Controleur.STRING_ARBRE;        break;
-            case Acteur.TYPE_BUISSON:      s = Controleur.STRING_BUISSON;      break;
-            case Acteur.TYPE_COCOTIER:     s = Controleur.STRING_COCOTIER;     break;
-            case Acteur.TYPE_PETIT_ROCHER: s = Controleur.STRING_PETIT_ROCHER; break;
-            default:
-                this.ihm.afficherErreur("Décor inconnu : " + decor);
-                break;
-            }
-
-            carteContenu.get(decor.obtenirLigne())
-                        .set(decor.obtenirColonne(), s);
-        }
-
-        for (Objet objet : this.jeu.obtenirObjets()) {
-            String s = Controleur.STRING_INCONNU;
-            switch (objet.obtenirType()) {
-            case Acteur.TYPE_BANANE:     s = Controleur.STRING_BANANE;     break;
-            case Acteur.TYPE_CHAMPIGNON: s = Controleur.STRING_CHAMPIGNON; break;
-            case Acteur.TYPE_CHAMPIGNON_VENENEUX: s = Controleur.STRING_CHAMPIGNON_VENENEUX; break;
-                case Acteur.TYPE_CHAMPIGNON_HALLUCINOGENE: s = Controleur.STRING_CHAMPIGNON_HALLUCINOGENE; break;
-            case Acteur.TYPE_GLAND:      s = Controleur.STRING_GLAND;      break;
-            default:
-                this.ihm.afficherErreur("Objet inconnu : " + objet);
-                break;
-            }
-
-            carteContenu.get(objet.obtenirLigne())
-                        .set(objet.obtenirColonne(), s);
-        }
-
-        for (List<String> ligne : carteContenu) {
-            for (String colonne : ligne) affichage += colonne;
-            affichage += "\n";
-        }
-
-        // Légende pour les symboles de la carte.
-
-        String legende = "Légende :\n";
-        legende += "* " + Controleur.STRING_PERSONNAGE + " : personnage\n";
-        legende += "* " + Controleur.STRING_ZONE_VIDE  + " : zone vide\n";
-
-        switch (theme) {
-        case FORET:
-            legende += "* " + Controleur.STRING_ARBRE             + " : arbre\n";
-            legende += "* " + Controleur.STRING_BUISSON           + " : buisson\n";
-            legende += "* " + Controleur.STRING_GLAND             + " : gland\n";
-            legende += "* " + Controleur.STRING_CHAMPIGNON        + " : champignon\n";
-            legende += "* " + Controleur.STRING_ECUREUIL_AFFAME   + " : écureuil affamé\n";
-            legende += "* " + Controleur.STRING_ECUREUIL_RASSASIE + " : écureuil rassasié\n";
-            legende += "* " + Controleur.STRING_ECUREUIL_AMI      + " : écureuil ami\n";
-            legende += "* " + Controleur.STRING_ECUREUIL_JUNKIE   + " : écureuil junkie\n";
-            legende += "* " + Controleur.STRING_ECUREUIL_PERCHE   + " : écureuil perché dans un arbre\n";
-            legende += "* " + Controleur.STRING_ECUREUIL_CACHE    + " : écureuil caché dans un buisson\n";
-            break;
-        case JUNGLE:
-            legende += "* " + Controleur.STRING_COCOTIER       + " : cocotier\n";
-            legende += "* " + Controleur.STRING_PETIT_ROCHER   + " : petit rocher\n";
-            legende += "* " + Controleur.STRING_BANANE         + " : banane\n";
-            legende += "* " + Controleur.STRING_CHAMPIGNON     + " : champignon\n";
-            legende += "* " + Controleur.STRING_SINGE_AFFAME   + " : singe affamé\n";
-            legende += "* " + Controleur.STRING_SINGE_RASSASIE + " : singe rassasié\n";
-            legende += "* " + Controleur.STRING_SINGE_AMI      + " : singe ami\n";
-            legende += "* " + Controleur.STRING_SINGE_JUNKIE   + " : singe junkie\n";
-            legende += "* " + Controleur.STRING_SINGE_PERCHE   + " : singe perché dans un cocotier\n";
-            legende += "* " + Controleur.STRING_SINGE_CACHE    + " : singe caché derrière un petit rocher\n";
-            break;
-        }
-
-//        legende += "* " + Controleur.STRING_INCONNU + " : erreur\n";
-        affichage += "\n" + legende;
-
-        this.ihm.afficherInformation(affichage);
-    }*/
-
-    //TODO LEGENDE ?????????
-    private void afficherCarte(){
-
-        // La carte du jeu.
-
-        String affichage = "Carte :\n";
-
-        // On construit la carte en faisant une forme remplie de
-        // zones vides dont les dimensions sont de celles indiquées par
-        // le jeu.  Ensuite, on remplace les bonnes positions par les
-        // symboles correspondants aux acteurs spécifiques selon le
-        // thème.
-
-        int lignes     = this.jeu.obtenirLignes();
-        int colonnes   = this.jeu.obtenirColonnes();
-        JeuTheme theme = this.jeu.obtenirTheme();
-
-        List<List<String>> carteContenu = new ArrayList<>();
-
-        /** Création d'un carte de cases vides */
-
+        // On remplie le buffer de cases vides.
         for (int i = 0; i < lignes; i++) {
             List<String> ligne = new ArrayList<>();
-            //TODO changer stockage des zoneVide pour pouvoir les toStrings
-            for (int j = 0; j < colonnes; ++j) ligne.add(Ihm.COULEUR_FOND_VERT       +
-                    Acteur.SYMBOLE_ZONE_VIDE     +
-                    Ihm.COULEUR_REINITIALISATION);
+            for (int j = 0; j < colonnes; ++j) ligne.add(ZoneVide.AFFICHAGE);
             carteContenu.add(ligne);
         }
 
-        /** Ajout des décors */
+        // TODO(nico): trouver un moyen d'itérer par handle pour ne pas recréer
+        //             les objets à chaque fois, car le foreach de Java est absurde
+        //             en terme de gestion manuelle de la mémoire.
 
-        for (Acteur decor : this.jeu.obtenirDecors()){
+        // Décors.
+        for (Acteur decor : this.jeu.obtenirDecors()) {
             carteContenu.get(decor.obtenirLigne())
-                    .set(decor.obtenirColonne(), decor.toString());
+                        .set(decor.obtenirColonne(),
+                             decor.toString());
         }
 
-        /** Ajout des objets */
-
-        for (Objet objet : this.jeu.obtenirObjets()){
+        // Objets.
+        for (Objet objet : this.jeu.obtenirObjets()) {
             carteContenu.get(objet.obtenirLigne())
-                    .set(objet.obtenirColonne(), objet.toString());
+                        .set(objet.obtenirColonne(),
+                             objet.toString());
         }
 
-        /** Ajout des animaux */
-
-        for (Animal animal : this.jeu.obtenirAnimaux()){
+        // Animaux.
+        for (Animal animal : this.jeu.obtenirAnimaux()) {
             carteContenu.get(animal.obtenirLigne())
-                    .set(animal.obtenirColonne(), animal.toString());
+                        .set(animal.obtenirColonne(),
+                             animal.toString());
         }
 
-        /** Ajout du personnage */
+        // Prédateurs.
+        for (Predateur predateur : this.jeu.obtenirPredateurs()) {
+            carteContenu.get(predateur.obtenirLigne())
+                        .set(predateur.obtenirColonne(),
+                             predateur.toString());
+        }
 
+        // Personnage.
         Personnage personnage = this.jeu.obtenirPersonnage();
         carteContenu.get(personnage.obtenirLigne())
-                .set(personnage.obtenirColonne(), personnage.toString());
+                    .set(personnage.obtenirColonne(),
+                         personnage.toString());
 
+        // Transformer la carte en string
         for (List<String> ligne : carteContenu) {
-            for (String colonne : ligne) affichage += colonne;
+            for (String colonne : ligne) {
+                //noinspection StringConcatenationInLoop
+                affichage += colonne;
+            }
+            //noinspection StringConcatenationInLoop
             affichage += "\n";
         }
 
         // Légende pour les symboles de la carte.
+        String legende = "Légende :\n";
+        legende += "\t" + Personnage.AFFICHAGE + " : personnage\n";
+        legende += "\t" + ZoneVide.AFFICHAGE   + " : zone vide\n";
+        switch (theme) {
+        case FORET:
+            legende += "\t" + Arbre.AFFICHAGE                      + " : arbre";
+            legende += "\t" + Buisson.AFFICHAGE                    + " : buisson\n";
+            legende += "\t" + Gland.AFFICHAGE                      + " : gland\n";
+            legende += "\t" + Champignon.AFFICHAGE                 + " : champignon\n";
+            legende += "\t" + ChampignonVeneneux.AFFICHAGE         + " : champignon vénéneux\n";
+            legende += "\t" + EcureuilAnimalEtatAffame.AFFICHAGE   + " : écureuil affamé\n";
+            legende += "\t" + EcureuilAnimalEtatRassasie.AFFICHAGE + " : écureuil rassasié\n";
+            legende += "\t" + EcureuilAnimalEtatAmi.AFFICHAGE      + " : écureuil ami\n";
+            legende += "\t" + EcureuilAnimalEtatJunkie.AFFICHAGE   + " : écureuil junkie\n";
+            legende += "\t" + EcureuilAnimalEtatPerche.AFFICHAGE   + " : écureuil perché dans un arbre\n";
+            legende += "\t" + EcureuilAnimalEtatCache.AFFICHAGE    + " : écureuil caché dans un buisson\n";
+            // TODO(nico): légende pour le renard et le hibou, et leurs états.
+            break;
+        case JUNGLE:
+            legende += "\t" + Cocotier.AFFICHAGE                + " : cocotier\n";
+            legende += "\t" + PetitRocher.AFFICHAGE             + " : petit rocher\n";
+            legende += "\t" + Banane.AFFICHAGE                  + " : banane\n";
+            legende += "\t" + Champignon.AFFICHAGE              + " : champignon\n";
+            legende += "\t" + ChampignonHallucinogene.AFFICHAGE + " : champignon hallucinogène\n";
+            legende += "\t" + SingeAnimalEtatAffame.AFFICHAGE   + " : singe affamé\n";
+            legende += "\t" + SingeAnimalEtatRassasie.AFFICHAGE + " : singe rassasié\n";
+            legende += "\t" + SingeAnimalEtatAmi.AFFICHAGE      + " : singe ami\n";
+            legende += "\t" + SingeAnimalEtatJunkie.AFFICHAGE   + " : singe junkie\n";
+            legende += "\t" + SingeAnimalEtatPerche.AFFICHAGE   + " : singe perché dans un cocotier\n";
+            legende += "\t" + SingeAnimalEtatCache.AFFICHAGE    + " : singe caché derrière un petit rocher\n";
+            // TODO(nico): légende pour le serpent et le scorpion, et leurs états.
+            break;
+        }
+        affichage += "\n" + legende;
 
         this.ihm.afficherInformation(affichage);
     }
@@ -394,14 +271,8 @@ public class Controleur {
                 this.ihm.afficherInformation(aide);
                 break;
 
-            case "quitter", "q":
-                enCours = false;
-                toursInvalide = false;
-                break;
-
-            case "carte", "c":
-                this.afficherCarte();
-                break;
+            case "quitter", "q": enCours = false; toursInvalide = false; break;
+            case "carte", "c":   this.afficherCarte();                   break;
 
             case "inventaire", "i": {
                 String affichage = "Inventaire :\n";
@@ -431,54 +302,23 @@ public class Controleur {
 
                 this.ihm.afficherInformation(affichage);
             } break;
-
             // Déplacements
-            case "haut", "h":
-                toursInvalide = deplacerJoueur(Position.HAUT);
-                break;
-            case "bas", "b":
-                toursInvalide = deplacerJoueur(Position.BAS);
-                break;
-            case "gauche", "g":
-                toursInvalide = deplacerJoueur(Position.GAUCHE);
-                break;
-            case "droite", "d":
-                toursInvalide = deplacerJoueur(Position.DROITE);
-                break;
-
+            case "haut", "h": toursInvalide = deplacerJoueur(Position.HAUT);     break;
+            case "bas", "b": toursInvalide = deplacerJoueur(Position.BAS);       break;
+            case "gauche", "g": toursInvalide = deplacerJoueur(Position.GAUCHE); break;
+            case "droite", "d": toursInvalide = deplacerJoueur(Position.DROITE); break;
             // Ramasser
-            case "ramasser haut", "rh":
-                toursInvalide = ramasserObjet(Position.HAUT);
-                break;
-            case "ramasser bas", "rb":
-                toursInvalide = ramasserObjet(Position.BAS);
-                break;
-            case "ramasser gauche", "rg":
-                toursInvalide = ramasserObjet(Position.GAUCHE);
-                break;
-            case "ramasser droite", "rd":
-                toursInvalide = ramasserObjet(Position.DROITE);
-                break;
-
+            case "ramasser haut", "rh":   toursInvalide = ramasserObjet(Position.HAUT);   break;
+            case "ramasser bas", "rb":    toursInvalide = ramasserObjet(Position.BAS);    break;
+            case "ramasser gauche", "rg": toursInvalide = ramasserObjet(Position.GAUCHE); break;
+            case "ramasser droite", "rd": toursInvalide = ramasserObjet(Position.DROITE); break;
             // Déposer
-            case "deposer haut","dh":
-                toursInvalide = deposerObjet(Position.HAUT);
-                break;
-            case "deposer bas","db":
-                toursInvalide = deposerObjet(Position.BAS);
-                break;
-            case "deposer gauche","dg":
-                toursInvalide = deposerObjet(Position.GAUCHE);
-                break;
-            case "deposer droite","dd":
-                toursInvalide = deposerObjet(Position.DROITE);
-                break;
-
+            case "deposer haut","dh":   toursInvalide = deposerObjet(Position.HAUT);   break;
+            case "deposer bas","db":    toursInvalide = deposerObjet(Position.BAS);    break;
+            case "deposer gauche","dg": toursInvalide = deposerObjet(Position.GAUCHE); break;
+            case "deposer droite","dd": toursInvalide = deposerObjet(Position.DROITE); break;
             // TODO(nico): mettre un coup à un animal
-
-            default:
-                this.ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");
-                break;
+            default: this.ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel."); break;
             }
 
             if (toursInvalide) continue;

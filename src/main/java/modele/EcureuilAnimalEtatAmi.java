@@ -3,6 +3,7 @@ package modele;
 import vue.Ihm;
 
 public class EcureuilAnimalEtatAmi extends AnimalEtat {
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + Ecureuil.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
     private static EcureuilAnimalEtatAmi instance; // Singleton
     private EcureuilAnimalEtatAmi() { super(AnimalEtat.ETAT_AMI); }
 
@@ -24,6 +25,6 @@ public class EcureuilAnimalEtatAmi extends AnimalEtat {
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + Ecureuil.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+        return EcureuilAnimalEtatAmi.AFFICHAGE;
     }
 }

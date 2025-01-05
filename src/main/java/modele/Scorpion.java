@@ -4,6 +4,7 @@ import vue.Ihm;
 
 public class Scorpion extends Predateur {
     public static final char SYMBOLE = 'X';
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_BLANC + Scorpion.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 
     private ScorpionEtat etat = ScorpionEtatMouvement.obtenirInstance();
 
@@ -26,6 +27,6 @@ public class Scorpion extends Predateur {
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_BLANC + Scorpion.SYMBOLE + Ihm.COULEUR_REINITIALISATION; // TODO(nico): toString sur les Etats ?
+        return Scorpion.AFFICHAGE; // TODO(nico): toString sur les Etats ?
     }
 }

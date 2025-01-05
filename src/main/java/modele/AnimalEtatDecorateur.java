@@ -1,7 +1,6 @@
 package modele;
 
 public class AnimalEtatDecorateur extends AnimalEtat {
-
     protected AnimalEtat animalEtat;
 
     protected AnimalEtatDecorateur(AnimalEtat animalEtat) {

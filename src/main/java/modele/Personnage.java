@@ -5,6 +5,7 @@ import vue.Ihm;
 /** Le joueur sur la carte. */
 public class Personnage extends Acteur {
     public static final char SYMBOLE = '@';
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_VIOLET + Personnage.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 
     private int sante; // La santé du joueur, entre 0 et 100.
 
@@ -27,6 +28,6 @@ public class Personnage extends Acteur {
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_VIOLET + Personnage.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+        return Personnage.AFFICHAGE;
     }
 }

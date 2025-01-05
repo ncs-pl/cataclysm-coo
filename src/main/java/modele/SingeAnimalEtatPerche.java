@@ -3,6 +3,9 @@ package modele;
 import vue.Ihm;
 
 public class SingeAnimalEtatPerche extends AnimalEtatDecorateur {
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VERT + Singe.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+
+
     public SingeAnimalEtatPerche(AnimalEtat animalEtat) {
         super(animalEtat);
     }
@@ -15,9 +18,6 @@ public class SingeAnimalEtatPerche extends AnimalEtatDecorateur {
 
     @Override
     public String toString() {
-        String temp = super.toString();
-        return temp.substring(0, 5) +
-                Ihm.COULEUR_VERT +
-                temp.substring(10); // TODO(nico): utiliser Singe.SYMBOLE
+        return SingeAnimalEtatPerche.AFFICHAGE;
     }
 }

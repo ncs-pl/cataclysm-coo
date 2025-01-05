@@ -5,6 +5,7 @@ import vue.Ihm;
 /** Un gland pouvant nourrir les écureuils. */
 public class Gland extends Objet {
     public static final char SYMBOLE = 'G';
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_JAUNE + Gland.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 
     public Gland(int ligne, int colonne, int maxLigne, int maxColonne) {
         super(Acteur.TYPE_GLAND, ligne, colonne, maxLigne, maxColonne);
@@ -12,6 +13,6 @@ public class Gland extends Objet {
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_JAUNE + Gland.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+        return Gland.AFFICHAGE;
     }
 }

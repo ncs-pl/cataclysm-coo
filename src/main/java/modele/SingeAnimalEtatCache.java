@@ -3,8 +3,9 @@ package modele;
 import vue.Ihm;
 
 public class SingeAnimalEtatCache extends AnimalEtat {
-    private static SingeAnimalEtatCache instance; // Singleton
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE + Singe.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 
+    private static SingeAnimalEtatCache instance; // Singleton
     private SingeAnimalEtatCache() {
         super(AnimalEtat.ETAT_CACHE);
     }
@@ -27,6 +28,6 @@ public class SingeAnimalEtatCache extends AnimalEtat {
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE + Singe.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+        return SingeAnimalEtatCache.AFFICHAGE;
     }
 }
