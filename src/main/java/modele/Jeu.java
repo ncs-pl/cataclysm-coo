@@ -248,6 +248,10 @@ public class Jeu {
             if (colonne == o.obtenirColonne() && ligne == o.obtenirLigne()) return false;
         }
 
+        for (Predateur p : this.predateurs) {
+            if (colonne == p.obtenirColonne() && ligne == p.obtenirLigne()) return false;
+        }
+
         return true;
     }
 
