@@ -10,6 +10,7 @@ public interface ActeurAbstractFactory {
                        int colonne,
                        int maxLignes,
                        int maxColonnes); // Créer un acteur décoratif.
+
     Acteur creerDecor2(int ligne,
                        int colonne,
                        int maxLignes,
@@ -19,10 +20,12 @@ public interface ActeurAbstractFactory {
                             int colonne,
                             int maxLignes,
                             int maxColonnes); // Créer un acteur consommable
+
     Objet creerObjetChampignon(int ligne,
                                int colonne,
                                int maxLignes,
                                int maxColonnes); // Créer un acteur champignon
+
     Objet creerObjetChampignonDrogue(int ligne,
                                      int colonne,
                                      int maxLignes,
@@ -32,6 +35,7 @@ public interface ActeurAbstractFactory {
                               int colonne,
                               int maxLignes,
                               int maxColonnes); // Créer le premier type de prédateur.
+
     Predateur creerPredateur2(int ligne,
                               int colonne,
                               int maxLignes,
@@ -41,4 +45,15 @@ public interface ActeurAbstractFactory {
                                int colonne,
                                int maxLignes,
                                int maxColonnes); // Créer le personnage.
+
+    ZoneVide creerZoneVide(int ligne,
+                           int colonne,
+                           int maxLignes,
+                           int maxColonnes); // Créer une zone vide.
+
+    Acteur creerParSymbole(char symbole,
+                           int ligne,
+                           int colonne,
+                           int maxLignes,
+                           int maxColonnes); // Créer l'acteur selon le symbole Carte lu.
 }
