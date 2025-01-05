@@ -18,6 +18,10 @@ public abstract class Acteur {
     public static final int TYPE_CHAMPIGNON_VENENEUX = 11;
     public static final int TYPE_RENARD = 12;
     public static final int TYPE_HIBOU = 13;
+    public static final int TYPE_SERPENT = 14;
+    public static final int TYPE_SCORPION = 15;
+    public static final int TYPE_CHAMPIGNON_HALLUCINOGENE = 16;
+
 
 
     private final int type; // Identifiant numérique du type d'acteur.

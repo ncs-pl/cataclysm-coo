@@ -34,6 +34,12 @@ public class Carte {
     public static final char SYMBOLE_RENARD              = 'R';
     public static final char SYMBOLE_HIBOU               = 'H';
     public static final char SYMBOLE_CHAMPIGNON_VENENEUX = 'M';
+    public static final char SYMBOLE_CHAMPIGNON_HALLUCINOGENE = 'T';
+    public static final char SYMBOLE_SERPENT               = 'Z';
+
+    public static final char SYMBOLE_SCORPION              = 'X';
+
+
 
     private final String nom;           // Nom de la carte
     private final JeuTheme theme;       // Thème de la carte
@@ -135,11 +141,13 @@ public class Carte {
                 case Carte.SYMBOLE_ECUREUIL:            acteur = new Ecureuil(i, j, this.lignes, this.colonnes);           break;
                 case Carte.SYMBOLE_RENARD:              acteur = new Renard(i, j, this.lignes, this.colonnes);             break;
                 case Carte.SYMBOLE_HIBOU:               acteur = new Hibou(i, j, this.lignes, this.colonnes);              break;
+                case Carte.SYMBOLE_SERPENT:             acteur = new Serpent(i, j, this.lignes, this.colonnes);          break; case Carte.SYMBOLE_SCORPION:               acteur = new Scorpion(i, j, this.lignes, this.colonnes);              break;
                 case Carte.SYMBOLE_SINGE:               acteur = new Singe(i, j, this.lignes, this.colonnes);              break;
                 case Carte.SYMBOLE_GLAND:               acteur = new Gland(i, j, this.lignes, this.colonnes);              break;
                 case Carte.SYMBOLE_BANANE:              acteur = new Banane(i, j, this.lignes, this.colonnes);             break;
                 case Carte.SYMBOLE_CHAMPIGNON:          acteur = new Champignon(i, j, this.lignes, this.colonnes);         break;
                 case Carte.SYMBOLE_CHAMPIGNON_VENENEUX: acteur = new ChampignonVeneneux(i, j, this.lignes, this.colonnes); break;
+                case Carte.SYMBOLE_CHAMPIGNON_HALLUCINOGENE: acteur = new ChampignonHallucinogene(i, j, this.lignes, this.colonnes); break;
                 case Carte.SYMBOLE_PETIT_ROCHER:        acteur = new PetitRocher(i, j, this.lignes, this.colonnes);        break;
                 case Carte.SYMBOLE_COCOTIER:            acteur = new Cocotier(i, j, this.lignes, this.colonnes);           break;
                 case Carte.SYMBOLE_ARBRE:               acteur = new Arbre(i, j, this.lignes, this.colonnes);              break;
