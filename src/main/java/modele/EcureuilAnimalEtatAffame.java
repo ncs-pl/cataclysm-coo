@@ -42,7 +42,7 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
             animal.changerColonne(nourriture.obtenirColonne());
             jeu.supprimerObjet(nourriture);
 
-            if (cVeneneux != null){
+            if (cVeneneux == nourriture){
                 animal.changerEtat(EcureuilAnimalEtatJunkie.obtenirInstance());
             } else {
                 animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
