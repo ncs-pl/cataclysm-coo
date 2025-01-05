@@ -38,6 +38,24 @@ public class Controleur {
     private static final String STRING_SCORPION                 = Ihm.COULEUR_FOND_ROUGE  + Ihm.COULEUR_BLANC  + Carte.SYMBOLE_SCORPION                 + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_CHAMPIGNON_HALLUCINOGENE = Ihm.COULEUR_FOND_BLEU                        + Carte.SYMBOLE_CHAMPIGNON_HALLUCINOGENE + Ihm.COULEUR_REINITIALISATION;
 
+    private static final String STRING_SERPENT =
+            Ihm.COULEUR_FOND_BLANC +
+            Ihm.COULEUR_NOIR +
+            Carte.SYMBOLE_SERPENT +
+            Ihm.COULEUR_REINITIALISATION;
+
+    private static final String STRING_SCORPION =
+            Ihm.COULEUR_FOND_ROUGE +
+            Ihm.COULEUR_BLANC +
+            Carte.SYMBOLE_SCORPION +
+            Ihm.COULEUR_REINITIALISATION;
+
+    private static final String STRING_CHAMPIGNON_HALLUCINOGENE =
+            Ihm.COULEUR_FOND_BLEU +
+            Carte.SYMBOLE_CHAMPIGNON_HALLUCINOGENE +
+            Ihm.COULEUR_REINITIALISATION;
+
+
     private final Ihm ihm; // Interface de jeu
     private Jeu jeu;       // Partie en cours
 
@@ -149,6 +167,8 @@ public class Controleur {
             String s = Controleur.STRING_INCONNU;
             switch (predateur.obtenirType()){
                 case Acteur.TYPE_RENARD : s = STRING_RENARD;   break;
+                case Acteur.TYPE_SERPENT : s = STRING_SERPENT;   break;
+                case Acteur.TYPE_SCORPION : s = STRING_SCORPION;   break;
                 case Acteur.TYPE_HIBOU : s = STRING_HIBOU;     break;
                 default:
                     this.ihm.afficherErreur("Prédateur inconnu : " + predateur);
@@ -181,6 +201,7 @@ public class Controleur {
             case Acteur.TYPE_BANANE:     s = Controleur.STRING_BANANE;     break;
             case Acteur.TYPE_CHAMPIGNON: s = Controleur.STRING_CHAMPIGNON; break;
             case Acteur.TYPE_CHAMPIGNON_VENENEUX: s = Controleur.STRING_CHAMPIGNON_VENENEUX; break;
+                case Acteur.TYPE_CHAMPIGNON_HALLUCINOGENE: s = Controleur.STRING_CHAMPIGNON_HALLUCINOGENE; break;
             case Acteur.TYPE_GLAND:      s = Controleur.STRING_GLAND;      break;
             default:
                 this.ihm.afficherErreur("Objet inconnu : " + objet);

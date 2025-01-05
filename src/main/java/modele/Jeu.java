@@ -45,6 +45,13 @@ public class Jeu {
                     this.objets.add((Objet) acteur);
                     break;
                 case Acteur.TYPE_CHAMPIGNON_VENENEUX:
+                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Champignon véneneux en dehors de la forêt");
+
+                    this.objets.add((Objet) acteur);
+                    break;
+                case Acteur.TYPE_CHAMPIGNON_HALLUCINOGENE:
+                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Champignon hallucinogène en dehors de la jungle");
+
                     this.objets.add((Objet) acteur);
                     break;
                 case Acteur.TYPE_GLAND:
@@ -73,6 +80,16 @@ public class Jeu {
                     break;
                 case Acteur.TYPE_HIBOU:
                     if (theme != JeuTheme.FORET) throw new CarteInvalideException("Hibou en dehors de la forêt");
+
+                    this.predateurs.add((Predateur) acteur);
+                    break;
+                case Acteur.TYPE_SERPENT:
+                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Serpent en dehors de la jungle");
+
+                    this.predateurs.add((Predateur) acteur);
+                    break;
+                case Acteur.TYPE_SCORPION:
+                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Scorpion en dehors de la jungle");
 
                     this.predateurs.add((Predateur) acteur);
                     break;
