@@ -10,21 +10,29 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Représentation d'un fichier de carte et son format, dans l'objet d'être
  * utilisé par le jeu pour construire son game state initial
  */
 public class Carte {
+    /* TODO(nico): vérifier les toString
+    public static final char SYMBOLE_SCORPION                 = 'X';
+    public static final char SYMBOLE_SERPENT                  = 'Z';
+    public static final char SYMBOLE_CHAMPIGNON_HALLUCINOGENE = 'T';
+    */
 
-    private final String nom;                 // Nom de la carte
-    private final JeuTheme theme;             // Thème de la carte
-    private final int lignes;                 // Nombre de lignes
-    private final int colonnes;               // Nombre de colonnes
+    private final JeuTheme theme; // Thème de la carte
+    private final int lignes;     // Nombre de lignes
+    private final int colonnes;   // Nombre de colonnes
+
     private List<List<Acteur>> contenu; // Contenu même de la carte.
 
-    @SuppressWarnings("ExtractMethodRecommender")
+    private final ActeurAbstractFactory factory; // Factory de création.
+
     public Carte(String nom) throws IOException, CarteInvalideException {
         // Chercher le fichier carte
         // Pour obtenir des fichiers qui sont dans le dossier "resources" en Java, on récupère leur URL depuis
@@ -38,8 +46,6 @@ public class Carte {
         } catch (URISyntaxException e) {
             throw new CarteInvalideException("Nom de carte invalide.");
         }
-
-        this.nom = nom;
 
         // Lire le fichier carte
         BufferedReader reader = new BufferedReader(new FileReader(fichier));
@@ -58,8 +64,8 @@ public class Carte {
         if (ligneTheme == null) throw new CarteInvalideException("La fichier de carte ne contient pas de thème.");
 
         switch (ligneTheme.toLowerCase()) {
-        case "f": this.theme = JeuTheme.FORET;  break;
-        case "j": this.theme = JeuTheme.JUNGLE; break;
+        case "f": this.theme = JeuTheme.FORET;  this.factory = ActeurForetFactory.getInstance();  break;
+        case "j": this.theme = JeuTheme.JUNGLE; this.factory = ActeurJungleFactory.getInstance(); break;
         default:  throw new CarteInvalideException("Thème '" + ligneTheme + "' invalide.");
         }
 
@@ -69,27 +75,22 @@ public class Carte {
         if (ligneLignes == null) throw new CarteInvalideException("La fichier de carte ne contient pas de nombre de lignes.");
 
         int lignes;
-        try {
-            lignes = Integer.parseInt(ligneLignes);
-        } catch (NumberFormatException e) {
-            throw new CarteInvalideException("Le nombre de lignes n'est pas un entier.");
-        }
+        try                             { lignes = Integer.parseInt(ligneLignes);                                       }
+        catch (NumberFormatException e) { throw new CarteInvalideException("Le nombre de lignes n'est pas un entier."); }
 
         if (lignes <= 0)   throw new CarteInvalideException("Nombre de lignes nul ou négatif interdit.");
         if (lignes > 1024) throw new CarteInvalideException("Nombre de lignes dépassant 1024 interdit.");
         this.lignes = lignes;
 
+
         // Nombre de colonnes
 
         String ligneColonnes = reader.readLine();
-        if (ligneColonnes == null)
-            throw new CarteInvalideException("La fichier de carte ne contient pas de nombre de colonnes.");
+        if (ligneColonnes == null) throw new CarteInvalideException("La fichier de carte ne contient pas de nombre de colonnes.");
+
         int colonnes;
-        try {
-            colonnes = Integer.parseInt(ligneColonnes);
-        } catch (NumberFormatException e) {
-            throw new CarteInvalideException("Le nombre de colonnes n'est pas un entier.");
-        }
+        try                             { colonnes = Integer.parseInt(ligneColonnes);                                     }
+        catch (NumberFormatException e) { throw new CarteInvalideException("Le nombre de colonnes n'est pas un entier."); }
 
         if (colonnes <= 0)   throw new CarteInvalideException("Nombre de colonnes nul ou négatif interdit.");
         if (colonnes > 1024) throw new CarteInvalideException("Nombre de colonnes dépassant 1024 interdit.");
@@ -111,74 +112,7 @@ public class Carte {
                     throw new CarteInvalideException("Contenu ayant moins de colonnes qu'annoncé.");
                 }
 
-                // TODO(nico): factory pattern?
-                Acteur acteur = null;
-                switch (symbole) {
-                case Acteur.SYMBOLE_PERSONNAGE:
-                    acteur = new Personnage(i, j, this.lignes, this.colonnes);
-                    break;
-                case Acteur.SYMBOLE_ECUREUIL:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Ecureuil(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Acteur.SYMBOLE_RENARD:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Renard(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Acteur.SYMBOLE_HIBOU:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Hibou(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Acteur.SYMBOLE_SINGE:
-                    if (this.theme == JeuTheme.JUNGLE) {
-                        acteur = new Singe(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Acteur.SYMBOLE_GLAND:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Gland(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Acteur.SYMBOLE_BANANE:
-                    if (this.theme == JeuTheme.JUNGLE) {
-                        acteur = new Banane(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Acteur.SYMBOLE_CHAMPIGNON:
-                    acteur = new Champignon(i, j, this.lignes, this.colonnes);
-                    break;
-                    case Acteur.SYMBOLE_CHAMPIGNON_VENENEUX:
-                    acteur = new ChampignonVeneneux(i, j, this.lignes, this.colonnes);
-                    break;
-                case Acteur.SYMBOLE_PETIT_ROCHER:
-                    if (this.theme == JeuTheme.JUNGLE) {
-                        acteur = new PetitRocher(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Acteur.SYMBOLE_COCOTIER:
-                    if(this.theme == JeuTheme.JUNGLE) {
-                        acteur = new Cocotier(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Acteur.SYMBOLE_ARBRE:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Arbre(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Acteur.SYMBOLE_BUISSON:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Buisson(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Acteur.SYMBOLE_ZONE_VIDE:
-                    acteur = new ZoneVide(i, j, this.lignes, this.colonnes);
-                    break;
-                default:
-                    break;
-                }
+                Acteur acteur = this.factory.creerParSymbole(symbole, i, j, this.lignes, this.colonnes);
                 if (acteur == null) throw new CarteInvalideException("Contenu ayant des caractères illégaux.");
                 acteurs.add(j, acteur);
             }
@@ -187,90 +121,97 @@ public class Carte {
         }
     }
 
-    public Carte(String nom,
-                 JeuTheme theme,
+    public Carte(JeuTheme theme,
                  int lignes,
                  int colonnes,
                  List<List<Acteur>> contenu) {
-        this.nom = nom;
-        this.theme = theme;
-        this.lignes = lignes;
+        this.theme    = theme;
+        this.lignes   = lignes;
         this.colonnes = colonnes;
-        this.contenu = contenu;
+        this.contenu  = contenu;
+        this.factory  = theme == JeuTheme.FORET ? ActeurForetFactory.getInstance() : ActeurJungleFactory.getInstance();
     }
 
-    public JeuTheme obtenirTheme() {
-        return this.theme;
-    }
+    public JeuTheme           obtenirTheme()    { return this.theme;    }
+    public int                obtenirLignes()   { return this.lignes;   }
+    public int                obtenirColonnes() { return this.colonnes; }
+    public List<List<Acteur>> obtenirContenu()  { return this.contenu;  }
 
-    public int obtenirLignes() {
-        return this.lignes;
-    }
-
-    public int obtenirColonnes() {
-        return this.colonnes;
-    }
-
-    public List<List<Acteur>> obtenirContenu() {
-        return this.contenu;
-    }
-
-//    public void sauvegarderFichier() {
-//        // TODO(nico): possibilité de sauvegarder la carte dans un fichier
-//        System.out.println(this.nom);
-//        throw new RuntimeException("Unimplemented");
-//    }
-
-    @SuppressWarnings("EnhancedSwitchMigration")
     public void genererContenuAleatoire() {
         this.contenu = new ArrayList<>(this.colonnes);
+        Random generateur = new Random(new Date().getTime());
+
+        // Initialisation du buffer avec des zones vides.
         for (int lig = 0; lig < this.lignes; ++lig) {
             List<Acteur> ligne = new ArrayList<>(this.colonnes);
-            for (int col = 0; col < this.colonnes; ++col) {
-                ZoneVide vide = new ZoneVide(lig, col, this.lignes, this.colonnes);
-                ligne.add(vide);
-            }
+            for (int col = 0; col < this.colonnes; ++col) ligne.add(this.factory.creerZoneVide(lig, col, this.lignes, this.colonnes));
             this.contenu.add(ligne);
         }
 
+        // Bordures supérieures et inférieures de la carte dans le buffer.
         for (int col = 0; col < this.colonnes; ++col) {
-            Acteur haut;
-            Acteur bas;
-            switch (this.theme) {
-            case FORET:
-                haut = new Arbre(0, col, this.lignes, this.colonnes);
-                bas = new Arbre(this.lignes-1, col, this.lignes, this.colonnes);
-                break;
-            case JUNGLE:
-                haut = new Cocotier(0, col, this.lignes, this.colonnes);
-                bas = new Cocotier(this.lignes-1, col, this.lignes, this.colonnes);
-                break;
-            default:
-                throw new CarteInvalideException("Thème \"" + this.theme + "\" inconnu.");
-            }
-            this.contenu.get(0).set(col, haut);
-            this.contenu.get(this.lignes-1).set(col, bas);
+            this.contenu.get(0).set(col,             this.factory.creerDecor1(0, col, this.lignes, this.colonnes));
+            this.contenu.get(this.lignes-1).set(col, this.factory.creerDecor1(this.lignes-1, col, this.lignes, this.colonnes));
         }
 
+        // Bordures gauches et droites de la carte dans le buffer.
         for (int lig = 0; lig < lignes; ++lig) {
-            Acteur gauche;
-            Acteur droite;
-            switch (this.theme) {
-            case FORET:
-                gauche = new Arbre(lig, 0, this.lignes, this.colonnes);
-                droite = new Arbre(lig, this.colonnes-1, this.lignes, this.colonnes);
-                break;
-            case JUNGLE:
-                gauche = new Cocotier(lig, 0, this.lignes, this.colonnes);
-                droite = new Cocotier(lig, this.colonnes-1, this.lignes, this.colonnes);
-                break;
-            default:
-                throw new CarteInvalideException("Thème \"" + this.theme + "\" inconnu.");
-            }
-            this.contenu.get(lig).set(0, gauche);
-            this.contenu.get(lig).set(this.colonnes-1, droite);
+            this.contenu.get(lig).set(0,               this.factory.creerDecor1(lig, 0, this.lignes, this.colonnes));
+            this.contenu.get(lig).set(this.colonnes-1, this.factory.creerDecor1(lig, this.colonnes-1, this.lignes, this.colonnes));
         }
 
-        this.contenu.get(1).set(1, new Personnage(1, 1, lignes, colonnes));
+        // Spawn de quelques animaux sur la carte.
+        for (int i = 0; i < Math.ceil((double) (this.lignes + this.colonnes) /10); i++) {
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+            this.contenu.get(ligne).set(colonne, this.factory.creerAnimal(ligne, colonne, this.lignes, this.colonnes));
+        }
+
+        // Spawn de quelques prédateurs sur la carte.
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+            this.contenu.get(ligne).set(colonne, i%2 == 0 ? this.factory.creerPredateur1(ligne, colonne, this.lignes, this.colonnes)
+                                                          : this.factory.creerPredateur2(ligne, colonne, this.lignes, this.colonnes));
+        }
+
+        // Spawn de quelques décorations sur la carte.
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+            this.contenu.get(ligne).set(colonne, i%2 == 0 ? this.factory.creerDecor1(ligne, colonne, this.lignes, this.colonnes)
+                                                          : this.factory.creerDecor2(ligne, colonne, this.lignes, this.colonnes));
+        }
+
+        // Spawn de quelques objets sur la carte.
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+            this.contenu.get(ligne).set(colonne, i%2 == 0 ? this.factory.creerObjetAliment(ligne, colonne, this.lignes, this.colonnes)
+                                                          : this.factory.creerObjetChampignon(ligne, colonne, this.lignes, this.colonnes));
+        }
+
+        // Spawn de quelques champignons dangereux.
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+            this.contenu.get(ligne).set(colonne, this.factory.creerObjetChampignonDrogue(ligne, colonne, this.lignes, this.colonnes));
+        }
+
+        // TODO(nico): ajouter des pierres précieuses.
+
+        // Spawn du personnage en un point aléatoire
+        while (true) {
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+            this.contenu.get(1).set(1, new Personnage(1, 1, lignes, colonnes));
+            break;
+        }
     }
 }
