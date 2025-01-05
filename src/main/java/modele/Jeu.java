@@ -341,8 +341,8 @@ public class Jeu {
             int aColonne = a.obtenirColonne();
             if (aLigne >= ligne - 3     && aLigne <= ligne + 3   &&
                 aColonne >= colonne - 3 && aColonne <= colonne + 3) {
-                if (a.obtenirEtat() != EcureuilAnimalEtatCache.obtenirInstance()  &&
-                    a.obtenirEtat() != EcureuilAnimalEtatPerche.obtenirInstance())  return a;
+                if (!(a.obtenirEtat() instanceof EcureuilAnimalEtatCache ||
+                    a.obtenirEtat() instanceof EcureuilAnimalEtatPerche))  return a;
             }
         }
         return null;
