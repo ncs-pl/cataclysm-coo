@@ -10,35 +10,35 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Représentation d'un fichier de carte et son format, dans l'objet d'être
  * utilisé par le jeu pour construire son game state initial
  */
 public class Carte {
-    public static final char SYMBOLE_INCONNU      = '?';
-    public static final char SYMBOLE_PERSONNAGE   = '@';
-    public static final char SYMBOLE_ZONE_VIDE    = '.';
-    public static final char SYMBOLE_ARBRE        = 'A';
-    public static final char SYMBOLE_BUISSON      = 'B';
-    public static final char SYMBOLE_COCOTIER     = 'P';
-    public static final char SYMBOLE_PETIT_ROCHER = 'O';
-    public static final char SYMBOLE_BANANE       = 'N';
-    public static final char SYMBOLE_CHAMPIGNON   = 'C';
-    public static final char SYMBOLE_GLAND        = 'G';
-    public static final char SYMBOLE_ECUREUIL     = 'E';
-    public static final char SYMBOLE_SINGE        = 'S';
-    public static final char SYMBOLE_RENARD       = 'R';
-    public static final char SYMBOLE_HIBOU        = 'H';
-    public static final char SYMBOLE_CHAMPIGNON_VENENEUX   = 'M';
+    public static final char SYMBOLE_INCONNU             = '?';
+    public static final char SYMBOLE_PERSONNAGE          = '@';
+    public static final char SYMBOLE_ZONE_VIDE           = '.';
+    public static final char SYMBOLE_ARBRE               = 'A';
+    public static final char SYMBOLE_BUISSON             = 'B';
+    public static final char SYMBOLE_COCOTIER            = 'P';
+    public static final char SYMBOLE_PETIT_ROCHER        = 'O';
+    public static final char SYMBOLE_BANANE              = 'N';
+    public static final char SYMBOLE_CHAMPIGNON          = 'C';
+    public static final char SYMBOLE_GLAND               = 'G';
+    public static final char SYMBOLE_ECUREUIL            = 'E';
+    public static final char SYMBOLE_SINGE               = 'S';
+    public static final char SYMBOLE_RENARD              = 'R';
+    public static final char SYMBOLE_HIBOU               = 'H';
+    public static final char SYMBOLE_CHAMPIGNON_VENENEUX = 'M';
 
-
-
-    private final String nom;                 // Nom de la carte
-    private final JeuTheme theme;             // Thème de la carte
-    private final int lignes;                 // Nombre de lignes
-    private final int colonnes;               // Nombre de colonnes
+    private final String nom;           // Nom de la carte
+    private final JeuTheme theme;       // Thème de la carte
+    private final int lignes;           // Nombre de lignes
+    private final int colonnes;         // Nombre de colonnes
     private List<List<Acteur>> contenu; // Contenu même de la carte.
 
     @SuppressWarnings("ExtractMethodRecommender")
@@ -131,70 +131,21 @@ public class Carte {
                 // TODO(nico): factory pattern?
                 Acteur acteur = null;
                 switch (symbole) {
-                case Carte.SYMBOLE_PERSONNAGE:
-                    acteur = new Personnage(i, j, this.lignes, this.colonnes);
-                    break;
-                case Carte.SYMBOLE_ECUREUIL:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Ecureuil(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Carte.SYMBOLE_RENARD:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Renard(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Carte.SYMBOLE_HIBOU:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Hibou(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Carte.SYMBOLE_SINGE:
-                    if (this.theme == JeuTheme.JUNGLE) {
-                        acteur = new Singe(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Carte.SYMBOLE_GLAND:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Gland(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Carte.SYMBOLE_BANANE:
-                    if (this.theme == JeuTheme.JUNGLE) {
-                        acteur = new Banane(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Carte.SYMBOLE_CHAMPIGNON:
-                    acteur = new Champignon(i, j, this.lignes, this.colonnes);
-                    break;
-                    case Carte.SYMBOLE_CHAMPIGNON_VENENEUX:
-                    acteur = new ChampignonVeneneux(i, j, this.lignes, this.colonnes);
-                    break;
-                case Carte.SYMBOLE_PETIT_ROCHER:
-                    if (this.theme == JeuTheme.JUNGLE) {
-                        acteur = new PetitRocher(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Carte.SYMBOLE_COCOTIER:
-                    if(this.theme == JeuTheme.JUNGLE) {
-                        acteur = new Cocotier(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Carte.SYMBOLE_ARBRE:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Arbre(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Carte.SYMBOLE_BUISSON:
-                    if (this.theme == JeuTheme.FORET) {
-                        acteur = new Buisson(i, j, this.lignes, this.colonnes);
-                    }
-                    break;
-                case Carte.SYMBOLE_ZONE_VIDE:
-                    acteur = new ZoneVide(i, j, this.lignes, this.colonnes);
-                    break;
-                default:
-                    break;
+                case Carte.SYMBOLE_PERSONNAGE:          acteur = new Personnage(i, j, this.lignes, this.colonnes);         break;
+                case Carte.SYMBOLE_ECUREUIL:            acteur = new Ecureuil(i, j, this.lignes, this.colonnes);           break;
+                case Carte.SYMBOLE_RENARD:              acteur = new Renard(i, j, this.lignes, this.colonnes);             break;
+                case Carte.SYMBOLE_HIBOU:               acteur = new Hibou(i, j, this.lignes, this.colonnes);              break;
+                case Carte.SYMBOLE_SINGE:               acteur = new Singe(i, j, this.lignes, this.colonnes);              break;
+                case Carte.SYMBOLE_GLAND:               acteur = new Gland(i, j, this.lignes, this.colonnes);              break;
+                case Carte.SYMBOLE_BANANE:              acteur = new Banane(i, j, this.lignes, this.colonnes);             break;
+                case Carte.SYMBOLE_CHAMPIGNON:          acteur = new Champignon(i, j, this.lignes, this.colonnes);         break;
+                case Carte.SYMBOLE_CHAMPIGNON_VENENEUX: acteur = new ChampignonVeneneux(i, j, this.lignes, this.colonnes); break;
+                case Carte.SYMBOLE_PETIT_ROCHER:        acteur = new PetitRocher(i, j, this.lignes, this.colonnes);        break;
+                case Carte.SYMBOLE_COCOTIER:            acteur = new Cocotier(i, j, this.lignes, this.colonnes);           break;
+                case Carte.SYMBOLE_ARBRE:               acteur = new Arbre(i, j, this.lignes, this.colonnes);              break;
+                case Carte.SYMBOLE_BUISSON:             acteur = new Buisson(i, j, this.lignes, this.colonnes);            break;
+                case Carte.SYMBOLE_ZONE_VIDE:           acteur = new ZoneVide(i, j, this.lignes, this.colonnes);           break;
+                default:                                                                                                   break;
                 }
                 if (acteur == null) throw new CarteInvalideException("Contenu ayant des caractères illégaux.");
                 acteurs.add(j, acteur);
@@ -241,6 +192,9 @@ public class Carte {
     @SuppressWarnings("EnhancedSwitchMigration")
     public void genererContenuAleatoire() {
         this.contenu = new ArrayList<>(this.colonnes);
+        Random generateur = new Random(new Date().getTime());
+
+        // Initialisation du buffer avec des zones vides.
         for (int lig = 0; lig < this.lignes; ++lig) {
             List<Acteur> ligne = new ArrayList<>(this.colonnes);
             for (int col = 0; col < this.colonnes; ++col) {
@@ -250,6 +204,7 @@ public class Carte {
             this.contenu.add(ligne);
         }
 
+        // Bordures supérieures et inférieures de la carte dans le buffer.
         for (int col = 0; col < this.colonnes; ++col) {
             Acteur haut;
             Acteur bas;
@@ -269,6 +224,7 @@ public class Carte {
             this.contenu.get(this.lignes-1).set(col, bas);
         }
 
+        // Bordures gauches et droites de la carte dans le buffer.
         for (int lig = 0; lig < lignes; ++lig) {
             Acteur gauche;
             Acteur droite;
@@ -288,6 +244,100 @@ public class Carte {
             this.contenu.get(lig).set(this.colonnes-1, droite);
         }
 
-        this.contenu.get(1).set(1, new Personnage(1, 1, lignes, colonnes));
+        // Spawn de quelques animaux sur la carte.
+        for (int i = 0; i < Math.ceil((double) (this.lignes + this.colonnes) /10); i++) {
+            Animal animal;
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+
+            switch (this.theme) {
+            case FORET:  animal = new Ecureuil(ligne, colonne, this.lignes, this.colonnes); break;
+            case JUNGLE: animal = new Singe(ligne, colonne, this.lignes, this.colonnes);    break;
+            default:     throw new CarteInvalideException("Thème \"" + this.theme + "\" inconnu.");
+            }
+
+            this.contenu.get(ligne).set(colonne, animal);
+        }
+
+        // Spawn de quelques prédateurs sur la carte.
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+            Predateur predateur;
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+
+            switch (this.theme) { // TODO(nico): importer Serpent et Scorpion lorsqu'ils seront crées par Younes.
+            case FORET:  predateur = i%2 == 0 ? new Renard(ligne, colonne, this.lignes, this.colonnes)  : new Hibou(ligne, colonne, this.lignes, this.colonnes);    break;
+            case JUNGLE: predateur = i%2 == 0 ? new Serpent(ligne, colonne, this.lignes, this.colonnes) : new Scorpion(ligne, colonne, this.lignes, this.colonnes); break;
+            default:     throw new CarteInvalideException("Thème \"" + this.theme + "\" inconnu.");
+            }
+
+            this.contenu.get(ligne).set(colonne, predateur);
+        }
+
+        // Spawn de quelques décorations sur la carte.
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+            Acteur decoration;
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+
+            switch (this.theme) {
+            case FORET:  decoration = i%2 == 0 ? new Arbre(ligne, colonne, this.lignes, this.colonnes)    : new Buisson(ligne, colonne, this.lignes, this.colonnes);     break;
+            case JUNGLE: decoration = i%2 == 0 ? new Cocotier(ligne, colonne, this.lignes, this.colonnes) : new PetitRocher(ligne, colonne, this.lignes, this.colonnes); break;
+            default:     throw new CarteInvalideException("Thème \"" + this.theme + "\" inconnu.");
+            }
+
+            this.contenu.get(ligne).set(colonne, decoration);
+        }
+
+        // Spawn de quelques objets sur la carte.
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+            Objet objet;
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+
+            switch (this.theme) {
+            case FORET:  objet = i%2 == 0 ? new Gland(ligne, colonne, this.lignes, this.colonnes)  : new Champignon(ligne, colonne, this.lignes, this.colonnes);    break;
+            case JUNGLE: objet = i%2 == 0 ? new Banane(ligne, colonne, this.lignes, this.colonnes) : new Champignon(ligne, colonne, this.lignes, this.colonnes); break;
+            default:     throw new CarteInvalideException("Thème \"" + this.theme + "\" inconnu.");
+            }
+
+            this.contenu.get(ligne).set(colonne, objet);
+        }
+
+        // Spawn de quelques champignons dangereux.
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+            Objet champi;
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+
+            switch (this.theme) { // TODO(nico): importer ChampignonHallucinogene lorsque Younes l'aura crée.
+            case FORET:  champi = new ChampignonVeneneux(ligne, colonne, this.lignes, this.colonnes);  break;
+            case JUNGLE: champi = new ChampignonHallucinogene(ligne, colonne, this.lignes, this.colonnes); break;
+            default:     throw new CarteInvalideException("Thème \"" + this.theme + "\" inconnu.");
+            }
+
+            this.contenu.get(ligne).set(colonne, champi);
+        }
+
+        // TODO(nico): ajouter des pierres précieuses.
+
+        // Spawn du personnage en un point aléatoire
+        while (true) {
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+            this.contenu.get(1).set(1, new Personnage(1, 1, lignes, colonnes));
+            break;
+        }
     }
 }
