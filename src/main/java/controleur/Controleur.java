@@ -9,6 +9,7 @@ import java.util.List;
 
 /** Contrôleur principale d'une partie de jeu. */
 public class Controleur {
+    /* TODO(nico): vérifier strings.
     private static final String STRING_INCONNU                  = Ihm.COULEUR_FOND_JAUNE  + Ihm.COULEUR_ROUGE  + Carte.SYMBOLE_INCONNU                  + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_PERSONNAGE               = Ihm.COULEUR_FOND_BLANC  + Ihm.COULEUR_VIOLET + Carte.SYMBOLE_PERSONNAGE               + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_ZONE_VIDE                = Ihm.COULEUR_FOND_VERT                        + Carte.SYMBOLE_ZONE_VIDE                + Ihm.COULEUR_REINITIALISATION;
@@ -37,7 +38,7 @@ public class Controleur {
     private static final String STRING_SERPENT                  = Ihm.COULEUR_FOND_BLANC  + Ihm.COULEUR_NOIR   + Carte.SYMBOLE_SERPENT                  + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_SCORPION                 = Ihm.COULEUR_FOND_ROUGE  + Ihm.COULEUR_BLANC  + Carte.SYMBOLE_SCORPION                 + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_CHAMPIGNON_HALLUCINOGENE = Ihm.COULEUR_FOND_BLEU                        + Carte.SYMBOLE_CHAMPIGNON_HALLUCINOGENE + Ihm.COULEUR_REINITIALISATION;
-
+    */
     private final Ihm ihm; // Interface de jeu
     private Jeu jeu;       // Partie en cours
 
@@ -77,7 +78,7 @@ public class Controleur {
         }
     }
 
-    @SuppressWarnings("StringConcatenationInLoop")
+    /*@SuppressWarnings("StringConcatenationInLoop")
     private void afficherCarte() {
         // La carte du jeu.
 
@@ -234,6 +235,73 @@ public class Controleur {
 
 //        legende += "* " + Controleur.STRING_INCONNU + " : erreur\n";
         affichage += "\n" + legende;
+
+        this.ihm.afficherInformation(affichage);
+    }*/
+
+    //TODO LEGENDE ?????????
+    private void afficherCarte(){
+
+        // La carte du jeu.
+
+        String affichage = "Carte :\n";
+
+        // On construit la carte en faisant une forme remplie de
+        // zones vides dont les dimensions sont de celles indiquées par
+        // le jeu.  Ensuite, on remplace les bonnes positions par les
+        // symboles correspondants aux acteurs spécifiques selon le
+        // thème.
+
+        int lignes     = this.jeu.obtenirLignes();
+        int colonnes   = this.jeu.obtenirColonnes();
+        JeuTheme theme = this.jeu.obtenirTheme();
+
+        List<List<String>> carteContenu = new ArrayList<>();
+
+        /** Création d'un carte de cases vides */
+
+        for (int i = 0; i < lignes; i++) {
+            List<String> ligne = new ArrayList<>();
+            //TODO changer stockage des zoneVide pour pouvoir les toStrings
+            for (int j = 0; j < colonnes; ++j) ligne.add(Ihm.COULEUR_FOND_VERT       +
+                    Acteur.SYMBOLE_ZONE_VIDE     +
+                    Ihm.COULEUR_REINITIALISATION);
+            carteContenu.add(ligne);
+        }
+
+        /** Ajout des décors */
+
+        for (Acteur decor : this.jeu.obtenirDecors()){
+            carteContenu.get(decor.obtenirLigne())
+                    .set(decor.obtenirColonne(), decor.toString());
+        }
+
+        /** Ajout des objets */
+
+        for (Objet objet : this.jeu.obtenirObjets()){
+            carteContenu.get(objet.obtenirLigne())
+                    .set(objet.obtenirColonne(), objet.toString());
+        }
+
+        /** Ajout des animaux */
+
+        for (Animal animal : this.jeu.obtenirAnimaux()){
+            carteContenu.get(animal.obtenirLigne())
+                    .set(animal.obtenirColonne(), animal.toString());
+        }
+
+        /** Ajout du personnage */
+
+        Personnage personnage = this.jeu.obtenirPersonnage();
+        carteContenu.get(personnage.obtenirLigne())
+                .set(personnage.obtenirColonne(), personnage.toString());
+
+        for (List<String> ligne : carteContenu) {
+            for (String colonne : ligne) affichage += colonne;
+            affichage += "\n";
+        }
+
+        // Légende pour les symboles de la carte.
 
         this.ihm.afficherInformation(affichage);
     }

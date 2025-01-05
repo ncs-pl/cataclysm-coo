@@ -1,5 +1,7 @@
 package modele;
 
+import vue.Ihm;
+
 /** Un animal dans la forêt. */
 public class Ecureuil extends Animal {
     public Ecureuil(int ligne, int colonne, int maxLigne, int maxColonne) {
@@ -11,5 +13,10 @@ public class Ecureuil extends Animal {
     @Override
     public void deplacer(Jeu jeu) {
         this.obtenirEtat().deplacer(this, jeu);
+    }
+
+    @Override
+    public String toString() {
+        return this.obtenirEtat().toString();
     }
 }

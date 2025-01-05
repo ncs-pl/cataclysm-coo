@@ -31,4 +31,6 @@ public class Renard extends Predateur {
             }
         }
     }
+
+    @Override public String toString() { return ""; } // TODO
 }

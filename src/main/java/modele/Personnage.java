@@ -1,5 +1,7 @@
 package modele;
 
+import vue.Ihm;
+
 /** Le joueur sur la carte. */
 public class Personnage extends Acteur {
     private int sante;     // La santé du joueur, entre 0 et 100.
@@ -19,5 +21,13 @@ public class Personnage extends Acteur {
         assert(sante >= 0);
         assert(sante <= 100);
         this.sante = sante;
+    }
+
+    @Override
+    public String toString() {
+        return Ihm.COULEUR_FOND_BLANC      +
+                Ihm.COULEUR_VIOLET          +
+                Acteur.SYMBOLE_PERSONNAGE    +
+                Ihm.COULEUR_REINITIALISATION;
     }
 }

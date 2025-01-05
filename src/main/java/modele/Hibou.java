@@ -17,8 +17,9 @@ public class Hibou extends Predateur{
         this.etat = etat;
     }
 
-    @Override
     public void deplacer(Jeu jeu) {
         etat.deplacer(this,jeu);
     }
+
+    @Override public String toString() { return ""; } // TODO
 }

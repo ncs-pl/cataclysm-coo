@@ -251,6 +251,20 @@ public class Jeu {
         return true;
     }
 
+    public boolean verifierCaseDecors(int ligne, int colonne) {
+        for (Acteur d : this.decors) {
+            if (colonne == d.obtenirColonne() && ligne == d.obtenirLigne()) return true;
+        }
+        return false;
+    }
+
+    public Acteur obtenirCaseDecors(int ligne, int colonne) {
+        for (Acteur d : this.decors) {
+            if(colonne == d.obtenirColonne() && ligne == d.obtenirLigne()) return d;
+        }
+        return null;
+    }
+
     public Objet chercherObjetVoisin(int ligne, int colonne, int type) {
         //todo(Lucas) Vérifier seulement les case adjascentes
         for (Objet o : this.objets) {
@@ -266,6 +280,8 @@ public class Jeu {
         return null;
     }
 
+    // TODO(lucas): généricité ?
+
     /** Retourne une zone vide voisine ou null sinon. */
     public List<ZoneVide> chercherZonesVidesVoisine(int ligne, int colonne) {
         List<ZoneVide> zones = new ArrayList<>();
@@ -274,6 +290,16 @@ public class Jeu {
         if (this.verifierCaseVide(ligne, colonne+1)) zones.add(this.factory.creerZoneVide(ligne, colonne+1, this.lignes, this.colonnes)); // Droite.
         if (this.verifierCaseVide(ligne+1, colonne)) zones.add(this.factory.creerZoneVide(ligne+1, colonne, this.lignes, this.colonnes)); // Bas.
         return zones;
+    }
+
+    /** Retourne un décor voisin. */
+    public List<Acteur> chercherDecorsVoisins(int ligne, int colonne) {
+        List<Acteur> decors = new ArrayList<>();
+        if (this.verifierCaseDecors(ligne-1, colonne)) decors.add(obtenirCaseDecors(ligne-1, colonne));
+        if (this.verifierCaseDecors(ligne, colonne-1)) decors.add(obtenirCaseDecors(ligne, colonne-1));
+        if (this.verifierCaseDecors(ligne, colonne+1)) decors.add(obtenirCaseDecors(ligne, colonne+1));
+        if (this.verifierCaseDecors(ligne+1, colonne)) decors.add(obtenirCaseDecors(ligne+1, colonne));
+        return decors;
     }
 
     /** Retourne une proie se trouvant dans une case voisine */
@@ -286,7 +312,7 @@ public class Jeu {
             if(aLigne == ligne && aColonne == colonne + 1) return a; // Droite
             if(aLigne == ligne && aColonne == colonne - 1) return a; // Gauche
         }
-    return null;
+        return null;
     }
 
 
@@ -315,12 +341,11 @@ public class Jeu {
             int aColonne = a.obtenirColonne();
             if (aLigne >= ligne - 3     && aLigne <= ligne + 3   &&
                 aColonne >= colonne - 3 && aColonne <= colonne + 3) {
-                if (a.obtenirEtat() != EcureuilAnimalEtatCache.obtenirInstance() &&
+                if (a.obtenirEtat() != EcureuilAnimalEtatCache.obtenirInstance()  &&
                     a.obtenirEtat() != EcureuilAnimalEtatPerche.obtenirInstance())  return a;
             }
         }
         return null;
 
     }
-
 }

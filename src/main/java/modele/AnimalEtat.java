@@ -31,4 +31,7 @@ public abstract class AnimalEtat {
 
     /** L'animal se prend un coup. */
     public abstract void prendreCoup(Animal animal);
+
+    @Override
+    public abstract String toString();
 }

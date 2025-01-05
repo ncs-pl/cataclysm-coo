@@ -1,24 +1,24 @@
 package modele;
 
-public class EcureuilAnimalEtatCache extends AnimalEtat {
+import vue.Ihm;
 
-    private static EcureuilAnimalEtatCache instance;
+public class EcureuilAnimalEtatCache extends AnimalEtatDecorateur {
 
-    private EcureuilAnimalEtatCache() {
-        super(AnimalEtat.ETAT_CACHE);
+    public EcureuilAnimalEtatCache(AnimalEtat animalEtat) {
+        super(animalEtat);
     }
 
-    /** Obtient l'instance singleton de l'état. */
-    public static AnimalEtat obtenirInstance() {
-        if (EcureuilAnimalEtatCache.instance == null) EcureuilAnimalEtatCache.instance = new EcureuilAnimalEtatCache();
-        return EcureuilAnimalEtatCache.instance;
+    @Override
+    public void deplacer(Animal animal, Jeu jeu) {
+        animal.changerEtat(this.animalEtat);
+        super.deplacer(animal, jeu);
     }
 
-    @Override public void deplacer(Animal animal, Jeu jeu) {
-        throw new AnimalEtatException("Pas encore implémenté.");
-    }
-
-    @Override public void prendreCoup(Animal animal) {
-        throw new AnimalEtatException("Pas encore implémenté.");
+    @Override
+    public String toString() {
+        String temp = super.toString();
+        return temp.substring(0, 5) +
+                Ihm.COULEUR_JAUNE +
+                temp.substring(10);
     }
 }

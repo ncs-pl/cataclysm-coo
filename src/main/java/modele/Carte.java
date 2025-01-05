@@ -19,30 +19,17 @@ import java.util.Random;
  * utilisé par le jeu pour construire son game state initial
  */
 public class Carte {
-    public static final char SYMBOLE_INCONNU                  = '?';
-    public static final char SYMBOLE_PERSONNAGE               = '@';
-    public static final char SYMBOLE_ZONE_VIDE                = '.';
-    public static final char SYMBOLE_ARBRE                    = 'A';
-    public static final char SYMBOLE_BUISSON                  = 'B';
-    public static final char SYMBOLE_COCOTIER                 = 'P';
-    public static final char SYMBOLE_PETIT_ROCHER             = 'O';
-    public static final char SYMBOLE_BANANE                   = 'N';
-    public static final char SYMBOLE_CHAMPIGNON               = 'C';
-    public static final char SYMBOLE_GLAND                    = 'G';
-    public static final char SYMBOLE_ECUREUIL                 = 'E';
-    public static final char SYMBOLE_SINGE                    = 'S';
-    public static final char SYMBOLE_RENARD                   = 'R';
-    public static final char SYMBOLE_HIBOU                    = 'H';
-    public static final char SYMBOLE_CHAMPIGNON_VENENEUX      = 'M';
+    /* TODO(nico): vérifier les toString
     public static final char SYMBOLE_SCORPION                 = 'X';
     public static final char SYMBOLE_SERPENT                  = 'Z';
     public static final char SYMBOLE_CHAMPIGNON_HALLUCINOGENE = 'T';
+    */
 
-    private final JeuTheme theme;       // Thème de la carte
-    private final int lignes;           // Nombre de lignes
-    private final int colonnes;         // Nombre de colonnes
+    private final JeuTheme theme; // Thème de la carte
+    private final int lignes;     // Nombre de lignes
+    private final int colonnes;   // Nombre de colonnes
+
     private List<List<Acteur>> contenu; // Contenu même de la carte.
-
 
     private final ActeurAbstractFactory factory; // Factory de création.
 

@@ -1,32 +1,28 @@
 package modele;
 
-// TODO(nico): sentiment objet
-/** Un acteur est une donnée représentant une entité dans le jeu (animal,
-    objet, personnage, &c.). */
+/** Un acteur est une donnée représentant une entité dans le jeu (animal, objet, personnage, &c.). */
 public abstract class Acteur {
-    public static final int TYPE_ARBRE        = 0;
-    public static final int TYPE_BANANE       = 1;
-    public static final int TYPE_BUISSON      = 2;
-    public static final int TYPE_CHAMPIGNON   = 3;
-    public static final int TYPE_COCOTIER     = 4;
-    public static final int TYPE_ECUREUIL     = 5;
-    public static final int TYPE_GLAND        = 6;
-    public static final int TYPE_PETIT_ROCHER = 7;
-    public static final int TYPE_SINGE        = 8;
-    public static final int TYPE_PERSONNAGE   = 9;
-    public static final int TYPE_ZONE_VIDE    = 10;
-    public static final int TYPE_CHAMPIGNON_VENENEUX = 11;
-    public static final int TYPE_RENARD = 12;
-    public static final int TYPE_HIBOU = 13;
-    public static final int TYPE_SERPENT = 14;
-    public static final int TYPE_SCORPION = 15;
+    public static final int TYPE_ARBRE                    = 0;
+    public static final int TYPE_BANANE                   = 1;
+    public static final int TYPE_BUISSON                  = 2;
+    public static final int TYPE_CHAMPIGNON               = 3;
+    public static final int TYPE_COCOTIER                 = 4;
+    public static final int TYPE_ECUREUIL                 = 5;
+    public static final int TYPE_GLAND                    = 6;
+    public static final int TYPE_PETIT_ROCHER             = 7;
+    public static final int TYPE_SINGE                    = 8;
+    public static final int TYPE_PERSONNAGE               = 9;
+    public static final int TYPE_ZONE_VIDE                = 10;
+    public static final int TYPE_CHAMPIGNON_VENENEUX      = 11;
+    public static final int TYPE_RENARD                   = 12;
+    public static final int TYPE_HIBOU                    = 13;
+    public static final int TYPE_SERPENT                  = 14;
+    public static final int TYPE_SCORPION                 = 15;
     public static final int TYPE_CHAMPIGNON_HALLUCINOGENE = 16;
 
-
-
-    private final int type; // Identifiant numérique du type d'acteur.
-    private int ligne;      // Ligne de la position de l'acteur.
-    private int colonne;    // Colonne de la position de l'acteur.
+    private final int type;    // Identifiant numérique du type d'acteur.
+    private       int ligne;   // Ligne de la position de l'acteur.
+    private       int colonne; // Colonne de la position de l'acteur.
 
     private final int maxLigne;   // Ligne max.
     private final int maxColonne; // Colonne max.
@@ -75,4 +71,7 @@ public abstract class Acteur {
         assert(ligne >= 0 && ligne < maxLigne); // NOTE(nico): temp
         this.ligne = ligne;
     }
+
+    /** Affichage de l'acteur avec son symbole. */
+    @Override abstract public String toString();
 }
