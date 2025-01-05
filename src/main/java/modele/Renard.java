@@ -1,9 +1,13 @@
 package modele;
 
+import vue.Ihm;
+
 import java.util.List;
 import java.util.Random;
 
 public class Renard extends Predateur {
+    public static final char SYMBOLE = 'R';
+
     public Renard(int ligne, int colonne, int maxLigne, int maxColonne) {
         super(Acteur.TYPE_RENARD, ligne, colonne, maxLigne, maxColonne);
     }
@@ -32,5 +36,8 @@ public class Renard extends Predateur {
         }
     }
 
-    @Override public String toString() { return ""; } // TODO
+    @Override
+    public String toString() {
+        return Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR + Renard.SYMBOLE + Ihm.COULEUR_REINITIALISATION; // TODO(nico): toString sur les Etats ?
+    }
 }

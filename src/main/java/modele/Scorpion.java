@@ -1,6 +1,9 @@
 package modele;
 
-public class Scorpion extends Predateur{
+import vue.Ihm;
+
+public class Scorpion extends Predateur {
+    public static final char SYMBOLE = 'X';
 
     private ScorpionEtat etat = ScorpionEtatMouvement.obtenirInstance();
 
@@ -19,5 +22,10 @@ public class Scorpion extends Predateur{
     @Override
     public void deplacer(Jeu jeu) {
         etat.deplacer(this,jeu);
+    }
+
+    @Override
+    public String toString() {
+        return Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_BLANC + Scorpion.SYMBOLE + Ihm.COULEUR_REINITIALISATION; // TODO(nico): toString sur les Etats ?
     }
 }

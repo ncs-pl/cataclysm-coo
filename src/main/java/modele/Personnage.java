@@ -4,7 +4,9 @@ import vue.Ihm;
 
 /** Le joueur sur la carte. */
 public class Personnage extends Acteur {
-    private int sante;     // La santé du joueur, entre 0 et 100.
+    public static final char SYMBOLE = '@';
+
+    private int sante; // La santé du joueur, entre 0 et 100.
 
     public Personnage(int ligne, int colonne, int maxLigne, int maxColonne) {
         super(Acteur.TYPE_PERSONNAGE, ligne, colonne, maxLigne, maxColonne);
@@ -25,9 +27,6 @@ public class Personnage extends Acteur {
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_BLANC      +
-                Ihm.COULEUR_VIOLET          +
-                Acteur.SYMBOLE_PERSONNAGE    +
-                Ihm.COULEUR_REINITIALISATION;
+        return Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_VIOLET + Personnage.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
     }
 }

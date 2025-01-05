@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class SingeAnimalEtatJunkie extends AnimalEtat {
-
-    private static SingeAnimalEtatJunkie instance;
+    private static SingeAnimalEtatJunkie instance; // Singleton
 
     private SingeAnimalEtatJunkie() {
         super(AnimalEtat.ETAT_JUNKIE);
@@ -20,8 +19,8 @@ public class SingeAnimalEtatJunkie extends AnimalEtat {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    @Override public void deplacer(Animal animal, Jeu jeu) {
-        
+    @Override
+    public void deplacer(Animal animal, Jeu jeu) {
         //TODO: Forcer l'animal à ne pas revenir sur ces pas ?
 
         int decors = -1;
@@ -63,15 +62,13 @@ public class SingeAnimalEtatJunkie extends AnimalEtat {
             animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatJunkie.obtenirInstance()));
     }
 
-    @Override public void prendreCoup(Animal animal) {
+    @Override
+    public void prendreCoup(Animal animal) {
         throw new AnimalEtatException("Pas encore implémenté.");
     }
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_JAUNE      +
-                Ihm.COULEUR_ROUGE           +
-                Acteur.SYMBOLE_SINGE         +
-                Ihm.COULEUR_REINITIALISATION;
+        return Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_ROUGE + Singe.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
     }
 }

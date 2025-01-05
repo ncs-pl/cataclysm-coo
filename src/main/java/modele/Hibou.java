@@ -1,25 +1,25 @@
 package modele;
 
-import java.util.List;
-import java.util.Random;
+import vue.Ihm;
 
-public class Hibou extends Predateur{
+public class Hibou extends Predateur {
+    public static final char SYMBOLE = 'H';
+
     private HibouEtat etat = HibouEtatVol.obtenirInstance();
     public Hibou(int ligne, int colonne, int maxLigne, int maxColonne) {
         super(Acteur.TYPE_HIBOU, ligne, colonne, maxLigne, maxColonne);
     }
 
-    public HibouEtat obtenirEtat() {
-        return etat;
-    }
-
-    public void changerEtat(HibouEtat etat) {
-        this.etat = etat;
-    }
+    public HibouEtat obtenirEtat()               { return etat;      }
+    public void      changerEtat(HibouEtat etat) { this.etat = etat; }
 
     public void deplacer(Jeu jeu) {
-        etat.deplacer(this,jeu);
+        this.etat.deplacer(this, jeu);
     }
 
-    @Override public String toString() { return ""; } // TODO
+    @Override
+    public String toString() {
+        // TODO(nico): toString des états ?
+        return Ihm.COULEUR_FOND_VIOLET + Hibou.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+    }
 }

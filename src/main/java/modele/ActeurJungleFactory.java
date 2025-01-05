@@ -20,24 +20,20 @@ public class ActeurJungleFactory implements ActeurAbstractFactory {
     @Override public ZoneVide   creerZoneVide(int ligne, int colonne, int maxLignes, int maxColonnes)              { return new ZoneVide(ligne, colonne, maxLignes, maxColonnes);                }
 
     @Override
-    public Acteur creerParSymbole(char symbole,
-                                  int ligne,
-                                  int colonne,
-                                  int maxLignes,
-                                  int maxColonnes) {
+    public Acteur creerParSymbole(char symbole, int ligne, int colonne, int maxLignes, int maxColonnes) {
         Acteur acteur = null;
         switch (symbole) {
-        case Carte.SYMBOLE_PERSONNAGE:               acteur = this.creerPersonnage(ligne, colonne, maxLignes, maxColonnes);            break;
-        case Carte.SYMBOLE_COCOTIER:                 acteur = this.creerDecor1(ligne, colonne, maxLignes, maxColonnes);                break;
-        case Carte.SYMBOLE_PETIT_ROCHER:             acteur = this.creerDecor2(ligne, colonne, maxLignes, maxColonnes);                break;
-        case Carte.SYMBOLE_BANANE:                   acteur = this.creerObjetAliment(ligne, colonne, maxLignes, maxColonnes);          break;
-        case Carte.SYMBOLE_CHAMPIGNON:               acteur = this.creerObjetChampignon(ligne, colonne, maxLignes, maxColonnes);       break;
-        case Carte.SYMBOLE_CHAMPIGNON_HALLUCINOGENE: acteur = this.creerObjetChampignonDrogue(ligne, colonne, maxLignes, maxColonnes); break;
-        case Carte.SYMBOLE_SERPENT:                  acteur = this.creerPredateur1(ligne, colonne, maxLignes, maxColonnes);            break;
-        case Carte.SYMBOLE_SCORPION:                 acteur = this.creerPredateur2(ligne, colonne, maxLignes, maxColonnes);            break;
-        case Carte.SYMBOLE_ZONE_VIDE:                acteur = this.creerZoneVide(ligne, colonne, maxLignes, maxColonnes);              break;
-        case Carte.SYMBOLE_SINGE:                    acteur = this.creerAnimal(ligne, colonne, maxLignes, maxColonnes);                break;
-        default:                                                                                                                       break;
+        case Personnage.SYMBOLE:              acteur = this.creerPersonnage(ligne, colonne, maxLignes, maxColonnes);            break;
+        case Cocotier.SYMBOLE:                acteur = this.creerDecor1(ligne, colonne, maxLignes, maxColonnes);                break;
+        case PetitRocher.SYMBOLE:             acteur = this.creerDecor2(ligne, colonne, maxLignes, maxColonnes);                break;
+        case Banane.SYMBOLE:                  acteur = this.creerObjetAliment(ligne, colonne, maxLignes, maxColonnes);          break;
+        case Champignon.SYMBOLE:              acteur = this.creerObjetChampignon(ligne, colonne, maxLignes, maxColonnes);       break;
+        case ChampignonHallucinogene.SYMBOLE: acteur = this.creerObjetChampignonDrogue(ligne, colonne, maxLignes, maxColonnes); break;
+        case Serpent.SYMBOLE:                 acteur = this.creerPredateur1(ligne, colonne, maxLignes, maxColonnes);            break;
+        case Scorpion.SYMBOLE:                acteur = this.creerPredateur2(ligne, colonne, maxLignes, maxColonnes);            break;
+        case ZoneVide.SYMBOLE:                acteur = this.creerZoneVide(ligne, colonne, maxLignes, maxColonnes);              break;
+        case Singe.SYMBOLE:                   acteur = this.creerAnimal(ligne, colonne, maxLignes, maxColonnes);                break;
+        default:                                                                                                                break;
         }
         return acteur;
     }

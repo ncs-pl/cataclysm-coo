@@ -1,7 +1,6 @@
 package modele;
 
 public class ScorpionEtatCache extends ScorpionEtat{
-
     private static ScorpionEtatCache instance;
     private ScorpionEtatCache(){
         super(ScorpionEtat.ETAT_CACHE);
@@ -16,5 +15,10 @@ public class ScorpionEtatCache extends ScorpionEtat{
 
     public void deplacer(Scorpion scorpion , Jeu jeu){
         scorpion.changerEtat(ScorpionEtatMouvement.obtenirInstance());
+    }
+
+    @Override
+    public String toString() {
+        return ""; // TODO(nico): c.f. Scorpion.toString()
     }
 }

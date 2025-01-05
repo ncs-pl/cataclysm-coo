@@ -1,8 +1,9 @@
 package modele;
 
-public class SingeAnimalEtatAmi extends AnimalEtat {
+import vue.Ihm;
 
-    private static SingeAnimalEtatAmi instance;
+public class SingeAnimalEtatAmi extends AnimalEtat {
+    private static SingeAnimalEtatAmi instance; // Singleton
 
     private SingeAnimalEtatAmi() {
         super(AnimalEtat.ETAT_AMI);
@@ -14,16 +15,18 @@ public class SingeAnimalEtatAmi extends AnimalEtat {
         return SingeAnimalEtatAmi.instance;
     }
 
-    @Override public void deplacer(Animal animal, Jeu jeu) {
+    @Override
+    public void deplacer(Animal animal, Jeu jeu) {
         throw new AnimalEtatException("Comportement non-spécifié.");
     }
 
-    @Override public void prendreCoup(Animal animal) {
+    @Override
+    public void prendreCoup(Animal animal) {
         animal.changerEtat(SingeAnimalEtatRassasie.obtenirInstance());
     }
 
     @Override
     public String toString() {
-        return "";
+        return Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_VIOLET + Singe.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
     }
 }

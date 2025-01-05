@@ -19,7 +19,8 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    @Override public void deplacer(Animal animal, Jeu jeu) {
+    @Override
+    public void deplacer(Animal animal, Jeu jeu) {
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
 
@@ -55,9 +56,7 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
                  */
             }
         } else {
-
             // Sinon se déplacer aléatoirement.
-
             List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
             zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
 
@@ -83,15 +82,13 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
         }
     }
 
-    @Override public void prendreCoup(Animal animal) {
+    @Override
+    public void prendreCoup(Animal animal) {
         throw new AnimalEtatException("Comportement non-spécifié.");
     }
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_JAUNE      +
-                Ihm.COULEUR_NOIR            +
-                Acteur.SYMBOLE_ECUREUIL      +
-                Ihm.COULEUR_REINITIALISATION;
+        return Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR + Ecureuil.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
     }
 }

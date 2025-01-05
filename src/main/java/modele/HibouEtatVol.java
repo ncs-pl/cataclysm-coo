@@ -1,16 +1,11 @@
 package modele;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class HibouEtatVol extends HibouEtat{
-
-    private static HibouEtatVol instance;
-
-    private HibouEtatVol() {
-        super(HibouEtat.ETAT_VOL);
-    }
+public class HibouEtatVol extends HibouEtat {
+    private static HibouEtatVol instance; // Singleton
+    private HibouEtatVol() { super(HibouEtat.ETAT_VOL); }
 
     /** Obtient l'instance singleton de l'état. */
     public static HibouEtat obtenirInstance() {
@@ -41,5 +36,10 @@ public class HibouEtatVol extends HibouEtat{
                 hibou.changerLigne(dest[0]);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return ""; // TODO(nico): c.f. TODO dans Hibou.toString()
     }
 }

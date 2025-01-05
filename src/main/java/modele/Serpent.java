@@ -1,6 +1,9 @@
 package modele;
 
-public class Serpent extends Predateur{
+import vue.Ihm;
+
+public class Serpent extends Predateur {
+    public static final char SYMBOLE = 'Z';
 
     private SerpentEtat etat = SerpentEtatMouvement.obtenirInstance();
 
@@ -16,9 +19,13 @@ public class Serpent extends Predateur{
         this.etat = etat;
     }
 
-
     @Override
     public void deplacer(Jeu jeu) {
         etat.deplacer(this,jeu);
+    }
+
+    @Override
+    public String toString() {
+        return Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_NOIR + Serpent.SYMBOLE + Ihm.COULEUR_REINITIALISATION; // TODO(nico): toString sur les Etats ?
     }
 }

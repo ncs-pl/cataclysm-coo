@@ -6,12 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 public class EcureuilAnimalEtatRassasie extends AnimalEtat {
-
-    private static EcureuilAnimalEtatRassasie instance;
-
-    private EcureuilAnimalEtatRassasie() {
-        super(AnimalEtat.ETAT_RASSASIE);
-    }
+    private static EcureuilAnimalEtatRassasie instance; // Singleton
+    private EcureuilAnimalEtatRassasie() { super(AnimalEtat.ETAT_RASSASIE); }
 
     /** Obtient l'instance singleton de l'état. */
     public static AnimalEtat obtenirInstance() {
@@ -20,7 +16,8 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    @Override public void deplacer(Animal animal, Jeu jeu) {
+    @Override
+    public void deplacer(Animal animal, Jeu jeu) {
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
 
@@ -60,15 +57,13 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
             animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatRassasie.obtenirInstance()));
     }
 
-    @Override public void prendreCoup(Animal animal) {
+    @Override
+    public void prendreCoup(Animal animal) {
         throw new AnimalEtatException("Comportement non-spécifié.");
     }
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_JAUNE      +
-                Ihm.COULEUR_BLEU            +
-                Acteur.SYMBOLE_ECUREUIL      +
-                Ihm.COULEUR_REINITIALISATION;
+        return Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_BLEU + Ecureuil.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
     }
 }

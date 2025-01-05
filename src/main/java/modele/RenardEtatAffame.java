@@ -1,7 +1,6 @@
 package modele;
 
-public class RenardEtatAffame extends AnimalEtat{
-
+public class RenardEtatAffame extends AnimalEtat {
     private static RenardEtatAffame instance;
 
     private RenardEtatAffame() {
@@ -23,6 +22,6 @@ public class RenardEtatAffame extends AnimalEtat{
 
     @Override
     public String toString() {
-        return "";
+        return ""; // TODO(nico): c.f. TODO sur Renard.toString()
     }
 }

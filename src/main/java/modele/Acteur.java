@@ -73,5 +73,5 @@ public abstract class Acteur {
     }
 
     /** Affichage de l'acteur avec son symbole. */
-    @Override abstract public String toString();
+    abstract public String toString();
 }

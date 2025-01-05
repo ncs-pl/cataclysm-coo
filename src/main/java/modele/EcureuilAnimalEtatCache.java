@@ -3,7 +3,6 @@ package modele;
 import vue.Ihm;
 
 public class EcureuilAnimalEtatCache extends AnimalEtatDecorateur {
-
     public EcureuilAnimalEtatCache(AnimalEtat animalEtat) {
         super(animalEtat);
     }
@@ -19,6 +18,6 @@ public class EcureuilAnimalEtatCache extends AnimalEtatDecorateur {
         String temp = super.toString();
         return temp.substring(0, 5) +
                 Ihm.COULEUR_JAUNE +
-                temp.substring(10);
+                temp.substring(10); // TODO(nico) utiliser symbole Ecureuil
     }
 }

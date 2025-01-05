@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class SingeAnimalEtatAffame extends AnimalEtat {
-
-    private static SingeAnimalEtatAffame instance;
+    private static SingeAnimalEtatAffame instance; // Singleton
 
     private SingeAnimalEtatAffame() {
         super(AnimalEtat.ETAT_AFFAME);
@@ -20,7 +19,8 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    @Override public void deplacer(Animal animal, Jeu jeu) {
+    @Override
+    public void deplacer(Animal animal, Jeu jeu) {
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
 
@@ -83,15 +83,13 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
         }
     }
 
-    @Override public void prendreCoup(Animal animal) {
+    @Override
+    public void prendreCoup(Animal animal) {
         throw new AnimalEtatException("Comportement non-spécifié.");
     }
 
     @Override
     public String toString() {
-        return Ihm.COULEUR_FOND_JAUNE      +
-                Ihm.COULEUR_NOIR            +
-                Acteur.SYMBOLE_SINGE         +
-                Ihm.COULEUR_REINITIALISATION;
+        return Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_NOIR + Singe.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
     }
 }

@@ -1,12 +1,8 @@
 package modele;
 
 public class HibouEtatRepos extends HibouEtat{
-
-    private static HibouEtatRepos instance;
-
-    private HibouEtatRepos() {
-        super(HibouEtat.ETAT_VOL);
-    }
+    private static HibouEtatRepos instance; // Singleton
+    private HibouEtatRepos() { super(HibouEtat.ETAT_VOL); }
 
     /** Obtient l'instance singleton de l'état. */
     public static HibouEtat obtenirInstance() {
@@ -16,5 +12,10 @@ public class HibouEtatRepos extends HibouEtat{
     @Override
     public void deplacer(Hibou   hibou, Jeu jeu) {
         hibou.changerEtat(HibouEtatVol.obtenirInstance());
+    }
+
+    @Override
+    public String toString() {
+        return ""; // TODO(nico): c.f. TODO dans Hibou.toString()
     }
 }

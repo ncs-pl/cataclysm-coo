@@ -1,8 +1,9 @@
 package modele;
 
-public class SingeAnimalEtatCache extends AnimalEtat {
+import vue.Ihm;
 
-    private static SingeAnimalEtatCache instance;
+public class SingeAnimalEtatCache extends AnimalEtat {
+    private static SingeAnimalEtatCache instance; // Singleton
 
     private SingeAnimalEtatCache() {
         super(AnimalEtat.ETAT_CACHE);
@@ -14,16 +15,18 @@ public class SingeAnimalEtatCache extends AnimalEtat {
         return SingeAnimalEtatCache.instance;
     }
 
-    @Override public void deplacer(Animal animal, Jeu jeu) {
+    @Override
+    public void deplacer(Animal animal, Jeu jeu) {
         throw new AnimalEtatException("Pas encore implémenté.");
     }
 
-    @Override public void prendreCoup(Animal animal) {
+    @Override
+    public void prendreCoup(Animal animal) {
         throw new AnimalEtatException("Pas encore implémenté.");
     }
 
     @Override
     public String toString() {
-        return "";
+        return Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE + Singe.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
     }
 }
