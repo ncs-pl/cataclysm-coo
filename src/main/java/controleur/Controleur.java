@@ -38,24 +38,6 @@ public class Controleur {
     private static final String STRING_SCORPION                 = Ihm.COULEUR_FOND_ROUGE  + Ihm.COULEUR_BLANC  + Carte.SYMBOLE_SCORPION                 + Ihm.COULEUR_REINITIALISATION;
     private static final String STRING_CHAMPIGNON_HALLUCINOGENE = Ihm.COULEUR_FOND_BLEU                        + Carte.SYMBOLE_CHAMPIGNON_HALLUCINOGENE + Ihm.COULEUR_REINITIALISATION;
 
-    private static final String STRING_SERPENT =
-            Ihm.COULEUR_FOND_BLANC +
-            Ihm.COULEUR_NOIR +
-            Carte.SYMBOLE_SERPENT +
-            Ihm.COULEUR_REINITIALISATION;
-
-    private static final String STRING_SCORPION =
-            Ihm.COULEUR_FOND_ROUGE +
-            Ihm.COULEUR_BLANC +
-            Carte.SYMBOLE_SCORPION +
-            Ihm.COULEUR_REINITIALISATION;
-
-    private static final String STRING_CHAMPIGNON_HALLUCINOGENE =
-            Ihm.COULEUR_FOND_BLEU +
-            Carte.SYMBOLE_CHAMPIGNON_HALLUCINOGENE +
-            Ihm.COULEUR_REINITIALISATION;
-
-
     private final Ihm ihm; // Interface de jeu
     private Jeu jeu;       // Partie en cours
 
@@ -333,10 +315,6 @@ public class Controleur {
                 aide += "* inventaire (i):\n";
                 aide += "\tAffiche votre inventaire.\n";
                 aide += "\n";
-//                aide += "* sauvegarder (s):\n";
-//                aide += "\tSauvegarde la carte actuel dans un fichier pour jouer plus tard.  Cela ne\n";
-//                aide += "\tretient pas les états des animaux ainsi que votre inventaire.";
-//                aide += "\n";
                 aide += "* haut, bas, gauche, droite (h, b, g, d):\n";
                 aide += "\tDéplace le joueur vers le haut, le bas, la gauche ou la droite respectivement.\n";
                 aide += "\n";
