@@ -38,7 +38,6 @@ public class Carte {
     public static final char SYMBOLE_SERPENT                  = 'Z';
     public static final char SYMBOLE_CHAMPIGNON_HALLUCINOGENE = 'T';
 
-    private final String nom;           // Nom de la carte
     private final JeuTheme theme;       // Thème de la carte
     private final int lignes;           // Nombre de lignes
     private final int colonnes;         // Nombre de colonnes
@@ -60,8 +59,6 @@ public class Carte {
         } catch (URISyntaxException e) {
             throw new CarteInvalideException("Nom de carte invalide.");
         }
-
-        this.nom = nom;
 
         // Lire le fichier carte
         BufferedReader reader = new BufferedReader(new FileReader(fichier));
@@ -137,12 +134,10 @@ public class Carte {
         }
     }
 
-    public Carte(String nom,
-                 JeuTheme theme,
+    public Carte(JeuTheme theme,
                  int lignes,
                  int colonnes,
                  List<List<Acteur>> contenu) {
-        this.nom      = nom;
         this.theme    = theme;
         this.lignes   = lignes;
         this.colonnes = colonnes;
@@ -154,12 +149,6 @@ public class Carte {
     public int                obtenirLignes()   { return this.lignes;   }
     public int                obtenirColonnes() { return this.colonnes; }
     public List<List<Acteur>> obtenirContenu()  { return this.contenu;  }
-
-//    public void sauvegarderFichier() {
-//        // TODO(nico): possibilité de sauvegarder la carte dans un fichier
-//        System.out.println(this.nom);
-//        throw new RuntimeException("Unimplemented");
-//    }
 
     public void genererContenuAleatoire() {
         this.contenu = new ArrayList<>(this.colonnes);
@@ -197,7 +186,8 @@ public class Carte {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
-            this.contenu.get(ligne).set(colonne, i%2 == 0 ? this.factory.creerPredateur1(ligne, colonne, this.lignes, this.colonnes) : this.factory.creerPredateur2(ligne, colonne, this.lignes, this.colonnes));
+            this.contenu.get(ligne).set(colonne, i%2 == 0 ? this.factory.creerPredateur1(ligne, colonne, this.lignes, this.colonnes)
+                                                          : this.factory.creerPredateur2(ligne, colonne, this.lignes, this.colonnes));
         }
 
         // Spawn de quelques décorations sur la carte.
@@ -205,7 +195,8 @@ public class Carte {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
-            this.contenu.get(ligne).set(colonne, i%2 == 0 ? this.factory.creerDecor1(ligne, colonne, this.lignes, this.colonnes) : this.factory.creerDecor2(ligne, colonne, this.lignes, this.colonnes));
+            this.contenu.get(ligne).set(colonne, i%2 == 0 ? this.factory.creerDecor1(ligne, colonne, this.lignes, this.colonnes)
+                                                          : this.factory.creerDecor2(ligne, colonne, this.lignes, this.colonnes));
         }
 
         // Spawn de quelques objets sur la carte.
@@ -213,7 +204,8 @@ public class Carte {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
-            this.contenu.get(ligne).set(colonne, i%2 == 0 ? this.factory.creerObjetAliment(ligne, colonne, this.lignes, this.colonnes) : this.factory.creerObjetChampignon(ligne, colonne, this.lignes, this.colonnes));
+            this.contenu.get(ligne).set(colonne, i%2 == 0 ? this.factory.creerObjetAliment(ligne, colonne, this.lignes, this.colonnes)
+                                                          : this.factory.creerObjetChampignon(ligne, colonne, this.lignes, this.colonnes));
         }
 
         // Spawn de quelques champignons dangereux.
