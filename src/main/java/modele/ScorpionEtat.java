@@ -4,6 +4,7 @@ public abstract class ScorpionEtat {
     public static final int ETAT_MOUVEMENT = 0; // En mouvement.
     public static final int ETAT_CACHE    = 1;  // Caché sous un rocher
 
+
     private final int id; // Identifiant numérique de l'état.
 
     protected ScorpionEtat(int id) {
@@ -20,7 +21,5 @@ public abstract class ScorpionEtat {
     public abstract void deplacer(Scorpion scorpion, Jeu jeu);
 
     @Override
-    public String toString() {
-        return ""; // TODO(nico): c.f. Scorpion.toString()
-    }
+    public abstract String toString();
 }

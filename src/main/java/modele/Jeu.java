@@ -365,4 +365,22 @@ public class Jeu {
         return possibles;
     }
 
+    public List<Acteur> obtenirRochersVoisins(int ligne , int colonne){
+        List<Acteur> rochers = chercherDecorsVoisins(ligne , colonne);
+        for(Acteur r : decors ){
+            if(r.obtenirType() != Acteur.TYPE_PETIT_ROCHER){
+                rochers.remove(r);
+            }
+        }
+        return rochers;
+    }
+
+
+    public Animal chercherProieScorpionCache(int ligne , int colonne){
+        for(Animal a : animaux){
+            if(a.obtenirLigne() == ligne && a.obtenirColonne() == colonne) return a;
+        }
+        return null;
+    }
+
 }
