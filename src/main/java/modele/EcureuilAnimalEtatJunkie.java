@@ -24,47 +24,54 @@ public class EcureuilAnimalEtatJunkie extends AnimalEtat {
     public void deplacer(Animal animal, Jeu jeu) {
         //TODO: Forcer l'animal à ne pas revenir sur ces pas ?
 
-        int decors = -1;
+        int ligne;
+        int colonne;
 
         for (int i = 0; i < 2; ++i){
 
-            int ligne   = animal.obtenirLigne();
-            int colonne = animal.obtenirColonne();
+            ligne   = animal.obtenirLigne();
+            colonne = animal.obtenirColonne();
 
             List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
             zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
 
             if (!zones.isEmpty()) {
+
                 Random rand = new Random();
                 Acteur next = zones.get(rand.nextInt(zones.size()));
-
-                if (next.obtenirType() == Acteur.TYPE_ARBRE || next.obtenirType() == Acteur.TYPE_BUISSON){
-                    decors = next.obtenirType();
-                } else {
-                    decors = -1;
-                }
 
                 animal.changerLigne(next.obtenirLigne());
                 animal.changerColonne(next.obtenirColonne());
             }
         }
 
+        ligne   = animal.obtenirLigne();
+        colonne = animal.obtenirColonne();
+
         int saturation = animal.obtenirSaturation();
         if (saturation == 0){
-            if(decors == Acteur.TYPE_ARBRE)
-                animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
-            else if (decors == Acteur.TYPE_BUISSON)
-                animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
-            else
-                animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
+            if (jeu.verifierCaseDecors(ligne, colonne)){
+                int type = jeu.obtenirCaseDecors(ligne,colonne).obtenirType();
+                if (type == Acteur.TYPE_ARBRE){
+                    animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
+                } else if (type == Acteur.TYPE_BUISSON){
+                    animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
+                } else {
+                    animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
+                }
+            }
         } else {
             animal.changerSaturation(saturation - 1);
         }
 
-        if(decors == Acteur.TYPE_ARBRE)
-            animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatJunkie.obtenirInstance()));
-        else if (decors == Acteur.TYPE_BUISSON)
-            animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatJunkie.obtenirInstance()));
+        if (jeu.verifierCaseDecors(ligne, colonne)){
+            int type = jeu.obtenirCaseDecors(ligne,colonne).obtenirType();
+            if (type == Acteur.TYPE_ARBRE){
+                animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatJunkie.obtenirInstance()));
+            } else if (type == Acteur.TYPE_BUISSON){
+                animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatJunkie.obtenirInstance()));
+            }
+        }
     }
 
     @Override
