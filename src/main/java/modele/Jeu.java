@@ -1,7 +1,7 @@
 package modele;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.rmi.ssl.SslRMIClientSocketFactory;
+import java.util.*;
 
 public class Jeu {
     private final JeuTheme theme; // Thème de la partie.
@@ -262,6 +262,13 @@ public class Jeu {
         return false;
     }
 
+    public boolean verifierTypeCaseDecors(int ligne, int colonne, int type) {
+        for (Acteur d : this.decors) {
+            if (ligne == d.obtenirLigne() && colonne == d.obtenirColonne() && d.obtenirType() == type) return true;
+        }
+        return false;
+    }
+
     public Acteur obtenirCaseDecors(int ligne, int colonne) {
         for (Acteur d : this.decors) {
             if(colonne == d.obtenirColonne() && ligne == d.obtenirLigne()) return d;
@@ -351,5 +358,51 @@ public class Jeu {
         }
         return null;
 
+    }
+
+    /** Retourne un prédateur se trouvant dans un rayon de 4 cases de l'animal*/
+    public Predateur chercherPredateur(int ligne , int colonne){
+        Predateur pRes = null;
+        for (Predateur p : this.predateurs) {
+            int pLigne = p.obtenirLigne();
+            int pColonne = p.obtenirColonne();
+            if (pLigne >= ligne - 4     && pLigne <= ligne + 4   &&
+                    pColonne >= colonne - 4 && pColonne <= colonne + 4) {
+                if (pRes == null) {
+                    pRes = p;
+                } else {
+                    //TODO : Ajouter la vérification du scorpion caché
+                    if (distanceDeuxPosition(pRes.obtenirLigne(), ligne, pRes.obtenirColonne(), colonne)
+                    > distanceDeuxPosition(pLigne, ligne, pColonne, colonne)){
+                        pRes = p;
+                    }
+                }
+            }
+        }
+        return pRes;
+    }
+
+    /** Retourne les directions (list{ligne,colonne}) trie dans l'ordre qui éloigne au plus l'animal*/
+    public List<List<Integer>> directionFuirPredateur(int pLigne , int pColonne, int aLigne, int aColonne) {
+        Map<List<Integer>, Double> direction = new HashMap<List<Integer>, Double>(4);
+        direction.put(List.of(-1,0), distanceDeuxPosition(pLigne, aLigne - 1, pColonne, aColonne));
+        direction.put(List.of(1,0), distanceDeuxPosition(pLigne, aLigne + 1, pColonne, aColonne ));
+        direction.put(List.of(0,1), distanceDeuxPosition(pLigne, aLigne, pColonne, aColonne + 1));
+        direction.put(List.of(0,-1), distanceDeuxPosition(pLigne, aLigne, pColonne, aColonne - 1));
+
+        List<Map.Entry<List<Integer>, Double>> directionTrie = new ArrayList<>(direction.entrySet());
+        directionTrie.sort(Map.Entry.comparingByValue());
+        Collections.reverse(directionTrie);
+
+        List<List<Integer>> result = new ArrayList<>();
+        for (Map.Entry<List<Integer>, Double> entry : directionTrie) {
+            result.add(entry.getKey());
+        }
+        return result;
+    }
+
+    private double distanceDeuxPosition(int x1, int x2, int y1, int y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) +
+                Math.pow(y2 - y1, 2));
     }
 }

@@ -2,7 +2,9 @@ package modele;
 
 import vue.Ihm;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class EcureuilAnimalEtatRassasie extends AnimalEtat {
@@ -25,38 +27,73 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
 
         List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
         zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
+        Predateur predateur = jeu.chercherPredateur(ligne, colonne);
 
-        int decors = -1;
+        if (predateur != null) {
+            if (jeu.verifierTypeCaseDecors(ligne, colonne, Acteur.TYPE_ARBRE)) {
+                zones = new ArrayList<>();
+            } else {
+                //TODO : Gestion ami a faire
+                Acteur cache = null;
+
+                for (Acteur acteur : zones) {
+                    if (acteur.obtenirType() == Acteur.TYPE_ARBRE){
+                        cache = acteur;
+                        break;
+                    } else if (acteur.obtenirType() == Acteur.TYPE_BUISSON){
+                        cache = acteur;
+                    }
+                }
+                if (cache != null) {
+                    zones = List.of(cache);
+                } else {
+                    if (jeu.verifierCaseDecors(ligne, colonne)) {
+                        zones = new ArrayList<>();
+                    } else {
+                        zones = List.of(Objects.requireNonNull(choixDirectionFuite(jeu, zones, predateur.obtenirLigne(),
+                                predateur.obtenirColonne(), ligne, colonne)));
+                    }
+                }
+            }
+        }
 
         if (!zones.isEmpty()) {
             Random rand = new Random();
             Acteur next = zones.get(rand.nextInt(zones.size()));
 
-            if (next.obtenirType() == Acteur.TYPE_ARBRE || next.obtenirType() == Acteur.TYPE_BUISSON) {
-                decors = next.obtenirType();
-            }
-
             animal.changerLigne(next.obtenirLigne());
             animal.changerColonne(next.obtenirColonne());
         }
 
+        ligne   = animal.obtenirLigne();
+        colonne = animal.obtenirColonne();
 
         int saturation = animal.obtenirSaturation();
         if (saturation == 0){
-            if(decors == Acteur.TYPE_ARBRE)
-                animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
-            else if (decors == Acteur.TYPE_BUISSON)
-                animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
-            else
+            if (jeu.verifierCaseDecors(ligne, colonne)) {
+                int type = jeu.obtenirCaseDecors(ligne, colonne).obtenirType();
+                if (type == Acteur.TYPE_ARBRE){
+                    animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
+                } else if (type == Acteur.TYPE_BUISSON){
+                    animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
+                } else {
+                    animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
+                }
+            } else {
                 animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
+            }
         } else {
             animal.changerSaturation(saturation - 1);
         }
 
-        if(decors == Acteur.TYPE_ARBRE)
-            animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatRassasie.obtenirInstance()));
-        else if (decors == Acteur.TYPE_BUISSON)
-            animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatRassasie.obtenirInstance()));
+        if (jeu.verifierCaseDecors(ligne, colonne)) {
+            int type = jeu.obtenirCaseDecors(ligne, colonne).obtenirType();
+            if(type == Acteur.TYPE_ARBRE){
+                animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatRassasie.obtenirInstance()));
+            } else if (type == Acteur.TYPE_BUISSON){
+                animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatRassasie.obtenirInstance()));
+            }
+        }
     }
 
     @Override
