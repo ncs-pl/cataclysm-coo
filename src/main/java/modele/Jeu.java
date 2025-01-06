@@ -217,8 +217,8 @@ public class Jeu {
 
     /** Exécute les intelligences artificiels des animaux. */
     public void executerIntelligenceAnimaux_Predateurs() {
-        for (Predateur predateur : this.predateurs) predateur.deplacer(this);
         for (Animal animal : this.animaux)          animal.deplacer(this);
+        for (Predateur predateur : this.predateurs) predateur.deplacer(this);
     }
 
     /** Retourne true si le personnage est sur une case voisine. */
@@ -255,9 +255,18 @@ public class Jeu {
         return true;
     }
 
+    /** Vérifie si un décor se trouve à la coordonnée */
     public boolean verifierCaseDecors(int ligne, int colonne) {
         for (Acteur d : this.decors) {
             if (colonne == d.obtenirColonne() && ligne == d.obtenirLigne()) return true;
+        }
+        return false;
+    }
+
+    /** Vérifie si un animal se trouve à la coordonnée */
+    public boolean verifierCaseAnimal(int ligne, int colonne) {
+        for (Animal a : this.animaux) {
+            if(colonne == a.obtenirColonne() && ligne == a.obtenirLigne()) return true;
         }
         return false;
     }
@@ -310,6 +319,16 @@ public class Jeu {
         if (this.verifierCaseDecors(ligne, colonne-1)) decors.add(obtenirCaseDecors(ligne, colonne-1));
         if (this.verifierCaseDecors(ligne, colonne+1)) decors.add(obtenirCaseDecors(ligne, colonne+1));
         if (this.verifierCaseDecors(ligne+1, colonne)) decors.add(obtenirCaseDecors(ligne+1, colonne));
+        return decors;
+    }
+
+    public List<Acteur> chercherDecorsVoisinsVide(int ligne, int colonne) {
+        List<Acteur> decors = chercherDecorsVoisins(ligne, colonne);
+        for (Acteur d : decors) {
+            if (verifierCaseAnimal(d.obtenirLigne(), d.obtenirColonne())) {
+                decors.remove(d);
+            }
+        }
         return decors;
     }
 

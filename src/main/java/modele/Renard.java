@@ -19,19 +19,23 @@ public class Renard extends Predateur {
         int colonne = this.obtenirColonne();
 
         List<Animal> proies = jeu.chercherProieVoisine(ligne,colonne);
-        boolean aManger = false;
+        boolean aAttaque = false;
 
         if(!proies.isEmpty()) {
             for(Animal proie : proies) {
                 if (!(proie.obtenirEtat() instanceof EcureuilAnimalEtatPerche)) {
-                    aManger = true;
-                    this.changerColonne(proie.obtenirColonne());
+                    aAttaque = true;
                     this.changerLigne(proie.obtenirLigne());
-                    jeu.obtenirAnimaux().remove(proie);
+                    this.changerColonne(proie.obtenirColonne());
+
+                    if (!proie.fuire(jeu, List.of(Acteur.TYPE_ARBRE))) {
+                        jeu.obtenirAnimaux().remove(proie);
+                    }
+                    break;
                 }
             }
         }
-        if (!aManger) {
+        if (!aAttaque) {
             List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
             if (!vides.isEmpty()) {
                 Random rand = new Random();
