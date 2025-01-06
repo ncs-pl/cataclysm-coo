@@ -5,6 +5,8 @@ import vue.Ihm;
 import java.util.List;
 import java.util.Random;
 
+//TODO(Younes) : Décorateur pour l'état pacifique
+//Logique fonctionnelle mais pas correcte en terme de conception
 public class ScorpionEtatMouvement extends ScorpionEtat {
     public static final String AFFICHAGE = Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_BLANC + Scorpion.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 

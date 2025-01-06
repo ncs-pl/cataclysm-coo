@@ -2,6 +2,7 @@ package modele;
 
 import vue.Ihm;
 
+//TODO(Younes) : Décorateur pour l'état pacifique
 public class Scorpion extends Predateur {
     public static final char SYMBOLE = 'X';
 

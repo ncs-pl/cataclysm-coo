@@ -2,6 +2,7 @@ package modele;
 
 import vue.Ihm;
 
+//TODO(Younes) : Décorateur pour l'état pacifique
 public class ScorpionEtatCache extends ScorpionEtat{
     public static final String AFFICHAGE = Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_ROUGE + Scorpion.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 

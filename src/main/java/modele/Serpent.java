@@ -4,7 +4,6 @@ import vue.Ihm;
 
 public class Serpent extends Predateur {
     public static final char SYMBOLE = 'Z';
-    public static final String AFFICHAGE = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_NOIR + Serpent.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 
     private SerpentEtat etat = SerpentEtatMouvement.obtenirInstance();
     private int stadeRepos = 0;
@@ -36,6 +35,6 @@ public class Serpent extends Predateur {
 
     @Override
     public String toString() {
-        return Serpent.AFFICHAGE; // TODO(nico): toString sur les Etats ?
+        return etat.toString();
     }
 }

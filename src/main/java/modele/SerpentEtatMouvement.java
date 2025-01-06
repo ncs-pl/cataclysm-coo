@@ -1,9 +1,13 @@
 package modele;
 
+import vue.Ihm;
+
 import java.util.List;
 import java.util.Random;
 
 public class SerpentEtatMouvement extends SerpentEtat{
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_BLANC + Ihm.COULEUR_NOIR + Serpent.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+
     private static SerpentEtatMouvement instance; // Singleton
     private SerpentEtatMouvement(){
         super(SerpentEtat.ETAT_MOUVEMENT);
@@ -41,6 +45,6 @@ public class SerpentEtatMouvement extends SerpentEtat{
 
     @Override
     public String toString() {
-        return ""; // TODO(nico): c.f. Serpent.toString()
+        return SerpentEtatMouvement.AFFICHAGE;
     }
 }
