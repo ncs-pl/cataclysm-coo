@@ -316,7 +316,7 @@ public class Jeu {
     }
 
 
-    /** Retourne les cases possibles pour le déplacement d'un Hibou */
+    /** Retourne les coordonnées des cases possibles pour le déplacement d'un Hibou */
     public List<int[]> destinationsHibou(int ligne , int colonne){
         ArrayList<int[]> possibles = new ArrayList<int[]>();
         int[] haut = {ligne - 2 , colonne};
@@ -346,6 +346,23 @@ public class Jeu {
             }
         }
         return null;
-
     }
+
+
+    /** Retourne les coordonées des cases possibles pour le déplacement d'un Serpent */
+
+    public List<int[]> destinationsSerpent(int ligne , int colonne) {
+        ArrayList<int[]> possibles = new ArrayList<int[]>();
+        int[] haut = {ligne - 2, colonne};
+        int[] bas = {ligne + 2, colonne};
+        int[] droite = {ligne, colonne + 2};
+        int[] gauche = {ligne, colonne - 2};
+
+        if(verifierCaseVide(haut[0],haut[1]) && verifierCaseVide(ligne-1,colonne)) possibles.add(haut);
+        if(verifierCaseVide(bas[0],bas[1]) && verifierCaseVide(ligne+1,colonne)) possibles.add(bas);
+        if(verifierCaseVide(droite[0],droite[1]) && verifierCaseVide(ligne,colonne+1)) possibles.add(droite);
+        if(verifierCaseVide(gauche[0],gauche[1]) && verifierCaseVide(ligne,colonne-1)) possibles.add(gauche);
+        return possibles;
+    }
+
 }

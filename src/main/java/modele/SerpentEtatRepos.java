@@ -12,7 +12,14 @@ public class SerpentEtatRepos extends SerpentEtat {
     }
 
     public void deplacer(Serpent serpent , Jeu jeu){
-        serpent.changerEtat(SerpentEtatMouvement.obtenirInstance());
+        int stade = serpent.obtenirStadeRepos();
+        if(stade == 2){
+            serpent.changerStadeRepos(0);
+            serpent.changerEtat(SerpentEtatMouvement.obtenirInstance());
+        }
+        else{
+            serpent.changerStadeRepos(stade+1);
+        }
     }
 
     @Override
