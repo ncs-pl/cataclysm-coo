@@ -314,16 +314,17 @@ public class Jeu {
     }
 
     /** Retourne une proie se trouvant dans une case voisine */
-    public Animal chercherProieVoisine(int ligne , int colonne){
+    public List<Animal> chercherProieVoisine(int ligne , int colonne){
+        List<Animal> proies = new ArrayList<>();
         for(Animal a : this.animaux){
             int aLigne = a.obtenirLigne();
             int aColonne = a.obtenirColonne();
-            if(aLigne == ligne - 1 && aColonne == colonne) return a; // Haut
-            if(aLigne == ligne + 1 && aColonne == colonne) return a; // Bas
-            if(aLigne == ligne && aColonne == colonne + 1) return a; // Droite
-            if(aLigne == ligne && aColonne == colonne - 1) return a; // Gauche
+            if(aLigne == ligne - 1 && aColonne == colonne) proies.add(a); // Haut
+            if(aLigne == ligne + 1 && aColonne == colonne) proies.add(a); // Bas
+            if(aLigne == ligne && aColonne == colonne + 1) proies.add(a); // Droite
+            if(aLigne == ligne && aColonne == colonne - 1) proies.add(a); // Gauche
         }
-        return null;
+        return proies;
     }
 
 
