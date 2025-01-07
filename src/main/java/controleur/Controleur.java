@@ -88,38 +88,32 @@ public class Controleur {
     public void jouer() {
         // Initialisation de la partie
         Carte carte = null;
-        while (carte == null) {
+        while (carte == null) { // TODO(nico): error handling
             String chemin = this.ihm.demanderString("Entrez le nom du fichier de la carte à utiliser, ou rien pour en créer une nouvelle.");
+            if(chemin.isEmpty()) carte = Carte.ouvrir(chemin);
+            else {
+                // Création d'une carte manuellement
+                carte = new Carte();
 
-            if (chemin.isEmpty()) {
-                JeuTheme theme = null;
-                while (theme == null) {
-                    switch (this.ihm.demanderString("Choisissez le thème de la partie (foret, jungle).").toLowerCase()) {
-                    case "foret", "f":  theme = JeuTheme.FORET;                    break;
-                    case "jungle", "j": theme = JeuTheme.JUNGLE;                   break;
-                    default:            this.ihm.afficherErreur("Thème inconnu."); break;
+                boolean choixTheme = true;
+                while(choixTheme) {
+                    switch(this.ihm.demanderString("Choisissez le thème de la partie (foret, jungle).").toLowerCase()) {
+                    case "foret", "f":  choixTheme = false; carte.changerTheme(JeuTheme.FORET);  break;
+                    case "jungle", "j": choixTheme = false; carte.changerTheme(JeuTheme.JUNGLE); break;
+                    default:            this.ihm.afficherErreur("thème inconnu");                break;
                     }
                 }
 
-                int lignes;
-                while (true) {
-                    lignes = this.ihm.demanderInt("Choisissez le nombre de lignes de la carte (0 < i <= 1024).");
-                    if (lignes > 0 && lignes < 1024) break;
-                    this.ihm.afficherErreur("Nombre de ligne invalide.");
+                while(true) {
+                    try { carte.changerLignes(this.ihm.demanderInt("Choisissez le nombre de lignes de la carte (0 < i <= 1024).")); break; }
+                    catch(CarteInvalideException e) { this.ihm.afficherErreur(e.getMessage()); }
                 }
 
-                int colonnes;
-                while (true) {
-                    colonnes = this.ihm.demanderInt("Choisissez le nombre de colonnes de la carte (0 < i <= 1024).");
-                    if (colonnes > 0 && colonnes < 1024) break;
-                    this.ihm.afficherErreur("Nombre de colonne invalide.");
+                while(true) {
+                    try { carte.changerColonnes(this.ihm.demanderInt("Choisissez le nombre de colonnes de la carte (0 < i <= 1024).")); break; }
+                    catch(CarteInvalideException e) { this.ihm.afficherErreur(e.getMessage()); }
                 }
-
-                carte = new Carte(theme, lignes, colonnes, null);
                 carte.genererContenuAleatoire();
-            } else {
-                try                 { carte = new Carte(chemin); }
-                catch (Exception e) {this.ihm.afficherErreur(e.getMessage()); }
             }
         }
 
