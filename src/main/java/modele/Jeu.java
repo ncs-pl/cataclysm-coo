@@ -324,11 +324,7 @@ public class Jeu {
 
     public List<Acteur> chercherDecorsVoisinsVide(int ligne, int colonne) {
         List<Acteur> decors = chercherDecorsVoisins(ligne, colonne);
-        for (Acteur d : decors) {
-            if (verifierCaseAnimal(d.obtenirLigne(), d.obtenirColonne())) {
-                decors.remove(d);
-            }
-        }
+        decors.removeIf( d -> verifierCaseAnimal(d.obtenirLigne(), d.obtenirColonne()));
         return decors;
     }
 
