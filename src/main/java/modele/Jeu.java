@@ -3,14 +3,13 @@ package modele;
 import java.util.*;
 
 public class Jeu {
-    private final JeuTheme theme; // Thème de la partie.
-    private final int colonnes;   // Nombre de colonnes de la carte.
-    private final int lignes;     // Nombre de lignes de la carte.
+    private final JeuTheme theme;                // Thème de la partie.
+    private final int colonnes;                  // Nombre de colonnes de la carte.
+    private final int lignes;                    // Nombre de lignes de la carte.
+    private final ActeurAbstractFactory factory; // Factory
 
     private final Stack<JeuTour> tours; // Tours du jeu
     private JeuTour tour;               // Tour actuel
-
-    private final ActeurAbstractFactory factory; // Factory
 
     private Personnage personnage;            // Le joueur.
     private final List<Objet> inventaire;     // Inventaire du joueur.
@@ -25,14 +24,14 @@ public class Jeu {
         this.lignes   = carte.obtenirLignes();
         this.colonnes = carte.obtenirColonnes();
 
-        this.tours = new Stack<JeuTour>();
+        this.tours = new Stack<>();
 
         int bound = colonnes*lignes; // NOTE(nico): les listes sont bound pour la performance, attention aux overflow!!
-        this.inventaire = new ArrayList<Objet>(bound);
-        this.animaux = new ArrayList<Animal>(bound);
-        this.predateurs = new ArrayList<Predateur>(bound);
-        this.decors = new ArrayList<Acteur>(bound);
-        this.objets = new ArrayList<Objet>(bound);
+        this.inventaire = new ArrayList<>(bound);
+        this.animaux = new ArrayList<>(bound);
+        this.predateurs = new ArrayList<>(bound);
+        this.decors = new ArrayList<>(bound);
+        this.objets = new ArrayList<>(bound);
 
         for (List<Acteur> ligne : carte.obtenirContenu()) {
             for (Acteur acteur : ligne) {
@@ -151,6 +150,7 @@ public class Jeu {
     @SuppressWarnings("DuplicatedCode")
     public void deplacerJoueur(Position position) throws PositionInvalideException {
         assert(this.tour == null); // Un tour a déjà été commencé et pas terminé
+        JeuTourDeplacement tour = new JeuTourDeplacement();
 
         int colonne = this.personnage.obtenirColonne();
         int ligne   = this.personnage.obtenirLigne();
@@ -163,15 +163,18 @@ public class Jeu {
 
         if (colonne < 0 || colonne >= this.colonnes || ligne < 0 || ligne >= this.lignes) throw new PositionInvalideException("Bordures de la carte.");
         if (!this.verifierCaseVide(ligne, colonne)) throw new PositionInvalideException("Case bloquée.");
+        tour.changerPosition(position);
 
         this.personnage.changerColonne(colonne);
         this.personnage.changerLigne(ligne);
+        this.tour = tour;
     }
 
     /** Ramasse un objet d'une case voisine dans l'inventaire. */
     @SuppressWarnings("DuplicatedCode")
     public void ramasserObjet(Position position) throws PositionInvalideException {
         assert(this.tour == null); // Un tour a déjà été commencé et pas terminé
+        JeuTourRamassage tour = new JeuTourRamassage();
 
         int colonne = this.personnage.obtenirColonne();
         int ligne   = this.personnage.obtenirLigne();
@@ -190,18 +193,22 @@ public class Jeu {
         }
 
         if (objet == null) throw new PositionInvalideException("Aucun objet à ramasser à la position demandée.");
+        tour.changerPosition(position);
 
         this.inventaire.add(objet);
         this.objets.remove(objet);
+        this.tour = tour;
     }
 
     /** Dépose un objet de l'inventaire sur une case voisine. */
     @SuppressWarnings("DuplicatedCode")
     public void deposerObjet(Position position, int indice) throws InventaireVideException, IndexOutOfBoundsException, PositionInvalideException {
         assert(this.tour == null); // Un tour a déjà été commencé et pas terminé
+        JeuTourDepot tour = new JeuTourDepot();
 
         if (this.inventaire.isEmpty()) throw new InventaireVideException("L'inventaire est vide.");
         if (indice < 0 || this.inventaire.size() < indice) throw new IndexOutOfBoundsException("Indice d'objet invalide.");
+        tour.changerObjet(indice);
 
         int colonne = this.personnage.obtenirColonne();
         int ligne   = this.personnage.obtenirLigne();
@@ -218,14 +225,22 @@ public class Jeu {
         Objet objet = this.inventaire.get(indice);
         objet.changerColonne(colonne);
         objet.changerLigne(ligne);
+        tour.changerPosition(position);
 
         this.inventaire.remove(objet);
         this.objets.add(objet);
+        this.tour = tour;
     }
 
     /** Notifie le jeu de terminer une transaction de tour. */
     public void terminerTour() {
         assert(this.tour != null); // Aucun tour commencé.
+        this.tour.changerPersonnage(this.personnage);
+        this.tour.changerAnimaux(this.animaux);
+        this.tour.changerDecors(this.decors);
+        this.tour.changerInventaire(this.inventaire);
+        this.tour.changerObjets(this.objets);
+        this.tour.changerPredateurs(this.predateurs);
         this.tours.push(this.tour);
     }
 
@@ -343,7 +358,7 @@ public class Jeu {
 
     /** Retourne les cases possibles pour le déplacement d'un Hibou */
     public List<int[]> destinationsHibou(int ligne , int colonne){
-        ArrayList<int[]> possibles = new ArrayList<int[]>();
+        ArrayList<int[]> possibles = new ArrayList<>();
         int[] haut = {ligne - 2 , colonne};
         int[] bas = {ligne + 2 , colonne};
         int[] droite = {ligne , colonne +2};
@@ -397,7 +412,7 @@ public class Jeu {
 
     /** Retourne les directions (list{ligne,colonne}) trie dans l'ordre qui éloigne au plus l'animal*/
     public List<List<Integer>> directionFuirPredateur(int pLigne , int pColonne, int aLigne, int aColonne) {
-        Map<List<Integer>, Double> direction = new HashMap<List<Integer>, Double>(4);
+        Map<List<Integer>, Double> direction = new HashMap<>(4);
         direction.put(List.of(-1,0), distanceDeuxPosition(pLigne, aLigne - 1, pColonne, aColonne));
         direction.put(List.of(1,0),  distanceDeuxPosition(pLigne, aLigne + 1, pColonne, aColonne ));
         direction.put(List.of(0,1),  distanceDeuxPosition(pLigne, aLigne, pColonne, aColonne + 1));

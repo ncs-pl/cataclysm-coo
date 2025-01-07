@@ -119,6 +119,18 @@ public abstract class MEMCPY {
         return c;
     }
 
+    public static Position MEMCPY_POSITION(Position x) {
+        Position c = null;
+        switch (x) {
+        case HAUT:   c = Position.HAUT;   break;
+        case BAS:    c = Position.BAS;    break;
+        case DROITE: c = Position.DROITE; break;
+        case GAUCHE: c = Position.GAUCHE; break;
+        default: assert(false); // CRASH
+        }
+        return c;
+    }
+
     public static ArrayList<Objet> MEMCPY_ARRAYLIST_OBJET(ArrayList<Objet> list) {
         ArrayList<Objet> clone = new ArrayList<Objet>();
         for(Objet o : list) {
