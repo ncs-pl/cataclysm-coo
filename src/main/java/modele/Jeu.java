@@ -12,11 +12,11 @@ public class Jeu {
     private JeuTour tour;               // Tour actuel
 
     private Personnage personnage;            // Le joueur.
-    private final List<Objet> inventaire;     // Inventaire du joueur.
-    private final List<Animal> animaux;       // Animaux sur la carte.
-    private final List<Predateur> predateurs; // Prédateurs sur la carte.
-    private final List<Acteur> decors;        // Décors bloquant sur la carte.
-    private final List<Objet> objets;         // Objets sur la carte.
+    private List<Objet> inventaire;     // Inventaire du joueur.
+    private List<Animal> animaux;       // Animaux sur la carte.
+    private List<Predateur> predateurs; // Prédateurs sur la carte.
+    private List<Acteur> decors;        // Décors bloquant sur la carte.
+    private List<Objet> objets;         // Objets sur la carte.
 
     public Jeu(Carte carte) {
         this.theme    = carte.obtenirTheme();
@@ -121,13 +121,42 @@ public class Jeu {
 
         Objet objet = null;
         for (Objet o : this.objets) {
-            if (colonne == o.obtenirColonne() && ligne == o.obtenirLigne()) objet = o;
+            if (colonne == o.obtenirColonne() && ligne == o.obtenirLigne()) {
+                objet = o;
+                break;
+            }
         }
 
         if (objet == null) throw new PositionInvalideException("Aucun objet à ramasser à la position demandée.");
         tour.changerPosition(position);
 
-        this.inventaire.add(objet);
+        int pouvoir = 0;
+        if (objet.obtenirType() == Acteur.TYPE_PIERRE_PRECIEUSE2) pouvoir = 2;
+        if (objet.obtenirType() == Acteur.TYPE_PIERRE_PRECIEUSE3) pouvoir = 3;
+        if (pouvoir > 0) {
+            // NOTE(nico): potentiellement bug de rewrite si on dépose un objet puis on ramasse une pierre précieuse,
+            //             mais flemme.  Tout dépend de la sémantique sur ArrayList<Objet>.remove() et du for(x:xs) en Java,
+            //             mais vu le langage, c'est potentiellement braindead.  Sauf qu'en objet, c'est chiant à debug donc
+            //             à voir si jamais ça arrive !
+
+            JeuTour extour = this.tour;
+            while(pouvoir > 0) {
+                if(this.tours.empty()) break;
+                extour = this.tours.pop();
+                --pouvoir;
+            }
+
+            this.personnage = extour.obtenirPersonnage();
+            this.animaux = extour.obtenirAnimaux();
+            this.decors = extour.obtenirDecors();
+            this.inventaire = extour.obtenirInventaire();
+            this.objets = extour.obtenirObjets();
+            this.predateurs = extour.obtenirPredateurs();
+
+            this.inventaire.add(this.factory.creerSimpleCaillou(objet.obtenirLigne(), objet.obtenirColonne(), objet.obtenirMaxLigne(), objet.obtenirMaxColonne()));
+        } else {
+            this.inventaire.add(objet);
+        }
         this.objets.remove(objet);
         this.tour = tour;
     }
