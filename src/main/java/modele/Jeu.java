@@ -138,7 +138,7 @@ public class Jeu {
     /** Supprime un objet des objets de la carte, utile pour simuler un animal qui mange. */
     public void supprimerObjet(Objet objet) { this.objets.remove(objet); }
 
-    /** Déplace le personnqge dans une certaine direction d'une case. */
+    /** Déplace le personnage dans une certaine direction d'une case. */
     @SuppressWarnings("DuplicatedCode")
     public void deplacerJoueur(Position position)
         throws PositionInvalideException {
