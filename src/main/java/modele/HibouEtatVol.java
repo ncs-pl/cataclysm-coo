@@ -1,10 +1,14 @@
 package modele;
 
+import vue.Ihm;
+
 import java.util.List;
 import java.util.Random;
 
 public class HibouEtatVol extends HibouEtat {
-    private static HibouEtatVol instance; // Singleton
+    private static HibouEtatVol instance;
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_VIOLET + Hibou.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+    // Singleton
     private HibouEtatVol() { super(HibouEtat.ETAT_VOL); }
 
     /** Obtient l'instance singleton de l'état. */
@@ -40,6 +44,6 @@ public class HibouEtatVol extends HibouEtat {
 
     @Override
     public String toString() {
-        return ""; // TODO(nico): c.f. TODO dans Hibou.toString()
+        return AFFICHAGE; // TODO(nico): c.f. TODO dans Hibou.toString()
     }
 }
