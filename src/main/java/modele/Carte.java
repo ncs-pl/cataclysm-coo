@@ -86,7 +86,7 @@ public class Carte {
         }
 
         // Spawn de quelques animaux sur la carte.
-        for (int i = 0; i < Math.ceil((double) (this.lignes + this.colonnes) /10); i++) {
+        for (int i = 0; i < Math.ceil((double) (this.lignes + this.colonnes) /5); i++) {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
@@ -94,7 +94,7 @@ public class Carte {
         }
 
         // Spawn de quelques prédateurs sur la carte.
-        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/7); i++) {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
@@ -103,7 +103,7 @@ public class Carte {
         }
 
         // Spawn de quelques décorations sur la carte.
-        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/4); i++) {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
@@ -112,7 +112,7 @@ public class Carte {
         }
 
         // Spawn de quelques objets sur la carte.
-        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/2); i++) {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
@@ -121,7 +121,7 @@ public class Carte {
         }
 
         // Spawn de quelques champignons dangereux.
-        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/5); i++) {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
@@ -129,6 +129,14 @@ public class Carte {
         }
 
         // TODO(nico): ajouter des pierres précieuses.
+        // Spawn de quelques pierres précieuses.
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+            this.contenu.get(ligne).set(colonne, i%3 == 0 ? this.factory.creerPierrePrecieuse2(ligne, colonne, this.lignes, this.colonnes)
+                                                          : this.factory.creerPierrePrecieuse3(ligne, colonne, this.lignes, this.colonnes));
+        }
 
         // Spawn du personnage en un point aléatoire
         while (true) {
@@ -193,14 +201,14 @@ public class Carte {
             int lignes = carte.obtenirLignes();
             int colonnes = carte.obtenirColonnes();
             ActeurAbstractFactory factory = carte.obtenirFactory();
-            List<List<Acteur>> contenu = new ArrayList<List<Acteur>>(colonnes);
+            List<List<Acteur>> contenu = new ArrayList<>(colonnes);
             for (int i = 0; i < lignes; ++i) {
                 String ligne = reader.readLine();
                 List<Acteur> colonne = new ArrayList<>(colonnes);
                 for (int j = 0; j < colonnes; ++j) {
                     char symbole = ligne.charAt(j);
                     Acteur acteur = factory.creerParSymbole(symbole, i, j, lignes, colonnes);
-                    if (acteur == null) throw new CarteInvalideException("contenu ayant des caractères illégaux");
+                    if (acteur == null) throw new CarteInvalideException("symbole " + symbole + " interdit dans cette carte");
                     colonne.add(j, acteur);
                 }
                 contenu.add(i, colonne);

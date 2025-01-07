@@ -35,113 +35,45 @@ public class Jeu {
 
         for (List<Acteur> ligne : carte.obtenirContenu()) {
             for (Acteur acteur : ligne) {
-                switch (acteur.obtenirType()) { // TODO(nico): déplacer la vérification des acteurs par rapport au thème dans Carte
+                // TODO(nico): transformer ça en jump table pour éviter les branches et vectoriser SIMD
+                switch (acteur.obtenirType()) {
                 case Acteur.TYPE_ZONE_VIDE: break;
-                case Acteur.TYPE_PERSONNAGE:
-                    if (this.personnage != null) throw new CarteInvalideException("Plus d'un personnage dans la carte");
-
-                    this.personnage = (Personnage) acteur;
-                    break;
-
-                // Objets
-                case Acteur.TYPE_BANANE:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Banane en dehors de la jungle");
-
-                    this.objets.add((Objet) acteur);
-                    break;
-                case Acteur.TYPE_CHAMPIGNON:
-                    this.objets.add((Objet) acteur);
-                    break;
-                case Acteur.TYPE_CHAMPIGNON_VENENEUX:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Champignon véneneux en dehors de la forêt");
-
-                    this.objets.add((Objet) acteur);
-                    break;
-                case Acteur.TYPE_CHAMPIGNON_HALLUCINOGENE:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Champignon hallucinogène en dehors de la jungle");
-
-                    this.objets.add((Objet) acteur);
-                    break;
-                case Acteur.TYPE_GLAND:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Gland en dehors de la forêt");
-
-                    this.objets.add((Objet) acteur);
-                    break;
-
-                // Animaux
-                case Acteur.TYPE_ECUREUIL:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Ecureuil en dehors de la forêt");
-
-                    this.animaux.add((Animal) acteur);
-                    break;
-                case Acteur.TYPE_SINGE:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Singe en dehors de la jungle");
-
-                    this.animaux.add((Animal) acteur);
-                    break;
-
-                //Prédateurs
-                case Acteur.TYPE_RENARD:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Renard en dehors de la forêt");
-
-                    this.predateurs.add((Predateur) acteur);
-                    break;
-                case Acteur.TYPE_HIBOU:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Hibou en dehors de la forêt");
-
-                    this.predateurs.add((Predateur) acteur);
-                    break;
-                case Acteur.TYPE_SERPENT:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Serpent en dehors de la jungle");
-
-                    this.predateurs.add((Predateur) acteur);
-                    break;
-                case Acteur.TYPE_SCORPION:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Scorpion en dehors de la jungle");
-
-                    this.predateurs.add((Predateur) acteur);
-                    break;
-
-                // Décors
-                case Acteur.TYPE_ARBRE:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Arbre en dehors de la forêt");
-
-                    this.decors.add(acteur);
-                    break;
-                case Acteur.TYPE_BUISSON:
-                    if (theme != JeuTheme.FORET) throw new CarteInvalideException("Buisson en dehors de la forêt");
-
-                    this.decors.add(acteur);
-                    break;
-                case Acteur.TYPE_COCOTIER:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Cocotier en dehors de la jungle");
-
-                    this.decors.add(acteur);
-                    break;
-                case Acteur.TYPE_PETIT_ROCHER:
-                    if (theme != JeuTheme.JUNGLE) throw new CarteInvalideException("Petit rocher en dehors de la Jungle");
-
-                    this.decors.add(acteur);
-                    break;
-
-                default:
-                    throw new CarteInvalideException("Acteur inconnu dans la carte");
+                case Acteur.TYPE_PERSONNAGE: this.personnage = (Personnage) acteur; break;
+                case Acteur.TYPE_BANANE:                   // fallthrough
+                case Acteur.TYPE_CHAMPIGNON:               // fallthrough
+                case Acteur.TYPE_CHAMPIGNON_VENENEUX:      // fallthrough
+                case Acteur.TYPE_CHAMPIGNON_HALLUCINOGENE: // fallthrough
+                case Acteur.TYPE_GLAND:                    // fallthrough
+                case Acteur.TYPE_PIERRE_PRECIEUSE2:        // fallthrough
+                case Acteur.TYPE_PIERRE_PRECIEUSE3:        // fallthrough
+                case Acteur.TYPE_SIMPLE_CAILLOU:           this.objets.add((Objet)acteur); break;
+                case Acteur.TYPE_ECUREUIL: // fallthrough
+                case Acteur.TYPE_SINGE:    this.animaux.add((Animal) acteur); break;
+                case Acteur.TYPE_RENARD:   // fallthrough
+                case Acteur.TYPE_HIBOU:    // fallthrough
+                case Acteur.TYPE_SERPENT:  // fallthrough
+                case Acteur.TYPE_SCORPION: this.predateurs.add((Predateur) acteur); break;
+                case Acteur.TYPE_ARBRE:        // fallthrough
+                case Acteur.TYPE_BUISSON:      // fallthrough
+                case Acteur.TYPE_COCOTIER:     // fallthrough
+                case Acteur.TYPE_PETIT_ROCHER: this.decors.add(acteur); break;
+                default: throw new CarteInvalideException("acteur inconnu dans la carte");
                 }
             }
         }
 
-        if (this.personnage == null) throw new CarteInvalideException("Aucun personnage dans la carte.");
+        if (this.personnage == null) throw new CarteInvalideException("aucun personnage dans la carte.");
     }
 
-    public JeuTheme        obtenirTheme()      { return this.theme;      } // Obtient le thème du jeu en cours.
-    public int             obtenirLignes()     { return this.lignes;     } // Obtient le nombre de lignes dans le jeu en cours.
-    public int             obtenirColonnes()   { return this.colonnes;   } // Obtient le nombre de colonnes dans le jeu en cours.
-    public Personnage      obtenirPersonnage() { return this.personnage; } // Obtient le personnage sur la carte.
-    public List<Objet>     obtenirInventaire() { return this.inventaire; } // Obtient l'inventaire du joueur.
-    public List<Animal>    obtenirAnimaux()    { return this.animaux;    } // Obtient les animaux sur la carte.
-    public List<Predateur> obtenirPredateurs() { return predateurs;      } // Obtient les prédateurs sur la carte.
-    public List<Acteur>    obtenirDecors()     { return this.decors;     } // Obtient les décors sur la carte.
-    public List<Objet>     obtenirObjets()     { return this.objets;     } // Obtient les objets sur la carte.
+    public JeuTheme obtenirTheme() { return this.theme; }              // Obtient le thème du jeu en cours.
+    public int obtenirLignes() { return this.lignes; }                 // Obtient le nombre de lignes dans le jeu en cours.
+    public int obtenirColonnes() { return this.colonnes; }             // Obtient le nombre de colonnes dans le jeu en cours.
+    public Personnage obtenirPersonnage() { return this.personnage; }  // Obtient le personnage sur la carte.
+    public List<Objet> obtenirInventaire() { return this.inventaire; } // Obtient l'inventaire du joueur.
+    public List<Animal> obtenirAnimaux() { return this.animaux; }      // Obtient les animaux sur la carte.
+    public List<Predateur> obtenirPredateurs() { return predateurs; }  // Obtient les prédateurs sur la carte.
+    public List<Acteur> obtenirDecors() { return this.decors; }        // Obtient les décors sur la carte.
+    public List<Objet> obtenirObjets() { return this.objets; }         // Obtient les objets sur la carte.
 
     /** Supprime un objet des objets de la carte, utile pour simuler un animal qui mange. */
     public void supprimerObjet(Objet objet) { this.objets.remove(objet); }

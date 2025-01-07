@@ -78,6 +78,18 @@ public abstract class MEMCPY {
         return new PetitRocher(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne());
     }
 
+    public static PierrePrecieuse2 MEMCPY_PIERRE_PRECIEUSE2(PierrePrecieuse2 x) {
+        return new PierrePrecieuse2(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne());
+    }
+
+    public static PierrePrecieuse3 MEMCPY_PIERRE_PRECIEUSE3(PierrePrecieuse3 x) {
+        return new PierrePrecieuse3(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne());
+    }
+
+    public static SimpleCaillou MEMCPY_SIMPLE_CAILLOU(SimpleCaillou x) {
+        return new SimpleCaillou(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne());
+    }
+
     public static Ecureuil MEMCPY_ECUREUIL(Ecureuil x) {
         Ecureuil c = new Ecureuil(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne());
         c.changerAmitie(x.obtenirAmitie());
@@ -140,6 +152,9 @@ public abstract class MEMCPY {
             case Acteur.TYPE_CHAMPIGNON_VENENEUX:      clone.add(MEMCPY.MEMCPY_CHAMPIGNON_VENENEUX((ChampignonVeneneux)o));           break;
             case Acteur.TYPE_BANANE:                   clone.add(MEMCPY.MEMCPY_BANANE((Banane)o));                                    break;
             case Acteur.TYPE_GLAND:                    clone.add(MEMCPY.MEMCPY_GLAND((Gland) o));                                     break;
+            case Acteur.TYPE_PIERRE_PRECIEUSE2:        clone.add(MEMCPY.MEMCPY_PIERRE_PRECIEUSE2((PierrePrecieuse2) o));              break;
+            case Acteur.TYPE_PIERRE_PRECIEUSE3:        clone.add(MEMCPY.MEMCPY_PIERRE_PRECIEUSE3((PierrePrecieuse3) o));              break;
+            case Acteur.TYPE_SIMPLE_CAILLOU:           clone.add(MEMCPY.MEMCPY_SIMPLE_CAILLOU((SimpleCaillou) o));                    break;
             default: assert(false); // CRASH
             }
         }

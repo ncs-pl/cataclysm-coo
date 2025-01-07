@@ -19,6 +19,9 @@ public abstract class Acteur {
     public static final int TYPE_SERPENT                  = 14;
     public static final int TYPE_SCORPION                 = 15;
     public static final int TYPE_CHAMPIGNON_HALLUCINOGENE = 16;
+    public static final int TYPE_PIERRE_PRECIEUSE2        = 17;
+    public static final int TYPE_PIERRE_PRECIEUSE3        = 18;
+    public static final int TYPE_SIMPLE_CAILLOU           = 19;
 
     private int type;        // Identifiant numérique du type d'acteur.
     private int ligne;      // Ligne de la position de l'acteur.
