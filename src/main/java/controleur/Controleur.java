@@ -123,6 +123,8 @@ public class Controleur {
         // Tours de jeu
         boolean enCours = true;
         while (enCours) {
+            this.jeu.debuterTour();
+
             boolean utilitaire = false; // true si l'utilisateur a utilisé un utilitaire, ce qui ne compte pas comme un tour.
             try {
                 switch (this.ihm.demanderString("Entrez une instruction.").toLowerCase()) {
@@ -184,7 +186,9 @@ public class Controleur {
             } catch(Exception e) { this.ihm.afficherErreur(e.getMessage()); continue; }
 
             if(utilitaire) continue;
-            this.jeu.executerIntelligenceAnimaux_Predateurs();
+            this.jeu.executerIa();
+            this.jeu.terminerTour();
+
             this.afficherCarte();
         }
 

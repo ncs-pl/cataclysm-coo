@@ -1,6 +1,5 @@
 package modele;
 
-import javax.rmi.ssl.SslRMIClientSocketFactory;
 import java.util.*;
 
 public class Jeu {
@@ -8,26 +7,36 @@ public class Jeu {
     private final int colonnes;   // Nombre de colonnes de la carte.
     private final int lignes;     // Nombre de lignes de la carte.
 
+    private final Stack<JeuTour> tours; // Tours du jeu
+    private JeuTour tour;               // Tour actuel
+
     private final ActeurAbstractFactory factory; // Factory
 
-    private       Personnage personnage;                                   // Le joueur.
-    private final List<Objet> inventaire     = new ArrayList<>();          // Inventaire du joueur.
-    private final List<Animal> animaux       = new ArrayList<>();          // Animaux sur la carte.
-    private final List<Predateur> predateurs = new ArrayList<Predateur>(); // Prédateurs sur la carte.
-
-    private final List<Acteur> decors = new ArrayList<>(); // Décors bloquant sur la carte.
-    private final List<Objet>  objets = new ArrayList<>(); // Objets sur la carte.
+    private Personnage personnage;            // Le joueur.
+    private final List<Objet> inventaire;     // Inventaire du joueur.
+    private final List<Animal> animaux;       // Animaux sur la carte.
+    private final List<Predateur> predateurs; // Prédateurs sur la carte.
+    private final List<Acteur> decors;        // Décors bloquant sur la carte.
+    private final List<Objet> objets;         // Objets sur la carte.
 
     public Jeu(Carte carte) {
-        this.theme   = carte.obtenirTheme();
-        this.factory = this.theme == JeuTheme.FORET ? ActeurForetFactory.getInstance()
-                                                    : ActeurJungleFactory.getInstance();
+        this.theme    = carte.obtenirTheme();
+        this.factory  = this.theme == JeuTheme.FORET ? ActeurForetFactory.getInstance() : ActeurJungleFactory.getInstance();
         this.lignes   = carte.obtenirLignes();
         this.colonnes = carte.obtenirColonnes();
 
+        this.tours = new Stack<JeuTour>();
+
+        int bound = colonnes*lignes; // NOTE(nico): les listes sont bound pour la performance, attention aux overflow!!
+        this.inventaire = new ArrayList<Objet>(bound);
+        this.animaux = new ArrayList<Animal>(bound);
+        this.predateurs = new ArrayList<Predateur>(bound);
+        this.decors = new ArrayList<Acteur>(bound);
+        this.objets = new ArrayList<Objet>(bound);
+
         for (List<Acteur> ligne : carte.obtenirContenu()) {
             for (Acteur acteur : ligne) {
-                switch (acteur.obtenirType()) {
+                switch (acteur.obtenirType()) { // TODO(nico): déplacer la vérification des acteurs par rapport au thème dans Carte
                 case Acteur.TYPE_ZONE_VIDE: break;
                 case Acteur.TYPE_PERSONNAGE:
                     if (this.personnage != null) throw new CarteInvalideException("Plus d'un personnage dans la carte");
@@ -140,8 +149,9 @@ public class Jeu {
 
     /** Déplace le personnage dans une certaine direction d'une case. */
     @SuppressWarnings("DuplicatedCode")
-    public void deplacerJoueur(Position position)
-        throws PositionInvalideException {
+    public void deplacerJoueur(Position position) throws PositionInvalideException {
+        assert(this.tour == null); // Un tour a déjà été commencé et pas terminé
+
         int colonne = this.personnage.obtenirColonne();
         int ligne   = this.personnage.obtenirLigne();
         switch (position) {
@@ -151,9 +161,8 @@ public class Jeu {
         case GAUCHE: colonne -= 1; break;
         }
 
-        if (colonne < 0 || colonne >= this.colonnes ||
-            ligne < 0 || ligne >= this.lignes)         throw new PositionInvalideException("Bordures de la carte.");
-        if (!this.verifierCaseVide(ligne, colonne))    throw new PositionInvalideException("Case bloquée.");
+        if (colonne < 0 || colonne >= this.colonnes || ligne < 0 || ligne >= this.lignes) throw new PositionInvalideException("Bordures de la carte.");
+        if (!this.verifierCaseVide(ligne, colonne)) throw new PositionInvalideException("Case bloquée.");
 
         this.personnage.changerColonne(colonne);
         this.personnage.changerLigne(ligne);
@@ -161,8 +170,9 @@ public class Jeu {
 
     /** Ramasse un objet d'une case voisine dans l'inventaire. */
     @SuppressWarnings("DuplicatedCode")
-    public void ramasserObjet(Position position)
-        throws PositionInvalideException {
+    public void ramasserObjet(Position position) throws PositionInvalideException {
+        assert(this.tour == null); // Un tour a déjà été commencé et pas terminé
+
         int colonne = this.personnage.obtenirColonne();
         int ligne   = this.personnage.obtenirLigne();
         switch (position) {
@@ -172,8 +182,7 @@ public class Jeu {
         case GAUCHE: colonne -= 1; break;
         }
 
-        if (colonne < 0 || colonne >= this.colonnes ||
-            ligne < 0 || ligne >= this.lignes)         throw new PositionInvalideException("Bordures de la carte.");
+        if (colonne < 0 || colonne >= this.colonnes || ligne < 0 || ligne >= this.lignes) throw new PositionInvalideException("Bordures de la carte.");
 
         Objet objet = null;
         for (Objet o : this.objets) {
@@ -188,10 +197,10 @@ public class Jeu {
 
     /** Dépose un objet de l'inventaire sur une case voisine. */
     @SuppressWarnings("DuplicatedCode")
-    public void deposerObjet(Position position, int indice)
-        throws InventaireVideException, IndexOutOfBoundsException, PositionInvalideException {
-        if (this.inventaire.isEmpty()) throw new InventaireVideException("L'inventaire est vide.");
+    public void deposerObjet(Position position, int indice) throws InventaireVideException, IndexOutOfBoundsException, PositionInvalideException {
+        assert(this.tour == null); // Un tour a déjà été commencé et pas terminé
 
+        if (this.inventaire.isEmpty()) throw new InventaireVideException("L'inventaire est vide.");
         if (indice < 0 || this.inventaire.size() < indice) throw new IndexOutOfBoundsException("Indice d'objet invalide.");
 
         int colonne = this.personnage.obtenirColonne();
@@ -203,9 +212,8 @@ public class Jeu {
         case GAUCHE: colonne -= 1; break;
         }
 
-        if (colonne < 0 || colonne >= this.colonnes ||
-            ligne < 0 || ligne >= this.lignes)         throw new PositionInvalideException("Bordures de la carte.");
-        if (!this.verifierCaseVide(ligne, colonne))    throw new PositionInvalideException("Case occupée.");
+        if (colonne < 0 || colonne >= this.colonnes || ligne < 0 || ligne >= this.lignes) throw new PositionInvalideException("Bordures de la carte.");
+        if (!this.verifierCaseVide(ligne, colonne)) throw new PositionInvalideException("Case occupée.");
 
         Objet objet = this.inventaire.get(indice);
         objet.changerColonne(colonne);
@@ -215,10 +223,16 @@ public class Jeu {
         this.objets.add(objet);
     }
 
-    /** Exécute les intelligences artificiels des animaux. */
-    public void executerIntelligenceAnimaux_Predateurs() {
-        for (Predateur predateur : this.predateurs) predateur.deplacer(this);
-        for (Animal animal : this.animaux)          animal.deplacer(this);
+    /** Notifie le jeu de terminer une transaction de tour. */
+    public void terminerTour() {
+        assert(this.tour != null); // Aucun tour commencé.
+        this.tours.push(this.tour);
+    }
+
+    /** Exécute les intelligences artificiels. */
+    public void executerIa() {
+        for (Predateur p : this.predateurs) p.deplacer(this);
+        for (Animal a : this.animaux)       a.deplacer(this);
     }
 
     /** Retourne true si le personnage est sur une case voisine. */
@@ -327,7 +341,6 @@ public class Jeu {
         return proies;
     }
 
-
     /** Retourne les cases possibles pour le déplacement d'un Hibou */
     public List<int[]> destinationsHibou(int ligne , int colonne){
         ArrayList<int[]> possibles = new ArrayList<int[]>();
@@ -345,7 +358,6 @@ public class Jeu {
         return possibles;
     }
 
-
     /** Retourne une proie se trouvant dans un rayon de 3 cases du hibou */
     public Animal chercherProieHibou(int ligne , int colonne){
         for(Animal a : this.animaux){
@@ -357,8 +369,8 @@ public class Jeu {
                     a.obtenirEtat() instanceof EcureuilAnimalEtatPerche))  return a;
             }
         }
-        return null;
 
+        return null;
     }
 
     /** Retourne un prédateur se trouvant dans un rayon de 4 cases de l'animal*/
@@ -387,8 +399,8 @@ public class Jeu {
     public List<List<Integer>> directionFuirPredateur(int pLigne , int pColonne, int aLigne, int aColonne) {
         Map<List<Integer>, Double> direction = new HashMap<List<Integer>, Double>(4);
         direction.put(List.of(-1,0), distanceDeuxPosition(pLigne, aLigne - 1, pColonne, aColonne));
-        direction.put(List.of(1,0), distanceDeuxPosition(pLigne, aLigne + 1, pColonne, aColonne ));
-        direction.put(List.of(0,1), distanceDeuxPosition(pLigne, aLigne, pColonne, aColonne + 1));
+        direction.put(List.of(1,0),  distanceDeuxPosition(pLigne, aLigne + 1, pColonne, aColonne ));
+        direction.put(List.of(0,1),  distanceDeuxPosition(pLigne, aLigne, pColonne, aColonne + 1));
         direction.put(List.of(0,-1), distanceDeuxPosition(pLigne, aLigne, pColonne, aColonne - 1));
 
         List<Map.Entry<List<Integer>, Double>> directionTrie = new ArrayList<>(direction.entrySet());
@@ -403,7 +415,6 @@ public class Jeu {
     }
 
     private double distanceDeuxPosition(int x1, int x2, int y1, int y2) {
-        return Math.sqrt(Math.pow(x2 - x1, 2) +
-                Math.pow(y2 - y1, 2));
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 }
