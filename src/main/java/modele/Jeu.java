@@ -193,6 +193,10 @@ public class Jeu {
         this.tour = tour;
     }
 
+    public void annulerTour() {
+        this.tour = null;
+    }
+
     /** Notifie le jeu de terminer une transaction de tour. */
     public void terminerTour() {
         assert(this.tour != null); // Aucun tour commencé.

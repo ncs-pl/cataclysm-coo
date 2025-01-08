@@ -181,7 +181,7 @@ public class Controleur {
                 case "deposer droite",  "dd": this.jeu.deposerObjet(Position.DROITE, this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.")); break;
                 default:                      this.ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");              break;
                 }
-            } catch(Exception e) { this.ihm.afficherErreur(e.getMessage()); continue; }
+            } catch(Exception e) { this.ihm.afficherErreur(e.getMessage()); this.jeu.annulerTour(); continue; }
 
             if(utilitaire) continue;
             this.jeu.executerIa();
