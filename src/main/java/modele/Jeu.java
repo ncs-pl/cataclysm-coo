@@ -207,6 +207,7 @@ public class Jeu {
         this.tour.changerObjets(this.objets);
         this.tour.changerPredateurs(this.predateurs);
         this.tours.push(this.tour);
+        this.tour = null;
     }
 
     /** Exécute les intelligences artificiels. */
