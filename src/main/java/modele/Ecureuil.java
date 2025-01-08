@@ -25,9 +25,9 @@ public class Ecureuil extends Animal {
                 this.changerLigne(decor.obtenirLigne());
                 this.changerColonne(decor.obtenirColonne());
                 if (decor.obtenirType() == Acteur.TYPE_ARBRE){
-                    this.changerEtat(new EcureuilAnimalEtatPerche(this.obtenirEtat()));
+                    this.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatEffraye.obtenirInstance()));
                 } else if (decor.obtenirType() == Acteur.TYPE_BUISSON){
-                    this.changerEtat(new EcureuilAnimalEtatCache(this.obtenirEtat()));
+                    this.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatEffraye.obtenirInstance()));
                 }
                 return true;
             }

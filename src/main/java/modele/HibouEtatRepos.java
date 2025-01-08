@@ -12,6 +12,7 @@ public class HibouEtatRepos extends HibouEtat{
         if (HibouEtatRepos.instance == null) HibouEtatRepos.instance = new HibouEtatRepos();
         return HibouEtatRepos.instance;
     }
+
     @Override
     public void deplacer(Hibou   hibou, Jeu jeu) {
         hibou.changerEtat(HibouEtatVol.obtenirInstance());
