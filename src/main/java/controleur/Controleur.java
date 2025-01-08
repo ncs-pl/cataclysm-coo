@@ -178,6 +178,10 @@ public class Controleur {
                 case "ramasser bas",    "rb": this.jeu.ramasserObjet(Position.BAS);                                                                   break;
                 case "ramasser gauche", "rg": this.jeu.ramasserObjet(Position.GAUCHE);                                                                break;
                 case "ramasser droite", "rd": this.jeu.ramasserObjet(Position.DROITE);                                                                break;
+                case "taper haut",   "th": this.jeu.taperPredateur(Position.HAUT);                                                                  break;
+                case "taper bas",    "tb": this.jeu.taperPredateur(Position.BAS);                                                                   break;
+                case "taper gauche", "tg": this.jeu.taperPredateur(Position.GAUCHE);                                                                break;
+                case "taper droite", "td": this.jeu.taperPredateur(Position.DROITE);                                                                break;
                 case "deposer haut",    "dh": this.jeu.deposerObjet(Position.HAUT, this.ihm.demanderInt("Entrez le numéro de l'objet à déposer."));   break;
                 case "deposer bas",     "db": this.jeu.deposerObjet(Position.BAS, this.ihm.demanderInt("Entrez le numéro de l'objet à déposer."));    break;
                 case "deposer gauche",  "dg": this.jeu.deposerObjet(Position.GAUCHE, this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.")); break;

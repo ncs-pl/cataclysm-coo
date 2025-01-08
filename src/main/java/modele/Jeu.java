@@ -408,4 +408,35 @@ public class Jeu {
     private double distanceDeuxPosition(int x1, int x2, int y1, int y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
+
+
+
+    public Predateur obtenirCasePredateur(int ligne, int colonne){
+        for (Predateur p : this.predateurs) {
+            if(colonne == p.obtenirColonne() && ligne == p.obtenirLigne()) return p;
+        }
+        return null;
+    }
+
+    public void taperPredateur(Position position){
+        assert(this.tour == null); // Un tour a déjà été commencé et pas terminé
+        JeuTourCoup tour = new JeuTourCoup();
+
+        int colonne = this.personnage.obtenirColonne();
+        int ligne   = this.personnage.obtenirLigne();
+        switch (position) {
+            case HAUT:   ligne   -= 1; break;
+            case BAS:    ligne   += 1; break;
+            case DROITE: colonne += 1; break;
+            case GAUCHE: colonne -= 1; break;
+        }
+        Predateur cible = obtenirCasePredateur(ligne,colonne);
+        tour.changerPosition(position);
+        if(cible != null){
+            this.predateurs.remove(cible);
+        }
+
+        this.tour = tour;
+
+    }
 }
