@@ -90,7 +90,7 @@ public class Controleur {
         Carte carte = null;
         while (carte == null) { // TODO(nico): error handling
             String chemin = this.ihm.demanderString("Entrez le nom du fichier de la carte à utiliser, ou rien pour en créer une nouvelle.");
-            if(chemin.isEmpty()) carte = Carte.ouvrir(chemin);
+            if(!chemin.isEmpty()) carte = Carte.ouvrir(chemin);
             else {
                 // Création d'une carte manuellement
                 carte = new Carte();
