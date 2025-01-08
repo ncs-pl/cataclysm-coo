@@ -157,7 +157,17 @@ public class Jeu {
         } else {
             this.inventaire.add(objet);
         }
-        this.objets.remove(objet);
+
+        // NOTE(nico): on ne peut pas directement utiliser ArrayList.remove() car on utilise des clones des listes
+        //             (via notre MEMCPY) et que le .remove() de Java ne cherche que par équivalence légère par pointeur,
+        //             et non pas par contenu comme le ferai tout autre langage.
+        for(Objet o : this.objets) {
+            if(o.obtenirLigne() == objet.obtenirLigne() && o.obtenirColonne() == objet.obtenirColonne()) {
+                this.objets.remove(o);
+                break;
+            }
+        }
+
         this.tour = tour;
     }
 
