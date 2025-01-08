@@ -153,9 +153,12 @@ public class Controleur {
                             String nom = "";
                             int type = inventaire.get(i).obtenirType();
                             switch (type) {
-                            case Acteur.TYPE_BANANE:     nom = "Banane";                                                              break;
-                            case Acteur.TYPE_CHAMPIGNON: nom = "Champignon";                                                          break;
-                            case Acteur.TYPE_GLAND:      nom = "Gland";                                                               break;
+                            case Acteur.TYPE_BANANE: nom = "Banane"; break;
+                            case Acteur.TYPE_CHAMPIGNON: nom = "Champignon"; break;
+                            case Acteur.TYPE_GLAND: nom = "Gland"; break;
+                            case Acteur.TYPE_PIERRE_PRECIEUSE2: nom = "Pierre précieuse de puissance 2"; break;
+                            case Acteur.TYPE_PIERRE_PRECIEUSE3: nom = "Pierre précieuse de puissance 3"; break;
+                            case Acteur.TYPE_SIMPLE_CAILLOU: nom = "Simple caillou"; break;
                             default:                     this.ihm.afficherErreur("Objet \"" + type + "\" inconnu dans l'inventaire"); break;
                             }
                             //noinspection StringConcatenationInLoop
