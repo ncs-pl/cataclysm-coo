@@ -179,7 +179,7 @@ public class Controleur {
                 case "deposer bas",     "db": this.jeu.deposerObjet(Position.BAS, this.ihm.demanderInt("Entrez le numéro de l'objet à déposer."));    break;
                 case "deposer gauche",  "dg": this.jeu.deposerObjet(Position.GAUCHE, this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.")); break;
                 case "deposer droite",  "dd": this.jeu.deposerObjet(Position.DROITE, this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.")); break;
-                default:                      this.ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel.");              break;
+                default:                      this.ihm.afficherErreur("Instruction invalide, tapez \"aide\" pour consulter le manuel."); utilitaire = true;       break;
                 }
             } catch(Exception e) { this.ihm.afficherErreur(e.getMessage()); this.jeu.annulerTour(); continue; }
 
