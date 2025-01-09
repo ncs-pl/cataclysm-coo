@@ -2,28 +2,17 @@ package modele;
 
 import vue.Ihm;
 
-public class SingeAnimalEtatCache extends AnimalEtat {
+public class SingeAnimalEtatCache extends AnimalEtatDecorateur {
     public static final String AFFICHAGE = Ihm.COULEUR_FOND_JAUNE + Ihm.COULEUR_JAUNE + Singe.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 
-    private static SingeAnimalEtatCache instance; // Singleton
-    private SingeAnimalEtatCache() {
-        super(AnimalEtat.ETAT_CACHE);
-    }
-
-    /** Obtient l'instance singleton de l'état. */
-    public static AnimalEtat obtenirInstance() {
-        if (SingeAnimalEtatCache.instance == null) SingeAnimalEtatCache.instance = new SingeAnimalEtatCache();
-        return SingeAnimalEtatCache.instance;
+    public SingeAnimalEtatCache(AnimalEtat animalEtat) {
+        super(animalEtat);
     }
 
     @Override
     public void deplacer(Animal animal, Jeu jeu) {
-        throw new AnimalEtatException("Pas encore implémenté.");
-    }
-
-    @Override
-    public void prendreCoup(Animal animal) {
-        throw new AnimalEtatException("Pas encore implémenté.");
+        animal.changerEtat(this.animalEtat);
+        super.deplacer(animal, jeu);
     }
 
     @Override

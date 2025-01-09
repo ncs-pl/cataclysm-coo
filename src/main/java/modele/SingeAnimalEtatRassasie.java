@@ -2,6 +2,7 @@ package modele;
 
 import vue.Ihm;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -25,35 +26,48 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
 
         List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
         zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
+        Predateur predateur = jeu.chercherPredateur(ligne, colonne);
 
-        int decors = -1;
+        /*if (predateur != null) {
+            if(jeu.verifierTypeCaseDecors(ligne, colonne, Acteur.TYPE_COCOTIER)) {
+                zones = new ArrayList<>();
+            } else {
+                Acteur cache = null;
+
+                for (Acteur acteur : zones) {
+                    if (acteur.obtenirType() == Acteur.TYPE_COCOTIER) {
+                        cache = acteur;
+                    }
+                }
+            }
+        }*/
 
         if (!zones.isEmpty()) {
             Random rand = new Random();
             Acteur next = zones.get(rand.nextInt(zones.size()));
 
-            if (next.obtenirType() == Acteur.TYPE_COCOTIER || next.obtenirType() == Acteur.TYPE_PETIT_ROCHER){
-                decors = next.obtenirType();
-            }
-
             animal.changerLigne(next.obtenirLigne());
             animal.changerColonne(next.obtenirColonne());
         }
 
+        ligne = animal.obtenirLigne();
+        colonne = animal.obtenirColonne();
+
         int saturation = animal.obtenirSaturation();
 
         if (saturation == 0){
-            if(decors == Acteur.TYPE_COCOTIER || decors == Acteur.TYPE_PETIT_ROCHER){
-                animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatAffame.obtenirInstance()));
-            } else {
                 animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
-            }
         } else {
             animal.changerSaturation(saturation - 1);
         }
 
-        if (decors == Acteur.TYPE_COCOTIER || decors == Acteur.TYPE_PETIT_ROCHER) {
-            animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatRassasie.obtenirInstance()));
+        if (jeu.verifierCaseDecors(ligne, colonne)) {
+            int type = jeu.obtenirCaseDecors(ligne, colonne).obtenirType();
+            if (type == Acteur.TYPE_COCOTIER){
+                animal.changerEtat(new SingeAnimalEtatPerche(animal.obtenirEtat()));
+            } else if (type == Acteur.TYPE_PETIT_ROCHER){
+                animal.changerEtat(new SingeAnimalEtatCache(animal.obtenirEtat()));
+            }
         }
     }
 
