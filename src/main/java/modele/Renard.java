@@ -12,6 +12,9 @@ public class Renard extends Predateur {
     public Renard(int ligne, int colonne, int maxLigne, int maxColonne) {
         super(Acteur.TYPE_RENARD, ligne, colonne, maxLigne, maxColonne);
     }
+    public Renard(int ligne, int colonne, int maxLigne, int maxColonne,int sante) {
+        super(Acteur.TYPE_RENARD, ligne, colonne, maxLigne, maxColonne,sante);
+    }
 
     @Override
     public void deplacer(Jeu jeu) {

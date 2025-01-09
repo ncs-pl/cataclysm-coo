@@ -9,6 +9,10 @@ public class Hibou extends Predateur {
     public Hibou(int ligne, int colonne, int maxLigne, int maxColonne) {
         super(Acteur.TYPE_HIBOU, ligne, colonne, maxLigne, maxColonne);
     }
+    public Hibou(int ligne, int colonne, int maxLigne, int maxColonne,int sante) {
+        super(Acteur.TYPE_HIBOU, ligne, colonne, maxLigne, maxColonne,sante);
+    }
+
 
     public HibouEtat obtenirEtat()               { return etat;      }
     public void      changerEtat(HibouEtat etat) { this.etat = etat; }
@@ -19,7 +23,6 @@ public class Hibou extends Predateur {
 
     @Override
     public String toString() {
-        // TODO(nico): toString des états ?
-        return etat.toString();
+        return this.etat.toString();
     }
 }

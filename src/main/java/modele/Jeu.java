@@ -455,6 +455,45 @@ public class Jeu {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
+    public Predateur obtenirCasePredateur(int ligne, int colonne){
+        for (Predateur p : this.predateurs) {
+            if(colonne == p.obtenirColonne() && ligne == p.obtenirLigne()) return p;
+        }
+        return null;
+    }
+
+    public void taperPredateur(Position position){
+        assert(this.tour == null); // Un tour a déjà été commencé et pas terminé
+        JeuTourCoup tour = new JeuTourCoup();
+
+        int colonne = this.personnage.obtenirColonne();
+        int ligne   = this.personnage.obtenirLigne();
+        switch (position) {
+            case HAUT:   ligne   -= 1; break;
+            case BAS:    ligne   += 1; break;
+            case DROITE: colonne += 1; break;
+            case GAUCHE: colonne -= 1; break;
+        }
+        if (colonne < 0 || colonne >= this.colonnes || ligne < 0 || ligne >= this.lignes) throw new PositionInvalideException("Bordures de la carte.");
+
+
+        Predateur cible = obtenirCasePredateur(ligne,colonne);
+        tour.changerPosition(position);
+        if (cible == null) throw new PositionInvalideException("Aucun prédateur à la position demandée.");
+        else {
+            Random random = new Random();
+            int degatMin = 25;
+            int degatMax = 75;
+            int pas = 25;
+            int sante = cible.obtenirSante();
+            int degat = random.nextInt((degatMax - degatMin) / pas + 1) * pas + degatMin;
+            if(sante - degat > 0) {cible.changerSante(sante - degat); System.out.println("Sante : " + cible.obtenirSante());}
+            else {this.predateurs.remove(cible); System.out.println("TUE");}
+        }
+        this.tour = tour;
+
+    }
+  
     public List<Acteur> obtenirRochersVoisins(int ligne , int colonne){
         List<Acteur> rochers = chercherDecorsVoisins(ligne , colonne);
         for(Acteur r : decors ){
@@ -472,5 +511,4 @@ public class Jeu {
         }
         return null;
     }
-
 }

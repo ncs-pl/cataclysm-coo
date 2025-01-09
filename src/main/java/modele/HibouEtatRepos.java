@@ -3,6 +3,8 @@ package modele;
 import vue.Ihm;
 
 public class HibouEtatRepos extends HibouEtat{
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_JAUNE + Hibou.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+
     private static HibouEtatRepos instance; // Singleton
     public static final String AFFICHAGE = Ihm.COULEUR_FOND_VIOLET + Ihm.COULEUR_VERT + Hibou.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
     private HibouEtatRepos() { super(HibouEtat.ETAT_VOL); }
@@ -20,6 +22,6 @@ public class HibouEtatRepos extends HibouEtat{
 
     @Override
     public String toString() {
-        return AFFICHAGE; // TODO(nico): c.f. TODO dans Hibou.toString()
+        return HibouEtatRepos.AFFICHAGE;
     }
 }

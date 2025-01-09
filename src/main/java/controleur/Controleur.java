@@ -63,8 +63,19 @@ public class Controleur {
                        "\t" + EcureuilAnimalEtatAmi.AFFICHAGE      + " : écureuil ami\n"                   +
                        "\t" + EcureuilAnimalEtatJunkie.AFFICHAGE   + " : écureuil junkie\n"                +
                        "\t" + EcureuilAnimalEtatPerche.AFFICHAGE   + " : écureuil perché dans un arbre\n"  +
-                       "\t" + EcureuilAnimalEtatCache.AFFICHAGE    + " : écureuil caché dans un buisson\n" ;
-            // TODO(nico): légende pour le renard et le hibou, et leurs états.
+                       "\t" + EcureuilAnimalEtatCache.AFFICHAGE    + " : écureuil caché dans un buisson\n" +
+                       "\t" + Renard.AFFICHAGE                     + " : Renard\n"                         +
+                       "\t" + HibouEtatVol.AFFICHAGE               + " : Hibou en vol\n"                   +
+                       "\t" + HibouEtatRepos.AFFICHAGE             + " : Hibou au repos\n"                 +
+                       "\t" + PierrePrecieuse2.AFFICHAGE           + " : Pierre précieuse\n"               +
+                       "\t" + PierrePrecieuse3.AFFICHAGE           + " : Pierre précieuse\n"               ;
+
+
+
+
+
+
+
             break;
         case JUNGLE:
             legende += "\t" + Cocotier.AFFICHAGE                + " : cocotier\n"                             +
@@ -77,7 +88,13 @@ public class Controleur {
                        "\t" + SingeAnimalEtatAmi.AFFICHAGE      + " : singe ami\n"                            +
                        "\t" + SingeAnimalEtatJunkie.AFFICHAGE   + " : singe junkie\n"                         +
                        "\t" + SingeAnimalEtatPerche.AFFICHAGE   + " : singe perché dans un cocotier\n"        +
-                       "\t" + SingeAnimalEtatCache.AFFICHAGE    + " : singe caché derrière un petit rocher\n" ;
+                       "\t" + SingeAnimalEtatCache.AFFICHAGE    + " : singe caché derrière un petit rocher\n" +
+                       "\t" + "A définir"                       + " : Serpent en mouvement\n"                 +
+                       "\t" + "A définir"                       + " : Serpent au repos\n"                     +
+                       "\t" + "A définir"                       + " : Scorpion en mouvement\n"                +
+                       "\t" + "A définir"                       + " : Scorpion caché sous un petit rocher\n"  +
+                       "\t" + PierrePrecieuse2.AFFICHAGE        + " : Pierre précieuse\n"                     +
+                       "\t" + PierrePrecieuse3.AFFICHAGE        + " : Pierre précieuse\n"                     ;
             // TODO(nico): légende pour le serpent et le scorpion, et leurs états.
             break;
         }
@@ -137,7 +154,8 @@ public class Controleur {
                                                  "* inventaire (i): Affiche votre inventaire.\n"                                                                                                                     +
                                                  "* haut, bas, gauche, droite (h, b, g, d): Déplace le joueur vers le haut, le bas, la gauche ou la droite respectivement.\n"                                        +
                                                  "* ramasser haut, bas, gauche, droite (rh, rb, rg, rd): Ramasse dans votre inventaire l'objet de la case du haut, du bas, de gauche ou de droite respectivement.\n" +
-                                                 "* deposer haut, bas, gauche, droite (dh, db, dg, dd): Dépose un objet de votre inventaire dans la case du haut, du bas, de gauche ou de droite respectivement.")   ;
+                                                 "* deposer haut, bas, gauche, droite (dh, db, dg, dd): Dépose un objet de votre inventaire dans la case du haut, du bas, de gauche ou de droite respectivement.\n"  +
+                                                 "* taper haut, bas, gauche, droite (th, tb, tg, td): Tape un prédateur à côté du joueur.");
                 } break;
                 case "quitter", "q": utilitaire = true; enCours = false;      break;
                 case "carte", "c":   utilitaire = true; this.afficherCarte(); break;
@@ -178,6 +196,10 @@ public class Controleur {
                 case "ramasser bas",    "rb": this.jeu.ramasserObjet(Position.BAS);                                                                   break;
                 case "ramasser gauche", "rg": this.jeu.ramasserObjet(Position.GAUCHE);                                                                break;
                 case "ramasser droite", "rd": this.jeu.ramasserObjet(Position.DROITE);                                                                break;
+                case "taper haut",   "th": this.jeu.taperPredateur(Position.HAUT);                                                                  break;
+                case "taper bas",    "tb": this.jeu.taperPredateur(Position.BAS);                                                                   break;
+                case "taper gauche", "tg": this.jeu.taperPredateur(Position.GAUCHE);                                                                break;
+                case "taper droite", "td": this.jeu.taperPredateur(Position.DROITE);                                                                break;
                 case "deposer haut",    "dh": this.jeu.deposerObjet(Position.HAUT, this.ihm.demanderInt("Entrez le numéro de l'objet à déposer."));   break;
                 case "deposer bas",     "db": this.jeu.deposerObjet(Position.BAS, this.ihm.demanderInt("Entrez le numéro de l'objet à déposer."));    break;
                 case "deposer gauche",  "dg": this.jeu.deposerObjet(Position.GAUCHE, this.ihm.demanderInt("Entrez le numéro de l'objet à déposer.")); break;
