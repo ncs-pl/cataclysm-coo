@@ -20,6 +20,16 @@ public class Scorpion extends Predateur {
         this.stadePaix = 2;
     }
 
+    // NOTE: pour la factory.
+    public Scorpion(int ligne, int colonne, int maxLigne, int maxColonne, int sante) {
+        super(Acteur.TYPE_SCORPION, ligne, colonne, maxLigne, maxColonne,sante);
+        this.maxRepos = 5;
+        this.stadeRepos = 0;
+        this.maxPaix = 2;
+        this.stadePaix = 2;
+    }
+
+
     public int obtenirMaxPaix() {
         return maxPaix;
     }
@@ -42,10 +52,6 @@ public class Scorpion extends Predateur {
 
     public void changerStadeRepos(int stadeRepos) {
         this.stadeRepos = stadeRepos;
-    }
-
-    public Scorpion(int ligne, int colonne, int maxLigne, int maxColonne,int sante) {
-        super(Acteur.TYPE_SCORPION, ligne, colonne, maxLigne, maxColonne,sante);
     }
 
     public ScorpionEtat obtenirEtat() {
