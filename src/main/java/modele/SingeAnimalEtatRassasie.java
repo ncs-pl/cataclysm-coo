@@ -4,6 +4,7 @@ import vue.Ihm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class SingeAnimalEtatRassasie extends AnimalEtat {
@@ -28,7 +29,7 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
         zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
         Predateur predateur = jeu.chercherPredateur(ligne, colonne);
 
-        /*if (predateur != null) {
+        if (predateur != null) {
             if(jeu.verifierTypeCaseDecors(ligne, colonne, Acteur.TYPE_COCOTIER)) {
                 zones = new ArrayList<>();
             } else {
@@ -37,10 +38,24 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
                 for (Acteur acteur : zones) {
                     if (acteur.obtenirType() == Acteur.TYPE_COCOTIER) {
                         cache = acteur;
+                        break;
+                    } else if (acteur.obtenirType() == Acteur.TYPE_PETIT_ROCHER) {
+                        cache = acteur;
+                    }
+                }
+                if (cache != null) {
+                    zones = List.of(cache);
+                } else {
+                    if (jeu.verifierCaseDecors(ligne, colonne)) {
+                        zones = new ArrayList<>();
+                    } else {
+                        zones = List.of(Objects.requireNonNull(choixDirectionFuite(jeu, zones,
+                                predateur.obtenirLigne(), predateur.obtenirColonne(),
+                                ligne, colonne)));
                     }
                 }
             }
-        }*/
+        }
 
         if (!zones.isEmpty()) {
             Random rand = new Random();
