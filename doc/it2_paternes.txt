@@ -1,0 +1,12 @@
+Paternes de conception orientiée objet utilisés
+dans le code :
+
+(a) Les précédens, c.f. it1_paternes.txt.
+
+(b) Paterne d'état pour les prédateurs.
+
+(c) Paterne commande en interne au jeu pour permettre
+    d'implémenter proprement le voyage dans le temps avec
+    les pierres précieuses.
+
+(d) Paterne Abstract Factory pour les différents acteurs.
