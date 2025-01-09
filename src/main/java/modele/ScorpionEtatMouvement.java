@@ -26,16 +26,22 @@ public class ScorpionEtatMouvement extends ScorpionEtat {
         int maxPaix = scorpion.obtenirMaxPaix();
         int stadePaix = scorpion.obtenirStadePaix();
 
-        Animal proie = jeu.chercherProieVoisine(ligne,colonne);
-        if(stadePaix == maxPaix && proie != null){
-            int lProie = proie.obtenirLigne();
-            int cProie = proie.obtenirColonne();
-            jeu.obtenirAnimaux().remove(proie);
-            scorpion.changerColonne(cProie);
-            scorpion.changerLigne(lProie);
-            scorpion.changerStadePaix(0);
+        List<Animal> proies = jeu.chercherProieVoisine(ligne, colonne);
+        boolean aAttaque = false;
+
+        for (Animal proie : proies) {
+            if(stadePaix == maxPaix){
+                aAttaque = true;
+                int lProie = proie.obtenirLigne();
+                int cProie = proie.obtenirColonne();
+                jeu.obtenirAnimaux().remove(proie);
+                scorpion.changerColonne(cProie);
+                scorpion.changerLigne(lProie);
+                scorpion.changerStadePaix(0);
+                break;
+            }
         }
-        else{
+        if (!aAttaque){
             if(stadePaix < maxPaix) scorpion.changerStadePaix(stadePaix + 1);
             List<ZoneVide> vides = jeu.chercherZonesVidesVoisine(ligne, colonne);
             List<Acteur> zones = jeu.obtenirRochersVoisins(ligne,colonne);

@@ -22,16 +22,21 @@ public class SerpentEtatMouvement extends SerpentEtat{
         int ligne = serpent.obtenirLigne();
         int colonne = serpent.obtenirColonne();
 
-        Animal proie = jeu.chercherProieVoisine(ligne,colonne);
-        if(proie != null){
+
+        List<Animal> proies = jeu.chercherProieVoisine(ligne, colonne);
+        boolean aAttaque = false;
+
+        for (Animal proie : proies) {
             int lProie = proie.obtenirLigne();
             int cProie = proie.obtenirColonne();
             jeu.obtenirAnimaux().remove(proie);
             serpent.changerColonne(cProie);
             serpent.changerLigne(lProie);
             serpent.changerEtat(SerpentEtatRepos.obtenirInstance());
+            aAttaque = true;
+            break;
         }
-        else{
+        if(!aAttaque){
             List<int[]> destinations = jeu.destinationsSerpent(ligne,colonne);
             if (!destinations.isEmpty()) {
                 Random rand = new Random();
