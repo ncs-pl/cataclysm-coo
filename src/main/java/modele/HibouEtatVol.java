@@ -31,7 +31,8 @@ public class HibouEtatVol extends HibouEtat {
                     aAttaque = true;
                     hibou.changerLigne(proie.obtenirLigne());
                     hibou.changerColonne(proie.obtenirColonne());
-
+                    System.out.println("aled");
+                    System.out.println(proie.obtenirEtat());
                     if (!proie.fuire(jeu, List.of(Acteur.TYPE_ARBRE, Acteur.TYPE_BUISSON))){
                         jeu.obtenirAnimaux().remove(proie);
                     }
