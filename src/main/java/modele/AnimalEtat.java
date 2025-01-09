@@ -15,7 +15,7 @@ public abstract class AnimalEtat {
     private final int id; // Identifiant numérique de l'état.
 
     protected AnimalEtat(int id) {
-        assert(id >= 0 && id <= 5);
+        assert(id >= 0 && id <= 6);
         this.id = id;
     }
 
