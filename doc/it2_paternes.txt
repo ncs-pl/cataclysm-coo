@@ -10,3 +10,5 @@ dans le code :
     les pierres précieuses.
 
 (d) Paterne Abstract Factory pour les différents acteurs.
+
+(e) Décorateurs pour les états amis etc...
