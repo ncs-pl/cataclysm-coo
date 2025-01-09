@@ -9,6 +9,7 @@ public class HibouEtatVol extends HibouEtat {
     public static final String AFFICHAGE = Ihm.COULEUR_FOND_VIOLET + Hibou.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 
     private static HibouEtatVol instance; // Singleton
+
     private HibouEtatVol() { super(HibouEtat.ETAT_VOL); }
 
     /** Obtient l'instance singleton de l'état. */
@@ -21,17 +22,25 @@ public class HibouEtatVol extends HibouEtat {
         int ligne   = hibou.obtenirLigne();
         int colonne = hibou.obtenirColonne();
 
-        Animal proie = jeu.chercherProieHibou(ligne,colonne);
-        if(proie != null){
-            int lProie = proie.obtenirLigne();
-            int cProie = proie.obtenirColonne();
-            jeu.obtenirAnimaux().remove(proie);
-            hibou.changerColonne(cProie);
-            hibou.changerLigne(lProie);
-            hibou.changerEtat(HibouEtatRepos.obtenirInstance());
-        }
+        List<Animal> proies = jeu.chercherProieHibou(ligne,colonne);
+        boolean aAttaque = false;
 
-        else{
+        if(!proies.isEmpty()) {
+            for (Animal proie : proies) {
+                if (!(proie.obtenirEtat() instanceof EcureuilAnimalEtatPerche) &&
+                        !(proie.obtenirEtat() instanceof EcureuilAnimalEtatCache)) {
+                    aAttaque = true;
+                    hibou.changerLigne(proie.obtenirLigne());
+                    hibou.changerColonne(proie.obtenirColonne());
+                    if (!proie.fuire(jeu, List.of(Acteur.TYPE_ARBRE, Acteur.TYPE_BUISSON))){
+                        jeu.obtenirAnimaux().remove(proie);
+                    }
+                    hibou.changerEtat(HibouEtatRepos.obtenirInstance());
+                    break;
+                }
+            }
+        }
+        if (!aAttaque) {
             List<int[]> destinations = jeu.destinationsHibou(ligne,colonne);
             if(!(destinations.isEmpty())){
                 Random rand = new Random();

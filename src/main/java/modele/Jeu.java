@@ -7,11 +7,12 @@ public class Jeu {
     private final int colonnes;                  // Nombre de colonnes de la carte.
     private final int lignes;                    // Nombre de lignes de la carte.
     private final ActeurAbstractFactory factory; // Factory
+    private       boolean merlinLenchanteur;     // Merlin l'enchanteur a frappé durant le tour !!!! (voir note dans Jeu.executerIa()).
 
     private final Stack<JeuTour> tours; // Tours du jeu
     private JeuTour tour;               // Tour actuel
 
-    private Personnage personnage;            // Le joueur.
+    private Personnage personnage;      // Le joueur.
     private List<Objet> inventaire;     // Inventaire du joueur.
     private List<Animal> animaux;       // Animaux sur la carte.
     private List<Predateur> predateurs; // Prédateurs sur la carte.
@@ -23,6 +24,7 @@ public class Jeu {
         this.factory  = this.theme == JeuTheme.FORET ? ActeurForetFactory.getInstance() : ActeurJungleFactory.getInstance();
         this.lignes   = carte.obtenirLignes();
         this.colonnes = carte.obtenirColonnes();
+        this.merlinLenchanteur = false; // NOTE(nico): voir commentaire dans Jeu.executerIa().
 
         this.tours = new Stack<>();
 
@@ -63,6 +65,10 @@ public class Jeu {
         }
 
         if (this.personnage == null) throw new CarteInvalideException("aucun personnage dans la carte.");
+
+        // Sauvegarder le game state initial
+        this.tour = new JeuTourInitial();
+        this.terminerTour();
     }
 
     public JeuTheme obtenirTheme() { return this.theme; }              // Obtient le thème du jeu en cours.
@@ -152,7 +158,7 @@ public class Jeu {
             this.inventaire = extour.obtenirInventaire();
             this.objets = extour.obtenirObjets();
             this.predateurs = extour.obtenirPredateurs();
-
+            this.merlinLenchanteur = true; // NOTE(nico): voir commentaire dans Jeu.executerIa().
             this.inventaire.add(this.factory.creerSimpleCaillou(objet.obtenirLigne(), objet.obtenirColonne(), objet.obtenirMaxLigne(), objet.obtenirMaxColonne()));
         } else {
             this.inventaire.add(objet);
@@ -219,11 +225,19 @@ public class Jeu {
         this.tours.push(this.tour);
         this.tour = null;
     }
-
+  
     /** Exécute les intelligences artificiels. */
     public void executerIa() {
+        if(this.merlinLenchanteur) {
+            // NOTE(nico): si durant le tour il y a eu un time travel, on n'exécute pas les IA pour éviter la confusion
+            //             (c.f. Younes et moi qui debug un faux-positif).  Merci aussi IntelliJ pour son debuggueur pas capable
+            //             de watch des states proprement...
+            this.merlinLenchanteur = false;
+            return;
+        }
+
+        for (Animal a : this.animaux)       a.deplacer(this); // NOTE(lucas par nico): les animaux en 1er!!!!! (conflit github)
         for (Predateur p : this.predateurs) p.deplacer(this);
-        for (Animal a : this.animaux)       a.deplacer(this);
     }
 
     /** Retourne true si le personnage est sur une case voisine. */
@@ -260,9 +274,18 @@ public class Jeu {
         return true;
     }
 
+    /** Vérifie si un décor se trouve à la coordonnée */
     public boolean verifierCaseDecors(int ligne, int colonne) {
         for (Acteur d : this.decors) {
             if (colonne == d.obtenirColonne() && ligne == d.obtenirLigne()) return true;
+        }
+        return false;
+    }
+
+    /** Vérifie si un animal se trouve à la coordonnée */
+    public boolean verifierCaseAnimal(int ligne, int colonne) {
+        for (Animal a : this.animaux) {
+            if(colonne == a.obtenirColonne() && ligne == a.obtenirLigne()) return true;
         }
         return false;
     }
@@ -318,6 +341,12 @@ public class Jeu {
         return decors;
     }
 
+    public List<Acteur> chercherDecorsVoisinsVide(int ligne, int colonne) {
+        List<Acteur> decors = chercherDecorsVoisins(ligne, colonne);
+        decors.removeIf( d -> verifierCaseAnimal(d.obtenirLigne(), d.obtenirColonne()));
+        return decors;
+    }
+
     /** Retourne une proie se trouvant dans une case voisine */
     public List<Animal> chercherProieVoisine(int ligne , int colonne){
         List<Animal> proies = new ArrayList<>();
@@ -350,18 +379,18 @@ public class Jeu {
     }
 
     /** Retourne une proie se trouvant dans un rayon de 3 cases du hibou */
-    public Animal chercherProieHibou(int ligne , int colonne){
+    public List<Animal> chercherProieHibou(int ligne , int colonne){
+        List<Animal> proies = new ArrayList<>();
         for(Animal a : this.animaux){
             int aLigne = a.obtenirLigne();
             int aColonne = a.obtenirColonne();
             if (aLigne >= ligne - 3     && aLigne <= ligne + 3   &&
                 aColonne >= colonne - 3 && aColonne <= colonne + 3) {
-                if (!(a.obtenirEtat() instanceof EcureuilAnimalEtatCache ||
-                    a.obtenirEtat() instanceof EcureuilAnimalEtatPerche))  return a;
+                proies.add(a);
             }
         }
 
-        return null;
+        return proies;
     }
 
     /** Retourne un prédateur se trouvant dans un rayon de 4 cases de l'animal*/
