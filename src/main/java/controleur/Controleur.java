@@ -175,7 +175,7 @@ public class Controleur {
                             default:                     this.ihm.afficherErreur("Objet \"" + type + "\" inconnu dans l'inventaire"); break;
                             }
                             //noinspection StringConcatenationInLoop
-                            affichage += (i + 1) + ". " + nom + "\n";
+                            affichage += (i) + ". " + nom + "\n";
                         }
 
                         this.ihm.afficherInformation(affichage);
