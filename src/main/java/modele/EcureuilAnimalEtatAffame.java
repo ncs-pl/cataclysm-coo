@@ -40,8 +40,11 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
             // Se déplacer sur la case de la nourriture et supprimer l'objet.
             Objet nourriture = gland == null ? (champignon == null ? cVeneneux : champignon) : gland;
 
-            animal.changerLigne(nourriture.obtenirLigne());
-            animal.changerColonne(nourriture.obtenirColonne());
+
+            int newLigne = nourriture.obtenirLigne();
+            int newColonne = nourriture.obtenirColonne();
+            animal.changerLigne(newLigne);
+            animal.changerColonne(newColonne);
             jeu.supprimerObjet(nourriture);
 
             if (cVeneneux == nourriture){
@@ -52,13 +55,13 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
 
             // Vérifier pour probable nouvelle amitié.
             int amitie = animal.obtenirAmitie();
-            if (jeu.chercherPersonnageVoisin(ligne, colonne)) amitie += 1;
+            if (jeu.chercherPersonnageVoisin(newLigne, newColonne)) amitie += 1;
             animal.changerAmitie(amitie);
 
             if (amitie >= 1) {
-                /* TODO effectuer le changement d'Etat
-                animal.changerEtat(EcureuilAnimalEtatAmi.obtenirInstance());
-                 */
+                //TODO effectuer le changement d'Etat
+                animal.changerEtat(new EcureuilAnimalEtatAmi(EcureuilAnimalEtatAffame.obtenirInstance()));
+
             }
         } else {
             // Sinon se déplacer aléatoirement.
@@ -106,10 +109,21 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
             if (jeu.verifierCaseDecors(ligne, colonne)) {
                 int type = jeu.obtenirCaseDecors(ligne, colonne).obtenirType();
                 if (type == Acteur.TYPE_ARBRE){
-                    animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
+                    if(animal.obtenirAmitie()>=1){
+                        animal.changerEtat(new EcureuilAnimalEtatPerche(new EcureuilAnimalEtatAmi(EcureuilAnimalEtatAffame.obtenirInstance())));
+                    }
+                    else{
+                        animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
+                    }
                 } else if (type == Acteur.TYPE_BUISSON){
-                    animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
+                    if(animal.obtenirAmitie()>=1){
+                        animal.changerEtat(new EcureuilAnimalEtatCache(new EcureuilAnimalEtatAmi(EcureuilAnimalEtatAffame.obtenirInstance())));
+                    }
+                    else{
+                        animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
+                    }
                 }
+
             }
         }
     }

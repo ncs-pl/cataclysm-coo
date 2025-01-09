@@ -487,13 +487,17 @@ public class Jeu {
             int pas = 25;
             int sante = cible.obtenirSante();
             int degat = random.nextInt((degatMax - degatMin) / pas + 1) * pas + degatMin;
-            if(sante - degat > 0) {cible.changerSante(sante - degat); System.out.println("Sante : " + cible.obtenirSante());}
-            else {this.predateurs.remove(cible); System.out.println("TUE");}
+            if(sante - degat > 0) {
+                cible.changerSante(sante - degat);
+            }
+            else {
+                this.predateurs.remove(cible);
+            }
         }
         this.tour = tour;
 
     }
-  
+
     public List<Acteur> obtenirRochersVoisins(int ligne , int colonne){
         List<Acteur> rochers = chercherDecorsVoisins(ligne , colonne);
         for(Acteur r : decors ){

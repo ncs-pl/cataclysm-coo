@@ -73,14 +73,29 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
             if (jeu.verifierCaseDecors(ligne, colonne)) {
                 int type = jeu.obtenirCaseDecors(ligne, colonne).obtenirType();
                 if (type == Acteur.TYPE_ARBRE){
-                    animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
+                    if(animal.obtenirAmitie()>=1){
+                        animal.changerEtat(new EcureuilAnimalEtatPerche(new EcureuilAnimalEtatAmi(EcureuilAnimalEtatAffame.obtenirInstance())));
+                    }
+                    else {
+                        animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
+                    }
                 } else if (type == Acteur.TYPE_BUISSON){
-                    animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
+                    if(animal.obtenirAmitie()>=1){
+                        animal.changerEtat(new EcureuilAnimalEtatCache(new EcureuilAnimalEtatAmi(EcureuilAnimalEtatAffame.obtenirInstance())));
+                    }
+                    else {
+                        animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
+                    }
                 } else {
                     animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
                 }
             } else {
-                animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
+                if(animal.obtenirAmitie()>=1){
+                    animal.changerEtat(new EcureuilAnimalEtatAmi(EcureuilAnimalEtatAffame.obtenirInstance()));
+                }
+                else {
+                    animal.changerEtat(EcureuilAnimalEtatAffame.obtenirInstance());
+                }
             }
         } else {
             animal.changerSaturation(saturation - 1);
@@ -88,9 +103,19 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
             if (jeu.verifierCaseDecors(ligne, colonne)) {
                 int type = jeu.obtenirCaseDecors(ligne, colonne).obtenirType();
                 if(type == Acteur.TYPE_ARBRE){
-                    animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatRassasie.obtenirInstance()));
+                    if(animal.obtenirAmitie()>=1){
+                        animal.changerEtat(new EcureuilAnimalEtatPerche(new EcureuilAnimalEtatAmi(EcureuilAnimalEtatRassasie.obtenirInstance())));
+                    }
+                    else {
+                        animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatRassasie.obtenirInstance()));
+                    }
                 } else if (type == Acteur.TYPE_BUISSON){
-                    animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatRassasie.obtenirInstance()));
+                    if(animal.obtenirAmitie()>=1){
+                        animal.changerEtat(new EcureuilAnimalEtatCache(new EcureuilAnimalEtatAmi(EcureuilAnimalEtatRassasie.obtenirInstance())));
+                    }
+                    else {
+                        animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatRassasie.obtenirInstance()));
+                    }
                 }
             }
         }
