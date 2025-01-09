@@ -69,13 +69,6 @@ public class Controleur {
                        "\t" + HibouEtatRepos.AFFICHAGE             + " : Hibou au repos\n"                 +
                        "\t" + PierrePrecieuse2.AFFICHAGE           + " : Pierre précieuse\n"               +
                        "\t" + PierrePrecieuse3.AFFICHAGE           + " : Pierre précieuse\n"               ;
-
-
-
-
-
-
-
             break;
         case JUNGLE:
             legende += "\t" + Cocotier.AFFICHAGE                + " : cocotier\n"                             +
@@ -95,10 +88,9 @@ public class Controleur {
                        "\t" + "A définir"                       + " : Scorpion caché sous un petit rocher\n"  +
                        "\t" + PierrePrecieuse2.AFFICHAGE        + " : Pierre précieuse\n"                     +
                        "\t" + PierrePrecieuse3.AFFICHAGE        + " : Pierre précieuse\n"                     ;
-            // TODO(nico): légende pour le serpent et le scorpion, et leurs états.
             break;
         }
-        affichage += "\n" + legende;
+        affichage = legende + "\n" + affichage;
         this.ihm.afficherInformation(affichage);
     }
 
