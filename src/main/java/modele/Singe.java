@@ -18,7 +18,20 @@ public class Singe extends Animal {
     }
 
     @Override
-    public boolean fuire(Jeu jeu, List<Integer> type){
+    public boolean fuire(Jeu jeu, List<Integer> types){
+        List<Acteur> decors = jeu.chercherDecorsVoisinsVide(this.obtenirLigne(), this.obtenirColonne());
+        for (Acteur decor : decors) {
+            if (types.contains(decor.obtenirType())){
+                this.changerLigne(decor.obtenirLigne());
+                this.changerColonne(decor.obtenirColonne());
+                if (decor.obtenirType() == Acteur.TYPE_COCOTIER){
+                    this.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatEffraye.obtenirInstance()));
+                } else if (decor.obtenirType() == Acteur.TYPE_PETIT_ROCHER){
+                    this.changerEtat(new SingeAnimalEtatCache(SingeAnimalEtatEffraye.obtenirInstance()));
+                }
+                return true;
+            }
+        }
         return false;
     }
 

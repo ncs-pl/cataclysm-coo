@@ -29,7 +29,9 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
         zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
         Predateur predateur = jeu.chercherPredateur(ligne, colonne);
 
-        if (predateur != null) {
+        if (predateur != null && !(predateur.obtenirType() == Acteur.TYPE_SCORPION
+                && jeu.verifierTypeCaseDecors(predateur.obtenirLigne(), predateur.obtenirColonne(),
+                Acteur.TYPE_PETIT_ROCHER))) {
             if(jeu.verifierTypeCaseDecors(ligne, colonne, Acteur.TYPE_COCOTIER)) {
                 zones = new ArrayList<>();
             } else {

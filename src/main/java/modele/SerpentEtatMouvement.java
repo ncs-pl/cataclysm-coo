@@ -27,14 +27,17 @@ public class SerpentEtatMouvement extends SerpentEtat{
         boolean aAttaque = false;
 
         for (Animal proie : proies) {
-            int lProie = proie.obtenirLigne();
-            int cProie = proie.obtenirColonne();
-            jeu.obtenirAnimaux().remove(proie);
-            serpent.changerColonne(cProie);
-            serpent.changerLigne(lProie);
-            serpent.changerEtat(SerpentEtatRepos.obtenirInstance());
-            aAttaque = true;
-            break;
+            if(!(proie.obtenirEtat() instanceof SingeAnimalEtatPerche)){
+                aAttaque = true;
+                serpent.changerColonne(proie.obtenirColonne());
+                serpent.changerLigne(proie.obtenirLigne());
+
+                if (!proie.fuire(jeu, List.of(Acteur.TYPE_COCOTIER))) {
+                    jeu.obtenirAnimaux().remove(proie);
+                    serpent.changerEtat(SerpentEtatRepos.obtenirInstance());
+                }
+                break;
+            }
         }
         if(!aAttaque){
             List<int[]> destinations = jeu.destinationsSerpent(ligne,colonne);

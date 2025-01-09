@@ -24,8 +24,6 @@ public class SingeAnimalEtatJunkie extends AnimalEtat {
     public void deplacer(Animal animal, Jeu jeu) {
         //TODO: Forcer l'animal à ne pas revenir sur ces pas ?
 
-        int decors = -1;
-
         for (int i = 0; i < 2; ++i) {
 
             int ligne   = animal.obtenirLigne();
@@ -38,12 +36,6 @@ public class SingeAnimalEtatJunkie extends AnimalEtat {
                 Random rand = new Random();
                 Acteur next = zones.get(rand.nextInt(zones.size()));
 
-                if (next.obtenirType() == Acteur.TYPE_COCOTIER || next.obtenirType() == Acteur.TYPE_PETIT_ROCHER){
-                    decors = next.obtenirType();
-                } else {
-                    decors = -1;
-                }
-
                 animal.changerLigne(next.obtenirLigne());
                 animal.changerColonne(next.obtenirColonne());
             }
@@ -51,14 +43,18 @@ public class SingeAnimalEtatJunkie extends AnimalEtat {
 
         int saturation = animal.obtenirSaturation();
         if (saturation == 0){
-            if (decors == Acteur.TYPE_COCOTIER || decors == Acteur.TYPE_PETIT_ROCHER)
-                animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatAffame.obtenirInstance()));
-            else
-                animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
+            animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
         } else {
             animal.changerSaturation(saturation - 1);
-            if (decors == Acteur.TYPE_COCOTIER || decors == Acteur.TYPE_PETIT_ROCHER)
-                animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatJunkie.obtenirInstance()));
+        }
+
+        if (jeu.verifierCaseDecors(animal.obtenirLigne(), animal.obtenirColonne())){
+            int type = jeu.obtenirCaseDecors(animal.obtenirLigne(), animal.obtenirColonne()).obtenirType();
+            if (type == Acteur.TYPE_COCOTIER){
+                animal.changerEtat(new SingeAnimalEtatPerche(animal.obtenirEtat()));
+            } else if (type == Acteur.TYPE_PETIT_ROCHER){
+                animal.changerEtat(new SingeAnimalEtatCache(animal.obtenirEtat()));
+            }
         }
     }
 
