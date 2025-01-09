@@ -19,13 +19,15 @@ public abstract class Acteur {
     public static final int TYPE_SERPENT                  = 14;
     public static final int TYPE_SCORPION                 = 15;
     public static final int TYPE_CHAMPIGNON_HALLUCINOGENE = 16;
+    public static final int TYPE_PIERRE_PRECIEUSE2        = 17;
+    public static final int TYPE_PIERRE_PRECIEUSE3        = 18;
+    public static final int TYPE_SIMPLE_CAILLOU           = 19;
 
-    private final int type;    // Identifiant numérique du type d'acteur.
-    private       int ligne;   // Ligne de la position de l'acteur.
-    private       int colonne; // Colonne de la position de l'acteur.
-
-    private final int maxLigne;   // Ligne max.
-    private final int maxColonne; // Colonne max.
+    private int type;        // Identifiant numérique du type d'acteur.
+    private int ligne;      // Ligne de la position de l'acteur.
+    private int colonne;    // Colonne de la position de l'acteur.
+    private int maxLigne;   // Ligne max.
+    private int maxColonne; // Colonne max.
     // NOTE(nico): colonne et ligne sont à -1 lorsque l'objet est mis dans
     //             l'inventaire.
 
@@ -49,6 +51,11 @@ public abstract class Acteur {
         return this.type;
     }
 
+    public void changerType(int type) {
+        assert(type >= TYPE_ARBRE && type <= TYPE_CHAMPIGNON_HALLUCINOGENE);
+        this.type = type;
+    }
+
     /** Obtient la colonne de la position de l'acteur. */
     public int obtenirColonne() {
         return this.colonne;
@@ -56,7 +63,7 @@ public abstract class Acteur {
 
     /** Modifie la colonne de la position de l'acteur. */
     public void changerColonne(int colonne) {
-        assert(colonne >= 0 && colonne < maxColonne); // NOTE(nico): temp
+        assert(colonne >= 0 && colonne < maxColonne);
         this.colonne = colonne;
     }
 
@@ -70,6 +77,24 @@ public abstract class Acteur {
         //todo(Younes) supprimer/modifier les assert (les hibous peuvent survoler les bordures de carte)
         assert(ligne >= 0 && ligne < maxLigne); // NOTE(nico): temp
         this.ligne = ligne;
+    }
+
+    public int obtenirMaxLigne() {
+        return this.maxLigne;
+    }
+
+    public void changerMaxLigne(int maxLigne) {
+        assert(maxLigne > 0 && this.ligne < maxLigne);
+        this.maxLigne = maxLigne;
+    }
+
+    public int obtenirMaxColonne() {
+        return this.maxColonne;
+    }
+
+    public void changerMaxColonne(int maxColonne) {
+        assert(maxColonne > 0 && this.colonne < maxColonne);
+        this.maxColonne = maxColonne;
     }
 
     /** Affichage de l'acteur avec son symbole. */

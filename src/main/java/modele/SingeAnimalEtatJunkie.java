@@ -57,10 +57,9 @@ public class SingeAnimalEtatJunkie extends AnimalEtat {
                 animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
         } else {
             animal.changerSaturation(saturation - 1);
+            if (decors == Acteur.TYPE_COCOTIER || decors == Acteur.TYPE_PETIT_ROCHER)
+                animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatJunkie.obtenirInstance()));
         }
-
-        if (decors == Acteur.TYPE_COCOTIER || decors == Acteur.TYPE_PETIT_ROCHER)
-            animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatJunkie.obtenirInstance()));
     }
 
     @Override

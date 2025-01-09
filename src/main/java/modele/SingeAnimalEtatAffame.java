@@ -30,20 +30,21 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
 
         Objet banane         = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_BANANE);
         Objet champignon = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_CHAMPIGNON);
-        if (banane != null || champignon != null) {
+        Objet cHallu = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_CHAMPIGNON_HALLUCINOGENE);
+        if (banane != null || champignon != null || cHallu != null) {
             animal.changerSaturation(3);
 
             // Se déplacer sur la case de la nourriture et supprimer l'objet.
-            Objet nourriture = banane == null ? champignon : banane;
+            Objet nourriture = banane == null ? ( champignon == null ? cHallu : champignon) : banane;
 
             animal.changerLigne(nourriture.obtenirLigne());
             animal.changerColonne(nourriture.obtenirColonne());
             jeu.supprimerObjet(nourriture);
 
-            if (banane != null){
-                animal.changerEtat(SingeAnimalEtatRassasie.obtenirInstance());
-            } else {
+            if (nourriture == cHallu){
                 animal.changerEtat(SingeAnimalEtatJunkie.obtenirInstance());
+            } else {
+                animal.changerEtat(SingeAnimalEtatRassasie.obtenirInstance());
             }
 
             // Vérifier pour probable nouvelle amitié.

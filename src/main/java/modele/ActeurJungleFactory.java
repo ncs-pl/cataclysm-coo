@@ -8,16 +8,19 @@ public class ActeurJungleFactory implements ActeurAbstractFactory {
         return ActeurJungleFactory.instance;
     }
 
-    @Override public Animal     creerAnimal(int ligne, int colonne, int maxLignes, int maxColonnes)                { return new Singe(ligne, colonne, maxLignes, maxColonnes);                   }
-    @Override public Acteur     creerDecor1(int ligne, int colonne, int maxLignes, int maxColonnes)                { return new Cocotier(ligne, colonne, maxLignes, maxColonnes);                }
-    @Override public Acteur     creerDecor2(int ligne, int colonne, int maxLignes, int maxColonnes)                { return new PetitRocher(ligne, colonne, maxLignes, maxColonnes);             }
-    @Override public Objet      creerObjetAliment(int ligne, int colonne, int maxLignes, int maxColonnes)          { return new Banane(ligne, colonne, maxLignes, maxColonnes);                  }
-    @Override public Objet      creerObjetChampignon(int ligne, int colonne, int maxLignes, int maxColonnes)       { return new Champignon(ligne, colonne, maxLignes, maxColonnes);              }
-    @Override public Objet      creerObjetChampignonDrogue(int ligne, int colonne, int maxLignes, int maxColonnes) { return new ChampignonHallucinogene(ligne, colonne, maxLignes, maxColonnes); }
-    @Override public Predateur  creerPredateur1(int ligne, int colonne, int maxLignes, int maxColonnes)            { return new Serpent(ligne, colonne, maxLignes, maxColonnes);                 }
-    @Override public Predateur  creerPredateur2(int ligne, int colonne, int maxLignes, int maxColonnes)            { return new Scorpion(ligne, colonne, maxLignes, maxColonnes);                }
-    @Override public Personnage creerPersonnage(int ligne, int colonne, int maxLignes, int maxColonnes)            { return new Personnage(ligne, colonne, maxLignes, maxColonnes);              }
-    @Override public ZoneVide   creerZoneVide(int ligne, int colonne, int maxLignes, int maxColonnes)              { return new ZoneVide(ligne, colonne, maxLignes, maxColonnes);                }
+    @Override public Animal creerAnimal(int ligne, int colonne, int maxLignes, int maxColonnes) { return new Singe(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public Acteur creerDecor1(int ligne, int colonne, int maxLignes, int maxColonnes) { return new Cocotier(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public Acteur creerDecor2(int ligne, int colonne, int maxLignes, int maxColonnes) { return new PetitRocher(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public Objet creerObjetAliment(int ligne, int colonne, int maxLignes, int maxColonnes) { return new Banane(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public Objet creerObjetChampignon(int ligne, int colonne, int maxLignes, int maxColonnes) { return new Champignon(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public Objet creerObjetChampignonDrogue(int ligne, int colonne, int maxLignes, int maxColonnes) { return new ChampignonHallucinogene(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public Predateur creerPredateur1(int ligne, int colonne, int maxLignes, int maxColonnes) { return new Serpent(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public Predateur creerPredateur2(int ligne, int colonne, int maxLignes, int maxColonnes) { return new Scorpion(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public Personnage creerPersonnage(int ligne, int colonne, int maxLignes, int maxColonnes) { return new Personnage(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public ZoneVide creerZoneVide(int ligne, int colonne, int maxLignes, int maxColonnes) { return new ZoneVide(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public PierrePrecieuse2 creerPierrePrecieuse2(int ligne, int colonne, int maxLignes, int maxColonnes) { return new PierrePrecieuse2(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public PierrePrecieuse3 creerPierrePrecieuse3(int ligne, int colonne, int maxLignes, int maxColonnes) { return new PierrePrecieuse3(ligne, colonne, maxLignes, maxColonnes); }
+    @Override public SimpleCaillou creerSimpleCaillou(int ligne, int colonne, int maxLignes, int maxColonnes) { return new SimpleCaillou(ligne, colonne, maxLignes, maxColonnes); }
 
     @Override
     public Acteur creerParSymbole(char symbole, int ligne, int colonne, int maxLignes, int maxColonnes) {
@@ -33,6 +36,9 @@ public class ActeurJungleFactory implements ActeurAbstractFactory {
         case Scorpion.SYMBOLE:                acteur = this.creerPredateur2(ligne, colonne, maxLignes, maxColonnes);            break;
         case ZoneVide.SYMBOLE:                acteur = this.creerZoneVide(ligne, colonne, maxLignes, maxColonnes);              break;
         case Singe.SYMBOLE:                   acteur = this.creerAnimal(ligne, colonne, maxLignes, maxColonnes);                break;
+        case PierrePrecieuse2.SYMBOLE:        acteur = this.creerPierrePrecieuse2(ligne, colonne, maxLignes, maxColonnes);      break;
+        case PierrePrecieuse3.SYMBOLE:        acteur = this.creerPierrePrecieuse3(ligne, colonne, maxLignes, maxColonnes);      break;
+        case SimpleCaillou.SYMBOLE:           acteur = this.creerSimpleCaillou(ligne, colonne, maxLignes, maxColonnes);         break;
         default:                                                                                                                break;
         }
         return acteur;

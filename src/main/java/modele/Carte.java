@@ -2,10 +2,7 @@ package modele;
 
 import controleur.Controleur;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -14,128 +11,56 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Représentation d'un fichier de carte et son format, dans l'objet d'être
- * utilisé par le jeu pour construire son game state initial
- */
+/** Représentation d'un fichier de carte et son format. */
 public class Carte {
-    /* TODO(nico): vérifier les toString
-    public static final char SYMBOLE_SCORPION                 = 'X';
-    public static final char SYMBOLE_SERPENT                  = 'Z';
-    public static final char SYMBOLE_CHAMPIGNON_HALLUCINOGENE = 'T';
-    */
+    private JeuTheme theme;                // Thème de la carte
+    private int lignes;                    // Nombre de lignes
+    private int colonnes;                  // Nombre de colonnes
+    private List<List<Acteur>> contenu;    // Contenu même de la carte.
+    private ActeurAbstractFactory factory; // Factory de création.
 
-    private final JeuTheme theme; // Thème de la carte
-    private final int lignes;     // Nombre de lignes
-    private final int colonnes;   // Nombre de colonnes
+    public Carte() {}
 
-    private List<List<Acteur>> contenu; // Contenu même de la carte.
+    public JeuTheme obtenirTheme() {
+        return this.theme;
+    }
 
-    private final ActeurAbstractFactory factory; // Factory de création.
+    public void changerTheme(JeuTheme theme) {
+        this.theme = theme;
+        this.factory = theme == JeuTheme.FORET ? ActeurForetFactory.getInstance() : ActeurJungleFactory.getInstance();
+    }
 
-    public Carte(String nom) throws IOException, CarteInvalideException {
-        // Chercher le fichier carte
-        // Pour obtenir des fichiers qui sont dans le dossier "resources" en Java, on récupère leur URL depuis
-        // le système de gestion des classes et ressources de Java, puis on essaye d'ouvrir le fichier.
-        URL carteUrl = Controleur.class.getResource("/" + nom + ".carte");
-        if (carteUrl == null) throw new CarteInvalideException("Nom de carte invalide.");
+    public int obtenirLignes() {
+        return this.lignes;
+    }
 
-        File fichier;
-        try {
-            fichier = Paths.get(carteUrl.toURI()).toFile();
-        } catch (URISyntaxException e) {
-            throw new CarteInvalideException("Nom de carte invalide.");
-        }
-
-        // Lire le fichier carte
-        BufferedReader reader = new BufferedReader(new FileReader(fichier));
-
-        // Format :
-        //
-        // (carte.txt)
-        //     THEME (F ou J)
-        //     LIGNES (0 < i < 1024)
-        //     COLONNES (0 < i < 1024)
-        //     CONTENU
-
-        // Thème
-
-        String ligneTheme = reader.readLine();
-        if (ligneTheme == null) throw new CarteInvalideException("La fichier de carte ne contient pas de thème.");
-
-        switch (ligneTheme.toLowerCase()) {
-        case "f": this.theme = JeuTheme.FORET;  this.factory = ActeurForetFactory.getInstance();  break;
-        case "j": this.theme = JeuTheme.JUNGLE; this.factory = ActeurJungleFactory.getInstance(); break;
-        default:  throw new CarteInvalideException("Thème '" + ligneTheme + "' invalide.");
-        }
-
-        // Nombre de lignes
-
-        String ligneLignes = reader.readLine();
-        if (ligneLignes == null) throw new CarteInvalideException("La fichier de carte ne contient pas de nombre de lignes.");
-
-        int lignes;
-        try                             { lignes = Integer.parseInt(ligneLignes);                                       }
-        catch (NumberFormatException e) { throw new CarteInvalideException("Le nombre de lignes n'est pas un entier."); }
-
-        if (lignes <= 0)   throw new CarteInvalideException("Nombre de lignes nul ou négatif interdit.");
-        if (lignes > 1024) throw new CarteInvalideException("Nombre de lignes dépassant 1024 interdit.");
+    public void changerLignes(int lignes) throws CarteInvalideException {
+        if(lignes <= 0)   throw new CarteInvalideException("nombre de lignes nul ou négatif interdit");
+        if(lignes > 1024) throw new CarteInvalideException("nombre de lignes dépassant 1024 interdit");
         this.lignes = lignes;
-
-
-        // Nombre de colonnes
-
-        String ligneColonnes = reader.readLine();
-        if (ligneColonnes == null) throw new CarteInvalideException("La fichier de carte ne contient pas de nombre de colonnes.");
-
-        int colonnes;
-        try                             { colonnes = Integer.parseInt(ligneColonnes);                                     }
-        catch (NumberFormatException e) { throw new CarteInvalideException("Le nombre de colonnes n'est pas un entier."); }
-
-        if (colonnes <= 0)   throw new CarteInvalideException("Nombre de colonnes nul ou négatif interdit.");
-        if (colonnes > 1024) throw new CarteInvalideException("Nombre de colonnes dépassant 1024 interdit.");
-        this.colonnes = colonnes;
-
-        // Contenu
-
-        this.contenu = new ArrayList<>(this.colonnes);
-        for (int i = 0; i < this.lignes; ++i) {
-            String ligne = reader.readLine();
-            if (ligne == null) throw new CarteInvalideException("Contenu ayant moins de lignes qu'annoncé.");
-
-            List<Acteur> acteurs = new ArrayList<>(this.colonnes);
-            for (int j = 0; j < this.colonnes; ++j) {
-                char symbole;
-                try {
-                    symbole = ligne.charAt(j);
-                } catch (IndexOutOfBoundsException e) {
-                    throw new CarteInvalideException("Contenu ayant moins de colonnes qu'annoncé.");
-                }
-
-                Acteur acteur = this.factory.creerParSymbole(symbole, i, j, this.lignes, this.colonnes);
-                if (acteur == null) throw new CarteInvalideException("Contenu ayant des caractères illégaux.");
-                acteurs.add(j, acteur);
-            }
-
-            this.contenu.add(i, acteurs);
-        }
     }
 
-    public Carte(JeuTheme theme,
-                 int lignes,
-                 int colonnes,
-                 List<List<Acteur>> contenu) {
-        this.theme    = theme;
-        this.lignes   = lignes;
-        this.colonnes = colonnes;
-        this.contenu  = contenu;
-        this.factory  = theme == JeuTheme.FORET ? ActeurForetFactory.getInstance() : ActeurJungleFactory.getInstance();
+    public int obtenirColonnes() {
+        return this.colonnes;
     }
 
-    public JeuTheme           obtenirTheme()    { return this.theme;    }
-    public int                obtenirLignes()   { return this.lignes;   }
-    public int                obtenirColonnes() { return this.colonnes; }
-    public List<List<Acteur>> obtenirContenu()  { return this.contenu;  }
+    public void changerColonnes(int colonnes) throws CarteInvalideException {
+        if(colonnes <= 0)   throw new CarteInvalideException("nombre de colonnes nul ou négatif interdit");
+        if(colonnes > 1024) throw new CarteInvalideException("nombre de colonnes dépassant 1024 interdit");
+        this.colonnes = colonnes;
+    }
+
+    public List<List<Acteur>> obtenirContenu() {
+        return this.contenu;
+    }
+
+    public void changerContenu(List<List<Acteur>> contenu) {
+        this.contenu = contenu;
+    }
+
+    public ActeurAbstractFactory obtenirFactory() {
+        return this.factory;
+    }
 
     public void genererContenuAleatoire() {
         this.contenu = new ArrayList<>(this.colonnes);
@@ -161,7 +86,7 @@ public class Carte {
         }
 
         // Spawn de quelques animaux sur la carte.
-        for (int i = 0; i < Math.ceil((double) (this.lignes + this.colonnes) /10); i++) {
+        for (int i = 0; i < Math.ceil((double) (this.lignes + this.colonnes) /5); i++) {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
@@ -169,7 +94,7 @@ public class Carte {
         }
 
         // Spawn de quelques prédateurs sur la carte.
-        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/7); i++) {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
@@ -178,7 +103,7 @@ public class Carte {
         }
 
         // Spawn de quelques décorations sur la carte.
-        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/4); i++) {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
@@ -187,7 +112,7 @@ public class Carte {
         }
 
         // Spawn de quelques objets sur la carte.
-        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/2); i++) {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
@@ -196,7 +121,7 @@ public class Carte {
         }
 
         // Spawn de quelques champignons dangereux.
-        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/5); i++) {
             int ligne = generateur.nextInt(1, this.lignes);
             int colonne = generateur.nextInt(1, this.colonnes);
             if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
@@ -204,6 +129,14 @@ public class Carte {
         }
 
         // TODO(nico): ajouter des pierres précieuses.
+        // Spawn de quelques pierres précieuses.
+        for (int i = 0; i < Math.ceil((double)(this.lignes + this.colonnes)/10); i++) {
+            int ligne = generateur.nextInt(1, this.lignes);
+            int colonne = generateur.nextInt(1, this.colonnes);
+            if(this.contenu.get(ligne).get(colonne).obtenirType() != Acteur.TYPE_ZONE_VIDE) continue;
+            this.contenu.get(ligne).set(colonne, i%3 == 0 ? this.factory.creerPierrePrecieuse2(ligne, colonne, this.lignes, this.colonnes)
+                                                          : this.factory.creerPierrePrecieuse3(ligne, colonne, this.lignes, this.colonnes));
+        }
 
         // Spawn du personnage en un point aléatoire
         while (true) {
@@ -213,5 +146,78 @@ public class Carte {
             this.contenu.get(1).set(1, new Personnage(1, 1, lignes, colonnes));
             break;
         }
+    }
+
+    /** Créer une carte à partir d'une carte nommée (fichier). */
+    public static Carte ouvrir(String nom) throws CarteInvalideException {
+        // Pour obtenir des fichiers qui sont dans le dossier "resources" en Java, on récupère leur URL depuis
+        // le système de gestion des classes et ressources de Java, puis on essaye d'ouvrir le fichier.
+        URL carteUrl = Controleur.class.getResource("/" + nom + ".carte");
+        if (carteUrl == null) throw new CarteInvalideException(nom + " est un nom de carte invalide");
+
+        // Chercher
+        File fichier;
+        try { fichier = Paths.get(carteUrl.toURI()).toFile(); }
+        catch (URISyntaxException e) { throw new CarteInvalideException("la carte " + nom + " n'existe pas"); }
+
+        // Lire le fichier carte
+        BufferedReader reader;
+        try { reader = new BufferedReader(new FileReader(fichier)); }
+        catch (FileNotFoundException e) { throw new CarteInvalideException("impossible d'ouvrir la carte " + nom); }
+
+        Carte carte = new Carte();
+
+        // Format :
+        //
+        // (carte.txt)
+        //     THEME (F ou J)
+        //     LIGNES (0 < i < 1024)
+        //     COLONNES (0 < i < 1024)
+        //     CONTENU
+
+        try {
+            switch (reader.readLine().toLowerCase()) {
+            case "f": carte.changerTheme(JeuTheme.FORET);  break;
+            case "j": carte.changerTheme(JeuTheme.JUNGLE); break;
+            default:  throw new CarteInvalideException("thème invalide.");
+            }
+        } catch(IOException e) { throw new CarteInvalideException("le fichier ne contient pas de ligne pour le thème"); }
+
+        try {
+            int l = Integer.parseInt(reader.readLine());
+            carte.changerLignes(l);
+        }
+        catch(IOException e) { throw new CarteInvalideException("le fichier ne contient pas de ligne pour le nombre de lignes"); }
+        catch(NumberFormatException e) { throw new CarteInvalideException("le nombre de lignes n'est pas un entier"); }
+
+        try {
+            int c = Integer.parseInt(reader.readLine());
+            carte.changerColonnes(c);
+        }
+        catch(IOException e) { throw new CarteInvalideException("le fichier ne contient pas de ligne pour le nombre de colonnes."); }
+        catch(NumberFormatException e) { throw new CarteInvalideException("le nombre de colonnes n'est pas un entier"); }
+
+        try {
+            int lignes = carte.obtenirLignes();
+            int colonnes = carte.obtenirColonnes();
+            ActeurAbstractFactory factory = carte.obtenirFactory();
+            List<List<Acteur>> contenu = new ArrayList<>(colonnes);
+            for (int i = 0; i < lignes; ++i) {
+                String ligne = reader.readLine();
+                List<Acteur> colonne = new ArrayList<>(colonnes);
+                for (int j = 0; j < colonnes; ++j) {
+                    char symbole = ligne.charAt(j);
+                    Acteur acteur = factory.creerParSymbole(symbole, i, j, lignes, colonnes);
+                    if (acteur == null) throw new CarteInvalideException("symbole " + symbole + " interdit dans cette carte");
+                    colonne.add(j, acteur);
+                }
+                contenu.add(i, colonne);
+            }
+            carte.changerContenu(contenu);
+        }
+        catch(IOException e) { throw new CarteInvalideException("le contenu ne dispose pas du nombre de lignes donnés"); }
+        catch(IndexOutOfBoundsException e) { throw new CarteInvalideException("le contenu ne respecte pas les dimensions précisées"); }
+
+        return carte;
     }
 }

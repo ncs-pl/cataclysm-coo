@@ -1,7 +1,9 @@
 package modele;
 import vue.Ihm;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class EcureuilAnimalEtatAffame extends AnimalEtat {
@@ -30,20 +32,22 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
 
         Objet gland           = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_GLAND);
         Objet champignon = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_CHAMPIGNON);
-        if (gland != null || champignon != null) {
+        Objet cVeneneux = jeu.chercherObjetVoisin(ligne, colonne, Acteur.TYPE_CHAMPIGNON_VENENEUX);
+
+        if (gland != null || champignon != null || cVeneneux != null) {
             animal.changerSaturation(5);
 
             // Se déplacer sur la case de la nourriture et supprimer l'objet.
-            Objet nourriture = gland == null ? champignon : gland;
+            Objet nourriture = gland == null ? (champignon == null ? cVeneneux : champignon) : gland;
 
             animal.changerLigne(nourriture.obtenirLigne());
             animal.changerColonne(nourriture.obtenirColonne());
             jeu.supprimerObjet(nourriture);
 
-            if (gland != null){
-                animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
-            } else {
+            if (cVeneneux == nourriture){
                 animal.changerEtat(EcureuilAnimalEtatJunkie.obtenirInstance());
+            } else {
+                animal.changerEtat(EcureuilAnimalEtatRassasie.obtenirInstance());
             }
 
             // Vérifier pour probable nouvelle amitié.
@@ -60,25 +64,52 @@ public class EcureuilAnimalEtatAffame extends AnimalEtat {
             // Sinon se déplacer aléatoirement.
             List<Acteur> zones = jeu.chercherDecorsVoisins(ligne, colonne);
             zones.addAll(jeu.chercherZonesVidesVoisine(ligne, colonne));
+            Predateur predateur = jeu.chercherPredateur(ligne, colonne);
 
-            int decors = -1;
+            if (predateur != null) {
+                if (jeu.verifierTypeCaseDecors(ligne, colonne, Acteur.TYPE_ARBRE)) {
+                    zones = new ArrayList<>();
+                } else {
+                    //TODO : Gestion ami a faire
+                    Acteur cache = null;
+
+                    for (Acteur acteur : zones) {
+                        if (acteur.obtenirType() == Acteur.TYPE_ARBRE){
+                            cache = acteur;
+                            break;
+                        } else if (acteur.obtenirType() == Acteur.TYPE_BUISSON){
+                            cache = acteur;
+                        }
+                    }
+                    if (cache != null) {
+                        zones = List.of(cache);
+                    } else if (jeu.verifierCaseDecors(ligne, colonne)) {
+                        zones = new ArrayList<>();
+                    } else {
+                        zones = List.of(Objects.requireNonNull(choixDirectionFuite(jeu, zones, predateur.obtenirLigne(),
+                                predateur.obtenirColonne(), ligne, colonne)));
+                    }
+                }
+            }
 
             if (!zones.isEmpty()) {
                 Random rand = new Random();
                 Acteur next = zones.get(rand.nextInt(zones.size()));
 
-                if (next.obtenirType() == Acteur.TYPE_ARBRE || next.obtenirType() == Acteur.TYPE_BUISSON) {
-                    decors = next.obtenirType();
-                }
-
                 animal.changerLigne(next.obtenirLigne());
                 animal.changerColonne(next.obtenirColonne());
             }
 
-            if(decors == Acteur.TYPE_ARBRE) {
-                animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
-            } else if (decors == Acteur.TYPE_BUISSON) {
-                animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
+            ligne   = animal.obtenirLigne();
+            colonne = animal.obtenirColonne();
+
+            if (jeu.verifierCaseDecors(ligne, colonne)) {
+                int type = jeu.obtenirCaseDecors(ligne, colonne).obtenirType();
+                if (type == Acteur.TYPE_ARBRE){
+                    animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatAffame.obtenirInstance()));
+                } else if (type == Acteur.TYPE_BUISSON){
+                    animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatAffame.obtenirInstance()));
+                }
             }
         }
     }
