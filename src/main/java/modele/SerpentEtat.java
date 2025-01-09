@@ -20,7 +20,6 @@ public abstract class SerpentEtat {
     public abstract void deplacer(Serpent serpent, Jeu jeu);
 
     @Override
-    public String toString() {
-        return ""; // TODO(nico): c.f. Serpent.toString()
-    }
+    public abstract String toString(); // TODO(nico): c.f. Serpent.toString()
+
 }

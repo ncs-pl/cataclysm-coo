@@ -1,6 +1,11 @@
 package modele;
 
+import vue.Ihm;
+
+//TODO(Younes) : Décorateur pour l'état pacifique
 public class ScorpionEtatCache extends ScorpionEtat{
+    public static final String AFFICHAGE = Ihm.COULEUR_FOND_ROUGE + Ihm.COULEUR_ROUGE + Scorpion.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
+
     private static ScorpionEtatCache instance;
     private ScorpionEtatCache(){
         super(ScorpionEtat.ETAT_CACHE);
@@ -14,11 +19,33 @@ public class ScorpionEtatCache extends ScorpionEtat{
     }
 
     public void deplacer(Scorpion scorpion , Jeu jeu){
-        scorpion.changerEtat(ScorpionEtatMouvement.obtenirInstance());
+        int ligne = scorpion.obtenirLigne();
+        int colonne = scorpion.obtenirColonne();
+
+        int stadeRepos = scorpion.obtenirStadeRepos();
+        int maxRepos = scorpion.obtenirMaxRepos();
+        int maxPaix = scorpion.obtenirMaxPaix();
+        int stadePaix = scorpion.obtenirStadePaix();
+
+        Animal proie = jeu.chercherProieScorpionCache(ligne , colonne);
+
+        if(stadeRepos == maxRepos - 1){
+            scorpion.changerStadeRepos(0);
+            scorpion.changerEtat(ScorpionEtatMouvement.obtenirInstance());
+            scorpion.deplacer(jeu);
+        }
+        else{
+            if(stadePaix == maxPaix && proie != null){
+                jeu.obtenirAnimaux().remove(proie);
+                scorpion.changerStadePaix(0);
+            }
+            if(stadePaix < maxPaix) scorpion.changerStadePaix(stadePaix + 1);
+            scorpion.changerStadeRepos(stadeRepos + 1);
+        }
     }
 
     @Override
     public String toString() {
-        return ""; // TODO(nico): c.f. Scorpion.toString()
+        return ScorpionEtatCache.AFFICHAGE;
     }
 }
