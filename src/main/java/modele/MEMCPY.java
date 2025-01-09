@@ -107,26 +107,26 @@ public abstract class MEMCPY {
     }
 
     public static Serpent MEMCPY_SERPENT(Serpent x) {
-        Serpent c = new Serpent(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne());
+        Serpent c = new Serpent(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne(), x.obtenirSante());
         c.changerEtat(x.obtenirEtat()); // NOTE(nico): SINGLETON
         return c;
     }
 
     public static Scorpion MEMCPY_SCORPION(Scorpion x) {
-        Scorpion c = new Scorpion(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne());
+        Scorpion c = new Scorpion(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne(), x.obtenirSante());
         c.changerEtat(x.obtenirEtat()); // NOTE(nico): SINGLETON
         return c;
     }
 
     public static Renard MEMCPY_RENARD(Renard x) {
-        Renard c = new Renard(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne());
+        Renard c = new Renard(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne(), x.obtenirSante());
         // TODO(nico): il a un état ce con ou pas?
         //c.changerEtat(x.obtenirEtat()); // NOTE(nico): SINGLETON
         return c;
     }
 
     public static Hibou MEMCPY_HIBOU(Hibou x) {
-        Hibou c = new Hibou(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne());
+        Hibou c = new Hibou(x.obtenirLigne(), x.obtenirColonne(), x.obtenirMaxLigne(), x.obtenirMaxColonne(), x.obtenirSante());
         c.changerEtat(x.obtenirEtat()); // NOTE(nico): SINGLETON
         return c;
     }

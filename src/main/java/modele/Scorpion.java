@@ -12,6 +12,10 @@ public class Scorpion extends Predateur {
         super(Acteur.TYPE_SCORPION, ligne, colonne, maxLigne, maxColonne);
     }
 
+    public Scorpion(int ligne, int colonne, int maxLigne, int maxColonne,int sante) {
+        super(Acteur.TYPE_SCORPION, ligne, colonne, maxLigne, maxColonne,sante);
+    }
+
     public ScorpionEtat obtenirEtat() {
         return etat;
     }

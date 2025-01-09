@@ -12,6 +12,11 @@ public class Serpent extends Predateur {
         super(Acteur.TYPE_SERPENT, ligne, colonne, maxLigne, maxColonne);
     }
 
+    public Serpent(int ligne, int colonne, int maxLigne, int maxColonne,int sante) {
+        super(Acteur.TYPE_SERPENT, ligne, colonne, maxLigne, maxColonne,sante);
+    }
+
+
     public SerpentEtat obtenirEtat() {
         return etat;
     }
