@@ -4,7 +4,6 @@ import vue.Ihm;
 
 public class Hibou extends Predateur {
     public static final char SYMBOLE = 'H';
-    public static final String AFFICHAGE = Ihm.COULEUR_FOND_VIOLET + Hibou.SYMBOLE + Ihm.COULEUR_REINITIALISATION;
 
     private HibouEtat etat = HibouEtatVol.obtenirInstance();
     public Hibou(int ligne, int colonne, int maxLigne, int maxColonne) {
@@ -21,6 +20,6 @@ public class Hibou extends Predateur {
     @Override
     public String toString() {
         // TODO(nico): toString des états ?
-        return Hibou.AFFICHAGE;
+        return etat.toString();
     }
 }

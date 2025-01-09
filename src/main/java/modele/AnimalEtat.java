@@ -10,6 +10,7 @@ public abstract class AnimalEtat {
     public static final int ETAT_JUNKIE = 3;   // Junkie.
     public static final int ETAT_PERCHE = 4;   // Perché dans un arbre.
     public static final int ETAT_RASSASIE = 5; // Rassasié mais pas ami.
+    public static final int ETAT_EFFRAYE  = 6; // Effrayé
 
     private final int id; // Identifiant numérique de l'état.
 

@@ -1,6 +1,6 @@
 package modele;
 
-import java.util.WeakHashMap;
+import java.util.List;
 
 /** Un animal est un acteur avec une Intelligence Artificielle pouvant
     influencer la carte et le personnage. */
@@ -63,6 +63,10 @@ public abstract class Animal extends Acteur {
         assert(etat != null);
         this.etat = etat;
     }
+
+    /** Verifie si l'animal peut fuir et le fait fuire */
+
+    abstract public boolean fuire(Jeu jeu, List<Integer> types);
 
     /** Déplacer l'animal sur la carte. */
     abstract public void deplacer(Jeu jeu);

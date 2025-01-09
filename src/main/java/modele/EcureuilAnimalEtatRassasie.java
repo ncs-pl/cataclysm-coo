@@ -84,14 +84,14 @@ public class EcureuilAnimalEtatRassasie extends AnimalEtat {
             }
         } else {
             animal.changerSaturation(saturation - 1);
-        }
 
-        if (jeu.verifierCaseDecors(ligne, colonne)) {
-            int type = jeu.obtenirCaseDecors(ligne, colonne).obtenirType();
-            if(type == Acteur.TYPE_ARBRE){
-                animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatRassasie.obtenirInstance()));
-            } else if (type == Acteur.TYPE_BUISSON){
-                animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatRassasie.obtenirInstance()));
+            if (jeu.verifierCaseDecors(ligne, colonne)) {
+                int type = jeu.obtenirCaseDecors(ligne, colonne).obtenirType();
+                if(type == Acteur.TYPE_ARBRE){
+                    animal.changerEtat(new EcureuilAnimalEtatPerche(EcureuilAnimalEtatRassasie.obtenirInstance()));
+                } else if (type == Acteur.TYPE_BUISSON){
+                    animal.changerEtat(new EcureuilAnimalEtatCache(EcureuilAnimalEtatRassasie.obtenirInstance()));
+                }
             }
         }
     }
