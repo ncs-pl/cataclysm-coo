@@ -63,6 +63,10 @@ public class Jeu {
         }
 
         if (this.personnage == null) throw new CarteInvalideException("aucun personnage dans la carte.");
+
+        // Sauvegarder le game state initial
+        this.tour = new JeuTourInitial();
+        this.terminerTour();
     }
 
     public JeuTheme obtenirTheme() { return this.theme; }              // Obtient le thème du jeu en cours.
