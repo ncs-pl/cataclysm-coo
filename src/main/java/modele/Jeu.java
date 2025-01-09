@@ -7,11 +7,12 @@ public class Jeu {
     private final int colonnes;                  // Nombre de colonnes de la carte.
     private final int lignes;                    // Nombre de lignes de la carte.
     private final ActeurAbstractFactory factory; // Factory
+    private       boolean merlinLenchanteur;     // Merlin l'enchanteur a frappé durant le tour !!!! (voir note dans Jeu.executerIa()).
 
     private final Stack<JeuTour> tours; // Tours du jeu
     private JeuTour tour;               // Tour actuel
 
-    private Personnage personnage;            // Le joueur.
+    private Personnage personnage;      // Le joueur.
     private List<Objet> inventaire;     // Inventaire du joueur.
     private List<Animal> animaux;       // Animaux sur la carte.
     private List<Predateur> predateurs; // Prédateurs sur la carte.
@@ -23,6 +24,7 @@ public class Jeu {
         this.factory  = this.theme == JeuTheme.FORET ? ActeurForetFactory.getInstance() : ActeurJungleFactory.getInstance();
         this.lignes   = carte.obtenirLignes();
         this.colonnes = carte.obtenirColonnes();
+        this.merlinLenchanteur = false; // NOTE(nico): voir commentaire dans Jeu.executerIa().
 
         this.tours = new Stack<>();
 
@@ -156,7 +158,7 @@ public class Jeu {
             this.inventaire = extour.obtenirInventaire();
             this.objets = extour.obtenirObjets();
             this.predateurs = extour.obtenirPredateurs();
-
+            this.merlinLenchanteur = true; // NOTE(nico): voir commentaire dans Jeu.executerIa().
             this.inventaire.add(this.factory.creerSimpleCaillou(objet.obtenirLigne(), objet.obtenirColonne(), objet.obtenirMaxLigne(), objet.obtenirMaxColonne()));
         } else {
             this.inventaire.add(objet);
@@ -226,6 +228,14 @@ public class Jeu {
 
     /** Exécute les intelligences artificiels. */
     public void executerIa() {
+        if(this.merlinLenchanteur) {
+            // NOTE(nico): si durant le tour il y a eu un time travel, on n'exécute pas les IA pour éviter la confusion
+            //             (c.f. Younes et moi qui debug un faux-positif).  Merci aussi IntelliJ pour son debuggueur pas capable
+            //             de watch des states proprement...
+            this.merlinLenchanteur = false;
+            return;
+        }
+
         for (Predateur p : this.predateurs) p.deplacer(this);
         for (Animal a : this.animaux)       a.deplacer(this);
     }
