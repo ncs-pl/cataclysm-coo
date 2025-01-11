@@ -25,6 +25,7 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
     @SuppressWarnings("DuplicatedCode")
     @Override
     public void deplacer(Animal animal, Jeu jeu) {
+
         int ligne   = animal.obtenirLigne();
         int colonne = animal.obtenirColonne();
 
@@ -40,8 +41,10 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
             // Se déplacer sur la case de la nourriture et supprimer l'objet.
             Objet nourriture = banane == null ? ( champignon == null ? cHallu : champignon) : banane;
 
-            animal.changerLigne(nourriture.obtenirLigne());
-            animal.changerColonne(nourriture.obtenirColonne());
+            int newLigne = nourriture.obtenirLigne();
+            int newColonne = nourriture.obtenirColonne();
+            animal.changerLigne(newLigne);
+            animal.changerColonne(newColonne);
             jeu.supprimerObjet(nourriture);
 
             if (nourriture == cHallu){
@@ -53,14 +56,13 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
             // Vérifier pour probable nouvelle amitié.
 
             int amitie = animal.obtenirAmitie();
-            if (jeu.chercherPersonnageVoisin(ligne, colonne)) amitie += 1;
+            if (jeu.chercherPersonnageVoisin(newLigne, newColonne)) amitie += 2;
             animal.changerAmitie(amitie);
 
-            /*
+
             if (amitie >= 2) {
-                //TODO effectuer et gerer changement etat ami
-                animal.changerEtat(SingeAnimalEtatAmi.obtenirInstance());
-            }*/
+                animal.changerEtat(new SingeAnimalEtatAmi(SingeAnimalEtatRassasie.obtenirInstance()));
+            }
 
         } else {
 
@@ -111,11 +113,20 @@ public class SingeAnimalEtatAffame extends AnimalEtat {
         colonne = animal.obtenirColonne();
 
         if (jeu.verifierCaseDecors(ligne, colonne)) {
+            int amitie = animal.obtenirAmitie();
             int type = jeu.obtenirCaseDecors(ligne, colonne).obtenirType();
             if (type == Acteur.TYPE_COCOTIER){
-                animal.changerEtat(new SingeAnimalEtatPerche(animal.obtenirEtat()));
+                if(amitie >= 2){
+                    animal.changerEtat(new SingeAnimalEtatPerche(new SingeAnimalEtatAmi(SingeAnimalEtatAffame.obtenirInstance())));
+                } else {
+                    animal.changerEtat(new SingeAnimalEtatPerche(SingeAnimalEtatAffame.obtenirInstance()));
+                }
             } else if (type == Acteur.TYPE_PETIT_ROCHER){
-                animal.changerEtat(new SingeAnimalEtatCache(animal.obtenirEtat()));
+                if(amitie >=2){
+                    animal.changerEtat(new SingeAnimalEtatCache(new SingeAnimalEtatAmi(SingeAnimalEtatAffame.obtenirInstance())));
+                } else{
+                    animal.changerEtat(new SingeAnimalEtatCache(SingeAnimalEtatAffame.obtenirInstance()));
+                }
             }
         }
     }

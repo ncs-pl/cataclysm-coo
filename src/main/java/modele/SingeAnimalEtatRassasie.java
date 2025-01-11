@@ -73,7 +73,11 @@ public class SingeAnimalEtatRassasie extends AnimalEtat {
         int saturation = animal.obtenirSaturation();
 
         if (saturation == 0){
+            if(animal.obtenirAmitie() >= 2){
+                animal.changerEtat(new SingeAnimalEtatAmi(SingeAnimalEtatAffame.obtenirInstance()));
+            } else {
                 animal.changerEtat(SingeAnimalEtatAffame.obtenirInstance());
+                }
         } else {
             animal.changerSaturation(saturation - 1);
         }
